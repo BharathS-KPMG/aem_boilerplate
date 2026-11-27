@@ -1,0 +1,1955 @@
+﻿/* The calculator runs full-bleed: no section max-width or side padding. */
+.section.paint-quotation-tool-container .paint-quotation-tool-wrapper {
+  padding: 0;
+  max-width: 100%;
+}
+
+.paint-quotation-tool {
+  --pqc-orange: #feb940;
+  --pqc-cream: #fee6b7;
+  --pqc-cta: #fcaf17;
+  --pqc-link: rgb(244 120 56);
+  --pqc-red: rgb(237 28 36);
+
+  position: relative;
+  width: 100%;
+  color: #fff;
+  background-color: #2f2c4d;
+  background-image: var(--bg-image-mobile);
+  background-size: 100% 100%;
+}
+
+.paint-quotation-tool[aria-busy='true'] {
+  cursor: progress;
+}
+
+/* Only the active screen is shown; all stay in the DOM to keep their state. */
+.paint-quotation-tool .paint-quotation-tool-screen {
+  display: none;
+  box-sizing: border-box;
+  padding: 24px 16px 32px;
+}
+
+.paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'],
+.paint-quotation-tool[data-screen='2'] .paint-quotation-tool-screen[data-screen='2'],
+.paint-quotation-tool[data-screen='3'] .paint-quotation-tool-screen[data-screen='3'] {
+  display: grid;
+  gap: 24px;
+  background: rgb(0 0 0 / 30%);
+}
+
+/* Arriving from the calculatorhub: Step 1 keeps its place but stays hidden behind a loader until
+   the next screen opens, so it does not flash while the results load. */
+.paint-quotation-tool.is-handoff .paint-quotation-tool-screen {
+  visibility: hidden;
+}
+
+.paint-quotation-tool.is-handoff::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  margin: auto;
+  border: 4px solid var(--pqc-orange);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: paint-quotation-tool-spin 1s linear infinite;
+}
+
+.paint-quotation-tool .paint-quotation-tool-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- Shared intro (screens 1 and 2) ---- */
+.paint-quotation-tool .paint-quotation-tool-title {
+  margin: 0 0 8px;
+  color: var(--pqc-orange);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-title:focus {
+  outline: none;
+}
+
+.paint-quotation-tool .paint-quotation-tool-highlight {
+  color: var(--pqc-cream);
+  font-weight: inherit;
+  display: block;
+}
+
+.paint-quotation-tool .paint-quotation-tool-subtitle {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.paint-quotation-tool .paint-quotation-tool-error {
+  margin: 6px 0 0;
+  color: #f00;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.paint-quotation-tool .paint-quotation-tool-error:empty {
+  display: none;
+}
+
+/* ---- Radio groups ---- */
+.paint-quotation-tool .paint-quotation-tool-radio-group {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.paint-quotation-tool .paint-quotation-tool-radio-title {
+  margin-bottom: 12px;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.paint-quotation-tool .paint-quotation-tool-radio-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.paint-quotation-tool .paint-quotation-tool-radio input[type='radio'] {
+  appearance: none;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 20%);
+  cursor: pointer;
+}
+
+.paint-quotation-tool .paint-quotation-tool-lead-questions .paint-quotation-tool-radio input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  background: transparent;
+}
+
+.paint-quotation-tool .paint-quotation-tool-radio input[type='radio']:checked {
+  background: radial-gradient(circle, var(--pqc-orange) 0 4px, #fff3 5px);
+}
+
+.paint-quotation-tool .paint-quotation-tool-radio input[type='radio']:focus-visible {
+  outline: 2px solid var(--pqc-cream);
+  outline-offset: 2px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-radio .paint-quotation-tool-radio-text {
+  opacity: 0.8;
+}
+
+.paint-quotation-tool .paint-quotation-tool-radio input:checked+.paint-quotation-tool-radio-text {
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* ---- Buttons ---- */
+.paint-quotation-tool .paint-quotation-tool-cta {
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 52px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 45px;
+  background: var(--pqc-cta);
+  color: #232426;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* The arrow artwork is a white-rendering SVG, so it is used as a mask filled
+   with the button's text colour. */
+.paint-quotation-tool .paint-quotation-tool-cta-icon {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  background: currentcolor;
+  mask: url('../../icons/arrow-icon-new.svg') center / contain no-repeat;
+}
+
+.paint-quotation-tool[data-screen="2"] .paint-quotation-tool-screen[data-screen="2"] .paint-quotation-tool-cta-icon {
+  background: currentcolor;
+  mask: url('../../icons/arrow-icon-new.svg') center / contain no-repeat;
+  width: 17px;
+  height: 15px;
+  transform: translate(0, 1.4px);
+}
+
+/* While results load, a small loader replaces the arrow. */
+.paint-quotation-tool .paint-quotation-tool-cta-spinner {
+  display: none;
+  box-sizing: border-box;
+
+  /* width: 18px;
+  height: 18px;
+  margin: 1px;
+  border: 2px solid currentcolor;
+  border-top-color: transparent;
+  border-radius: 50%; */
+  animation: paint-quotation-tool-spin 2s linear infinite;
+}
+
+.paint-quotation-tool .paint-quotation-tool-cta.is-loading {
+  cursor: progress;
+}
+
+.paint-quotation-tool .paint-quotation-tool-cta.is-loading .paint-quotation-tool-cta-icon {
+  /* display: none; */
+}
+
+.paint-quotation-tool .paint-quotation-tool-cta.is-loading .paint-quotation-tool-cta-spinner {
+  display: inline-block;
+}
+
+.paint-quotation-tool .paint-quotation-tool-cta:disabled {
+  background: #fcaf17;
+  cursor: not-allowed;
+}
+
+.paint-quotation-tool .paint-quotation-tool-cta:hover {
+  background: #fdbf45;
+}
+
+/* Keep the button colour while it is busy loading results. */
+.paint-quotation-tool .paint-quotation-tool-cta.is-loading:disabled {
+  background: var(--pqc-cta);
+  cursor: progress;
+}
+
+.paint-quotation-tool .paint-quotation-tool-cta-submit.is-loading:disabled {
+  background: linear-gradient(rgb(254 201 64), rgb(255 153 0));
+}
+
+.paint-quotation-tool .paint-quotation-tool-cta:focus-visible {
+  outline: 2px solid var(--pqc-cream);
+  outline-offset: 3px;
+}
+
+/* ---- Screen 1: project details ---- */
+.paint-quotation-tool .paint-quotation-tool-details-form {
+  display: grid;
+  gap: 28px;
+}
+
+/* Shown just below the CTA when the recommendations could not be fetched;
+   the negative margin pulls it up against the form's grid gap. */
+.paint-quotation-tool .paint-quotation-tool-api-error {
+  margin: -28px 0 0;
+  color: var(--pqc-red);
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.paint-quotation-tool .paint-quotation-tool-api-error[hidden] {
+  display: none;
+}
+
+.paint-quotation-tool .paint-quotation-tool-step {
+  display: none;
+  margin: 0;
+  color: #fff7e8;
+  font-size: 16px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-area-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.paint-quotation-tool .paint-quotation-tool-area-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 52px;
+  padding: 14px 16px;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 20%);
+  box-shadow: 0 1px 2px rgb(16 24 40 / 5%);
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-area-input::placeholder {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* No browser (black) focus ring: a soft white ring matches the white border. */
+.paint-quotation-tool .paint-quotation-tool-area-input:focus {
+  /* outline: none;
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 45%); */
+}
+
+.paint-quotation-tool .paint-quotation-tool-area-input:focus,
+.paint-quotation-tool .paint-quotation-tool-area-input:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #fff;
+}
+
+.paint-quotation-tool .paint-quotation-tool-area-input[aria-invalid='true'] {
+  /* border-color: #f00; */
+}
+
+/* ---- Screen 2: lead form ---- */
+.paint-quotation-tool .paint-quotation-tool-lead-form {
+  display: grid;
+  gap: 20px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-fields {
+  display: grid;
+  gap: 20px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-control {
+  position: relative;
+}
+
+.paint-quotation-tool .paint-quotation-tool-control input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+  padding: 0 15px;
+  border: 1px solid var(--neutral-color-grey-400, #75787B);
+  border-radius: 6px;
+  background: #fff;
+  color: #303030;
+  font: inherit;
+  font-size: 16px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-control input::placeholder {
+  color: #75787b;
+}
+
+.paint-quotation-tool .paint-quotation-tool-control:has(.paint-quotation-tool-prefix) input {
+  padding-left: 64px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-prefix {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  padding-right: 12px;
+  border-right: 1px solid #c4c4c4;
+  color: #303030;
+  font-size: 16px;
+  transform: translateY(-50%);
+}
+
+/* The field label always sits on the top border, above the placeholder. */
+.paint-quotation-tool .paint-quotation-tool-float-label {
+  position: absolute;
+  top: 0;
+  left: 12px;
+  padding: 0 5px;
+  border-radius: 2px;
+  background: #fff;
+  color: #75787b;
+  font-size: 12px;
+  line-height: 1.2;
+  transform: translateY(-50%);
+  pointer-events: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  font-weight: 500;
+}
+
+/* The label appears on the top border while the field is focused, once it
+   has a value, and while it shows an error. */
+.paint-quotation-tool .paint-quotation-tool-field.is-invalid .paint-quotation-tool-float-label,
+.paint-quotation-tool .paint-quotation-tool-control:focus-within .paint-quotation-tool-float-label,
+.paint-quotation-tool .paint-quotation-tool-control:has(input:not(:placeholder-shown)) .paint-quotation-tool-float-label {
+  opacity: 1;
+}
+
+.paint-quotation-tool .paint-quotation-tool-control input:focus,
+.paint-quotation-tool .paint-quotation-tool-control input:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border-color: transparent; /* or your desired color */
+}
+
+.paint-quotation-tool .paint-quotation-tool-field.is-invalid input {
+  border-color: var(--pqc-red);
+}
+
+.paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-error {
+  color: var(--pqc-red);
+  font-size: 12px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-submit-error {
+  margin: 0;
+  color: var(--pqc-red);
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.paint-quotation-tool .paint-quotation-tool-submit-error[hidden] {
+  display: none;
+}
+
+.paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-mark {
+  color: var(--pqc-red);
+}
+
+/* Field labels keep their asterisk in the label colour. */
+.paint-quotation-tool .paint-quotation-tool-float-label .paint-quotation-tool-mark {
+  color: inherit;
+}
+
+.paint-quotation-tool .paint-quotation-tool-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  cursor: pointer;
+}
+
+.paint-quotation-tool .paint-quotation-tool-checkbox input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #fff;
+  border-radius: 2px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-lead-questions {
+  display: grid;
+  gap: 16px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-radio-title {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-radio-options {
+  gap: 8px 16px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-radio {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #fff;
+  padding: 0;
+  margin: 0;
+}
+
+
+.paint-quotation-tool .paint-quotation-tool-consent {
+  margin: 0;
+  color: #fff;
+  font-size: 11px;
+  line-height: 16.8px;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.paint-quotation-tool .paint-quotation-tool-consent a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.paint-quotation-tool .paint-quotation-tool-cta-submit {
+  background: linear-gradient(rgb(254 201 64), rgb(255 153 0));
+  color: #1e1e1e;
+}
+
+/* ---- Screen 3: recommendations ---- */
+.paint-quotation-tool .paint-quotation-tool-again {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 19.6px;
+  cursor: pointer;
+}
+
+.paint-quotation-tool .paint-quotation-tool-again::before {
+  content: " ";
+  background-image: url("/eds/icons/arrow-line-right.svg");
+  background-repeat: no-repeat;
+  width: 14px;
+  height: 14px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-again:focus-visible {
+  outline: 2px solid var(--pqc-cream);
+  outline-offset: 3px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-info-column>.paint-quotation-tool-again,
+.paint-quotation-tool .paint-quotation-tool-info-description {
+  display: none;
+}
+
+.paint-quotation-tool .paint-quotation-tool-info {
+  text-align: center;
+}
+
+.paint-quotation-tool .paint-quotation-tool-info-title {
+  margin: 0 0 4px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.paint-quotation-tool .paint-quotation-tool-info-title:focus {
+  outline: none;
+}
+
+.paint-quotation-tool .paint-quotation-tool-info-subtitle {
+  margin: 0;
+  padding: 0 15%;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.paint-quotation-tool .paint-quotation-tool-info-description p {
+  margin: 0 0 11px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.4px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-info-description ul {
+  margin: 5px 0 0;
+  padding-left: 16px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-info-description li {
+  width: 90%;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.39px;
+}
+
+/* Carousel: cards stack in one grid cell; mobile nav sits underneath. */
+.paint-quotation-tool .paint-quotation-tool-carousel {
+  display: grid;
+  grid-template: 'stack stack stack' auto 'prev again next' auto / 36px 1fr 36px;
+  align-items: center;
+  gap: 16px 8px;
+}
+
+/* Every card is positioned in the stack, and the stack is as tall as the
+   tallest card (set from JS), so changing cards never resizes the layout. */
+.paint-quotation-tool .paint-quotation-tool-stack {
+  --pqc-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --pqc-depth-1: 0.924;
+  --pqc-depth-2: 0.847;
+  --pqc-peek-1: 8px;
+  --pqc-peek-2: 16px;
+
+  grid-area: stack;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+/* Slider arrows: white circle-arrow icons. */
+.paint-quotation-tool .paint-quotation-tool-nav {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: center / contain no-repeat;
+  cursor: pointer;
+}
+
+.paint-quotation-tool .paint-quotation-tool-nav-prev {
+  grid-area: prev;
+  background-image: url('https://static-beta.asianpaints.com/etc.clientlibs/apcolourcatalogue/clientlibs/clientlib-global/resources/images/white-circle-left-arrow.svg');
+}
+
+.paint-quotation-tool .paint-quotation-tool-nav-next {
+  grid-area: next;
+  background-image: url('https://static-beta.asianpaints.com/etc.clientlibs/apcolourcatalogue/clientlibs/clientlib-global/resources/images/white-circle-right-arrow.svg');
+}
+
+.paint-quotation-tool .paint-quotation-tool-nav:focus-visible {
+  outline: 2px solid var(--pqc-cream);
+  outline-offset: 3px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-nav:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.paint-quotation-tool .paint-quotation-tool-carousel.is-single .paint-quotation-tool-nav {
+  visibility: hidden;
+}
+
+.paint-quotation-tool .paint-quotation-tool-mobile-nav {
+  grid-area: again;
+  justify-self: center;
+}
+
+.paint-quotation-tool .paint-quotation-tool-results-error {
+  margin: 0;
+  padding: 24px;
+  text-align: center;
+}
+
+/* ---- Result card ---- */
+.paint-quotation-tool .paint-quotation-tool-card {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template:
+    'title title' auto
+    'media name' auto
+    'media view' 1fr
+    'prices prices' auto
+    'disclaimer disclaimer' auto
+    'products products' auto
+    'includes includes' auto
+    'pdf pdf' auto / 57px minmax(0, 1fr);
+  align-content: start;
+  column-gap: 12px;
+  width: min(340px, 100%);
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff;
+  color: #000;
+  box-shadow: 0 4px 24px rgb(0 0 0 / 15%);
+
+  /* Depth comes from scaling around the bottom edge, never from width, so a
+     card's content never re-wraps while it animates. */
+  transform: translate(-50%, 0);
+  transform-origin: 50% 100%;
+  transition:
+    transform 0.45s var(--pqc-ease),
+    opacity 0.35s ease,
+    visibility 0s linear 0s;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card>* {
+  transition: opacity 0.3s ease 0.15s;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card[data-position='0'] {
+  z-index: 3;
+}
+
+/* Cards behind the active one show only their edge. */
+.paint-quotation-tool .paint-quotation-tool-card:not([data-position='0']) {
+  overflow: hidden;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card:not([data-position='0'])>* {
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card[data-position='1'] {
+  z-index: 2;
+  transform: translate(-50%, var(--pqc-peek-1)) scale(var(--pqc-depth-1));
+}
+
+.paint-quotation-tool .paint-quotation-tool-card[data-position='2'] {
+  z-index: 1;
+  transform: translate(-50%, var(--pqc-peek-2)) scale(var(--pqc-depth-2));
+}
+
+/* Waiting below the stack: a card entering the stack (the next card behind,
+   or the previous card coming back to the front) rises from here, and the
+   card leaving the front sinks back here. */
+.paint-quotation-tool .paint-quotation-tool-card[data-position='out'] {
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 56px) scale(var(--pqc-depth-2));
+  transition:
+    transform 0.45s var(--pqc-ease),
+    opacity 0.35s ease,
+    visibility 0s linear 0.45s;
+}
+
+/* While measuring, cards take their natural height. */
+.paint-quotation-tool .paint-quotation-tool-stack.is-measuring .paint-quotation-tool-card {
+  bottom: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paint-quotation-tool .paint-quotation-tool-card,
+  .paint-quotation-tool .paint-quotation-tool-card>*,
+  .paint-quotation-tool .paint-quotation-tool-card[data-position='out'] {
+    transition: none;
+  }
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-title {
+  grid-area: title;
+  justify-self: center;
+  margin: 0 0 12px;
+  background: linear-gradient(270deg, #f8a12e 0%, #be2a1d 50.07%, #45216c 98.1%);
+  background-clip: text;
+  color: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.4px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-media {
+  grid-area: media;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-media img {
+  display: block;
+  width: 57px;
+  height: 68px;
+  object-fit: contain;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-name {
+  grid-area: name;
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.paint-quotation-tool .paint-quotation-tool-view {
+  color: #f47838;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.paint-quotation-tool .paint-quotation-tool-view:hover {
+  text-decoration: none;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card>.paint-quotation-tool-view {
+  grid-area: view;
+}
+
+.paint-quotation-tool .paint-quotation-tool-prices {
+  grid-area: prices;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0 12px;
+  margin: 14px 0 0;
+  font-size: 11px;
+  line-height: 25px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-prices dt {
+  color: #2f2f2f;
+  font-weight: 400;
+}
+
+.paint-quotation-tool .paint-quotation-tool-prices dd {
+  margin: 0;
+  color: #000;
+  font-weight: 700;
+  text-align: right;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card .paint-quotation-tool-mark {
+  color: var(--pqc-red);
+}
+
+.paint-quotation-tool .paint-quotation-tool-products {
+  grid-area: products;
+  min-width: 0;
+}
+
+.paint-quotation-tool .paint-quotation-tool-products-title {
+  margin: 20px 0 16px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.4px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-products-list {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 2px 2px 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  list-style: none;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.paint-quotation-tool .paint-quotation-tool-products-list::-webkit-scrollbar {
+  display: none;
+}
+
+.paint-quotation-tool .paint-quotation-tool-product {
+  flex: 0 0 120px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  /* min-height: 143px; */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px 1px rgb(0 0 0 / 10%);
+  text-align: center;
+  scroll-snap-align: start;
+  position: relative;
+
+  /* transition: box-shadow 0.2s ease; */
+}
+
+.paint-quotation-tool .paint-quotation-tool-product:has(.paint-quotation-tool-view):hover {
+  /* box-shadow: 0 2px 8px 1px rgb(0 0 0 / 20%); */
+}
+
+/* Stretched link: the "View" link covers the whole product card. */
+.paint-quotation-tool .paint-quotation-tool-product .paint-quotation-tool-view::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 5px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-product-name {
+  margin: 0;
+  min-height: 28.8px;
+  color: #2f2f2f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.4px;
+  text-transform: capitalize;
+}
+
+.paint-quotation-tool .paint-quotation-tool-product-qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.paint-quotation-tool .paint-quotation-tool-product-qty img {
+  width: 40px;
+  height: 49px;
+  object-fit: contain;
+}
+
+.paint-quotation-tool .paint-quotation-tool-product-amount {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.paint-quotation-tool .paint-quotation-tool-product-amount strong {
+  display: block;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.paint-quotation-tool .paint-quotation-tool-disclaimer {
+  grid-area: disclaimer;
+  margin: 12px 0 0;
+  color: #75787b;
+  font-size: 10px;
+  line-height: 11px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-disclaimer .paint-quotation-tool-mark {
+  margin-right: 2px;
+  font-size: 13px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-includes {
+  grid-area: includes;
+  margin-top: 12px;
+  color: #4c4c4c;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-includes p {
+  margin: 0 0 5px;
+  color: #4c4c4c;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-includes ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-includes li {
+  margin-bottom: 10px;
+  color: #a5a5a5;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-includes li::marker {
+  color: #4c4c4c;
+}
+
+.paint-quotation-tool .paint-quotation-tool-card-includes b,
+.paint-quotation-tool .paint-quotation-tool-card-includes strong {
+  color: #4c4c4c;
+  font-weight: 400;
+}
+
+.paint-quotation-tool .paint-quotation-tool-pdf {
+  grid-area: pdf;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 12px;
+  padding: 16px 0 4px;
+  border-top: 1px solid #c4c4c4;
+}
+
+.paint-quotation-tool .paint-quotation-tool-pdf p {
+  flex: 1;
+  margin: 0;
+  color: #000;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.paint-quotation-tool .paint-quotation-tool-pdf-cta {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid #232426;
+  border-radius: 45px;
+  background: transparent;
+  color: #222;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Download icon, used as a mask so it takes the button's text colour. */
+.paint-quotation-tool .paint-quotation-tool-pdf-icon {
+  flex: 0 0 auto;
+  width: 21px;
+  height: 20px;
+  background: #222;
+  mask: url('https://static-beta.asianpaints.com/etc.clientlibs/apcolourcatalogue/clientlibs/clientlib-global/resources/images/download-icon-new.svg') center / contain no-repeat;
+}
+
+/* On iOS the finished PDF opens from the same button. */
+.paint-quotation-tool .paint-quotation-tool-pdf-cta.is-ready {
+  border-color: var(--pqc-cta);
+  background: var(--pqc-cta);
+}
+
+.paint-quotation-tool .paint-quotation-tool-pdf-cta.is-ready .paint-quotation-tool-pdf-icon {
+  width: 20px;
+  mask-image: url('../../icons/pqc-arrow.svg');
+  transform: rotate(-45deg);
+}
+
+/* Small loader next to the download icon while the PDF is prepared. */
+.paint-quotation-tool .paint-quotation-tool-pdf-spinner {
+  display: none;
+  box-sizing: border-box;
+
+  /* width: 14px;
+  height: 14px;
+  border: 2px solid rgb(0 0 0 / 20%);
+  border-top-color: #000; */
+
+  /* border-radius: 50%; */
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  animation: paint-quotation-tool-spin 2s linear infinite;
+}
+
+.paint-quotation-tool .paint-quotation-tool-pdf-cta.is-loading {
+  cursor: progress;
+}
+
+.paint-quotation-tool .paint-quotation-tool-pdf-cta.is-loading .paint-quotation-tool-pdf-spinner {
+  display: inline-block;
+}
+
+@keyframes paint-quotation-tool-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paint-quotation-tool .paint-quotation-tool-pdf-spinner {
+    animation-duration: 1.6s;
+  }
+}
+
+.paint-quotation-tool .paint-quotation-tool-pdf .paint-quotation-tool-pdf-error {
+  flex-basis: 100%;
+  color: var(--pqc-red);
+  font-size: 10px;
+  position: absolute;
+  bottom: 13px;
+  text-align: center;
+  width: 100%;
+
+}
+
+.paint-quotation-tool .paint-quotation-tool-pdf .paint-quotation-tool-pdf-error:empty {
+  display: none;
+}
+
+
+@media (width >=1500px) {
+   .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] .paint-quotation-tool-radio-group{
+    margin-bottom: 15px;
+  }
+}
+
+/* ---- Desktop ---- */
+@media (width >=900px) {
+  .paint-quotation-tool {
+    background-image: var(--bg-image-desktop);
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-screen {
+    /* min-height: 584px; */
+    padding: 3% 6%;
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'],
+  .paint-quotation-tool[data-screen='2'] .paint-quotation-tool-screen[data-screen='2'] {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 48px;
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] {
+    gap: 9.8%;
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] .paint-quotation-tool-radio-group {
+    /* margin-bottom: 10px; */
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-cta-icon {
+    margin-top: 3px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-title {
+    margin-bottom: 22px;
+
+    /* font-size: clamp(40px, 4vw, 64px); */
+
+    /* line-height: 1.1; */
+    letter-spacing: -2px;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 70.4px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-subtitle {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 33.6px;
+    text-align: start;
+    width: 85%;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-step {
+    display: block;
+    margin-bottom: -15px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-details-form {
+    gap: 40px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-radio-group {
+    margin-bottom: 10px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-radio-title,
+  .paint-quotation-tool .paint-quotation-tool-area-label {
+    margin-bottom: 15px;
+    font-size: 28px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-radio-options {
+    gap: 12px 40px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-radio {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+    margin-bottom: 0;
+    align-items: center;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-area-input {
+    width: 320px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-cta {
+    justify-self: start;
+    width: auto;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-api-error {
+    text-align: left;
+  }
+
+  /* Screen 2 */
+  .paint-quotation-tool[data-screen='2'] .paint-quotation-tool-screen[data-screen='2'] {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    display: flex;
+    min-height: auto;
+    padding: 7%;
+    gap: 5px;
+    align-items: flex-start;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-screen.paint-quotation-tool-lead .paint-quotation-tool-intro {
+    width: 44%;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-lead-form {
+    gap: 24px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-screen.paint-quotation-tool-lead .paint-quotation-tool-lead-form {
+    flex: 1;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-screen.paint-quotation-tool-lead .paint-quotation-tool-intro .paint-quotation-tool-subtitle {
+    width: 59%;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 38px 28px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-lead-questions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-radio-title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: .2px;
+    color: #fff;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-radio {
+    font-size: 12px;
+    line-height: 16px;
+    gap: 6px;
+  }
+
+  /* after the .paint-quotation-tool-cta rule above, so justify-self wins */
+  .paint-quotation-tool .paint-quotation-tool-cta-submit {
+    font-size: 16px;
+    height: 44px;
+    line-height: 24px;
+    font-weight: 700;
+    gap: 8px;
+    justify-self: end;
+    transform: translate(0, 15px);
+  }
+
+  /* Screen 1 / 2 overrides of the generic rules above: kept after them, and
+     ordered least to most specific, as the linter requires */
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] .paint-quotation-tool-details-form {
+    gap: 35px;
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] .paint-quotation-tool-radio-options {
+    gap: 12px 34px;
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] .paint-quotation-tool-cta {
+    margin-top: 5px;
+    padding: 14px 22.5px;
+    width: fit-content;
+  }
+
+  .paint-quotation-tool[data-screen='2'] .paint-quotation-tool-screen[data-screen='2'] .paint-quotation-tool-lead-form {
+    margin-bottom: 20px;
+    margin-top: 8px;
+  }
+
+  .paint-quotation-tool[data-screen='2'] .paint-quotation-tool-screen[data-screen='2'] .paint-quotation-tool-fields {
+    gap: 38px 20px;
+  }
+
+  .paint-quotation-tool[data-screen='2'] .paint-quotation-tool-screen[data-screen='2'] .paint-quotation-tool-radio-options {
+    gap: 8px 20px;
+  }
+
+  .paint-quotation-tool[data-screen='2'] .paint-quotation-tool-screen[data-screen='2'] .paint-quotation-tool-lead .paint-quotation-tool-radio-options {
+    gap: 8px 20px;
+  }
+
+  /* Screen 3: a narrow info column and a 477px card, centred in 1024px. */
+  .paint-quotation-tool[data-screen='3'] .paint-quotation-tool-screen[data-screen='3'] {
+    /* grid-template-columns: minmax(0, 290px) auto; */
+    grid-template-columns: minmax(0, 419px) auto;
+    justify-content: space-between;
+    align-items: start;
+    gap: 40px;
+    min-height: 0;
+
+    /* padding: 32px max(40px, calc((100% - 1024px) / 2)) 27px; */
+    padding: 32px max(40px, calc((100% - 1235px) / 2)) 27px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info-column {
+    padding-top: 21px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info-column>.paint-quotation-tool-again {
+    display: inline-flex;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 19.6px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info {
+    margin-top: 70px;
+    text-align: left;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info-title {
+    margin-bottom: 15px;
+    font-size: 32px;
+    line-height: 35.2px;
+    font-weight: 800;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info-subtitle {
+    margin-bottom: 25px;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: normal;
+    width: 98%;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info-description {
+    display: block;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info-description p {
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: .5px;
+    margin-bottom: 14px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info-description ul {
+    margin: 0;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info-description li {
+    width: auto;
+    margin-bottom: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16.39px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-info-description :where(li strong) {
+    font-weight: 700;
+    line-height: 14.4px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-carousel {
+    grid-template: 'prev stack next' auto / 26px 477px 26px;
+
+    /* gap: 23px; */
+    gap: 80px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-mobile-nav {
+    display: none;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-card {
+    grid-template:
+      'title title' auto
+      'media name' auto
+      'media prices' auto
+      'media view' auto
+      'products products' auto
+      'disclaimer disclaimer' auto
+      'pdf pdf' auto / 116px minmax(0, 1fr);
+    column-gap: 27px;
+    width: 554px;
+    padding: 18px 26px 17px;
+    border-radius: 6px;
+    left: 52%;
+  }
+
+  /* The cards behind peek out 17px and 35px below, as in the design. */
+  .paint-quotation-tool .paint-quotation-tool-stack {
+    --pqc-depth-1: 0.937;
+    --pqc-depth-2: 0.876;
+    --pqc-peek-1: 17px;
+    --pqc-peek-2: 35px;
+
+    margin-bottom: 35px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-card-title {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 43.71px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-card-media img {
+    width: 116px;
+    height: 110px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-card-name {
+    margin: 6px 0 4px;
+    font-size: 18px;
+    line-height: 1.25;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-prices {
+    margin: 0;
+    font-size: 11px;
+    line-height: 19.5px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-prices dt {
+    font-weight: 500;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-view {
+    /* font-size: 11px;
+    font-weight: 600; */
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-card>.paint-quotation-tool-view {
+    margin-top: 5px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-products-title {
+    margin: 24px 0 12px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14.4px;
+    color: #000;
+  }
+
+  /* Four 104px tiles fill a row; any more scroll sideways. */
+  .paint-quotation-tool .paint-quotation-tool-products-list {
+    gap: 11px;
+    margin: 0 -13px;
+    padding: 2px 2px 4px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product {
+    flex-basis: 120px;
+    gap: 4px;
+    min-height: 0;
+    padding: 10px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product-name {
+    padding: 0;
+    color: #232426;
+    margin: 0;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product-qty {
+    gap: 4px;
+    margin: 1px 0;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product-qty img {
+        width: 38px;
+        height: 46px;
+        color: #000;
+        font-size: 12px;
+        line-height: 10px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product-amount {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 500;
+    color: #232426;
+    line-height: 12px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product-amount strong {
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-disclaimer {
+    margin-top: 14px;
+    font-size: 9.5px;
+    line-height: 13px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-card-includes {
+    display: none;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-pdf {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 13px;
+    padding: 16px 0 0;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-pdf p {
+    flex: 0 1 215px;
+    font-size: 11px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-pdf-cta {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 0 25px;
+    height: 38px;
+  }
+}
+
+
+
+.paint-quotation-tool .paint-quotation-tool-pdf-cta:hover{
+    background: #fff7e8;
+    border: 1px solid #232426;
+}
+
+/* ---- Mobile ---- */
+@media (width >=320px)and (width <=991px) {
+  .paint-quotation-tool .paint-quotation-tool-cta:disabled {
+    justify-content: center;
+    background: #fff;
+    color: #000;
+    width: 100% !important;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-nav-prev {
+    transform: translate(32px, 0);
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-nav-next {
+    transform: translate(-31px, 0);
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    width: 60%;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-title {
+    display: block;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: normal;
+    margin-bottom: 7px;
+    line-height: 32.6px;
+    color: #feb940;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-checkbox {
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 15px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-screen {
+    padding: 20px 4% 40px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-radio-title {
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 33.6px;
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] {
+    gap: 18px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-radio {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 0;
+    gap: 8px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-details-form {
+    gap: 40px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-radio-title {
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: .2px;
+    color: #fff;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-cta-submit {
+    height: 44px;
+    line-height: 24px;
+    font-weight: 700;
+    gap: 8px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-fields {
+    gap: 24px;
+  }
+
+  .paint-quotation-tool-lead-form .paint-quotation-tool-fields {
+    order: 1;
+  }
+
+  .paint-quotation-tool-lead-form .paint-quotation-tool-checkbox {
+    order: 3;
+  }
+
+  .paint-quotation-tool-lead-form .paint-quotation-tool-lead-questions {
+    order: 2;
+  }
+
+  .paint-quotation-tool-lead-form .paint-quotation-tool-consent {
+    order: 4;
+  }
+
+  .paint-quotation-tool-lead-form .paint-quotation-tool-cta.paint-quotation-tool-cta-submit {
+    order: 5;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-radio input[type='radio'] {
+    width: 18px;
+    height: 18px;
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] .paint-quotation-tool-radio input[type='radio'] {
+    width: 20px;
+    height: 20px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-lead-questions {
+    gap: 15px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product .paint-quotation-tool-product-name{
+    padding: 0;
+    color: #232426;
+    margin: 0;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 14px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product .paint-quotation-tool-product-qty img {
+    width: 38px;
+    height: 46px;
+    color: #000;
+    font-size: 12px;
+    line-height: 10px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product .paint-quotation-tool-product-qty .paint-quotation-tool-product-amount strong{
+    font-size: 13px;
+    font-weight: 700;
+    color: #000;
+    line-height: 16px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-product .paint-quotation-tool-product-qty .paint-quotation-tool-product-amount span{
+    font-size: 10px;
+    font-weight: 500;
+    color: #232426;
+    line-height: 12px;
+  }
+
+}
+
+.section.paint-quotation-tool-container {
+  padding: 0 !important;
+}
+
+@media (width >= 992px) and (width <= 1400px) {
+  .paint-quotation-tool .paint-quotation-tool-radio-group {
+    margin-bottom: 0;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-details-form {
+    /* gap: 35px; */
+  }
+}
+
+
+@media (width >= 1266px) and (width <= 1400px) {
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] {
+    padding: 2% 6%;
+  }
+}
+
+
+
+/* common policies */
+
+.d-16-m-14 .seo-content-wrapper .seo-content p {
+  font-size: 16px;
+  line-height: 24px;
+  color: #222;
+  font-weight: 500;
+}
+
+/* ---- Mobile ---- */
+@media (width >=320px)and (width <=991px) {
+  .d-16-m-14 .seo-content-wrapper .seo-content p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: .5px;
+    margin-top: 14px;
+  }
+
+  .d-16-m-14 .seo-content-wrapper .seo-content h3 {
+    font-size: 20px;
+  }
+
+  .d-16-m-14 .seo-content-wrapper .seo-content.mt-5 {
+    margin-top: -2rem !important;
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] .paint-quotation-tool-intro .paint-quotation-tool-title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 41.6px;
+    letter-spacing: normal;
+    margin-bottom: 7px;
+  }
+
+  .paint-quotation-tool[data-screen='1'] .paint-quotation-tool-screen[data-screen='1'] .paint-quotation-tool-intro .paint-quotation-tool-subtitle {
+    text-align: start;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    padding: 0;
+    width: 100%;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-area-label {
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 33.6px;
+  }
+
+  
+
+  .why-choose-us-variant .why-choose-us .why-choose-us-icon img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .how-it-works-steps-variant .how-works-text-section {
+    margin-top: -158px;
+  }
+
+  .how-it-works-steps-variant .how-it-works-steps-wrapper .how-it-works-steps .how-works-img-section {
+    padding: 0 6px 0 24px !important;
+  }
+
+  .how-it-works-steps-variant .how-it-works-steps-wrapper .how-it-works-steps .how-works-text-section .text-section-wraper {
+    margin: 0 16px;
+    padding: 18px 0;
+    padding-left: 8px;
+    align-items: flex-start;
+  }
+
+  .how-it-works-steps-variant .how-it-works-steps-wrapper .how-it-works-steps .how-works-text-section .text-section-wraper .text-section-number {
+    min-width: 55px;
+  }
+}
+
+.pbc-spacing.section.seo-content-container{
+  margin-top: -36px;
+}
+
+
+@media (width >=992px) {
+  .why-choose-us-variant .why-choose-us .why-choose-us-icon {
+    margin-right: 16px;
+  }
+
+  .why-choose-us-variant .why-choose-us .why-choose-us-body {
+    margin-left: 25px;
+  }
+
+  
+  /* how-it-works-steps-variant */
+  .how-it-works-steps-variant .inner-text-wraper .text-description {
+    margin-top: 0;
+  }
+
+  .how-it-works-steps-variant .how-works-container {
+    gap: 0;
+  }
+
+  .how-it-works-steps-variant .how-works-container .how-works-text-section .text-section-wraper {
+    margin-right: 21px;
+  }
+
+  /* why-choose-us-variant */
+  .why-choose-us-variant .why-choose-us .why-choose-us-icon img {
+    object-fit: contain;
+    height: auto;
+    width: auto;
+    max-width: unset;
+    max-height: unset;
+  }
+
+  .why-choose-us-variant .why-choose-us .why-choose-us-icon picture {
+    min-width: 15%;
+  }
+
+  .why-choose-us-variant.why-choose-us-container {
+    padding: 0 37px !important;
+  }
+
+}
+
+@media (width >= 1300px) {
+  .why-choose-us-variant.why-choose-us-container {
+    padding: 0 50px !important;
+  }
+}
+
+@media (width >= 1200px) and (width <= 1300px) {
+  .how-it-works-steps-variant .how-works-container {
+    gap: 15px;
+  }
+}
+
+@media (width >= 1500px) {
+  .how-it-works-steps-variant .how-works-img-section .title-image {
+    width: 628px;
+  }
+}
+
+
+.paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-checkbox input[type='checkbox'] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  background: transparent;
+  position: relative;
+}
+
+/* White background when checked */
+.paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-checkbox.is-checked input[type='checkbox'] {
+  background-color:#fff;
+  border-color: #fff;
+}
+
+/* Tick icon */
+
+.paint-quotation-tool .paint-quotation-tool-lead .paint-quotation-tool-checkbox.is-checked input[type='checkbox']::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+  background: url('https://www.asianpaints.com/etc.clientlibs/apcolourcatalogue/components/content/budgetcalculator/clientlibs/resources/images/white-tick.svg')
+    center center / 12px 12px no-repeat;
+        filter: invert(1);
+}
+
+.seo-content.num-pbc-size li::marker{
+    color: #222;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+/* ---- Screen 2: submit failure panel ---- */
+.paint-quotation-tool .paint-quotation-tool-lead-form[hidden],
+.paint-quotation-tool .paint-quotation-tool-failure[hidden] {
+  display: none;
+}
+
+.paint-quotation-tool .paint-quotation-tool-failure {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.paint-quotation-tool .paint-quotation-tool-failure-panel {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 24px 16px 40px;
+  background: #fff;
+  color: #000;
+}
+
+.paint-quotation-tool .paint-quotation-tool-failure-title {
+  margin: 0 0 16px;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.paint-quotation-tool .paint-quotation-tool-failure-text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.paint-quotation-tool .paint-quotation-tool-failure-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #000;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.paint-quotation-tool .paint-quotation-tool-failure-close img {
+  width: 100%;
+  height: 100%;
+}
+
+@media (width >=900px) {
+  .paint-quotation-tool .paint-quotation-tool-failure-panel {
+    min-height: 353px;
+    padding: 80px 88px 40px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-failure-title {
+    font-size: 48px;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-failure-text {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .paint-quotation-tool .paint-quotation-tool-failure-close {
+    top: 0;
+    right: 0;
+  }
+}

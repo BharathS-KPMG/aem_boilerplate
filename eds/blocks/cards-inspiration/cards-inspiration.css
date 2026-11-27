@@ -1,0 +1,216 @@
+/* Cards Inspiration: the room's inspiration cards, as the legacy listing's .image-card
+   (asianpaints.com/inspiration/bedroom-colour-combination): one column below 992px, four from
+   992px; the title takes two lines at most and the row grows to its tallest card. */
+.cards-inspiration {
+  --ci-card-radius: 8px;
+  --ci-card-shadow: 0 8px 12px 0 rgb(0 0 0 / 6%);
+  --ci-title-color: #000;
+  --ci-text-color: #232426;
+}
+
+/* its section, when not inside color-inspiration-listing: the page's side spacing, once (4.5% /
+   4% as on the source; a section style that sets its own padding replaces this) */
+main > .section.cards-inspiration-container {
+  margin: 0;
+  padding: 0 4.5%;
+}
+
+main .section.cards-inspiration-container > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards-inspiration *,
+.cards-inspiration *::before,
+.cards-inspiration *::after {
+  box-sizing: border-box;
+}
+
+.cards-inspiration .cards-inspiration-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px 0;
+  margin: 0;
+  padding: 0 4px;
+  list-style: none;
+}
+
+.cards-inspiration .cards-inspiration-item {
+  display: flex;
+  min-width: 0;
+}
+
+.cards-inspiration .cards-inspiration-item[hidden] {
+  display: none;
+}
+
+.cards-inspiration .cards-inspiration-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: var(--ci-card-radius);
+  background-color: #fff;
+  box-shadow: var(--ci-card-shadow);
+  overflow: hidden;
+}
+
+/* the room photos' own shape (about 1.43:1), so the space is kept before they load */
+.cards-inspiration .cards-inspiration-image {
+  display: block;
+  aspect-ratio: 179 / 125;
+  border-radius: var(--ci-card-radius) var(--ci-card-radius) 0 0;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.cards-inspiration .cards-inspiration-image picture,
+.cards-inspiration .cards-inspiration-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cards-inspiration .cards-inspiration-image img {
+  object-fit: cover;
+}
+
+.cards-inspiration .cards-inspiration-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 0 16px;
+}
+
+/* badge (optional): over the image's top left corner */
+.cards-inspiration .cards-inspiration-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  margin: 0;
+  border-radius: 4px;
+  padding: 2px 8px;
+  background-color: #fff7e8;
+  color: var(--ci-text-color);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.cards-inspiration .cards-inspiration-badge em {
+  font-style: normal;
+}
+
+/* two lines at most; it takes the room the row leaves, so the CTAs line up */
+.cards-inspiration .cards-inspiration-title {
+  display: -webkit-box;
+  flex-grow: 1;
+  width: 100%;
+  margin: 0;
+  padding: 25px 16px 16px;
+  color: var(--ci-title-color);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.cards-inspiration .cards-inspiration-title a:any-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cards-inspiration .cards-inspiration-title a:hover {
+  text-decoration: underline;
+}
+
+/* consultation CTA, added by color-inspiration-listing when authored */
+.cards-inspiration .cards-inspiration-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 16px;
+  border: 1px solid var(--ci-text-color);
+  border-radius: 45px;
+  min-height: 38px; /* the source's arrow icon sets its height */
+  padding: 6px 16px;
+  background-color: transparent;
+  color: var(--ci-text-color);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cards-inspiration .cards-inspiration-cta:hover,
+.cards-inspiration .cards-inspiration-cta:focus-visible {
+  background-color: #fff7e8;
+  color: var(--ci-text-color);
+  text-decoration: none;
+}
+
+.cards-inspiration .cards-inspiration-cta:focus-visible {
+  outline: 2px solid var(--ci-text-color);
+  outline-offset: 2px;
+}
+
+@media (width >= 992px) {
+  main > .section.cards-inspiration-container {
+    padding: 0 4%;
+  }
+
+  .cards-inspiration .cards-inspiration-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px 20px;
+    padding: 0 0 0 14px;
+  }
+
+  .cards-inspiration .cards-inspiration-body {
+    padding-bottom: 20px;
+  }
+
+  .cards-inspiration .cards-inspiration-title {
+    padding-top: 20px;
+  }
+}
+
+/* small desktops: smaller title and CTA, as on the source */
+@media (width >= 992px) and (width <= 1150px) {
+  .cards-inspiration .cards-inspiration-title {
+    font-size: 12px;
+  }
+
+  .cards-inspiration .cards-inspiration-cta {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* the source scales its page down between 992px and 1439px; cards on their own do the same
+   (inside color-inspiration-listing they follow its scale) */
+@media (width >= 992px) and (width <= 1099px) {
+  main > .section > div > .cards-inspiration { zoom: 0.7; }
+}
+
+@media (width >= 1100px) and (width <= 1199px) {
+  main > .section > div > .cards-inspiration { zoom: 0.75; }
+}
+
+@media (width >= 1200px) and (width <= 1279px) {
+  main > .section > div > .cards-inspiration { zoom: 0.8; }
+}
+
+@media (width >= 1280px) and (width <= 1365px) {
+  main > .section > div > .cards-inspiration { zoom: 0.85; }
+}
+
+@media (width >= 1366px) and (width <= 1439px) {
+  main > .section > div > .cards-inspiration { zoom: 0.9; }
+}

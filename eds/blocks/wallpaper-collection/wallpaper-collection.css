@@ -1,0 +1,1202 @@
+/* ---- self-contained base ----
+   Everything this block needs from the site styles (styles/styles.css, styles/fonts.css), so the
+   block folder can be copied to another project and look the same: the design tokens, fonts and
+   text defaults, scoped to the block's section, plus the section layout. The text defaults have
+   element-level specificity (:where), so they beat a host site's plain element rules but the
+   block's own rules always win.
+   The section layout this block expects is at the end of this file.
+   The fonts are the site's own (its global styles set them); the block sets none. */
+/* stylelint-disable max-line-length */
+main > .section.wallpaper-collection-container {
+  --background-color: white;
+  --light-color: #f8f8f8;
+  --dark-color: #505050;
+  --text-color: #131313;
+  --link-color: #3b63fb;
+  --link-hover-color: #1d3ecf;
+  --body-font-size-m: 22px;
+  --body-font-size-s: 19px;
+  --body-font-size-xs: 17px;
+  --heading-font-size-xxl: 55px;
+  --heading-font-size-xl: 44px;
+  --heading-font-size-l: 34px;
+  --heading-font-size-m: 27px;
+  --heading-font-size-s: 24px;
+  --heading-font-size-xs: 22px;
+  --nav-height: 64px;
+
+  color: var(--text-color);
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+}
+
+@media (width >= 900px) {
+  main > .section.wallpaper-collection-container {
+    --body-font-size-m: 18px;
+    --body-font-size-s: 16px;
+    --body-font-size-xs: 14px;
+    --heading-font-size-xxl: 45px;
+    --heading-font-size-xl: 36px;
+    --heading-font-size-l: 28px;
+    --heading-font-size-m: 22px;
+    --heading-font-size-s: 20px;
+    --heading-font-size-xs: 18px;
+  }
+}
+
+/* the browser's box model, in case the host site sets box-sizing on everything */
+:where(main > .section.wallpaper-collection-container), :where(main > .section.wallpaper-collection-container) *, :where(main > .section.wallpaper-collection-container) ::before, :where(main > .section.wallpaper-collection-container) ::after {
+  box-sizing: revert;
+}
+
+:where(main > .section.wallpaper-collection-container) :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+  font-weight: 600;
+  line-height: 1.25;
+  color: inherit;
+  scroll-margin: 40px;
+}
+
+:where(main > .section.wallpaper-collection-container) h1 { font-size: var(--heading-font-size-xxl); }
+:where(main > .section.wallpaper-collection-container) h2 { font-size: var(--heading-font-size-xl); }
+:where(main > .section.wallpaper-collection-container) h3 { font-size: var(--heading-font-size-l); }
+:where(main > .section.wallpaper-collection-container) h4 { font-size: var(--heading-font-size-m); }
+:where(main > .section.wallpaper-collection-container) h5 { font-size: var(--heading-font-size-s); }
+:where(main > .section.wallpaper-collection-container) h6 { font-size: var(--heading-font-size-xs); }
+
+:where(main > .section.wallpaper-collection-container) :is(p, dl, ol, ul, pre, blockquote) {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+}
+
+:where(main > .section.wallpaper-collection-container) a:where(:any-link) {
+  color: var(--link-color);
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+:where(main > .section.wallpaper-collection-container) a:where(:hover) {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+:where(main > .section.wallpaper-collection-container) img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  vertical-align: baseline;
+}
+
+:where(main > .section.wallpaper-collection-container) :is(input, textarea, select, button) {
+  font: inherit;
+}
+
+/* the page's scrollbar on pages with this block, as on www.asianpaints.com: 5px wide, a grey
+   thumb on a light track (Chrome, Edge, Safari; other browsers keep their own) */
+html:has(.wallpaper-collection)::-webkit-scrollbar,
+body:has(.wallpaper-collection)::-webkit-scrollbar {
+  width: 5px;
+}
+
+html:has(.wallpaper-collection)::-webkit-scrollbar-track-piece,
+body:has(.wallpaper-collection)::-webkit-scrollbar-track-piece {
+  background: #fefdf9;
+}
+
+html:has(.wallpaper-collection)::-webkit-scrollbar-thumb,
+body:has(.wallpaper-collection)::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+}
+
+/* stylelint-enable max-line-length */
+
+/* ---- end of self-contained base ---- */
+
+/* a wallpaper listing, mobile first; sizes as on the source */
+.wallpaper-collection {
+  /* brand colours with no token in styles.css, as on the source (the radio rings its exact
+     #c1b6d8, lighter than the 3:1 WCAG asks of controls) */
+  --wallpaper-collection-accent: #431a80;
+  --wallpaper-collection-accent-hover: #5e25b2;
+  --wallpaper-collection-text: #222;
+  --wallpaper-collection-line: rgb(34 34 34 / 10%);
+  --wallpaper-collection-box: #8a8a8a;
+  --wallpaper-collection-ring: #c1b6d8;
+
+  /* the struck MRP and the discount: the source's exact colours */
+  --wallpaper-collection-was: #838383;
+  --wallpaper-collection-discount: #dfa229;
+  --wallpaper-collection-tag: #8838ff;
+
+  padding: 0 4.5%;
+  border-bottom: 1px solid var(--wallpaper-collection-line);
+  color: var(--wallpaper-collection-text);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.wallpaper-collection [hidden] {
+  display: none !important;
+}
+
+.wallpaper-collection button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.wallpaper-collection a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wallpaper-collection :is(a, button, select, input):focus-visible {
+  outline: 2px solid var(--wallpaper-collection-accent);
+  outline-offset: 2px;
+}
+
+.wallpaper-collection ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wallpaper-collection p {
+  margin: 0;
+}
+
+.wallpaper-collection .wallpaper-collection-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* the API's heading (collectionSecTitle / -Desc), when the section has none authored: as the
+   section's own heading */
+.wallpaper-collection .wallpaper-collection-heading {
+  max-width: 780px;
+  margin: 0 auto 25px;
+  text-align: center;
+}
+
+.wallpaper-collection .wallpaper-collection-heading h2 {
+  margin: 0;
+  color: var(--wallpaper-collection-text);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.wallpaper-collection .wallpaper-collection-heading p {
+  margin-top: 15px;
+}
+
+/* an empty listing: the API's image and message */
+.wallpaper-collection .wallpaper-collection-empty {
+  padding: 40px 0 70px;
+  text-align: center;
+}
+
+.wallpaper-collection .wallpaper-collection-empty img {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 0 auto 20px;
+}
+
+.wallpaper-collection .wallpaper-collection-empty p {
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/* the filter panel: a full-screen dialog on mobile. Its scrollbar is the browser's own, as on
+   the source: scrollbar-color is inherited, and a host site may set it on body (the stage site
+   sets #c1c1c1 on #fefdf9 there, which turns the thumb light grey) */
+.wallpaper-collection .wallpaper-collection-filters {
+  display: none;
+  scrollbar-color: auto;
+  scrollbar-width: auto;
+}
+
+.wallpaper-collection .wallpaper-collection-filters.is-open {
+  position: fixed;
+  inset: 0;
+  z-index: 1051;
+  display: block;
+  padding: 20px 20px 90px;
+  overflow: auto;
+  background: var(--background-color);
+}
+
+.wallpaper-collection .wallpaper-collection-filters-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+}
+
+.wallpaper-collection .wallpaper-collection-filters-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+.wallpaper-collection .wallpaper-collection-close {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.wallpaper-collection .wallpaper-collection-close::before,
+.wallpaper-collection .wallpaper-collection-close::after,
+.wallpaper-collection .wallpaper-collection-pill-remove::before,
+.wallpaper-collection .wallpaper-collection-pill-remove::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 1px;
+  height: 14px;
+  background: currentcolor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.wallpaper-collection .wallpaper-collection-close::after,
+.wallpaper-collection .wallpaper-collection-pill-remove::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Clear all and Apply: the bottom bar of the mobile panel */
+.wallpaper-collection .wallpaper-collection-filters.is-open :is(.wallpaper-collection-clear, .wallpaper-collection-apply) {
+  position: fixed;
+  bottom: 20px;
+  z-index: 1;
+  width: calc(50% - 25px);
+  padding: 14px 15px;
+  border: 1px solid var(--wallpaper-collection-accent);
+  border-radius: 2px;
+  background: var(--background-color);
+  color: var(--wallpaper-collection-accent);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  text-transform: uppercase;
+}
+
+.wallpaper-collection .wallpaper-collection-filters.is-open .wallpaper-collection-clear {
+  left: 20px;
+}
+
+.wallpaper-collection .wallpaper-collection-filters.is-open .wallpaper-collection-apply {
+  right: 20px;
+  background: var(--wallpaper-collection-accent);
+  color: var(--background-color);
+}
+
+/* accordion groups, with the source's line between them: #222 at 8.6% */
+.wallpaper-collection .wallpaper-collection-group {
+  border-top: 1px solid rgb(34 34 34 / 8.6%);
+}
+
+.wallpaper-collection .wallpaper-collection-group-title {
+  margin: 0;
+  font-size: inherit;
+}
+
+.wallpaper-collection .wallpaper-collection-group-toggle {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 18px 20px 20px 0;
+  color: #3b3b3b;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: 1px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+/* + / - on mobile, a chevron on desktop */
+.wallpaper-collection .wallpaper-collection-group-toggle::before,
+.wallpaper-collection .wallpaper-collection-group-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  width: 8px;
+  height: 2px;
+  background: var(--wallpaper-collection-text);
+  transform: translateY(-50%);
+}
+
+.wallpaper-collection .wallpaper-collection-group-toggle::before {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.wallpaper-collection .wallpaper-collection-group-toggle[aria-expanded='true']::before {
+  display: none;
+}
+
+.wallpaper-collection .wallpaper-collection-colours,
+.wallpaper-collection .wallpaper-collection-options {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.wallpaper-collection .wallpaper-collection-radio,
+.wallpaper-collection .wallpaper-collection-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 7px 0;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.wallpaper-collection .wallpaper-collection-option {
+  text-transform: capitalize;
+}
+
+/* the colour's name level with the ring's top, as on the source (its 22px line on the 23px ring) */
+.wallpaper-collection .wallpaper-collection-radio {
+  align-items: flex-start;
+}
+
+/* the colour links and room types: radio options, as on the source */
+.wallpaper-collection .wallpaper-collection-radio::before,
+.wallpaper-collection .wallpaper-collection-radio-mark {
+  content: '';
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 23px;
+  height: 23px;
+  margin-right: 15px;
+  border: 2px solid var(--wallpaper-collection-ring);
+  border-radius: 50%;
+}
+
+/* chosen: the source's 9.5px dot (half the ring's inside) */
+.wallpaper-collection .wallpaper-collection-radio[aria-current='page']::before,
+.wallpaper-collection .wallpaper-collection-option input:checked + .wallpaper-collection-radio-mark {
+  box-shadow: inset 0 0 0 4.75px var(--background-color);
+  background: var(--wallpaper-collection-accent);
+}
+
+.wallpaper-collection .wallpaper-collection-radio:hover {
+  color: var(--wallpaper-collection-accent);
+}
+
+.wallpaper-collection .wallpaper-collection-option input {
+  position: absolute;
+  width: 23px;
+  height: 23px;
+  margin: 0;
+  opacity: 0;
+}
+
+/* the filter checkboxes are circles too, as on the source: a thin grey ring, filled with a tick
+   when chosen */
+.wallpaper-collection .wallpaper-collection-box {
+  position: relative;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 23px;
+  height: 23px;
+  margin: 1px 15px 1px 0;
+  border: 1px solid var(--wallpaper-collection-box);
+  border-radius: 50%;
+  background: var(--background-color);
+}
+
+.wallpaper-collection .wallpaper-collection-option input:focus-visible + span {
+  outline: 2px solid var(--wallpaper-collection-accent);
+  outline-offset: 2px;
+}
+
+.wallpaper-collection .wallpaper-collection-option input:checked + .wallpaper-collection-box {
+  border-color: var(--wallpaper-collection-accent);
+  background: var(--wallpaper-collection-accent);
+}
+
+.wallpaper-collection .wallpaper-collection-option input:checked + .wallpaper-collection-box::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--background-color);
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+
+/* values no wallpaper would match */
+.wallpaper-collection .wallpaper-collection-option:has(input:disabled) {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.wallpaper-collection .wallpaper-collection-count {
+  margin-left: 6px;
+  font-weight: inherit;
+}
+
+.wallpaper-collection .wallpaper-collection-count:empty {
+  display: none;
+}
+
+/* results bar: Filter (mobile) and sort side by side, then the applied filters */
+.wallpaper-collection .wallpaper-collection-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 5%;
+  margin-bottom: 14px;
+}
+
+.wallpaper-collection .wallpaper-collection-open,
+.wallpaper-collection .wallpaper-collection-sort {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex: 0 0 47.5%;
+  min-width: 0;
+  min-height: 46px;
+  margin-bottom: 20px;
+  padding: 14px 15px;
+  border: 1px solid var(--wallpaper-collection-accent);
+  color: var(--wallpaper-collection-accent);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 13px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.wallpaper-collection .wallpaper-collection-open::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin: -3px 2px 0 auto;
+  border: solid currentcolor;
+  border-width: 0 1px 1px 0;
+  transform: rotate(45deg);
+}
+
+.wallpaper-collection .wallpaper-collection-pills {
+  display: flex;
+  flex-wrap: wrap;
+  order: 3;
+  width: 100%;
+}
+
+.wallpaper-collection .wallpaper-collection-pills:empty {
+  display: none;
+}
+
+.wallpaper-collection .wallpaper-collection-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 4px 5px 0;
+  padding: 7px 24px 7px 10px;
+  border: 1px solid rgb(34 34 34 / 20%);
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 12px;
+  text-transform: capitalize;
+}
+
+.wallpaper-collection .wallpaper-collection-pill-remove {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  width: 24px;
+  height: 24px;
+  transform: translateY(-50%);
+}
+
+.wallpaper-collection .wallpaper-collection-pill-remove::before,
+.wallpaper-collection .wallpaper-collection-pill-remove::after {
+  height: 10px;
+}
+
+.wallpaper-collection .wallpaper-collection-sort label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* the whole mobile sort button opens the list */
+.wallpaper-collection .wallpaper-collection-sort {
+  padding: 0;
+}
+
+.wallpaper-collection .wallpaper-collection-sort select {
+  appearance: none;
+  align-self: stretch;
+  width: 100%;
+  margin: 0;
+  padding: 14px 35px 14px 16px;
+  border: 0;
+  border-radius: 0;
+
+  /* the source's chevron: a rotated 8px square's two 1px sides (#222), 54px right of the
+     button's centre, its top 19px down */
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='7' viewBox='0 0 13 7'%3E%3Cpath d='M.85.85 6.5 6.5 12.15.85' fill='none' stroke='%23222' stroke-width='1.1'/%3E%3C/svg%3E") calc(50% + 57.95px) 18.15px / 13px 7px no-repeat;
+  color: inherit;
+  font: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.wallpaper-collection .wallpaper-collection-sort select:focus-visible {
+  outline-offset: -2px;
+}
+
+/* the grid: 2 columns on mobile, 3 on desktop */
+.wallpaper-collection .wallpaper-collection-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 35px 20px;
+}
+
+/* the shades sit at the bottom of the card, so they line up across a row */
+.wallpaper-collection .wallpaper-collection-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.wallpaper-collection .wallpaper-collection-card-link {
+  display: block;
+  flex: 1 0 auto;
+}
+
+.wallpaper-collection .wallpaper-collection-card-image {
+  position: relative;
+  display: block;
+  margin-bottom: 17px;
+  overflow: hidden;
+  border-radius: 2px;
+  aspect-ratio: 6 / 5;
+}
+
+.wallpaper-collection .wallpaper-collection-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wallpaper-collection .wallpaper-collection-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 4px 7px;
+  border-bottom-right-radius: 2px;
+  background: var(--wallpaper-collection-tag);
+  color: var(--background-color);
+  font-size: 11px;
+  line-height: 11px;
+}
+
+.wallpaper-collection .wallpaper-collection-card-name {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.wallpaper-collection .wallpaper-collection-price {
+  margin: 7px 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.wallpaper-collection .wallpaper-collection-mrp {
+  padding-right: 3.5px;
+  color: var(--wallpaper-collection-was);
+  text-decoration: line-through;
+}
+
+.wallpaper-collection .wallpaper-collection-discount {
+  color: var(--wallpaper-collection-discount);
+}
+
+.wallpaper-collection .wallpaper-collection-tax {
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 200;
+  line-height: 20px;
+}
+
+/* wishlist heart: a static toggle for now */
+.wallpaper-collection .wallpaper-collection-wishlist {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
+  background: url('/eds/icons/old-type-wishlist-unselected.svg') center / 40px 40px no-repeat;
+}
+
+.wallpaper-collection .wallpaper-collection-wishlist[aria-pressed='true'] {
+  background-image: url('/eds/icons/old-type-wishlist-selected.svg');
+}
+
+.wallpaper-collection .wallpaper-collection-wishlist.is-busy {
+  cursor: progress;
+}
+
+/* the card's bottom row: shade dots (the first three, the current one ringed) left, Add to
+   cart right */
+.wallpaper-collection .wallpaper-collection-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 0;
+}
+
+.wallpaper-collection .wallpaper-collection-shades {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 21px;
+}
+
+/* Add to cart: the source's yellow pill (its .shop-plp-add-to-cart); the − 1 + stepper that
+   replaces it is the same size, so the row doesn't move */
+.wallpaper-collection .wallpaper-collection-cart {
+  --wallpaper-collection-cart-width: 128px;
+  --wallpaper-collection-cart-height: 39px;
+
+}
+
+.wallpaper-collection .wallpaper-collection-add {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: var(--wallpaper-collection-cart-width);
+  height: var(--wallpaper-collection-cart-height);
+  padding: 0 12px;
+  border-radius: 45px;
+  background: linear-gradient(#ffc63c, #ffa20c);
+  color: #232426;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  white-space: nowrap;
+}
+
+.wallpaper-collection .wallpaper-collection-add::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  background: url('/eds/icons/cart-icon.svg') center / contain no-repeat;
+}
+
+.wallpaper-collection .wallpaper-collection-add:hover {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px #232426;
+}
+
+/* the stepper as in the design (142 x 42 on desktop): a white box with a 1px #fcaf17 border and
+   fully round ends (a pill, like Add to cart), split by #fcaf17 lines into − (29%), the count
+   (45%) and + (26%); small signs, the count bold */
+.wallpaper-collection .wallpaper-collection-quantity {
+  box-sizing: border-box;
+  display: flex;
+  width: var(--wallpaper-collection-cart-width);
+  height: var(--wallpaper-collection-cart-height);
+  overflow: hidden;
+  border: 1px solid #fcaf17;
+  border-radius: 45px;
+  background: #fff;
+  color: #222;
+}
+
+.wallpaper-collection .wallpaper-collection-step {
+  flex: 29 1 0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.wallpaper-collection .wallpaper-collection-step:last-child {
+  flex-grow: 26;
+}
+
+.wallpaper-collection .wallpaper-collection-step:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.wallpaper-collection .wallpaper-collection-step:focus-visible {
+  outline-offset: -3px;
+}
+
+.wallpaper-collection .wallpaper-collection-step:hover:not(:disabled) {
+  background: #fff7e8;
+}
+
+/* the cart's answer, in the gap below the card (so the card doesn't grow): added, or its error;
+   the source's green and red, darkened for WCAG AA */
+.wallpaper-collection .wallpaper-collection-cart-message {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  margin: 0;
+  color: #1e7d43;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  text-align: right;
+}
+
+.wallpaper-collection .wallpaper-collection-cart-message.is-error {
+  color: #d81921;
+}
+
+.wallpaper-collection .wallpaper-collection-cart.is-busy {
+  cursor: progress;
+}
+
+.wallpaper-collection .wallpaper-collection-step-count {
+  display: flex;
+  flex: 45 1 0;
+  align-items: center;
+  justify-content: center;
+  border: solid #fcaf17;
+  border-width: 0 1px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.wallpaper-collection .wallpaper-collection-shade {
+  box-sizing: border-box;
+  width: 21px;
+  height: 21px;
+  margin: 0 7px 0 0;
+  border-radius: 50%;
+  background: var(--shade);
+}
+
+/* the current shade: 15px, with a 21px ring 2px outside it */
+.wallpaper-collection .wallpaper-collection-shade[aria-pressed='true'] {
+  width: 15px;
+  height: 15px;
+  margin: 3px 7px 3px 3px;
+  box-shadow: 0 0 0 2px var(--background-color), 0 0 0 3px var(--wallpaper-collection-accent);
+}
+
+.wallpaper-collection .wallpaper-collection-more-shades {
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.wallpaper-collection .wallpaper-collection-more-shades:hover {
+  text-decoration: underline;
+}
+
+/* Load more */
+.wallpaper-collection .wallpaper-collection-more {
+  margin-top: 21px;
+  padding-bottom: 40px;
+  text-align: center;
+}
+
+.wallpaper-collection .wallpaper-collection-more:has(> [hidden]) {
+  margin-top: 0;
+}
+
+.wallpaper-collection .wallpaper-collection-load {
+  width: 100%;
+  padding: 9px 20px;
+  border: 1px solid var(--wallpaper-collection-accent);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--wallpaper-collection-accent);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  text-transform: uppercase;
+}
+
+.wallpaper-collection .wallpaper-collection-load:hover {
+  background: var(--wallpaper-collection-accent-hover);
+  color: var(--background-color);
+}
+
+@media (width < 992px) {
+  /* the full-screen filter panel: the page behind doesn't scroll */
+  body.wallpaper-collection-locked {
+    overflow: hidden;
+  }
+}
+
+@media (width >= 992px) {
+  .wallpaper-collection {
+    padding: 0 4%;
+  }
+
+  .wallpaper-collection .wallpaper-collection-heading h2 {
+    font-size: 30px;
+    line-height: 34px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-heading p {
+    margin-top: 20px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-body {
+    display: grid;
+    grid-template-columns: 265px minmax(0, 1fr);
+  }
+
+  /* at most the window's height less 100px (the source's script sets max-height to
+     innerHeight - 100), scrolling inside with its own scrollbar when the groups don't fit (e.g.
+     on a laptop screen), and kept in view below the header while the cards scroll (sticky, 100px
+     from the top), level with "Sort by", as on the source */
+  .wallpaper-collection .wallpaper-collection-filters {
+    position: sticky;
+    top: 100px;
+    box-sizing: border-box;
+    display: block;
+    align-self: start;
+    max-height: calc(100vh - 100px);
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  /* stuck below the header (the script's is-stuck): the source's 10px padding and white box */
+  .wallpaper-collection .wallpaper-collection-filters.is-stuck {
+    padding: 10px;
+    background: var(--background-color);
+  }
+
+  .wallpaper-collection .wallpaper-collection-filters-head {
+    box-sizing: border-box;
+    align-items: flex-start;
+    min-height: 31px;
+    margin-bottom: 14px;
+    padding: 0;
+  }
+
+  .wallpaper-collection .wallpaper-collection-close,
+  .wallpaper-collection .wallpaper-collection-filters-actions {
+    display: none;
+  }
+
+  /* 4.5px down: the source centres its 22px Clear all line in the 31px head */
+  .wallpaper-collection .wallpaper-collection-clear {
+    margin-top: 4.5px;
+    padding: 1px 6px;
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 13px;
+    text-decoration: underline;
+    text-transform: uppercase;
+    text-underline-offset: 4px;
+  }
+
+  /* the chevron, as the source draws it: an 8px box (borders inside) with its left and bottom
+     borders, 23px down and 2px in, turned down when closed and up when open */
+  .wallpaper-collection .wallpaper-collection-group-toggle::before {
+    display: none;
+  }
+
+  .wallpaper-collection .wallpaper-collection-group-toggle::after {
+    top: 23px;
+    box-sizing: border-box;
+    width: 8px;
+    height: 8px;
+    border: solid var(--wallpaper-collection-text);
+    border-width: 0 0 1px 1px;
+    background: none;
+    transform: rotate(-45deg);
+  }
+
+  .wallpaper-collection .wallpaper-collection-group-toggle[aria-expanded='true']::after {
+    transform: rotate(135deg);
+  }
+
+  .wallpaper-collection .wallpaper-collection-results {
+    padding-left: 40px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-bar {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    column-gap: 17px;
+    margin-bottom: 14px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-open {
+    display: none;
+  }
+
+  .wallpaper-collection .wallpaper-collection-pills {
+    order: 0;
+    width: auto;
+    padding-left: 20px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-pills:empty {
+    display: flex;
+  }
+
+  .wallpaper-collection .wallpaper-collection-sort {
+    flex: 0 0 auto;
+    align-items: flex-start;
+    min-height: 31px;
+    margin: 0 7px 0 auto;
+    padding: 0;
+    border: 0;
+    color: var(--wallpaper-collection-text);
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-sort label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    padding-right: 10px;
+    font-weight: 500;
+  }
+
+  .wallpaper-collection .wallpaper-collection-sort select {
+    align-self: flex-start;
+    width: auto;
+    height: 22px;
+    margin: 0;
+    padding: 0 15px 0 0;
+    font-weight: 700;
+    line-height: 22px;
+    background-position: right center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23222' stroke-width='1.3'/%3E%3C/svg%3E");
+
+    /* its own size (the mobile chevron's 13 x 7 would narrow it) */
+    background-size: 12px 8px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-sort select:focus-visible {
+    outline-offset: 2px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-left: 20px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-card-image {
+    margin-bottom: 23px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-card-name {
+    padding-right: 10px;
+    font-size: 13px;
+    line-height: 22px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-price {
+    margin: 0 0 7px;
+    padding-right: 10px;
+    font-weight: 300;
+    line-height: 34px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-wishlist {
+    top: 10px;
+    right: 10px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-shade,
+  .wallpaper-collection .wallpaper-collection-shade[aria-pressed='true'] {
+    margin-right: 10px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-more-shades {
+    font-size: 13px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-cart {
+    --wallpaper-collection-cart-width: 156px;
+    --wallpaper-collection-cart-height: 42px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-add {
+    gap: 10px;
+    padding: 0 20px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-add::after {
+    width: 18px;
+    height: 18px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-quantity {
+    width: 142px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-step {
+    font-size: 14px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-more {
+    padding-bottom: 70px;
+  }
+
+  .wallpaper-collection .wallpaper-collection-load {
+    width: 270px;
+    padding: 16px 20px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wallpaper-collection .wallpaper-collection-load {
+    transition: background-color 0.2s, color 0.2s;
+  }
+}
+
+
+/* ---- section layout (part of the self-contained base, see the top of this file) ---- */
+/* stylelint-disable max-line-length, no-duplicate-selectors */
+
+/* section layout: edge to edge, with the source's centred "Wallpaper Collection" heading (the
+   section's default content) */
+main > .section.wallpaper-collection-container,
+main .section.sectionpadding.wallpaper-collection-container {
+  /* the space above the heading, as on the source (36px below the header on mobile, 40px on
+     desktop): padding, so it can't collapse into the page's top margin as a margin would */
+  padding-top: 36px;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* the listing in the source's centred 1440px container (its side padding, the block's 4%, is
+   then 57.6px), so on wider windows the cards keep their 340px (images 320 x 267) instead of
+   growing; below 1440 the section's zoom scales it down, as on the source */
+main > .section.wallpaper-collection-container > div {
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0;
+}
+
+main > .section.wallpaper-collection-container > .default-content-wrapper {
+  box-sizing: border-box;
+  max-width: 780px;
+  margin: 0 auto 25px;
+  padding: 0 4%;
+  text-align: center;
+}
+
+main > .section.wallpaper-collection-container > .default-content-wrapper h2 {
+  margin: 0 0 15px;
+  color: #222;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+main > .section.wallpaper-collection-container > .default-content-wrapper > :last-child {
+  margin-bottom: 0;
+}
+
+@media (width >= 992px) {
+  main > .section.wallpaper-collection-container,
+  main .section.sectionpadding.wallpaper-collection-container {
+    padding-top: 40px;
+  }
+
+  main > .section.wallpaper-collection-container > .default-content-wrapper {
+    padding: 0;
+  }
+
+  main > .section.wallpaper-collection-container > .default-content-wrapper h2 {
+    margin-bottom: 20px;
+    font-size: 30px;
+    line-height: 34px;
+  }
+}
+
+/* the source zooms the whole page below 1440px; scale the section the same way (by less when the
+   host page already zooms the body and sets --body-zoom) */
+@media (width >= 992px) and (width < 1100px) {
+  main > .section.wallpaper-collection-container {
+    zoom: calc(0.7 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1100px) and (width < 1200px) {
+  main > .section.wallpaper-collection-container {
+    zoom: calc(0.75 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1200px) and (width < 1280px) {
+  main > .section.wallpaper-collection-container {
+    zoom: calc(0.8 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1280px) and (width < 1366px) {
+  main > .section.wallpaper-collection-container {
+    zoom: calc(0.85 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1366px) and (width < 1440px) {
+  main > .section.wallpaper-collection-container {
+    zoom: calc(0.9 / var(--body-zoom, 1));
+  }
+}
+
+/* no floating "Book Free Site Visit" button on mobile on pages with this block: the header's
+   CTA, which the header floats at the bottom right up to 991px (the desktop header keeps it) */
+@media (width <= 991px) {
+  body:has(.wallpaper-collection) header .header .header-cta {
+    display: none;
+  }
+}
+
+/* stylelint-enable max-line-length, no-duplicate-selectors */
+
+/* ---- end of section layout ---- */

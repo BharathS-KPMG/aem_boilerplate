@@ -1,0 +1,441 @@
+/* Price Carousel: centred title + arrows, then a scrolling row of image cards (price shown in the image) */
+
+/*
+ * Self-contained: every size, gap and colour is defined here (from the Figma design)
+ * and every var() has a fallback, so the block renders the same on any site,
+ * whatever global tokens that site has (or if these properties are removed).
+ * No font-family is set: the block uses the host site's font.
+ */
+.price-carousel {
+  /* two-tone background: band behind the title and the top of the cards, bottom colour below
+     (both can be authored; JS then sets them on the block) */
+  --price-carousel-band: #232426;
+  --price-carousel-bottom: #fff;
+
+  /* text on the band (title, arrows) and on the bottom colour (buttons, dots);
+     JS switches them to dark/light to contrast with authored colours */
+  --price-carousel-text: #fff;
+  --price-carousel-bottom-text: #000;
+  --price-carousel-dot: #c9cacc;
+  --price-carousel-dot-active: #232426;
+
+  /* mobile sizes */
+  --price-carousel-inset: 24px;
+  --price-carousel-gap: 16px;
+  --price-carousel-card-width: 250px;
+  --price-carousel-media-height: 250px;
+
+  /* how far the band reaches down the card image */
+  --price-carousel-split: 206px;
+
+  display: block;
+  box-sizing: border-box;
+  width: var(--price-carousel-viewport, 100vw);
+  max-width: none;
+  margin: 0 calc(50% - var(--price-carousel-viewport, 100vw) / 2);
+  padding: 0 0 32px;
+  background: var(--price-carousel-bottom, #fff);
+  color: var(--price-carousel-text, #fff);
+  text-align: left;
+}
+
+/* the full-width block must not cause a horizontal page scrollbar (100vw includes the scrollbar) */
+.section:has(.price-carousel) {
+  overflow-x: clip;
+}
+
+.price-carousel *,
+.price-carousel *::before,
+.price-carousel *::after {
+  box-sizing: border-box;
+}
+
+/* --- Header: centred title, arrows on the right (desktop) --- */
+.price-carousel .price-carousel-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto) minmax(0, 1fr);
+  align-items: center;
+  column-gap: 16px;
+  margin: 0;
+  padding: 40px var(--price-carousel-inset, 24px) 48px;
+  background: var(--price-carousel-band, #232426);
+}
+
+.price-carousel .price-carousel-title {
+  grid-column: 2;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: normal;
+  color: var(--price-carousel-text, #fff);
+  text-align: center;
+  text-transform: none;
+}
+
+/* arrows are for desktop; mobile users swipe or use the dots */
+.price-carousel .price-carousel-controls {
+  display: none;
+  grid-column: 3;
+  justify-self: end;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.price-carousel .price-carousel-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  color: var(--price-carousel-text, #fff);
+  font: inherit;
+  line-height: 1;
+  text-transform: none;
+  transform: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.price-carousel .price-carousel-arrow svg {
+  display: block;
+}
+
+.price-carousel .price-carousel-arrow-previous svg {
+  transform: rotate(180deg);
+}
+
+.price-carousel .price-carousel-arrow:hover,
+.price-carousel .price-carousel-arrow:active {
+  border: 1px solid currentcolor;
+  background: transparent;
+  box-shadow: none;
+  color: var(--price-carousel-text, #fff);
+  transform: none;
+}
+
+.price-carousel .price-carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* --- Track: native horizontal scroll with snapping, scrollbar hidden.
+   Its background carries the band/bottom split across the full width. --- */
+.price-carousel .price-carousel-track {
+  display: flex;
+  gap: var(--price-carousel-gap, 16px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--price-carousel-inset, 24px);
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  margin: 0;
+  padding: 0 var(--price-carousel-inset, 24px);
+  background: linear-gradient(to bottom, var(--price-carousel-band, #232426) var(--price-carousel-split, 206px), var(--price-carousel-bottom, #fff) var(--price-carousel-split, 206px));
+  list-style: none;
+}
+
+.price-carousel .price-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Card --- */
+.price-carousel .price-carousel-card {
+  /* keeps the hidden screen-reader text inside the card (otherwise it is placed
+     relative to the page and makes phones scroll sideways) */
+  position: relative;
+  display: flex;
+  flex: 0 0 var(--price-carousel-card-width, 250px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  width: var(--price-carousel-card-width, 250px);
+  margin: 0;
+  padding: 0;
+  scroll-snap-align: start;
+  list-style: none;
+}
+
+.price-carousel .price-carousel-card::before,
+.price-carousel .price-carousel-card::marker {
+  content: none;
+}
+
+.price-carousel .price-carousel-card-media {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: var(--price-carousel-media-height, 250px);
+  margin: 0;
+  padding: 0;
+  border-radius: 8px;
+  background: #3a3b3e;
+}
+
+.price-carousel .price-carousel-card-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.price-carousel .price-carousel-card-media img {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+/* --- "Shop now" outlined pill --- */
+.price-carousel .price-carousel-button,
+.price-carousel .price-carousel-button:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  margin: 0;
+  padding: 14px 20px;
+  border: 1px solid var(--price-carousel-bottom-text, #000);
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--price-carousel-bottom-text, #000);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 140%;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  transform: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* hover: Asian Paints yellow, dark text */
+.price-carousel .price-carousel-button:hover,
+.price-carousel .price-carousel-button:active {
+  border: 1px solid var(--price-carousel-button-hover-bg, #fcaf17);
+  background: var(--price-carousel-button-hover-bg, #fcaf17);
+  box-shadow: none;
+  color: var(--price-carousel-button-hover-text, #000);
+  text-decoration: none;
+  transform: none;
+  cursor: pointer;
+}
+
+.price-carousel .price-carousel-button-icon {
+  display: inline-flex;
+  transition: all 0.2s ease-in;
+}
+
+/* arrow slides right on hover (and keyboard focus) */
+.price-carousel .price-carousel-button:hover .price-carousel-button-icon,
+.price-carousel .price-carousel-button:focus-visible .price-carousel-button-icon {
+  transform: translateX(6px);
+}
+
+.price-carousel .price-carousel-button-icon svg {
+  display: block;
+}
+
+/* --- Pagination dots (mobile) --- */
+.price-carousel .price-carousel-dots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  margin: 16px 0 0;
+  padding: 0 var(--price-carousel-inset, 24px);
+}
+
+/* the button is the 24px tap target; the visible dot is its ::before */
+.price-carousel .price-carousel-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 24px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  transform: none;
+  cursor: pointer;
+  transition: width 0.2s ease;
+}
+
+.price-carousel .price-carousel-dot::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--price-carousel-dot, #CACBCC);
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.price-carousel .price-carousel-dot:hover,
+.price-carousel .price-carousel-dot:active {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.price-carousel .price-carousel-dot.is-active {
+  width: 30px;
+}
+
+.price-carousel .price-carousel-dot.is-active::before {
+  width: 24px;
+  background: var(--price-carousel-dot-active, #232426);
+}
+
+/* focus rings (after the base rules so specificity ascends) */
+.price-carousel .price-carousel-arrow:focus-visible {
+  outline: 2px solid var(--price-carousel-text, #fff);
+  outline-offset: 2px;
+}
+
+.price-carousel .price-carousel-button:focus-visible,
+.price-carousel .price-carousel-dot:focus-visible {
+  outline: 2px solid var(--price-carousel-bottom-text, #000);
+  outline-offset: 2px;
+}
+
+.price-carousel .price-carousel-track:focus-visible {
+  outline: 2px solid var(--price-carousel-text, #fff);
+  outline-offset: -2px;
+}
+
+.price-carousel [hidden] {
+  display: none;
+}
+
+/* screen-reader-only text (card price on "Shop now", new-tab hint) */
+.price-carousel .price-carousel-sr-only {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .price-carousel .price-carousel-track {
+    scroll-behavior: auto;
+  }
+
+  .price-carousel .price-carousel-arrow,
+  .price-carousel .price-carousel-button,
+  .price-carousel .price-carousel-button-icon,
+  .price-carousel .price-carousel-dot,
+  .price-carousel .price-carousel-dot::before {
+    transition: none;
+  }
+}
+
+@media (width >= 600px) {
+  .price-carousel {
+    --price-carousel-inset: 32px;
+    --price-carousel-gap: 20px;
+    --price-carousel-card-width: 300px;
+    --price-carousel-media-height: 260px;
+    --price-carousel-split: 206px;
+  }
+
+  .price-carousel .price-carousel-header {
+    padding: 40px var(--price-carousel-inset, 32px) 48px;
+  }
+
+  .price-carousel .price-carousel-track {
+    gap: var(--price-carousel-gap, 20px);
+    scroll-padding-inline: var(--price-carousel-inset, 32px);
+    padding: 0 var(--price-carousel-inset, 32px);
+  }
+
+  .price-carousel .price-carousel-card {
+    flex-basis: var(--price-carousel-card-width, 300px);
+    width: var(--price-carousel-card-width, 300px);
+  }
+
+  .price-carousel .price-carousel-card-media {
+    height: var(--price-carousel-media-height, 260px);
+  }
+
+  .price-carousel .price-carousel-dots {
+    padding: 0 var(--price-carousel-inset, 32px);
+  }
+}
+
+@media (width >= 900px) {
+  /* desktop: 38px on the left, cards run to the right screen edge, arrows 36px from it */
+  .price-carousel {
+    --price-carousel-inset: 38px;
+    --price-carousel-gap: 20px;
+    --price-carousel-card-width: 440px;
+    --price-carousel-media-height: 283px;
+    --price-carousel-split: 200px;
+
+    padding: 0 0 40px;
+  }
+
+  .price-carousel .price-carousel-header {
+      padding: 48px 40px 40px var(--price-carousel-inset, 38px);
+  }
+
+  .price-carousel .price-carousel-title {
+    font-size: 32px;
+    line-height: 41.6px;
+  }
+
+  .price-carousel .price-carousel-controls {
+    display: flex;
+  }
+
+  .price-carousel .price-carousel-track {
+    gap: var(--price-carousel-gap, 20px);
+    scroll-padding-inline: var(--price-carousel-inset, 38px);
+    padding: 0 var(--price-carousel-inset, 38px);
+    background: linear-gradient(to bottom, var(--price-carousel-band, #232426) var(--price-carousel-split, 200px), var(--price-carousel-bottom, #fff) var(--price-carousel-split, 200px));
+  }
+
+  .price-carousel .price-carousel-card {
+    flex-basis: var(--price-carousel-card-width, 440px);
+    width: var(--price-carousel-card-width, 440px);
+  }
+
+  .price-carousel .price-carousel-card-media {
+    height: var(--price-carousel-media-height, 283px);
+    border-radius: 0;
+  }
+
+  /* dots are for mobile; desktop uses the arrows */
+  .price-carousel .price-carousel-dots {
+    display: none;
+  }
+}

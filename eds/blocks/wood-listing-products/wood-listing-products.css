@@ -1,0 +1,918 @@
+/* values follow the live AEM productlisting (wood listing page); filters move to a side column from 992px like the live site */
+
+/* full page width, grey background like live */
+main > .section.wood-listing-products-container:has(.wood-listing-products) {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+main > .section > div:has(> .wood-listing-products) {
+  max-width: none;
+  padding: 0;
+}
+
+.wood-listing-products {
+  background: #f8f8f8;
+  color: #222;
+}
+
+.wood-listing-products button {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* ---------- filters (mobile: button + full screen panel) ---------- */
+.wood-listing-products .wood-listing-products-filters {
+  padding: 20px 20px 40px;
+}
+
+.wood-listing-products .wood-listing-products-filters-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wood-listing-products .wood-listing-products-filters-toggle {
+  position: relative;
+  width: 100%;
+  padding: 14px 15px;
+  border: 1px solid #431a80;
+  color: #431a80;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+/* down chevron */
+.wood-listing-products .wood-listing-products-filters-toggle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentcolor;
+  border-bottom: 1.5px solid currentcolor;
+  transform: translateY(-75%) rotate(45deg);
+}
+
+.wood-listing-products .wood-listing-products-filters-head .wood-listing-products-clear {
+  display: none;
+}
+
+.wood-listing-products .wood-listing-products-filters-panel {
+  display: none;
+}
+
+.wood-listing-products .wood-listing-products-filters.is-open .wood-listing-products-filters-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 1051;
+  display: block;
+  padding: 20px 20px 70px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+body.wood-listing-products-modal-open {
+  overflow: hidden;
+}
+
+.wood-listing-products .wood-listing-products-filters-groups {
+  margin: 0 0 20px;
+}
+
+.wood-listing-products .wood-listing-products-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid #e6e6e6;
+}
+
+.wood-listing-products .wood-listing-products-group:first-child {
+  border-top: 0;
+}
+
+.wood-listing-products .wood-listing-products-group legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+}
+
+.wood-listing-products .wood-listing-products-group-toggle {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 18px 20px 20px 0;
+  color: #222;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 14px;
+  letter-spacing: 1px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+/* minus when open, plus when closed (mobile) */
+.wood-listing-products .wood-listing-products-group-toggle::before,
+.wood-listing-products .wood-listing-products-group-toggle::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  right: 2px;
+  width: 10px;
+  height: 2px;
+  background: currentcolor;
+}
+
+.wood-listing-products .wood-listing-products-group-toggle::before {
+  transform: rotate(90deg);
+}
+
+.wood-listing-products .wood-listing-products-group.is-open .wood-listing-products-group-toggle::before {
+  display: none;
+}
+
+.wood-listing-products .wood-listing-products-group-options {
+  clear: both;
+  display: none;
+}
+
+.wood-listing-products .wood-listing-products-group.is-open .wood-listing-products-group-options {
+  display: block;
+}
+
+.wood-listing-products .wood-listing-products-option {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin: 0 0 10px;
+  padding: 7px 0;
+  color: #2a2a2a;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.wood-listing-products .wood-listing-products-option input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1px solid #9b9b9b;
+  border-radius: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* checked: purple box with a white tick */
+.wood-listing-products .wood-listing-products-option input:checked {
+  border-color: #431a80;
+  background: #431a80 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3.2L15 7' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center / 18px no-repeat;
+}
+
+.wood-listing-products .wood-listing-products-option input:checked + .wood-listing-products-option-name {
+  color: #222;
+  font-weight: 500;
+}
+
+.wood-listing-products .wood-listing-products-option input:focus-visible {
+  outline: 2px solid #431a80;
+  outline-offset: 2px;
+}
+
+/* options that would give no products */
+.wood-listing-products .wood-listing-products-option.is-disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.wood-listing-products .wood-listing-products-option.is-disabled input {
+  cursor: default;
+}
+
+/* fixed Clear all / Apply bar at the bottom of the mobile panel */
+.wood-listing-products .wood-listing-products-filters-actions {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  z-index: 1052;
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+}
+
+.wood-listing-products .wood-listing-products-filters-actions button {
+  width: 150px;
+  padding: 14px 15px;
+  border: 1px solid #431a80;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  text-transform: uppercase;
+}
+
+.wood-listing-products .wood-listing-products-filters-actions .wood-listing-products-clear {
+  color: #431a80;
+}
+
+.wood-listing-products .wood-listing-products-filters-actions .wood-listing-products-apply {
+  background: #431a80;
+  color: #fff;
+}
+
+/* ---------- results ---------- */
+.wood-listing-products .wood-listing-products-results {
+  position: relative;
+}
+
+.wood-listing-products .wood-listing-products-disclaimer {
+  margin: -25px 20px 10px;
+  color: #2f2f2f;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17.76px;
+}
+
+.wood-listing-products .wood-listing-products-card-star {
+  color: #ee4137;
+}
+
+.wood-listing-products .wood-listing-products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0 0 20px;
+  list-style: none;
+}
+
+.wood-listing-products .wood-listing-products-empty {
+  margin: 0;
+  padding: 40px 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ---------- card (mobile: title, image, features, description, price, button) ---------- */
+.wood-listing-products .wood-listing-products-card {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  margin: 0 0 20px;
+  padding: 0 20px;
+}
+
+.wood-listing-products .wood-listing-products-card[hidden] {
+  display: none;
+}
+
+.wood-listing-products .wood-listing-products-card-body {
+  display: contents;
+}
+
+.wood-listing-products .wood-listing-products-card-title {
+  order: 1;
+  margin: 0;
+  padding: 20px 50px 12px 20px;
+  background: #fff;
+  color: #3b3b3b;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.92px;
+  text-transform: uppercase;
+}
+
+.wood-listing-products .wood-listing-products-card-image {
+  order: 2;
+  padding: 6px 20px 7px;
+  background: #fff;
+  text-align: center;
+}
+
+.wood-listing-products .wood-listing-products-card-image img {
+  display: block;
+  width: auto;
+  height: 170px;
+  margin: 0 auto;
+}
+
+.wood-listing-products .wood-listing-products-card-info {
+  order: 3;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 0 20px;
+  background: #fff;
+}
+
+.wood-listing-products .wood-listing-products-card-description {
+  margin: 0;
+  padding: 0 0 10px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0.58px;
+}
+
+.wood-listing-products .wood-listing-products-card-features {
+  margin: 5px 0 0;
+}
+
+.wood-listing-products .wood-listing-products-card-features > span {
+  display: inline-block;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+.wood-listing-products .wood-listing-products-card-features ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.wood-listing-products .wood-listing-products-card-features li {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0.5px;
+}
+
+/* dash separator, same width as live */
+.wood-listing-products .wood-listing-products-card-features li::before {
+  content: "-";
+  display: inline-block;
+  width: 8.4px;
+}
+
+.wood-listing-products .wood-listing-products-card-bottom {
+  order: 4;
+  padding: 10px 20px;
+  background: #fff;
+}
+
+.wood-listing-products .wood-listing-products-card-price {
+  margin: 0 0 20px;
+}
+
+.wood-listing-products .wood-listing-products-card-price p {
+  margin: 0;
+}
+
+.wood-listing-products .wood-listing-products-card-mrp {
+  color: #161515;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 21.86px;
+}
+
+.wood-listing-products .wood-listing-products-card-symbol {
+  margin-right: 3px;
+  font-weight: 400;
+}
+
+.wood-listing-products .wood-listing-products-card-value {
+  padding-left: 3px;
+}
+
+.wood-listing-products .wood-listing-products-card-tax {
+  color: #4d4d4d;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 15.03px;
+}
+
+.wood-listing-products .wood-listing-products-card-tax .wood-listing-products-card-star {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.39px;
+}
+
+.wood-listing-products .wood-listing-products-card-cta {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid #431a80;
+  border-radius: 2px;
+  color: #431a80;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.wood-listing-products .wood-listing-products-card-cta:hover,
+.wood-listing-products .wood-listing-products-card-cta:focus-visible {
+  background: #5e25b2;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* two cards per row from 576px */
+@media (width >= 576px) {
+  .wood-listing-products .wood-listing-products-card {
+    flex-basis: 49.2%;
+  }
+
+  .wood-listing-products .wood-listing-products-card-title {
+    font-size: 20px;
+  }
+}
+
+/* image left, text right from 768px */
+@media (width >= 768px) {
+  .wood-listing-products .wood-listing-products-card {
+    flex-direction: row;
+    padding-bottom: 0;
+  }
+
+  .wood-listing-products .wood-listing-products-card > * {
+    background: #fff;
+  }
+
+  /* image column keeps the card at least as tall as live (438px + 40px) */
+  .wood-listing-products .wood-listing-products-card-image {
+    order: 0;
+    flex: 0 0 calc(50% - 10px);
+    box-sizing: border-box;
+    min-height: 478px;
+    padding: 90px 0 0;
+  }
+
+  .wood-listing-products .wood-listing-products-card-image img {
+    height: 155px;
+  }
+
+  .wood-listing-products .wood-listing-products-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    padding: 50px 20px 40px 15px;
+  }
+
+  .wood-listing-products .wood-listing-products-card-title,
+  .wood-listing-products .wood-listing-products-card-info,
+  .wood-listing-products .wood-listing-products-card-bottom {
+    padding: 0;
+  }
+
+  .wood-listing-products .wood-listing-products-card-title {
+    margin: 0 0 25px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+  }
+
+  .wood-listing-products .wood-listing-products-grid {
+    padding-bottom: 50px;
+  }
+
+  .wood-listing-products .wood-listing-products-card-info {
+    display: block;
+  }
+
+  .wood-listing-products .wood-listing-products-card-description {
+    letter-spacing: 0.5px;
+  }
+
+  .wood-listing-products .wood-listing-products-card-features {
+    margin: 0;
+  }
+
+  .wood-listing-products .wood-listing-products-card-features > span {
+    display: block;
+    padding: 1px 0;
+  }
+
+  .wood-listing-products .wood-listing-products-card-features ul {
+    margin: 0;
+  }
+
+  .wood-listing-products .wood-listing-products-card-features li {
+    margin: 0 5px 10px 0;
+    padding-right: 10px;
+    line-height: 21px;
+  }
+
+  .wood-listing-products .wood-listing-products-card-bottom {
+    margin-top: auto;
+    padding-top: 10px;
+  }
+
+  .wood-listing-products .wood-listing-products-card-price .wood-listing-products-card-mrp {
+    margin-bottom: 5px;
+  }
+}
+
+/* desktop: filter column on the left, results on the right */
+@media (width >= 992px) {
+  .wood-listing-products .wood-listing-products-layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .wood-listing-products .wood-listing-products-filters {
+    position: sticky;
+    top: 100px;
+    flex: 0 0 24%;
+    box-sizing: border-box;
+    max-height: 900px;
+    padding: 0 40px 0 70px;
+    overflow-y: auto;
+    background: #fff;
+    box-shadow: 0 -7px 14px 0 rgb(0 0 0 / 15%);
+  }
+
+  .wood-listing-products .wood-listing-products-filters-head {
+    align-items: flex-start;
+    margin: 0 0 14px;
+    padding: 50px 0 0;
+  }
+
+  .wood-listing-products .wood-listing-products-filters-toggle {
+    width: auto;
+    margin: 0 0 7px;
+    padding: 0;
+    border: 0;
+    color: #222;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 26px;
+    letter-spacing: 1px;
+    cursor: default;
+  }
+
+  .wood-listing-products .wood-listing-products-filters-toggle::after {
+    display: none;
+  }
+
+  .wood-listing-products .wood-listing-products-filters-head .wood-listing-products-clear {
+    display: block;
+    margin-top: 6px;
+    padding: 1px 6px;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 13px;
+    text-transform: uppercase;
+  }
+
+  .wood-listing-products .wood-listing-products-filters-panel,
+  .wood-listing-products .wood-listing-products-filters.is-open .wood-listing-products-filters-panel {
+    position: static;
+    display: block;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .wood-listing-products .wood-listing-products-filters-actions {
+    display: none;
+  }
+
+  .wood-listing-products .wood-listing-products-group,
+  .wood-listing-products .wood-listing-products-group:first-child {
+    border-top: 1px solid #e6e6e6;
+  }
+
+  .wood-listing-products .wood-listing-products-group-toggle {
+    font-weight: 500;
+  }
+
+  /* chevron: up when open, down when closed */
+  .wood-listing-products .wood-listing-products-group-toggle::before {
+    display: none;
+  }
+
+  .wood-listing-products .wood-listing-products-group-toggle::after {
+    top: 20px;
+    right: 4px;
+    width: 7px;
+    height: 7px;
+    border-top: 1.5px solid currentcolor;
+    border-left: 1.5px solid currentcolor;
+    background: none;
+    transform: rotate(45deg);
+  }
+
+  .wood-listing-products .wood-listing-products-group:not(.is-open) .wood-listing-products-group-toggle::after {
+    top: 15px;
+    transform: rotate(225deg);
+  }
+
+  .wood-listing-products .wood-listing-products-option {
+    gap: 13px;
+    color: #222;
+  }
+
+  .wood-listing-products .wood-listing-products-results {
+    flex: 0 0 75%;
+    box-sizing: border-box;
+    padding: 50px 70px 0 0;
+  }
+
+  .wood-listing-products .wood-listing-products-disclaimer {
+    position: absolute;
+    top: 12px;
+    right: 70px;
+    margin: 0;
+  }
+
+  .wood-listing-products .wood-listing-products-card {
+    padding: 0;
+  }
+
+  .wood-listing-products .wood-listing-products-card-title {
+    width: 80%;
+    text-transform: capitalize;
+  }
+
+  .wood-listing-products .wood-listing-products-card-image {
+    min-height: 468px;
+    padding-left: 20px;
+  }
+
+  .wood-listing-products .wood-listing-products-card-image img {
+    height: 170px;
+  }
+}
+
+/* results padding between 1200px and 1280px */
+@media (width >= 1200px) and (width <= 1280px) {
+  .wood-listing-products .wood-listing-products-results {
+    padding-right: 60px;
+  }
+}
+
+/* ===== FIX WISHLIST HEART : START ===== */
+
+/* the live card's heart: 40px, 10px from the top and 15px from the right of the white card (the
+   card's content box: inside its 20px side padding below 992px); filled when saved. The live
+   sprite's two hearts (heart.png, heart-selected.png) from the site's icons folder (../../icons:
+   /eds/icons on stg) */
+/* stylelint-disable no-descending-specificity -- new element, no overlap with the rules above */
+.wood-listing-products .wood-listing-products-grid > .wood-listing-products-card {
+  position: relative;
+}
+
+.wood-listing-products .wood-listing-products-wishlist {
+  position: absolute;
+  top: 10px;
+  right: 35px;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent url('../../icons/wishlist-unselected.svg') center / 24px 24px no-repeat;
+  cursor: pointer;
+}
+
+.wood-listing-products .wood-listing-products-wishlist[aria-pressed='true'] {
+  background-image: url('../../icons/wishlist-selected.svg');
+}
+
+.wood-listing-products .wood-listing-products-wishlist.is-busy {
+  cursor: progress;
+}
+
+.wood-listing-products .wood-listing-products-wishlist:focus-visible {
+  outline: 2px solid #5e25b2;
+  outline-offset: 2px;
+}
+
+@media (width >= 992px) {
+  .wood-listing-products .wood-listing-products-wishlist {
+    right: 15px;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */
+
+/* ===== FIX WISHLIST HEART : END ===== */
+
+/* ===== FIX MATCH LIVE (filter panel scroll, tablet card) : START ===== */
+
+/* the panel's scrollbar: the browser's own, as on live (a host page's body scrollbar-color,
+   e.g. stg's, is inherited and turns it into a wide coloured one) */
+main .wood-listing-products {
+  scrollbar-color: auto;
+}
+
+/* 768-991px, as live: Key Features above the description, 12px around the label, 20px between
+   features, a wrapped feature indented under its text */
+@media (width >= 768px) and (width < 992px) {
+  .wood-listing-products .wood-listing-products-card-body .wood-listing-products-card-info {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .wood-listing-products .wood-listing-products-card-info .wood-listing-products-card-features > span {
+    padding: 12px 0;
+  }
+
+  .wood-listing-products .wood-listing-products-card-info .wood-listing-products-card-features li {
+    display: flex;
+    margin-bottom: 20px;
+    line-height: 19.5px;
+  }
+
+  .wood-listing-products .wood-listing-products-card-info .wood-listing-products-card-features li::before {
+    flex: none;
+  }
+}
+
+/* desktop, as live: the sticky panel is the screen's height less its 100px top (live sets
+   max-height to window height - 100px) and fills it (live: a stretched flex item), so it fits
+   on screen while it sticks and its bottom and scrollbar end show; it scrolls up with the end
+   of the listing */
+@media (width >= 992px) {
+  .wood-listing-products .wood-listing-products-layout > .wood-listing-products-filters {
+    align-self: stretch;
+    max-height: calc(100vh - 100px);
+  }
+}
+
+/* ===== FIX MATCH LIVE (filter panel scroll, tablet card) : END ===== */
+
+/* ===== FIX COMPARE (optional, Compare | Yes) : START ===== */
+
+/* "+ COMPARE" under the card's button, as on the AEM listing: a green tick when ticked */
+.wood-listing-products .wood-listing-products-compare {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  color: #431a80;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.wood-listing-products .wood-listing-products-compare input[data-compare-code] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.wood-listing-products .wood-listing-products-compare-mark {
+  position: relative;
+  box-sizing: border-box;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #2a2a2a;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.wood-listing-products .wood-listing-products-compare-mark::before {
+  content: '+';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2a2a2a;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.wood-listing-products .wood-listing-products-compare input:checked + .wood-listing-products-compare-mark {
+  border-color: #00c853;
+  background: #00c853;
+}
+
+.wood-listing-products .wood-listing-products-compare input:checked + .wood-listing-products-compare-mark::before {
+  content: '';
+  inset: 2px 0 auto 5px;
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.wood-listing-products .wood-listing-products-compare input:focus-visible + .wood-listing-products-compare-mark {
+  outline: 2px solid #431a80;
+  outline-offset: 2px;
+}
+
+/* the limit is reached: no more products can be ticked */
+.wood-listing-products .wood-listing-products-compare.is-disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* "Compare Products →": shown from 2 ticked products, fixed at the bottom right as on the AEM listing */
+.wood-listing-products .wood-listing-products-compare-now {
+  position: fixed;
+  right: 68px;
+  bottom: 33px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 45px;
+  background: linear-gradient(180deg, #fec940, #f90);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+  color: #1e1e1e;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.wood-listing-products .wood-listing-products-compare-now[hidden] {
+  display: none;
+}
+
+/* hover / keyboard focus as on the AEM publisher: the button stays yellow (the lighter yellow of
+   the site's yellow buttons on hover, as the header's "Book Free Site Visit"); the arrow slides right */
+.wood-listing-products .wood-listing-products-compare-now:hover,
+.wood-listing-products .wood-listing-products-compare-now:focus-visible {
+  background: #fdbf45;
+  color: #1e1e1e;
+  text-decoration: none;
+}
+
+.wood-listing-products .wood-listing-products-compare-now:focus-visible {
+  outline: 2px solid #431a80;
+  outline-offset: 2px;
+}
+
+.wood-listing-products .wood-listing-products-compare-arrow {
+  width: 17px;
+  height: 20px;
+  background: currentcolor;
+  mask: url('../../icons/arrow-icon.svg') center / 20px 20px no-repeat;
+  transition: transform 0.2s ease-in;
+}
+
+.wood-listing-products .wood-listing-products-compare-now:hover .wood-listing-products-compare-arrow,
+.wood-listing-products .wood-listing-products-compare-now:focus-visible .wood-listing-products-compare-arrow {
+  transform: translateX(6px);
+}
+
+/* read by screen readers only */
+.wood-listing-products .wood-listing-products-compare-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (width >= 768px) {
+  .wood-listing-products .wood-listing-products-compare-now {
+    right: 88px;
+  }
+}
+
+@media (width >= 992px) {
+  .wood-listing-products .wood-listing-products-compare-now {
+    right: 106px;
+    bottom: 61px;
+    gap: 10px;
+    padding: 9px 18px;
+    font-size: 14px;
+    line-height: 16px;
+  }
+}
+
+/* ===== FIX COMPARE : END ===== */

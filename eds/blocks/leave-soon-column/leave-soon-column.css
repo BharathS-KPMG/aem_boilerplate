@@ -1,0 +1,156 @@
+.leave-soon-column-wrapper {
+    padding: 20px 33px 29px;
+    background-color: #FDF3E4;
+}
+
+.leave-soon-column-wrapper .leave-soon-column .banner img {
+    width: 100%;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.leave-soon-column-wrapper.banner-view {
+    padding: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero {
+    display: flex;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-eyebrow {
+    color:#1E1A13;
+    font-size:22px;
+    line-height: 24px;
+    margin: 0 0 15px;
+    font-weight: 500;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-title {
+    color:#F3493E;
+    font-size:28px;
+    line-height: 31px;
+    font-weight: 700;
+    margin: 0;
+
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-loaction  {
+    margin-top:30px
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-loaction span {
+    color:#4C4E52;
+    font-size:12px;
+    line-height: 100%;
+    font-weight: 400;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-loaction a {
+    color:#000;
+    font-weight: 700;
+    font-size:12px;
+    line-height: 21px;
+    text-decoration: underline;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-loaction a::after {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+background: url('../../icons/location-02.svg');
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-hero-shades {
+    display: flex;
+    background: white;
+    padding:20px;
+    border-radius: 6px;
+    max-width: 490px;
+    width: 100%;
+    gap:15px;
+}
+
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-hero-shades .shade-card .shade-card-swatch   {
+    width: 78px;
+    height: 78px;
+    border-top-right-radius: 10px;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-hero-shades .shade-card .shade-name {
+    font-size: 12px;
+    line-height: 13.2px; 
+    font-weight: 500;
+    color: #75787B;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-hero-shades .shade-card .shade-code {
+    font-size: 12px;
+    line-height: 7.16px; 
+    font-weight: 500;
+    color: #75787B;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-hero-shades .shade-card .shade-card-name {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+@media (width <= 991px) {
+  .leave-soon-column-wrapper {
+     padding: 15px 8px 6px;
+  }
+
+  .leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero {
+    display: block;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-hero-shades .shade-card .shade-card-swatch {
+    width:55px;
+    height: 55px;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-hero-shades {
+    gap: 9px;
+}
+
+  .leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-eyebrow {
+    color:#1E1A13;
+    font-size:16px;
+    line-height: 24px;
+    margin: 0 0 15px;
+    font-weight: 500;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-title {
+    color:#F3493E;
+    font-size:16px;
+    line-height: 23px;
+    font-weight: 700;
+
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-loaction  {
+    margin-top:10px
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-loaction span {
+    color:#4C4E52;
+    font-size:11px;
+    line-height: 100%;
+    font-weight: 400;
+}
+
+.leave-soon-column-wrapper .leave-soon-column.block .leave-soon-hero .leave-soon-loaction a {
+    color:#000;
+    font-weight: 700;
+    font-size:10px;
+    line-height: 21px;
+    text-decoration: underline;
+}
+}

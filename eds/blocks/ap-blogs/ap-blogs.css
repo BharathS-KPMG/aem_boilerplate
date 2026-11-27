@@ -1,0 +1,2083 @@
+/*
+ * AP Blogs: the whole blog details page in one block, like live
+ * (www.asianpaints.com/blogs/..., asianpaints-blog-details-page-template).
+ * Values from templates/blog-details and the blog blocks (blog-tags, profile-info,
+ * table-of-contents, columns blog, video, blog-like, blog-promo, form enquiry,
+ * blog-next-article). Mobile first; the live "tabToLarge" breakpoint is 992px.
+ * At 1440px: 45px side space, left 292px, 45px gap, article 652px, 64px gap, right 297px.
+ */
+
+/* the block's section is edge to edge */
+main > .section.ap-blogs-container {
+  margin: 0;
+  padding: 0;
+  text-align: start;
+}
+
+main > .section.ap-blogs-container > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* stylelint-disable no-descending-specificity -- rules are grouped per part of the page */
+.ap-blogs {
+  --ap-blogs-text: #222;
+  --ap-blogs-link: #00e;
+
+  background-color: #fff;
+  color: var(--ap-blogs-text);
+  font-size: 14px;
+  line-height: 24px;
+  text-align: left;
+}
+
+.ap-blogs img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ----- layout: stacked below 992px, in the live mobile order ----- */
+.ap-blogs .ap-blogs-layout {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.ap-blogs .ap-blogs-main,
+.ap-blogs .ap-blogs-right {
+  display: contents;
+}
+
+.ap-blogs .ap-blogs-left {
+  order: 1;
+  margin: 0 0 30px;
+}
+
+.ap-blogs .ap-blogs-left.ap-blogs-left-empty {
+  margin: 0;
+}
+
+.ap-blogs .ap-blogs-head {
+  order: 2;
+}
+
+.ap-blogs .ap-blogs-article {
+  order: 4;
+}
+
+/* ----- banner: full width, the image keeps its ratio (1440x474, 390x263 mobile) ----- */
+.ap-blogs .ap-blogs-banner {
+  display: block;
+  margin: 0 0 20px;
+}
+
+.ap-blogs .ap-blogs-banner img {
+  width: 100%;
+}
+
+.ap-blogs a.ap-blogs-banner:focus-visible {
+  outline: 2px solid #5e25b2;
+  outline-offset: -2px;
+}
+
+/* ----- left: author and tags (profile-info, blog-tags) ----- */
+.ap-blogs .ap-blogs-author,
+.ap-blogs .ap-blogs-tags {
+  display: flex;
+  align-items: baseline;
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.ap-blogs .ap-blogs-author-title,
+.ap-blogs .ap-blogs-tags-label {
+  flex: 0 0 30%;
+  margin: 0 0 6px;
+  color: #222;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: 1px;
+}
+
+.ap-blogs .ap-blogs-author-name {
+  margin: 0 0 0 15px;
+  color: #222;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0.46px;
+}
+
+.ap-blogs .ap-blogs-tags-list {
+  flex: 0 1 auto;
+  margin: 0 0 0 15px;
+  padding: 0;
+  list-style: none;
+}
+
+.ap-blogs .ap-blogs-tags-list li {
+  display: inline;
+  margin: 0;
+}
+
+.ap-blogs .ap-blogs-tag,
+.ap-blogs a.ap-blogs-tag:any-link {
+  display: inline-block;
+  margin: 0 5px 8px 0;
+  padding: 4px 9px;
+  border: 1px solid rgb(240 230 255);
+  background-color: rgb(250 248 255);
+  color: rgb(67 26 128);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.ap-blogs a.ap-blogs-tag:focus-visible {
+  outline: 2px solid rgb(67 26 128);
+  outline-offset: 2px;
+}
+
+/* ----- main: title, intro, intro image ----- */
+main .ap-blogs h1.ap-blogs-title {
+  max-width: none;
+  margin: 0 0 7px;
+  background: none;
+  color: var(--ap-blogs-text);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: normal;
+  -webkit-text-fill-color: currentcolor;
+}
+
+.ap-blogs :is(.ap-blogs-intro, .ap-blogs-text) :is(p, li) {
+  margin: 0 5px;
+  color: var(--ap-blogs-text);
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.ap-blogs :is(.ap-blogs-intro, .ap-blogs-text) :is(ul, ol) {
+  margin: 0 5px;
+  padding-left: 20px;
+}
+
+.ap-blogs :is(.ap-blogs-intro, .ap-blogs-text) li {
+  margin: 0 0 6px;
+}
+
+.ap-blogs :is(.ap-blogs-intro, .ap-blogs-text) p:has(> picture) {
+  margin: 5px 0 0;
+}
+
+.ap-blogs :is(.ap-blogs-intro, .ap-blogs-text, .ap-blogs-colour-text, .ap-blogs-consent) a:any-link {
+  color: var(--ap-blogs-link);
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+/* links inside bold text stay bold, like live (<b><a>…</a></b> in the article) */
+.ap-blogs :is(.ap-blogs-intro, .ap-blogs-text, .ap-blogs-colour-text, .ap-blogs-consent) :is(strong, b) a:any-link {
+  font-weight: inherit;
+}
+
+.ap-blogs .ap-blogs-intro-image {
+  margin: 57px 0 0;
+}
+
+.ap-blogs .ap-blogs-intro-image img,
+.ap-blogs .ap-blogs-image img,
+.ap-blogs .ap-blogs-text img {
+  width: 100%;
+}
+
+/* ----- article text rows ----- */
+.ap-blogs .ap-blogs-text :is(h2, h3, h4, h5, h6) {
+  margin: 0 0 7px;
+  color: var(--ap-blogs-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: normal;
+}
+
+.ap-blogs .ap-blogs-text h2 {
+  font-size: 22px;
+  line-height: 24px;
+}
+
+.ap-blogs .ap-blogs-text h3 {
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.ap-blogs .ap-blogs-image {
+  margin: 5px 0 0;
+}
+
+/* ----- table of contents ----- */
+.ap-blogs .ap-blogs-toc {
+  margin: 30px 0 35px;
+  padding: 30px 20px;
+  background-color: #dedede;
+  color: #222;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.ap-blogs .ap-blogs-toc.ap-blogs-toc-collapsed {
+  padding-bottom: 0;
+}
+
+.ap-blogs .ap-blogs-toc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 0 20px;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-toc-title {
+  margin: 0 0 7px;
+  color: #222;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  letter-spacing: 1.08px;
+  text-transform: uppercase;
+}
+
+.ap-blogs .ap-blogs-toc-toggle {
+  flex: none;
+  margin: 0;
+  padding: 0 0 2px;
+  border: 0;
+  border-bottom: 2px solid #5e25b2;
+  border-radius: 2px;
+  background: none;
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-toc-toggle:focus-visible,
+.ap-blogs .ap-blogs-toc-list a:focus-visible {
+  outline: 2px solid #5e25b2;
+  outline-offset: 3px;
+}
+
+.ap-blogs .ap-blogs-toc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ap-blogs .ap-blogs-toc-list[hidden] {
+  display: none;
+}
+
+.ap-blogs .ap-blogs-toc-list li {
+  margin: 0 0 10px;
+  padding: 0;
+  color: #222;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+.ap-blogs .ap-blogs-toc-list li:last-child {
+  margin-bottom: 0;
+}
+
+.ap-blogs .ap-blogs-toc-list a:any-link {
+  color: inherit;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+/* ----- consultation banner (service-banner swap-image-with-cta on the blog pages) -----
+   below 768px the mobile image at its own size, copy and pill stacked over it; 768-991px the
+   desktop image 138px high; from 992px copy on the left and the pill on the right */
+.ap-blogs .ap-blogs-consult {
+  margin-bottom: 25px;
+  background: #f8f8f8;
+}
+
+.ap-blogs .ap-blogs-consult-inner {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.ap-blogs .ap-blogs-consult picture {
+  display: flex;
+}
+
+.ap-blogs .ap-blogs-consult img {
+  width: auto;
+  max-width: calc(100% - 2px);
+  margin: 1px;
+  border-radius: 8px;
+  background: #fff;
+  object-fit: fill;
+}
+
+.ap-blogs .ap-blogs-consult-content {
+  position: absolute;
+  inset: 5% 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.ap-blogs .ap-blogs-consult-no-image .ap-blogs-consult-content {
+  position: static;
+}
+
+.ap-blogs .ap-blogs-consult-text {
+  margin: 0 5px 25px;
+  padding: 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: normal;
+}
+
+.ap-blogs .ap-blogs-consult-no-image .ap-blogs-consult-text {
+  color: #222;
+}
+
+.ap-blogs a.ap-blogs-consult-cta:any-link,
+.ap-blogs a.ap-blogs-consult-cta:hover {
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 45px;
+  background: linear-gradient(#fec940, #f90);
+  color: #1e1e1e;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: normal;
+  text-decoration: none;
+}
+
+.ap-blogs a.ap-blogs-consult-cta::after {
+  content: "";
+  display: block;
+  flex-shrink: 0;
+  width: 17px;
+  height: 20px;
+  background: url("../../icons/arrow-right.svg") no-repeat;
+}
+
+.ap-blogs a.ap-blogs-consult-cta:focus-visible {
+  outline: 2px solid #5e25b2;
+  outline-offset: 2px;
+}
+
+/* ----- colour rows (columns blog): image | heading + text, 311px columns 30px apart ----- */
+.ap-blogs .ap-blogs-colour {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.ap-blogs .ap-blogs-colour > div {
+  min-width: 0;
+  margin: 0 0 20px;
+}
+
+.ap-blogs .ap-blogs-colour-img {
+  padding-top: 5px;
+}
+
+.ap-blogs .ap-blogs-colour-img img {
+  width: 100%;
+}
+
+.ap-blogs .ap-blogs-colour-text :is(h2, h3, h4, h5, h6) {
+  margin: 0 0 7px;
+  color: #222;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.ap-blogs .ap-blogs-colour-text :is(h2, h3) {
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.ap-blogs .ap-blogs-colour-text p {
+  margin: 0 5px;
+  color: #222;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+/* ----- video: thumbnail + red YouTube play icon, the iframe only after a click ----- */
+.ap-blogs .ap-blogs-video {
+  margin: 10px 0 30px;
+}
+
+.ap-blogs .ap-blogs-colour + .ap-blogs-video {
+  margin-top: 32px;
+}
+
+.ap-blogs .ap-blogs-video-frame {
+  position: relative;
+  aspect-ratio: 100 / 82;
+}
+
+.ap-blogs .ap-blogs-video-play {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-video-play picture,
+.ap-blogs .ap-blogs-video-play img {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ap-blogs .ap-blogs-video-icon {
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+  width: 48px;
+  height: 39px;
+  background: url("../../icons/youtube-play-icon-mob.svg") no-repeat;
+}
+
+.ap-blogs .ap-blogs-video-play:focus-visible {
+  outline: 2px solid #5e25b2;
+  outline-offset: 2px;
+}
+
+.ap-blogs .ap-blogs-video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* caption: 14/24 light, centred, 30px under the thumbnail */
+.ap-blogs .ap-blogs-video-caption {
+  margin: 30px 0 22px;
+  padding: 0 0 10px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-align: center;
+}
+
+.ap-blogs .ap-blogs-video:has(.ap-blogs-video-caption) {
+  margin-bottom: 0;
+}
+
+/* ----- like ----- */
+.ap-blogs .ap-blogs-like {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px 0;
+  padding: 8px 20px;
+  background-color: #efefef;
+  color: #222;
+}
+
+.ap-blogs .ap-blogs-like-content {
+  flex: 0 1 50%;
+  min-width: 0;
+}
+
+.ap-blogs .ap-blogs-like-text {
+  margin: 0 0 14px;
+  color: #222;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+.ap-blogs .ap-blogs-like-title {
+  margin: 0;
+  color: #222;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: 1.08px;
+}
+
+.ap-blogs .ap-blogs-like-actions {
+  display: flex;
+  flex: none;
+  gap: 11px;
+}
+
+.ap-blogs .ap-blogs-like-button {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 51px;
+  height: 51px;
+  margin: 0;
+  padding: 9px 0 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #7d48f4;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-like-button svg {
+  flex: none;
+  width: 25.8px;
+  height: 27px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  overflow: visible;
+}
+
+.ap-blogs .ap-blogs-like-dislike svg {
+  transform: rotate(180deg);
+}
+
+.ap-blogs .ap-blogs-like-button[aria-pressed="true"] svg {
+  fill: currentcolor;
+}
+
+.ap-blogs .ap-blogs-like-button:focus-visible {
+  outline: 2px solid #7d48f4;
+  outline-offset: 2px;
+}
+
+/* ----- right: promo card ----- */
+.ap-blogs .ap-blogs-promo {
+  position: relative;
+  order: 3;
+  margin: 0 0 40px;
+  padding-top: 5px;
+  color: #fff;
+}
+
+.ap-blogs .ap-blogs-promo-image img {
+  width: 100%;
+  aspect-ratio: 306 / 210;
+  object-fit: cover;
+}
+
+.ap-blogs .ap-blogs-promo-body {
+  position: absolute;
+  inset: auto 0 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+}
+
+.ap-blogs .ap-blogs-promo-no-image .ap-blogs-promo-body {
+  position: static;
+  padding-top: 15px;
+  color: #222;
+}
+
+.ap-blogs .ap-blogs-promo-body > p {
+  margin: 0;
+  color: inherit;
+}
+
+.ap-blogs .ap-blogs-promo-body > .ap-blogs-promo-eyebrow {
+  margin: 0 5px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.92px;
+}
+
+.ap-blogs .ap-blogs-promo-body > .ap-blogs-promo-title {
+  margin: 0 0 7px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: normal;
+}
+
+.ap-blogs .ap-blogs-promo-body > .ap-blogs-promo-cta-wrapper {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.ap-blogs a.ap-blogs-promo-cta:any-link {
+  padding: 0 0 2px;
+  border-bottom: 2px solid rgb(94 37 178);
+  border-radius: 2px;
+  color: var(--ap-blogs-link);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 12px;
+  letter-spacing: 1px;
+  text-decoration: underline;
+}
+
+/* the whole card is clickable through its CTA */
+.ap-blogs a.ap-blogs-promo-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.ap-blogs a.ap-blogs-promo-cta:focus-visible {
+  outline: none;
+}
+
+.ap-blogs .ap-blogs-promo:has(a.ap-blogs-promo-cta:focus-visible) {
+  outline: 2px solid rgb(94 37 178);
+  outline-offset: 2px;
+}
+
+/* ----- right: enquiry form card ----- */
+.ap-blogs .ap-blogs-form-card {
+  order: 5;
+  margin: 10px 0 40px;
+  padding: 12px 16px 20px;
+  border: 2px solid rgb(229 227 231);
+  background-color: #fff;
+}
+
+.ap-blogs .ap-blogs-form-title {
+  margin: 0 0 2px;
+  padding: 0 0 5px;
+  color: #000;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.64px;
+  text-transform: capitalize;
+}
+
+.ap-blogs .ap-blogs-form-text {
+  margin: 0 0 30px;
+  padding: 20px 1%;
+  color: rgb(117 120 123);
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+.ap-blogs .ap-blogs-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ap-blogs .ap-blogs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* placeholder-only inputs: the labels stay for screen readers */
+.ap-blogs .ap-blogs-field:not(.ap-blogs-field-checkbox) .ap-blogs-field-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ap-blogs .ap-blogs-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+  margin: 0;
+  padding: 1px 2px 1px 15px;
+  border: 1px solid rgb(223 223 223);
+  border-radius: 8px;
+  background-color: #fff;
+  color: rgb(35 36 38);
+  font-size: 12px;
+  line-height: 21px;
+}
+
+.ap-blogs .ap-blogs-input::placeholder {
+  color: rgb(117 120 123);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.ap-blogs .ap-blogs-input:focus-visible {
+  outline: 2px solid rgb(67 26 128);
+  outline-offset: 1px;
+}
+
+.ap-blogs .ap-blogs-field-invalid .ap-blogs-input {
+  border-color: #c62828;
+}
+
+.ap-blogs .ap-blogs-field-error {
+  margin: 0;
+  color: #c62828;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.ap-blogs .ap-blogs-field-error[hidden],
+.ap-blogs .ap-blogs-status[hidden] {
+  display: none;
+}
+
+.ap-blogs .ap-blogs-field-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.ap-blogs .ap-blogs-field-checkbox .ap-blogs-input {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 1px solid rgb(117 120 123);
+  border-radius: 2px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-field-checkbox .ap-blogs-input:checked {
+  background: rgb(67 26 128) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center / 12px no-repeat;
+}
+
+.ap-blogs .ap-blogs-field-checkbox .ap-blogs-field-label {
+  padding-top: 5px;
+  color: rgb(76 78 82);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-consent {
+  margin: 5px 5px 0;
+  color: rgb(67 26 128);
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.5px;
+}
+
+.ap-blogs .ap-blogs-consent p {
+  margin: 0;
+}
+
+.ap-blogs .ap-blogs-submit {
+  width: 100%;
+  min-height: 44px;
+  margin: 30px 0 0;
+  padding: 9px 16px;
+  border: 1px solid rgb(67 26 128);
+  border-radius: 2px;
+  background-color: rgb(67 26 128);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.86px;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-submit:focus-visible {
+  outline: 2px solid rgb(67 26 128);
+  outline-offset: 2px;
+}
+
+.ap-blogs .ap-blogs-submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.ap-blogs .ap-blogs-status {
+  margin: 12px 0 0;
+  color: #2e7d32;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.ap-blogs .ap-blogs-status p {
+  margin: 0;
+}
+
+.ap-blogs .ap-blogs-status.ap-blogs-status-error {
+  color: #c62828;
+}
+
+/* ----- previous / next: full-width row, arrows at the two ends; below 992px only the
+   arrows with the current title between them ----- */
+.ap-blogs .ap-blogs-next {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 0;
+  color: #222;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.ap-blogs .ap-blogs-next-item,
+.ap-blogs .ap-blogs-next-item:any-link {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  color: #222;
+  text-decoration: none;
+}
+
+.ap-blogs .ap-blogs-next-next {
+  justify-content: flex-end;
+}
+
+.ap-blogs .ap-blogs-next-arrow {
+  flex: 0 1 25px;
+  width: 25px;
+  height: 13px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ap-blogs .ap-blogs-next-next .ap-blogs-next-arrow {
+  order: 1;
+}
+
+.ap-blogs .ap-blogs-next-current {
+  flex: 1 1 70%;
+  min-width: 0;
+  margin: 0 0 7px;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-blogs .ap-blogs-next-text {
+  display: none;
+}
+
+.ap-blogs .ap-blogs-next-title {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.ap-blogs .ap-blogs-next-meta {
+  display: block;
+}
+
+.ap-blogs .ap-blogs-next-author,
+.ap-blogs .ap-blogs-next-date {
+  display: inline-block;
+  margin: 10px 0 0;
+  font-size: 10px;
+}
+
+.ap-blogs .ap-blogs-next-author {
+  margin-right: 5px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.ap-blogs .ap-blogs-next-date {
+  line-height: 22px;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+}
+
+.ap-blogs .ap-blogs-next-item:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 4px;
+}
+
+/* ----- 768px: colour rows side by side, the consultation desktop image 138px high ----- */
+@media (width >= 768px) {
+  .ap-blogs .ap-blogs-colour {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 30px;
+  }
+
+  .ap-blogs .ap-blogs-colour > div {
+    flex: 1 1 0;
+  }
+
+  .ap-blogs .ap-blogs-consult-inner {
+    width: auto;
+  }
+
+  .ap-blogs .ap-blogs-consult picture {
+    width: 100%;
+  }
+
+  .ap-blogs .ap-blogs-consult img {
+    width: calc(100% - 2px);
+    max-width: none;
+    height: 138px;
+  }
+}
+
+/* ----- 992px: the three columns ----- */
+@media (width >= 992px) {
+  .ap-blogs {
+    line-height: 22px;
+  }
+
+  .ap-blogs .ap-blogs-banner {
+    margin-bottom: 50px;
+  }
+
+  .ap-blogs .ap-blogs-layout {
+    display: grid;
+    grid-template-columns: 292fr 45fr 652fr 64fr 297fr;
+    box-sizing: border-box;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 45px;
+  }
+
+  .ap-blogs .ap-blogs-main,
+  .ap-blogs .ap-blogs-right {
+    display: block;
+    min-width: 0;
+  }
+
+  .ap-blogs .ap-blogs-left,
+  .ap-blogs .ap-blogs-left.ap-blogs-left-empty {
+    grid-area: 1 / 1;
+    min-width: 0;
+    margin: 0;
+    padding-right: calc(100% * 25 / 292);
+    text-align: right;
+  }
+
+  .ap-blogs .ap-blogs-main {
+    grid-area: 1 / 3;
+    margin-bottom: 40px;
+  }
+
+  /* the column runs the full height of the layout, so the form card can stick in it */
+  .ap-blogs .ap-blogs-right {
+    grid-area: 1 / 5;
+  }
+
+  .ap-blogs .ap-blogs-author,
+  .ap-blogs .ap-blogs-tags {
+    display: block;
+    margin: 0;
+  }
+
+  .ap-blogs .ap-blogs-author-name {
+    margin: 0 0 35px;
+  }
+
+  .ap-blogs .ap-blogs-tags-list {
+    margin: 0;
+  }
+
+  .ap-blogs .ap-blogs-tag,
+  .ap-blogs a.ap-blogs-tag:any-link {
+    margin: 8px 0 0 5px;
+  }
+
+  main .ap-blogs h1.ap-blogs-title {
+    margin-left: -10px;
+    font-size: 60px;
+    line-height: 60px;
+  }
+
+  /* the article text starts 10px left of the blocks: text at x377, 652px wide */
+  .ap-blogs :is(.ap-blogs-intro, .ap-blogs-text) :is(p, li) {
+    line-height: 22px;
+    letter-spacing: 0.5px;
+  }
+
+  .ap-blogs :is(.ap-blogs-intro, .ap-blogs-text) p {
+    margin-right: 5px;
+    margin-left: -5px;
+  }
+
+  .ap-blogs :is(.ap-blogs-intro, .ap-blogs-text) li {
+    margin-left: 0;
+  }
+
+  .ap-blogs :is(.ap-blogs-intro, .ap-blogs-text) p:has(> picture),
+  .ap-blogs .ap-blogs-intro-image,
+  .ap-blogs .ap-blogs-image {
+    margin-right: 10px;
+    margin-left: -10px;
+  }
+
+  .ap-blogs .ap-blogs-text h2 {
+    font-size: 30px;
+    line-height: 34px;
+  }
+
+  .ap-blogs .ap-blogs-toc-title {
+    font-size: 14px;
+  }
+
+  .ap-blogs .ap-blogs-toc-toggle {
+    font-size: 13px;
+  }
+
+  .ap-blogs .ap-blogs-consult {
+    margin-bottom: 50px;
+  }
+
+  .ap-blogs .ap-blogs-consult-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    top: 10%;
+    padding: 0 10px;
+    text-align: left;
+  }
+
+  .ap-blogs .ap-blogs-consult-text {
+    flex: 0 1 361px;
+    margin: 0 5px;
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: 1px;
+  }
+
+  .ap-blogs a.ap-blogs-consult-cta:any-link,
+  .ap-blogs a.ap-blogs-consult-cta:hover {
+    flex: 0 0 auto;
+    margin-top: 22px;
+    padding: 0 20px;
+  }
+
+  /* live shows the image at its own size, kept within the column */
+  .ap-blogs .ap-blogs-colour-img img {
+    width: auto;
+  }
+
+  .ap-blogs .ap-blogs-video {
+    margin-top: 5px;
+  }
+
+  .ap-blogs .ap-blogs-colour + .ap-blogs-video {
+    margin-top: 27px;
+  }
+
+  .ap-blogs .ap-blogs-video-frame {
+    aspect-ratio: 100 / 48;
+  }
+
+  .ap-blogs .ap-blogs-video-icon {
+    width: 77px;
+    height: 54px;
+    background-image: url("../../icons/youtube-play-icon-desk.svg");
+  }
+
+  .ap-blogs .ap-blogs-video-caption {
+    letter-spacing: 0.54px;
+  }
+
+  .ap-blogs .ap-blogs-like {
+    margin: 30px 0 0;
+    padding: 12px 30px;
+  }
+
+  .ap-blogs .ap-blogs-like-content {
+    flex-basis: auto;
+  }
+
+  .ap-blogs .ap-blogs-like-title {
+    font-size: 14px;
+  }
+
+  .ap-blogs .ap-blogs-like-actions {
+    gap: 22px;
+  }
+
+  .ap-blogs .ap-blogs-like-button {
+    width: 61px;
+    height: 61px;
+  }
+
+  .ap-blogs .ap-blogs-like-button svg {
+    width: 34.4px;
+    height: 36px;
+  }
+
+  .ap-blogs .ap-blogs-promo-body {
+    padding: 0 25px;
+  }
+
+  .ap-blogs .ap-blogs-promo-body > .ap-blogs-promo-eyebrow {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  .ap-blogs .ap-blogs-promo-body > .ap-blogs-promo-cta-wrapper {
+    margin-top: 8px;
+  }
+
+  .ap-blogs a.ap-blogs-promo-cta:any-link {
+    font-size: 13px;
+  }
+
+  /* live: sticky under the header, scaled to 90% around its centre */
+  .ap-blogs .ap-blogs-form-card {
+    position: sticky;
+    top: 72px;
+    margin: 80px 0 40px;
+    padding: 6px 4%;
+    border-width: 1px;
+    transform: scale(0.9);
+  }
+
+  .ap-blogs .ap-blogs-form-title {
+    margin: 0;
+    line-height: 28.8px;
+    letter-spacing: normal;
+  }
+
+  .ap-blogs .ap-blogs-form-text {
+    margin-bottom: 10px;
+    padding: 8px 1%;
+  }
+
+  .ap-blogs .ap-blogs-input {
+    height: 40px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .ap-blogs .ap-blogs-field-pincode,
+  .ap-blogs .ap-blogs-field-checkbox {
+    margin-top: 5px;
+  }
+
+  .ap-blogs .ap-blogs-field-checkbox .ap-blogs-field-label {
+    font-weight: 500;
+  }
+
+  .ap-blogs .ap-blogs-next {
+    padding: 40px 0 70px;
+  }
+
+  .ap-blogs .ap-blogs-next-item,
+  .ap-blogs .ap-blogs-next-item:any-link {
+    flex: 0 0 50%;
+  }
+
+  .ap-blogs .ap-blogs-next-single .ap-blogs-next-item {
+    flex: 0 0 62%;
+    justify-content: flex-end;
+  }
+
+  .ap-blogs .ap-blogs-next-current {
+    display: none;
+  }
+
+  .ap-blogs .ap-blogs-next-text {
+    display: block;
+    box-sizing: border-box;
+    flex: 0 1 45%;
+  }
+
+  .ap-blogs .ap-blogs-next-previous .ap-blogs-next-text {
+    padding-left: 70px;
+    text-align: right;
+  }
+
+  .ap-blogs .ap-blogs-next-next .ap-blogs-next-text {
+    padding-right: 70px;
+  }
+
+  .ap-blogs .ap-blogs-next-title {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .ap-blogs .ap-blogs-next-author,
+  .ap-blogs .ap-blogs-next-date {
+    font-size: 13px;
+  }
+}
+
+@media (width >= 992px) and (width < 1100px) {
+  .ap-blogs {
+    zoom: calc(0.7 / var(--body-zoom, 1));
+  }
+
+  .ap-blogs .ap-blogs-submit {
+    margin-top: 20px;
+  }
+}
+
+/* live zooms the whole page between 992px and 1439px */
+@media (width >= 1100px) and (width < 1200px) {
+  .ap-blogs {
+    zoom: calc(0.75 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1200px) and (width < 1280px) {
+  .ap-blogs {
+    zoom: calc(0.8 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1280px) and (width < 1366px) {
+  .ap-blogs {
+    zoom: calc(0.85 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1366px) and (width < 1440px) {
+  .ap-blogs {
+    zoom: calc(0.9 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1100px) {
+  .ap-blogs .ap-blogs-promo {
+    padding-top: 0;
+  }
+
+  .ap-blogs .ap-blogs-promo-body > .ap-blogs-promo-title {
+    font-weight: 600;
+    line-height: 19px;
+  }
+
+  .ap-blogs a.ap-blogs-promo-cta:any-link {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .ap-blogs .ap-blogs-field-checkbox .ap-blogs-field-label {
+    padding-top: 0;
+  }
+
+  .ap-blogs .ap-blogs-consent {
+    margin: 5px 0 0;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */
+
+/* live centres the consultation banner heading in its text area */
+@media (width >= 992px) {
+  .ap-blogs .ap-blogs-consult-text {
+    text-align: center;
+  }
+}
+
+/* live: a 1px divider across the left + article columns, 50px under the like bar,
+   where the previous / next row starts */
+@media (width >= 992px) {
+  .ap-blogs .ap-blogs-next {
+    position: relative;
+    margin-top: 10px;
+  }
+
+  .ap-blogs .ap-blogs-next::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: max(45px, calc((100% - 1440px) / 2 + 45px));
+    width: 968.75px;
+    height: 1px;
+    background: rgb(34 34 34 / 10%);
+  }
+}
+
+/* START BANNER ICONS: favourite (heart) and share buttons on the banner, like the live sharetool
+   (icons from the live sprites in ./icons; mobile: stacked 20px from the right, the share button
+   on the banner edge; desktop: side by side 17px above the banner bottom) */
+/* stylelint-disable no-descending-specificity -- new elements, no overlap with the rules above */
+.ap-blogs .ap-blogs-hero {
+  position: relative;
+}
+
+.ap-blogs .ap-blogs-banner-tools {
+  position: absolute;
+  right: 20px;
+  bottom: -37px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.ap-blogs .ap-blogs-icon-button {
+  display: block;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent no-repeat 0 0 / 40px 40px;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-icon-button:focus-visible {
+  outline: 2px solid #5e25b2;
+  outline-offset: 2px;
+}
+
+.ap-blogs .ap-blogs-favourite {
+  background-image: url('icons/heart.png');
+}
+
+/* START BLOG WISHLIST: the heart of a saved blog (in the visitor's wishlist) is filled */
+.ap-blogs .ap-blogs-favourite[aria-pressed='true'] {
+  background-image: url('../../icons/old-type-wishlist-selected.svg');
+}
+
+.ap-blogs .ap-blogs-favourite.is-busy {
+  cursor: progress;
+}
+
+/* END BLOG WISHLIST */
+
+.ap-blogs .ap-blogs-share-button {
+  background-image: url('icons/share.png');
+}
+
+.ap-blogs .ap-blogs-share {
+  position: relative;
+}
+
+/* the menu: live .shareWithWrap (130px, #f8f8f8, icons 35px left of each label) */
+.ap-blogs .ap-blogs-share-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  z-index: 10;
+  box-sizing: border-box;
+  width: 130px;
+  margin: 0;
+  padding: 12px 20px 10px;
+  list-style: none;
+  background: #f8f8f8;
+  box-shadow: 0 4px 11px 1px #d8d8d8;
+  text-align: left;
+}
+
+.ap-blogs .ap-blogs-share-menu[hidden] {
+  display: none;
+}
+
+.ap-blogs .ap-blogs-share-menu li {
+  min-height: 33px;
+  margin: 0 0 4px;
+  padding: 0 0 0 12px;
+}
+
+.ap-blogs .ap-blogs-share-menu a:any-link {
+  position: relative;
+  display: inline-block;
+  height: 32px;
+  margin: 0 10px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 22px;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.ap-blogs .ap-blogs-share-menu a::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -36px;
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: no-repeat 0 0 / 35px 35px;
+}
+
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-facebook::before { background-image: url('icons/facebook.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-whatsapp::before { background-image: url('icons/whatsapp.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-twitter::before { background-image: url('icons/twitter.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-pinterest::before { background-image: url('icons/pinterest.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-mail::before { background-image: url('icons/mail.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-sms::before { background-image: url('icons/sms.png'); }
+
+.ap-blogs .ap-blogs-share-menu a.ap-blogs-share-sms:any-link {
+  height: 22px;
+  margin: 4px 10px 0 15px;
+  line-height: 15px;
+}
+
+.ap-blogs .ap-blogs-share-menu li:has(.ap-blogs-share-sms) {
+  min-height: 26px;
+}
+
+@media (width >= 992px) {
+  .ap-blogs .ap-blogs-banner-tools {
+    right: 49px;
+    bottom: 17px;
+    flex-direction: row;
+    gap: 13px;
+  }
+
+  .ap-blogs .ap-blogs-share-menu {
+    top: calc(100% + 1px);
+    right: -5px;
+  }
+
+  /* like live, Whatsapp is offered on mobile only */
+  .ap-blogs .ap-blogs-share-menu .ap-blogs-share-mobile {
+    display: none;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */
+
+/* END BANNER ICONS */
+
+/* START FIX BANNER ICONS PLACE: like live (.sharetool), the icons sit at the same height of the
+   banner at every width: top 88% of the banner from 992px, 73% below (64% up to 375px); side by
+   side from 768px, stacked below with the first icon 25px lower; 44px from the right from 576px.
+   (A fixed 17px from the bottom put them lower than live on wide screens, e.g. a wide Edge window) */
+.ap-blogs .ap-blogs-hero > .ap-blogs-banner-tools {
+  top: calc(73% + 25px);
+  bottom: auto;
+}
+
+@media (width <= 375px) {
+  .ap-blogs .ap-blogs-hero > .ap-blogs-banner-tools {
+    top: calc(64% + 25px);
+  }
+}
+
+@media (width >= 576px) {
+  .ap-blogs .ap-blogs-hero > .ap-blogs-banner-tools {
+    right: 44px;
+  }
+}
+
+@media (width >= 768px) {
+  .ap-blogs .ap-blogs-hero > .ap-blogs-banner-tools {
+    top: 73%;
+    right: 49px;
+    flex-direction: row;
+    gap: 13px;
+  }
+}
+
+@media (width >= 992px) {
+  .ap-blogs .ap-blogs-hero > .ap-blogs-banner-tools {
+    top: 88%;
+  }
+}
+
+/* END FIX BANNER ICONS PLACE */
+
+/* START FIX FORM FRAGMENT: a form loaded from a fragment (e.g. an existing stg form) takes the
+   place of the enquiry card: same position in the mobile order, sticky in the right column on
+   desktop; the form keeps its own styles */
+.ap-blogs .ap-blogs-form-fragment {
+  order: 5;
+  margin: 10px 0 40px;
+}
+
+.ap-blogs .ap-blogs-form-fragment > .section {
+  margin: 0;
+  padding: 0;
+}
+
+@media (width >= 992px) {
+  .ap-blogs .ap-blogs-form-fragment {
+    position: sticky;
+    top: 72px;
+    margin: 80px 0 40px;
+  }
+}
+
+/* END FIX FORM FRAGMENT */
+
+/* START FIX THANK YOU SCREEN: result screens in the form card, like live */
+.ap-blogs .ap-blogs-form-done > :not(.ap-blogs-form-result) {
+  display: none;
+}
+
+.ap-blogs .ap-blogs-form-result {
+  position: relative;
+  margin: 0 -6px;
+  outline: none;
+}
+
+.ap-blogs .ap-blogs-form-result[hidden] {
+  display: none;
+}
+
+.ap-blogs .ap-blogs-result-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #222;
+  font-size: 30px;
+  line-height: 32px;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-result-success .ap-blogs-result-body {
+  position: relative;
+  aspect-ratio: 656 / 1200;
+}
+
+.ap-blogs .ap-blogs-result-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.ap-blogs .ap-blogs-result-explore,
+.ap-blogs .ap-blogs-result-interested {
+  position: absolute;
+  z-index: 2;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  font-size: 0;
+  cursor: pointer;
+}
+
+.ap-blogs .ap-blogs-result-explore {
+  top: 49%;
+  right: 6%;
+  width: 31%;
+  height: 16%;
+  border-radius: 50%;
+}
+
+.ap-blogs .ap-blogs-result-interested {
+  top: 36%;
+  left: 50%;
+  width: 52%;
+  height: 40px;
+  border-radius: 20px;
+  transform: translate(-50%, -42%);
+}
+
+.ap-blogs .ap-blogs-result-explore:focus-visible,
+.ap-blogs .ap-blogs-result-interested:focus-visible,
+.ap-blogs .ap-blogs-result-close:focus-visible {
+  outline: 2px solid #5e25b2;
+  outline-offset: 2px;
+}
+
+.ap-blogs .ap-blogs-result-message {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* error screen */
+.ap-blogs .ap-blogs-result-copy {
+  padding: 34px 12px 16px;
+  text-align: center;
+}
+
+.ap-blogs .ap-blogs-result-title {
+  margin: 0 0 8px;
+  color: #222;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.ap-blogs .ap-blogs-result-text {
+  margin: 0;
+  color: #222;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.ap-blogs .ap-blogs-result-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 10px;
+  box-sizing: border-box;
+  aspect-ratio: 375 / 336;
+  padding: 20px 16px;
+  border-radius: 12px;
+  background: linear-gradient(rgb(0 0 0 / 0%) 25%, rgb(0 0 0 / 75%)), var(--ap-blogs-result-image) center / cover no-repeat;
+  color: #fff;
+}
+
+.ap-blogs .ap-blogs-result-panel-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.ap-blogs .ap-blogs-result-panel-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.ap-blogs a.ap-blogs-result-cta:any-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 45px;
+  background: linear-gradient(#fec940, #f90);
+  color: #1e1e1e;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ap-blogs a.ap-blogs-result-download:any-link {
+  color: #fff;
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+/* desktop video / image */
+.ap-blogs .ap-blogs-result-desktop .ap-blogs-result-body {
+  aspect-ratio: 2700 / 860;
+}
+
+.ap-blogs .ap-blogs-result-desktop .ap-blogs-result-explore {
+  top: auto;
+  right: 7%;
+  bottom: 36%;
+  width: 11%;
+  height: 33%;
+  transform: translateX(-18px);
+}
+
+.ap-blogs .ap-blogs-result-desktop .ap-blogs-result-interested {
+  top: auto;
+  bottom: 19%;
+  left: 34%;
+  width: 16%;
+  height: 10%;
+  transform: translateX(-4px);
+}
+
+
+/* END FIX THANK YOU SCREEN */
+
+/* START FIX LIVE SPACING: spacing and responsive values measured on the  */
+
+/* video: the play icons ship with the block (stg has no /icons/youtube-play-icon-*.svg) */
+.ap-blogs .ap-blogs-video .ap-blogs-video-icon {
+  background-image: url('icons/youtube-play-icon-mob.svg');
+}
+
+/* tags: like live the 30% label */
+.ap-blogs .ap-blogs-tags-label {
+  flex: 0 1 30%;
+}
+
+/* intro: every intro paragraph has 30px under it (live profile-info rte); */
+.ap-blogs .ap-blogs-intro p:not(:has(> picture)) {
+  padding-bottom: 30px;
+}
+
+.ap-blogs .ap-blogs-head > .ap-blogs-intro-image {
+  margin-top: 5px;
+}
+
+.ap-blogs .ap-blogs-intro + .ap-blogs-toc {
+  margin-top: 0;
+}
+
+/* "Intro Spacing: yes": the empty line (24px + 30px) above and below the intro text */
+.ap-blogs.ap-blogs-intro-spaced .ap-blogs-intro {
+  padding: 54px 0;
+}
+
+/* article text: 14/22 with 0.5px letter spacing at every width (live rte text) */
+.ap-blogs .ap-blogs-text :is(p, li) {
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+/* lists like live: bullets 16px in, the text 5px further; numbered lists 40px in */
+.ap-blogs .ap-blogs-text ul {
+  margin: 0;
+  padding: 0;
+}
+
+.ap-blogs .ap-blogs-text ol {
+  margin: 0 0 14px;
+  padding: 0 0 0 40px;
+}
+
+/* stylelint-disable no-descending-specificity -- article lists, no overlap with the TOC list rules above */
+.ap-blogs .ap-blogs-text li {
+  margin: 0;
+  padding: 0;
+}
+
+.ap-blogs .ap-blogs-text ul > li {
+  margin-left: 16px;
+}
+
+.ap-blogs .ap-blogs-text li:not(:has(> :is(p, h1, h2, h3, h4, h5, h6, ul, ol))) {
+  padding: 0 5px;
+}
+/* stylelint-enable no-descending-specificity */
+
+/* FAQ questions with the live circle bullet */
+.ap-blogs .ap-blogs-text .ap-blogs-bullet {
+  display: list-item;
+  margin-left: 16px;
+  list-style: circle outside;
+}
+
+/* the empty line (22px) the live authors put at the end of each article section */
+.ap-blogs .ap-blogs-text,
+.ap-blogs .ap-blogs-colour-text {
+  padding-bottom: 22px;
+}
+
+.ap-blogs.ap-blogs-colour-tight .ap-blogs-colour-text {
+  padding-bottom: 0;
+}
+
+.ap-blogs .ap-blogs-text > :is(h1, h2, h3, h4, h5, h6):not(:first-child),
+.ap-blogs .ap-blogs-text li > :is(h1, h2, h3, h4, h5, h6):not(:first-child) {
+  margin-top: 22px;
+}
+
+/* after a heading the empty line comes on top of its 7px margin */
+.ap-blogs .ap-blogs-text > :is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6, ul, ol):not(:first-child) {
+  margin-top: 29px;
+}
+
+/* video: 30px under an image-with-text row (10px + its 20px), */
+.ap-blogs .ap-blogs-article > .ap-blogs-colour + .ap-blogs-video {
+  margin-top: 10px;
+}
+
+.ap-blogs .ap-blogs-video > .ap-blogs-video-caption {
+  margin-bottom: 0;
+}
+
+.ap-blogs .ap-blogs-video + .ap-blogs-text {
+  padding-top: 22px;
+}
+
+/* promo / form moved into the article */
+.ap-blogs .ap-blogs-moved,
+.ap-blogs .ap-blogs-colour > .ap-blogs-moved {
+  min-width: 0;
+  margin: 32px 0;
+}
+
+.ap-blogs .ap-blogs-colour > .ap-blogs-moved {
+  margin-bottom: 52px;
+}
+
+.ap-blogs .ap-blogs-colour > .ap-blogs-colour-text:has(+ .ap-blogs-moved) {
+  margin-bottom: 0;
+}
+
+.ap-blogs .ap-blogs-moved:has(+ .ap-blogs-colour) {
+  margin-bottom: 52px;
+}
+
+@media (width >= 768px) {
+  .ap-blogs .ap-blogs-colour:has(> .ap-blogs-moved) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 30px;
+    align-items: start;
+  }
+
+  .ap-blogs .ap-blogs-colour:has(> .ap-blogs-moved) > .ap-blogs-colour-img {
+    grid-area: 1 / 1 / span 3;
+  }
+
+  .ap-blogs .ap-blogs-colour:has(> .ap-blogs-moved) > :not(.ap-blogs-colour-img) {
+    grid-column: 2;
+  }
+}
+
+/* previous / next below 992px: inside the 20px */
+@media (width < 992px) {
+/* the title 20px under the */
+  .ap-blogs .ap-blogs-left {
+    margin-bottom: 10px;
+  }
+
+  .ap-blogs .ap-blogs-left.ap-blogs-left-empty {
+    margin-bottom: 20px;
+  }
+
+  .ap-blogs .ap-blogs-intro p {
+    width: 100%;
+  }
+
+  .ap-blogs.ap-blogs-intro-spaced .ap-blogs-intro {
+    padding: 54px 0;
+  }
+
+  .ap-blogs .ap-blogs-next {
+    margin: 0 20px;
+  }
+
+  .ap-blogs .ap-blogs-next-item,
+  .ap-blogs .ap-blogs-next-item:any-link {
+    flex: 0 0 64px;
+  }
+
+  .ap-blogs .ap-blogs-next-both .ap-blogs-next-previous {
+    flex-basis: 41px;
+  }
+
+  .ap-blogs .ap-blogs-next-both .ap-blogs-next-next {
+    flex-basis: 44px;
+  }
+
+  .ap-blogs .ap-blogs-next-current {
+    flex: 1 1 0;
+  }
+}
+
+@media (width >= 992px) {
+  .ap-blogs .ap-blogs-video .ap-blogs-video-icon {
+    background-image: url('icons/youtube-play-icon-desk.svg');
+  }
+
+  /* live grid: up to 1366px wide inside 45px margins */
+  .ap-blogs .ap-blogs-layout {
+    grid-template-columns: calc(78% - 761px) 45px 652px 64px 22%;
+    max-width: 1456px;
+  }
+
+  .ap-blogs .ap-blogs-left,
+  .ap-blogs .ap-blogs-left.ap-blogs-left-empty {
+    padding-right: 25px;
+  }
+
+  .ap-blogs .ap-blogs-next::before {
+    left: max(45px, calc((100% - 1456px) / 2 + 45px));
+  }
+
+  .ap-blogs.ap-blogs-intro-spaced .ap-blogs-intro {
+    padding: 52px 0;
+  }
+
+  /* article text 5px in from the headings (live x387 at 1440px, 642px wide) */
+  .ap-blogs .ap-blogs-text p {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+
+  /* image-with-text images at their own size, like live they may run 15px into the gap */
+  .ap-blogs .ap-blogs-colour-img img {
+    max-width: calc(100% + 15px);
+  }
+
+  .ap-blogs .ap-blogs-article > .ap-blogs-colour + .ap-blogs-video {
+    margin-top: 5px;
+  }
+
+  /* a moved form card is not sticky */
+  .ap-blogs .ap-blogs-form-card.ap-blogs-moved,
+  .ap-blogs .ap-blogs-form-fragment.ap-blogs-moved {
+    position: relative;
+    top: auto;
+  }
+
+  .ap-blogs .ap-blogs-next-date > span {
+    margin-right: 3px;
+  }
+}
+
+/* live keeps the mobile caption letter spacing up to 1099px */
+@media (width >= 992px) and (width < 1100px) {
+  .ap-blogs .ap-blogs-video > .ap-blogs-video-caption {
+    letter-spacing: normal;
+  }
+}
+
+/* live 992-1024px (tablet grid): left + article */
+@media (width >= 992px) and (width <= 1024px) {
+  .ap-blogs .ap-blogs-layout {
+    grid-template-columns: minmax(0, 1fr) 327px 45px 652px 64px;
+  }
+
+  .ap-blogs .ap-blogs-left,
+  .ap-blogs .ap-blogs-left.ap-blogs-left-empty {
+    grid-area: 1 / 2;
+  }
+
+  .ap-blogs .ap-blogs-main {
+    grid-area: 1 / 4;
+    margin-bottom: 0;
+  }
+
+  .ap-blogs .ap-blogs-right {
+    grid-area: 2 / 1 / 3 / -1;
+  }
+
+  /* previous / next sit in the */
+  .ap-blogs .ap-blogs-next {
+    width: 652px;
+    margin: 0 calc(max(45px, (100% - 1456px) / 2 + 45px) + 64px) 0 auto;
+  }
+
+  .ap-blogs .ap-blogs-next::before {
+    display: none;
+  }
+}
+
+/* END FIX LIVE SPACING */
+
+/* START FIX CONSULT CTA HOVER: like live (.cta.animated-btn-yellow .animated-arrow-button), on hover
+   and focus (so also after a click) the pill turns transparent with a 1px white border and white
+   text, the arrow turns white and slides 6px to the right (0.2s ease-in) */
+.ap-blogs .ap-blogs-consult a.ap-blogs-consult-cta::after {
+  background-image: url('icons/consult-arrow.svg');
+  transition: transform 0.2s ease-in;
+}
+
+.ap-blogs .ap-blogs-consult a.ap-blogs-consult-cta:is(:hover, :focus) {
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+}
+
+.ap-blogs .ap-blogs-consult a.ap-blogs-consult-cta:is(:hover, :focus)::after {
+  filter: invert(1);
+  transform: translateX(6px);
+}
+
+/* END FIX CONSULT CTA HOVER */
+
+/* START FIX CONSULT IMAGE FOCUS: like live */
+.ap-blogs .ap-blogs-consult-inner img:focus {
+  outline: 1px solid #222;
+  outline-offset: 0;
+}
+
+/* END FIX CONSULT IMAGE FOCUS */
+
+@media (width < 992px) {
+  .ap-blogs .ap-blogs-consult-content .ap-blogs-consult-text {
+    width: 100%;
+  }
+}
+
+/* START FIX CONSULT HEADING HOVER: */
+@media (width >= 992px) {
+  .ap-blogs .ap-blogs-consult-content {
+    justify-content: space-evenly;
+  }
+
+  .ap-blogs .ap-blogs-consult-copy {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .ap-blogs .ap-blogs-consult-copy > .ap-blogs-consult-text {
+    width: 82%;
+  }
+}
+
+/* END FIX CONSULT HEADING HOVER */
+
+/* START FIX ICONS FROM SITE ICONS FOLDER: the banner heart and share icons come from the site's
+   common icons folder (../../icons: /eds/icons on stg, /icons here), so they no longer depend on
+   copies in the block's icons folder (on stg heart-selected.png was missing there, so the saved
+   heart showed no icon after login). Same images: share-button.png and share-*.png are the
+   block's share.png / facebook.png ... sms.png; wishlist.svg is the live outlined heart;
+   heart-selected.png (live red heart on white) is added to the icons folder. The consult arrow
+   and the video play icons stay in the block's icons folder (not in /eds/icons). */
+/* stylelint-disable no-duplicate-selectors -- overrides of the icon rules above */
+.ap-blogs .ap-blogs-favourite {
+  background-image: url('../../icons/wishlist.svg');
+}
+
+.ap-blogs .ap-blogs-favourite[aria-pressed='true'] {
+  background-image: url('../../icons/old-type-wishlist-selected.svg');
+}
+
+.ap-blogs .ap-blogs-share-button {
+  background-image: url('../../icons/share-button.png');
+}
+
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-facebook::before { background-image: url('../../icons/share-facebook.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-whatsapp::before { background-image: url('../../icons/share-whatsapp.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-twitter::before { background-image: url('../../icons/share-twitter.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-pinterest::before { background-image: url('../../icons/share-pinterest.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-mail::before { background-image: url('../../icons/share-mail.png'); }
+.ap-blogs .ap-blogs-share-menu .ap-blogs-share-sms::before { background-image: url('../../icons/share-sms.png'); }
+/* stylelint-enable no-duplicate-selectors */
+
+/* END FIX ICONS FROM SITE ICONS FOLDER */

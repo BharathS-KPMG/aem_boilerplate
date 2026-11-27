@@ -1,0 +1,427 @@
+/* ---- self-contained base ----
+   Everything this block needs from the site styles (styles/styles.css, styles/fonts.css), so the
+   block folder can be copied to another project and look the same: the design tokens, fonts and
+   text defaults, scoped to the block's section, plus the section layout. The text defaults have
+   element-level specificity (:where), so they beat a host site's plain element rules but the
+   block's own rules always win.
+   The section layout this block expects is at the end of this file.
+   The font is the source's Manrope (asianpaints.com); the host site's Manrope @font-face supplies
+   it (styles/fonts.css here). */
+/* stylelint-disable max-line-length */
+main > .section.cards-popular-container {
+  --background-color: white;
+  --light-color: #f8f8f8;
+  --dark-color: #505050;
+  --text-color: #131313;
+  --link-color: #3b63fb;
+  --link-hover-color: #1d3ecf;
+  --body-font-size-m: 22px;
+  --body-font-size-s: 19px;
+  --body-font-size-xs: 17px;
+  --heading-font-size-xxl: 55px;
+  --heading-font-size-xl: 44px;
+  --heading-font-size-l: 34px;
+  --heading-font-size-m: 27px;
+  --heading-font-size-s: 24px;
+  --heading-font-size-xs: 22px;
+  --nav-height: 64px;
+
+  color: var(--text-color);
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+}
+
+@media (width >= 900px) {
+  main > .section.cards-popular-container {
+    --body-font-size-m: 18px;
+    --body-font-size-s: 16px;
+    --body-font-size-xs: 14px;
+    --heading-font-size-xxl: 45px;
+    --heading-font-size-xl: 36px;
+    --heading-font-size-l: 28px;
+    --heading-font-size-m: 22px;
+    --heading-font-size-s: 20px;
+    --heading-font-size-xs: 18px;
+  }
+}
+
+/* the browser's box model, in case the host site sets box-sizing on everything */
+:where(main > .section.cards-popular-container), :where(main > .section.cards-popular-container) *, :where(main > .section.cards-popular-container) ::before, :where(main > .section.cards-popular-container) ::after {
+  box-sizing: revert;
+}
+
+:where(main > .section.cards-popular-container) :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+  font-weight: 600;
+  line-height: 1.25;
+  color: inherit;
+  scroll-margin: 40px;
+}
+
+:where(main > .section.cards-popular-container) h1 { font-size: var(--heading-font-size-xxl); }
+:where(main > .section.cards-popular-container) h2 { font-size: var(--heading-font-size-xl); }
+:where(main > .section.cards-popular-container) h3 { font-size: var(--heading-font-size-l); }
+:where(main > .section.cards-popular-container) h4 { font-size: var(--heading-font-size-m); }
+:where(main > .section.cards-popular-container) h5 { font-size: var(--heading-font-size-s); }
+:where(main > .section.cards-popular-container) h6 { font-size: var(--heading-font-size-xs); }
+
+:where(main > .section.cards-popular-container) :is(p, dl, ol, ul, pre, blockquote) {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+}
+
+:where(main > .section.cards-popular-container) a:where(:any-link) {
+  color: var(--link-color);
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+:where(main > .section.cards-popular-container) a:where(:hover) {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+:where(main > .section.cards-popular-container) img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  vertical-align: baseline;
+}
+
+:where(main > .section.cards-popular-container) :is(input, textarea, select, button) {
+  font: inherit;
+}
+
+/* stylelint-enable max-line-length */
+
+/* ---- end of self-contained base ---- */
+
+/* popular product tiles; sizes in rem so they follow the reader's font size */
+.cards-popular {
+  /* the source's tile shadow and text colours */
+  --cards-popular-shadow: 0 4px 16px -2px rgb(16 24 40 / 10%);
+  --cards-popular-name: #161515;
+
+  color: #222;
+  font-size: 0.875rem;
+  line-height: 1.5715;
+}
+
+/* mobile: one row that scrolls sideways, as on the source */
+.cards-popular .cards-popular-list {
+  display: flex;
+
+  /* room for the tile shadows inside the scroller, without moving the tiles */
+  margin: -4px -4px 0;
+  padding: 4px 4px 10px;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 4px;
+  scrollbar-width: none;
+}
+
+/* the source's tile spacing: 10px either side of each card (none before the first) and 8px
+   between tiles; the 155px cards overflow their tiles, so the first gap is 18px, the rest 8px */
+.cards-popular .cards-popular-tile {
+  flex: none;
+  box-sizing: border-box;
+  width: 155px;
+  position: relative;
+  margin-right: 8px;
+  padding: 0 10px;
+  scroll-snap-align: start;
+}
+
+.cards-popular .cards-popular-tile:first-child {
+  padding-left: 0;
+}
+
+/* wishlist heart in the card's top right corner, inside the card padding, as on the source; the
+   155px cards overflow their tiles on mobile, so it is placed from the tile's left edge.
+   WCAG 2.5.8: the section zoom (.7–.9 at 992–1439px) shrinks the 24px heart below 24px on
+   screen. Only under zoom the box grows to 24px on screen, evenly around the heart, and the
+   negative margins keep it centred on the same spot; the 24px icon and the focus ring stay as
+   they were. 24.1px (not 24) leaves headroom for sub-pixel rounding; at zoom 1 that is a 0.05px
+   grow, which changes no pixels. */
+.cards-popular .cards-popular-wishlist {
+  --wishlist-hit: max(24px, calc(24.1px / var(--cards-popular-zoom, 1)));
+  --wishlist-grow: calc((var(--wishlist-hit) - 24px) / 2);
+
+  position: absolute;
+  top: 0;
+  left: 132px;
+  z-index: 1;
+  box-sizing: border-box;
+  width: var(--wishlist-hit);
+  height: var(--wishlist-hit);
+  margin: calc(var(--wishlist-grow) * -1);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: url('/eds/icons/wishlist-unselected.svg') center / 24px 24px no-repeat;
+  cursor: pointer;
+}
+
+.cards-popular .cards-popular-wishlist[aria-pressed='true'] {
+  background-image: url('/eds/icons/wishlist-selected.svg');
+}
+
+.cards-popular .cards-popular-wishlist:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: calc(2px - var(--wishlist-grow));
+}
+
+.cards-popular .cards-popular-tile:first-child .cards-popular-wishlist {
+  left: 122px;
+}
+
+.cards-popular .cards-popular-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-sizing: border-box;
+  width: 155px;
+  height: 100%;
+  min-height: 85px;
+  padding: 0 9px;
+  border-radius: 8px;
+  box-shadow: var(--cards-popular-shadow);
+  color: inherit;
+  text-decoration: none;
+}
+
+.cards-popular a.cards-popular-link:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+.cards-popular .cards-popular-image {
+  flex: none;
+}
+
+.cards-popular .cards-popular-image img {
+  display: block;
+  width: 50px;
+  height: auto;
+
+  /* pack shots are 80 × 90 on the source; reserves the space before the lazy image loads */
+  aspect-ratio: 80 / 90;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.cards-popular .cards-popular-name {
+  flex: none;
+  box-sizing: border-box;
+  width: 85px;
+  padding: 0 1px 0 4px;
+  color: var(--cards-popular-name);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (width >= 992px) {
+  .cards-popular .cards-popular-list {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin: 0;
+    padding: 0 0 10px;
+    overflow: visible;
+  }
+
+  .cards-popular .cards-popular-tile {
+    width: auto;
+    margin-right: 0;
+  }
+
+  .cards-popular .cards-popular-link {
+    width: auto;
+    min-height: 116px;
+    padding: 6px 10px;
+  }
+
+  .cards-popular .cards-popular-name {
+    width: 80px;
+    padding: 0;
+    line-height: normal;
+  }
+
+  .cards-popular .cards-popular-image img {
+    width: 80px;
+  }
+
+  /* the cards fill their tiles here: 10px tile padding plus the card's 10px */
+  .cards-popular .cards-popular-tile .cards-popular-wishlist,
+  .cards-popular .cards-popular-tile:first-child .cards-popular-wishlist {
+    top: 6px;
+    right: 20px;
+    left: auto;
+  }
+}
+
+/* the source's smaller tiles up to 1280px */
+@media (width >= 992px) and (width <= 1280px) {
+  .cards-popular .cards-popular-link {
+    min-height: 100px;
+    padding: 6px 6px 0;
+  }
+
+  .cards-popular .cards-popular-image img {
+    width: 70px;
+    aspect-ratio: 7 / 8;
+  }
+
+  .cards-popular .cards-popular-tile .cards-popular-wishlist,
+  .cards-popular .cards-popular-tile:first-child .cards-popular-wishlist {
+    right: 16px;
+  }
+}
+
+@media (width >= 1366px) {
+  .cards-popular .cards-popular-name {
+    width: 90px;
+  }
+}
+
+@media (width >= 1536px) {
+  .cards-popular .cards-popular-name {
+    width: 110px;
+  }
+}
+
+
+/* ---- section layout (part of the self-contained base, see the top of this file) ---- */
+/* stylelint-disable max-line-length, no-duplicate-selectors */
+
+/* section layout (was Section Metadata "Style: popular-products"): source width (the tiles are
+   91% of the page wide, 92% on desktop, centred) and the "Popular products" gradient title */
+main > .section.cards-popular-container > div {
+  max-width: none;
+  padding: 0 4.5%;
+}
+
+main > .section.cards-popular-container h2 {
+  /* source gradient with the orange end darkened so the title passes WCAG AA */
+  --popular-products-accent: linear-gradient(270deg, #b3540c, #be2a1d 20.78%, #45216c 50.29%, #000 98.1%);
+
+  width: fit-content;
+  margin: 0 0 14px;
+  background: var(--popular-products-accent);
+  background-clip: text;
+  color: transparent;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0.5px;
+}
+
+@media (width >= 992px) {
+  main > .section.cards-popular-container > div {
+    padding: 0 4%;
+  }
+
+  main > .section.cards-popular-container h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+}
+
+/* the source zooms the whole page below 1440px; scale the section the same way (by less when the
+   host page already zooms the body and sets --body-zoom). --cards-popular-zoom is the resulting
+   on-screen scale, which sizes the wishlist heart's hit area */
+@media (width >= 992px) and (width < 1100px) {
+  main > .section.cards-popular-container {
+    --cards-popular-zoom: 0.7;
+
+    zoom: calc(0.7 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1100px) and (width < 1200px) {
+  main > .section.cards-popular-container {
+    --cards-popular-zoom: 0.75;
+
+    zoom: calc(0.75 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1200px) and (width < 1280px) {
+  main > .section.cards-popular-container {
+    --cards-popular-zoom: 0.8;
+
+    zoom: calc(0.8 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1280px) and (width < 1366px) {
+  main > .section.cards-popular-container {
+    --cards-popular-zoom: 0.85;
+
+    zoom: calc(0.85 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1366px) and (width < 1440px) {
+  main > .section.cards-popular-container {
+    --cards-popular-zoom: 0.9;
+
+    zoom: calc(0.9 / var(--body-zoom, 1));
+  }
+}
+
+/* stylelint-enable max-line-length, no-duplicate-selectors */
+
+/* ---- end of section layout ---- */
+
+/* ===== FIX MATCH LIVE (heading, hearts) : START ===== */
+
+/* the source's space under the title: 15px (16px from 992px, below) */
+main > .section.cards-popular-container > .default-content-wrapper > h2 {
+  margin-bottom: 15px;
+}
+
+/* the source's title: "Popular" in the text colour and only the bold words in the brand gradient
+   (author the highlighted words in bold: "Popular **Exterior Emulsions**"); titles without bold
+   words keep the full gradient above */
+main > .section.cards-popular-container > .default-content-wrapper > h2:has(strong) {
+  background: none;
+  color: #222;
+}
+
+main > .section.cards-popular-container > .default-content-wrapper > h2 strong {
+  font-weight: inherit;
+  background: linear-gradient(270deg, #f8a12e, #be2a1d 50.07%, #45216c 98.1%);
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (width >= 992px) {
+  /* the source's extra-bold title (apFontExtraBold), 16px above the tiles */
+  main > .section.cards-popular-container > .default-content-wrapper > h2 {
+    margin-bottom: 16px;
+    font-weight: 800;
+  }
+
+  /* the source's last tile has its 10px on the left only (the first one on the right only), so
+     every card is as wide as the first; its heart moves with the card's edge */
+  .cards-popular .cards-popular-tile:last-child:not(:first-child) {
+    padding: 0 0 0 10px;
+  }
+
+  .cards-popular .cards-popular-tile:last-child:not(:first-child) .cards-popular-wishlist {
+    right: 10px;
+  }
+}
+
+@media (width >= 992px) and (width <= 1280px) {
+  .cards-popular .cards-popular-tile:last-child:not(:first-child) .cards-popular-wishlist {
+    right: 6px;
+  }
+}
+
+/* ===== FIX MATCH LIVE (heading, hearts) : END ===== */

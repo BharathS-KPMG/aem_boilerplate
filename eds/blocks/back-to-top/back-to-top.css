@@ -1,0 +1,72 @@
+/* "Back To Top" link, as on the AEM site. */
+.back-to-top {
+  position: fixed;
+  right: 0;
+  bottom: 145px;
+  z-index: 99999;
+  padding-right: 20px;
+  mix-blend-mode: difference;
+  filter: invert(1);
+  visibility: hidden;
+  opacity: 0;
+  border-radius: 2px;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+
+.back-to-top.is-visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.2s ease;
+}
+
+.back-to-top-cta {
+  padding: 0 0 3px;
+  border: 0;
+  border-bottom: 2px solid #5e25b2;
+  background: transparent;
+  color: #222;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.back-to-top-cta:hover,
+.back-to-top-cta:active,
+.back-to-top-cta:focus-visible {
+  background: transparent;
+  box-shadow: none;
+  border-bottom: 2px solid #431a80;
+}
+
+/* Invisible marker 500px down the page that decides when the link shows. */
+.back-to-top-marker {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+@media (width <= 991px) {
+  .back-to-top-cta {
+    padding-bottom: 3px;
+    font-size: 12px;
+  }
+}
+
+@media (width >= 992px) {
+  .back-to-top {
+    bottom: 115px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top,
+  .back-to-top.is-visible {
+    transition: none;
+  }
+}

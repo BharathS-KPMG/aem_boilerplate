@@ -1,0 +1,751 @@
+/*
+ * texture-listing — texture catalogue with colour-family tabs, a "Filter by"
+ * panel and a swatch grid (source: asianpaints.com exterior-textures
+ * .plplisting). Values are the source's computed styles.
+ *
+ * AUTHORING (DA table):
+ *
+ *   | texture-listing                                                        |
+ *   | Filter label    | Filter by                                            |
+ *   | Clear label     | Clear all                                            |
+ *   | Apply label     | Apply                                                |
+ *   | Load more label | Load more                                            |
+ *   | Items per page  | 20                                                   |
+ *   | Price options   | Premium, Economy      (optional order of a group)    |
+ *   | Colour family   | Colour                                               |
+ *   | All             | #ffffff                                              |
+ *   | Reds & Oranges  | #cb0a00                                              |
+ *   | …               | …                                                    |
+ *   | Image | Name | Link | Colour family | Product | Price | Finish          |
+ *   | <img> | Torino Marble Finish | https://… | Warm Neutrals |
+ *   |       Ultima Allura Torino | Premium | Stone Finish                     |
+ *   | …                                                                      |
+ *
+ * - The first tab shows every texture; the others match a texture's
+ *   "Colour family" cell.
+ * - Every column after "Colour family" is a filter group; its header is the
+ *   group label. Cells may hold several values ("Pattern, Stone Finish").
+ * - "<Group> options" sets that group's option order (default A–Z).
+ * - Items per page: textures shown before "Load more" (default 20).
+ *
+ * Fonts: the source's "Manrope" with a sans-serif fallback. Manrope is not
+ * loaded by this repo (see HANDOFF.md); without it browsers use the fallback.
+ */
+
+/* full-bleed: cancel the section wrapper's max-width and side padding */
+.texture-listing-container > .texture-listing-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.texture-listing {
+  /* source values (asianpaints.com .plplisting computed styles) */
+  --texture-listing-text: #222;
+  --texture-listing-ink: #2a2a2a;
+  --texture-listing-copy: #3b3b3b;
+  --texture-listing-accent: #431a80;
+  --texture-listing-surface: #fff;
+  --texture-listing-panel: var(--light-color); /* #f8f8f8 — matches repo token */
+  --texture-listing-line: #dfdfdf;
+  --texture-listing-divider: #d8d8d8;
+  --texture-listing-selected-bg: #faf8ff;
+  --texture-listing-selected-border: #f3ebff;
+  --texture-listing-pill-border: rgb(34 34 34 / 19.6%);
+
+  /* sampled from the source's sprite icons (not CSS on the source) */
+  --texture-listing-chevron-bg: #f5f4f7;
+  --texture-listing-check: #3c2574;
+  --texture-listing-check-ring: #adabb9;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: var(--texture-listing-text);
+}
+
+.texture-listing button {
+  font: inherit;
+}
+
+/* --- colour-family tabs (mobile: dots only, spread over the row) --- */
+.texture-listing .texture-listing-tabs {
+  padding: 22px 6px 0;
+  background-color: var(--texture-listing-surface);
+}
+
+.texture-listing .texture-listing-tablist {
+  display: flex;
+  justify-content: space-between;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.texture-listing .texture-listing-tab {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px;
+  border: 0;
+  border-radius: 20% 20% 0 0;
+  background: none;
+  color: var(--texture-listing-text);
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.texture-listing .texture-listing-tab.is-active {
+  background-color: var(--texture-listing-panel);
+}
+
+.texture-listing .texture-listing-tab:focus-visible {
+  outline: 2px solid var(--texture-listing-accent);
+  outline-offset: -2px;
+}
+
+.texture-listing .texture-listing-dot {
+  display: block;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto 8px;
+  border: 1px solid var(--texture-listing-line);
+  border-radius: 50%;
+}
+
+.texture-listing .texture-listing-tab-label {
+  display: none;
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.17px;
+  color: var(--texture-listing-copy);
+}
+
+/* --- panel: family heading, filters, grid --- */
+.texture-listing .texture-listing-panel {
+  padding-bottom: 30px;
+  background-color: var(--texture-listing-panel);
+}
+
+.texture-listing .texture-listing-family {
+  margin: 0 0 -5px;
+  padding: 12px 20px 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.27px;
+  text-transform: uppercase;
+  color: var(--texture-listing-copy);
+}
+
+.texture-listing .texture-listing-filters {
+  padding: 20px 20px 0;
+}
+
+.texture-listing .texture-listing-filters.is-open {
+  margin-bottom: 10px;
+  background-color: var(--texture-listing-surface);
+}
+
+.texture-listing .texture-listing-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+/* applied-filter pills: desktop only, as on the source */
+.texture-listing .texture-listing-pills {
+  display: none;
+  flex-wrap: wrap;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.texture-listing .texture-listing-pill {
+  position: relative;
+  margin: 0 10px 5px 0;
+  padding: 7px 24px 7px 10px;
+  border: 1px solid var(--texture-listing-pill-border);
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  text-transform: capitalize;
+}
+
+/* 24px hit area (WCAG 2.5.8) around the source's 10px cross, centred 16px
+   from the pill's right edge as on the source */
+.texture-listing .texture-listing-pill-remove {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.texture-listing .texture-listing-pill-remove::before,
+.texture-listing .texture-listing-pill-remove::after {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 6px;
+  width: 12px;
+  height: 1.5px;
+  background-color: var(--texture-listing-text);
+  transform: rotate(45deg);
+}
+
+.texture-listing .texture-listing-pill-remove::after {
+  transform: rotate(-45deg);
+}
+
+.texture-listing .texture-listing-filter-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  margin: 0;
+  padding: 5px 5px 5px 20px;
+  border: 1px solid var(--texture-listing-accent);
+  border-radius: 2px;
+  background: none;
+  color: var(--texture-listing-accent);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* chevron in a pale circle (source sprite arrowDownBig / arrowUpBig) */
+.texture-listing .texture-listing-chevron {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--texture-listing-chevron-bg);
+}
+
+.texture-listing .texture-listing-chevron::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid var(--texture-listing-copy);
+  border-bottom: 1.5px solid var(--texture-listing-copy);
+  transform: rotate(45deg);
+}
+
+.texture-listing .texture-listing-filter-toggle[aria-expanded="true"] .texture-listing-chevron::before {
+  top: 10px;
+  transform: rotate(-135deg);
+}
+
+/* --- filter panel (mobile: accordion groups, check circles) --- */
+.texture-listing .texture-listing-filter-panel[hidden] {
+  display: none;
+}
+
+.texture-listing .texture-listing-group {
+  padding: 0 15px;
+  background-color: var(--texture-listing-surface);
+}
+
+.texture-listing .texture-listing-group.is-expanded {
+  background-color: var(--texture-listing-panel);
+}
+
+.texture-listing .texture-listing-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.texture-listing .texture-listing-group:not(.is-expanded) .texture-listing-group-head {
+  border-bottom: 1px solid var(--texture-listing-divider);
+}
+
+.texture-listing .texture-listing-group-label {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 12px;
+  letter-spacing: 1px;
+}
+
+.texture-listing .texture-listing-group-toggle {
+  box-sizing: border-box;
+  width: 28px;
+  height: 29px;
+  margin: 0;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 3.5px;
+  background: none;
+  color: #000;
+  cursor: pointer;
+}
+
+.texture-listing .texture-listing-group-toggle::before {
+  content: "+";
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 19.5px;
+}
+
+.texture-listing .texture-listing-group-toggle[aria-expanded="true"]::before {
+  content: "-";
+}
+
+/* flow-root: the last option's bottom margin stays inside the group */
+.texture-listing .texture-listing-options {
+  display: flow-root;
+}
+
+.texture-listing .texture-listing-group:not(.is-expanded) .texture-listing-options {
+  display: none;
+}
+
+.texture-listing .texture-listing-option-wrap.is-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.texture-listing .texture-listing-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  margin: 0 0 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: var(--texture-listing-ink);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 23.94px;
+  text-align: center;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.texture-listing .texture-listing-option[aria-pressed="true"] {
+  color: var(--texture-listing-text);
+}
+
+/* check circle (source sprite customCheckBox-checked / -unchecked); it sits
+   at the top of a 30px line on the source, so 7px above centre */
+.texture-listing .texture-listing-check {
+  position: relative;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 23px;
+  height: 23px;
+  margin-bottom: 7px;
+  border: 1px solid var(--texture-listing-check-ring);
+  border-radius: 50%;
+  background-color: var(--texture-listing-surface);
+}
+
+.texture-listing .texture-listing-option[aria-pressed="true"] .texture-listing-check {
+  border-color: var(--texture-listing-check);
+  background-color: var(--texture-listing-check);
+}
+
+.texture-listing .texture-listing-option[aria-pressed="true"] .texture-listing-check::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  width: 5px;
+  height: 9px;
+  border-right: 1.5px solid var(--texture-listing-surface);
+  border-bottom: 1.5px solid var(--texture-listing-surface);
+  transform: rotate(45deg);
+}
+
+.texture-listing .texture-listing-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 30px 15px;
+}
+
+.texture-listing .texture-listing-actions button {
+  box-sizing: border-box;
+  flex: 0 0 50%;
+  height: 50px;
+  margin: 0;
+  padding: 5px;
+  border: 1px solid var(--texture-listing-accent);
+  border-radius: 2px;
+  background: none;
+  color: var(--texture-listing-accent);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.texture-listing .texture-listing-actions .texture-listing-clear {
+  margin-right: -1px;
+}
+
+.texture-listing .texture-listing-actions .texture-listing-apply {
+  background-color: var(--texture-listing-accent);
+  color: var(--texture-listing-surface);
+}
+
+/* source .btn-disabled: inactive until an option is chosen */
+.texture-listing .texture-listing-actions .texture-listing-apply[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --- swatch grid (mobile: three per row) --- */
+.texture-listing .texture-listing-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0 20px;
+  list-style: none;
+}
+
+.texture-listing .texture-listing-item {
+  flex: 0 0 30%;
+  box-sizing: border-box;
+  padding-bottom: 20px;
+}
+
+.texture-listing .texture-listing-item a {
+  display: block;
+  color: var(--texture-listing-text);
+  text-decoration: none;
+}
+
+.texture-listing .texture-listing-item a:focus-visible {
+  outline: 2px solid var(--texture-listing-accent);
+  outline-offset: 2px;
+}
+
+.texture-listing .texture-listing-swatch {
+  display: block;
+  height: 102px;
+  overflow: hidden;
+  border-radius: 0 34px 0 0;
+  background-color: var(--texture-listing-line);
+}
+
+.texture-listing .texture-listing-swatch img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.texture-listing .texture-listing-name {
+  width: 100px;
+  margin: 4px 0;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 22px;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  white-space: nowrap;
+  color: var(--texture-listing-text);
+}
+
+/* --- load more --- */
+.texture-listing .texture-listing-more {
+  margin: 21px 0 0;
+  padding: 0 4.5% 70px;
+  text-align: center;
+}
+
+.texture-listing .texture-listing-more[hidden] {
+  display: none;
+}
+
+.texture-listing .texture-listing-more button {
+  box-sizing: border-box;
+  width: 270px;
+  margin: 0;
+  padding: 16px 20px;
+  border: 1px solid var(--texture-listing-accent);
+  border-radius: 2px;
+  background: none;
+  color: var(--texture-listing-accent);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* screen-reader-only result count */
+.texture-listing .texture-listing-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* keyboard focus */
+.texture-listing .texture-listing-option:focus-visible,
+.texture-listing .texture-listing-filter-toggle:focus-visible,
+.texture-listing .texture-listing-group-toggle:focus-visible,
+.texture-listing .texture-listing-actions button:focus-visible,
+.texture-listing .texture-listing-more button:focus-visible,
+.texture-listing .texture-listing-pill-remove:focus-visible {
+  outline: 2px solid var(--texture-listing-accent);
+  outline-offset: 2px;
+}
+
+/* --- below 992px the panel scrolls inside itself (source:
+   .color-palettes-main-wrapper height calc(100vh - 220px), overflow auto) --- */
+@media (width < 992px) {
+  .texture-listing .texture-listing-panel {
+    box-sizing: border-box;
+    height: calc(100vh - 220px);
+    overflow: auto;
+  }
+}
+
+/* --- 576px: names sit flush on the swatch row; the chosen option is tinted
+   and the actions are 200px (source .selection-btn-wp.selected, .plp-btn) --- */
+@media (width >= 576px) {
+  .texture-listing .texture-listing-name {
+    margin: 4px 0 0;
+  }
+
+  .texture-listing .texture-listing-option[aria-pressed="true"] {
+    border: 1px solid var(--texture-listing-selected-border);
+    background-color: var(--texture-listing-selected-bg);
+    color: var(--texture-listing-accent);
+    font-weight: 500;
+  }
+
+  .texture-listing .texture-listing-actions button {
+    flex: 0 0 200px;
+    font-size: 13px;
+    line-height: 12px;
+    letter-spacing: 0.92px;
+  }
+}
+
+/* --- 768px: tab bar loses its side padding; the filter bar and panel take
+   their desktop form (200px button, pills, chip rows, 200px actions) --- */
+@media (width >= 768px) {
+  .texture-listing .texture-listing-tabs {
+    padding: 22px 0 0;
+  }
+
+  .texture-listing .texture-listing-filter-bar {
+    flex-wrap: nowrap;
+    padding-bottom: 40px;
+  }
+
+  .texture-listing .texture-listing-pills {
+    display: flex;
+  }
+
+  .texture-listing .texture-listing-filter-toggle {
+    flex: 0 0 auto;
+    width: 200px;
+    height: 50px;
+    margin-left: auto;
+    font-size: 13px;
+  }
+
+  /* groups: label column (25%) beside a row of chips */
+  .texture-listing .texture-listing-group,
+  .texture-listing .texture-listing-group.is-expanded {
+    display: flex;
+    padding: 0;
+    background: none;
+  }
+
+  .texture-listing .texture-listing-group-head,
+  .texture-listing .texture-listing-group:not(.is-expanded) .texture-listing-group-head {
+    flex: 0 0 25%;
+    align-items: flex-start;
+    padding: 15px 0 0;
+    border: 0;
+  }
+
+  .texture-listing .texture-listing-group-label {
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.92px;
+  }
+
+  .texture-listing .texture-listing-group-toggle {
+    display: none;
+  }
+
+  .texture-listing .texture-listing-options,
+  .texture-listing .texture-listing-group:not(.is-expanded) .texture-listing-options {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding-bottom: 10px;
+  }
+
+  .texture-listing .texture-listing-option-wrap {
+    margin: 5px;
+  }
+
+  .texture-listing .texture-listing-option {
+    width: auto;
+    padding: 0 20px;
+    border: 1px solid var(--texture-listing-line);
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .texture-listing .texture-listing-check {
+    display: none;
+  }
+
+  .texture-listing .texture-listing-actions {
+    padding: 30px 0;
+  }
+
+}
+
+/* --- 768–991px: the three-column grid sits 170px in (source .commonWrapper
+   150px + list 20px) --- */
+@media (width >= 768px) and (width < 992px) {
+  .texture-listing .texture-listing-grid {
+    padding: 0 170px;
+  }
+
+  /* chips keep the check circle, before the label */
+  .texture-listing .texture-listing-option {
+    justify-content: flex-start;
+  }
+
+  .texture-listing .texture-listing-check {
+    display: block;
+    order: -1;
+  }
+}
+
+/* --- desktop: centred tabs with labels, five-column grid --- */
+@media (width >= 992px) {
+  .texture-listing .texture-listing-tablist {
+    justify-content: center;
+  }
+
+  .texture-listing .texture-listing-tab {
+    width: 130px;
+    margin-right: 30px;
+    padding: 20px;
+  }
+
+  .texture-listing .texture-listing-tab:last-child {
+    margin-right: 0;
+  }
+
+  .texture-listing .texture-listing-dot {
+    width: 40px;
+    height: 40px;
+  }
+
+  .texture-listing .texture-listing-tab-label {
+    display: block;
+  }
+
+  .texture-listing .texture-listing-tab.is-active .texture-listing-tab-label {
+    font-size: 14px;
+  }
+
+  .texture-listing .texture-listing-panel {
+    padding-bottom: 0;
+  }
+
+  /* the family name is in the active tab: keep the heading for screen readers */
+  .texture-listing .texture-listing-family {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* source .commonWrapper (max 1366px, centred) with 170px side padding */
+  .texture-listing .texture-listing-filters {
+    padding: 20px max(170px, calc((100% - 1366px) / 2 + 170px)) 0;
+  }
+
+  .texture-listing .texture-listing-filters.is-open {
+    margin-bottom: 40px;
+  }
+
+  /* source .commonWrapper (max 1366px, centred) with 150px side padding */
+  .texture-listing .texture-listing-grid {
+    justify-content: flex-start;
+    padding: 0 max(150px, calc((100% - 1366px) / 2 + 150px)) 20px;
+  }
+
+  .texture-listing .texture-listing-item {
+    flex: 0 0 20%;
+    margin-bottom: 28px;
+    padding-bottom: 15px;
+  }
+
+  .texture-listing .texture-listing-item a {
+    margin: 0 20px;
+  }
+
+  .texture-listing .texture-listing-swatch {
+    height: 178px;
+  }
+
+  .texture-listing .texture-listing-name {
+    width: 105px;
+    margin: 8px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .texture-listing .texture-listing-more {
+    padding: 0 4% 70px;
+  }
+}

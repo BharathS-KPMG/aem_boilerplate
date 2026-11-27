@@ -1,0 +1,7 @@
+helix-importer-ui
+*.min.js
+# vendored third-party JS, kept as shipped
+eds/scripts/swiper.js
+eds/scripts/crypto.js
+# obfuscated on purpose (lead payload encryption); readable source is commented at its top
+eds/scripts/aesUtil.module.js

@@ -1,0 +1,1088 @@
+main > .section.collection-listing-container {
+  --background-color: white;
+  --light-color: #f8f8f8;
+  --dark-color: #505050;
+  --text-color: #131313;
+  --link-color: #3b63fb;
+  --link-hover-color: #1d3ecf;
+  --body-font-size-m: 22px;
+  --body-font-size-s: 19px;
+  --body-font-size-xs: 17px;
+  --heading-font-size-xxl: 55px;
+  --heading-font-size-xl: 44px;
+  --heading-font-size-l: 34px;
+  --heading-font-size-m: 27px;
+  --heading-font-size-s: 24px;
+  --heading-font-size-xs: 22px;
+  --nav-height: 64px;
+
+  color: var(--text-color);
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+}
+
+@media (width >= 900px) {
+  main > .section.collection-listing-container {
+    --body-font-size-m: 18px;
+    --body-font-size-s: 16px;
+    --body-font-size-xs: 14px;
+    --heading-font-size-xxl: 45px;
+    --heading-font-size-xl: 36px;
+    --heading-font-size-l: 28px;
+    --heading-font-size-m: 22px;
+    --heading-font-size-s: 20px;
+    --heading-font-size-xs: 18px;
+  }
+}
+
+/* the browser's box model, in case the host site sets box-sizing on everything */
+:where(main > .section.collection-listing-container), :where(main > .section.collection-listing-container) *, :where(main > .section.collection-listing-container) ::before, :where(main > .section.collection-listing-container) ::after {
+  box-sizing: revert;
+}
+
+:where(main > .section.collection-listing-container) :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+  font-weight: 600;
+  line-height: 1.25;
+  color: inherit;
+  scroll-margin: 40px;
+}
+
+:where(main > .section.collection-listing-container) h1 { font-size: var(--heading-font-size-xxl); }
+:where(main > .section.collection-listing-container) h2 { font-size: var(--heading-font-size-xl); }
+:where(main > .section.collection-listing-container) h3 { font-size: var(--heading-font-size-l); }
+:where(main > .section.collection-listing-container) h4 { font-size: var(--heading-font-size-m); }
+:where(main > .section.collection-listing-container) h5 { font-size: var(--heading-font-size-s); }
+:where(main > .section.collection-listing-container) h6 { font-size: var(--heading-font-size-xs); }
+
+:where(main > .section.collection-listing-container) :is(p, dl, ol, ul, pre, blockquote) {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+}
+
+:where(main > .section.collection-listing-container) a:where(:any-link) {
+  color: var(--link-color);
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+:where(main > .section.collection-listing-container) a:where(:hover) {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+:where(main > .section.collection-listing-container) img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  vertical-align: baseline;
+}
+
+:where(main > .section.collection-listing-container) :is(input, textarea, select, button) {
+  font: inherit;
+}
+
+/* ---- end of self-contained base ---- */
+
+/* a texture listing, mobile first; sizes as on the source */
+.collection-listing {
+  /* brand colours with no token in styles.css, as on the source */
+  --collection-listing-accent: #431a80;
+  --collection-listing-text: #222;
+  --collection-listing-muted: #848080;
+  --collection-listing-line: rgb(34 34 34 / 10%);
+  --collection-listing-box: #8a8a8a;
+  --collection-listing-ring: #c1b6d8;
+
+  border-bottom: 1px solid var(--collection-listing-line);
+  color: var(--collection-listing-text);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.collection-listing [hidden] {
+  display: none !important;
+}
+
+.collection-listing button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.collection-listing a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.collection-listing :is(a, button, select, input):focus-visible {
+  outline: 2px solid var(--collection-listing-accent);
+  outline-offset: 2px;
+}
+
+.collection-listing ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.collection-listing .collection-listing-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* colour family tabs: 4 per row on mobile, one row on desktop */
+.collection-listing .collection-listing-colours ul {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 25px 5% 10px;
+}
+
+.collection-listing .collection-listing-colour {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* only the current tab has a border (its 2px underline), as on the source */
+.collection-listing .collection-listing-colour.is-current {
+  border-bottom: 2px solid var(--collection-listing-accent);
+}
+
+.collection-listing .collection-listing-colour-link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.collection-listing .collection-listing-colour-swatches {
+  position: relative;
+  display: flex;
+  height: 30px;
+  margin: 0 4% 5px;
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow: 1px 5px 15px 2px #c2c2c2;
+}
+
+.collection-listing .collection-listing-colour-swatch {
+  flex: 1;
+  background: var(--swatch, #fff);
+}
+
+/* a pair of colours: a 1px white line between them, as on the source */
+.collection-listing .collection-listing-colour-swatch:first-child:not(:last-child) {
+  border-right: 1px solid #fff;
+}
+
+.collection-listing .collection-listing-colour-swatch:last-child:not(:first-child) {
+  border-left: 1px solid #fff;
+}
+
+.collection-listing .collection-listing-colour-all {
+  background: linear-gradient(90deg, #f00, #ffa500, #dfd960, #71ac00, #ff69b4, #00f);
+}
+
+/* the current tab's tick */
+.collection-listing .is-current .collection-listing-colour-swatches::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 15px;
+  height: 15px;
+  background: url('./icons/check.webp') center / contain no-repeat;
+  transform: translate(-50%, -50%);
+}
+
+/* names are on desktop only, as on the source */
+.collection-listing .collection-listing-colour-name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* filters and results */
+.collection-listing .collection-listing-body {
+  padding: 0 4.5%;
+  background: var(--light-color);
+}
+
+.collection-listing .collection-listing-current {
+  margin: -10px 0 0;
+  padding: 10px 0 23px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* the filter panel: a full-screen dialog on mobile */
+.collection-listing .collection-listing-filters {
+  display: none;
+}
+
+.collection-listing .collection-listing-filters.is-open {
+  position: fixed;
+  inset: 0;
+  z-index: 1051;
+  display: block;
+  padding: 20px 20px 70px;
+  overflow: auto;
+  background: var(--background-color);
+}
+
+.collection-listing .collection-listing-filters-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+}
+
+.collection-listing .collection-listing-filters-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+.collection-listing .collection-listing-close {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.collection-listing .collection-listing-close::before,
+.collection-listing .collection-listing-close::after,
+.collection-listing .collection-listing-pill-remove::before,
+.collection-listing .collection-listing-pill-remove::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 1px;
+  height: 14px;
+  background: currentcolor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.collection-listing .collection-listing-close::after,
+.collection-listing .collection-listing-pill-remove::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Clear all and Apply: the bottom bar of the mobile panel */
+.collection-listing .collection-listing-filters.is-open :is(.collection-listing-clear, .collection-listing-apply) {
+  position: fixed;
+  bottom: 20px;
+  z-index: 1;
+  width: calc(50% - 25px);
+  padding: 14px 15px;
+  border: 1px solid var(--collection-listing-accent);
+  border-radius: 2px;
+  background: var(--background-color);
+  color: var(--collection-listing-accent);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  text-transform: uppercase;
+}
+
+.collection-listing .collection-listing-filters.is-open .collection-listing-clear {
+  left: 20px;
+}
+
+.collection-listing .collection-listing-filters.is-open .collection-listing-apply {
+  right: 20px;
+  background: var(--collection-listing-accent);
+  color: var(--background-color);
+}
+
+/* accordion groups */
+.collection-listing .collection-listing-group {
+  border-top: 1px solid var(--collection-listing-line);
+}
+
+.collection-listing .collection-listing-group-title {
+  margin: 0;
+  font-size: inherit;
+}
+
+.collection-listing .collection-listing-group-toggle {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 18px 20px 20px 0;
+  color: #3b3b3b;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 14px;
+  letter-spacing: 1px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+/* + / - on mobile, a chevron on desktop */
+.collection-listing .collection-listing-group-toggle::before,
+.collection-listing .collection-listing-group-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 10px;
+  height: 2px;
+  background: currentcolor;
+  transform: translateY(-50%);
+}
+
+.collection-listing .collection-listing-group-toggle::before {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.collection-listing .collection-listing-group-toggle[aria-expanded='true']::before {
+  display: none;
+}
+
+.collection-listing .collection-listing-rooms,
+.collection-listing .collection-listing-options {
+  margin: 0;
+  padding: 0 0 8px;
+  border: 0;
+}
+
+.collection-listing .collection-listing-rooms {
+  padding-bottom: 0;
+}
+
+.collection-listing .collection-listing-room,
+.collection-listing .collection-listing-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 7px 0;
+  cursor: pointer;
+}
+
+/* the source draws the room links as radio options */
+.collection-listing .collection-listing-room::before {
+  content: '';
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 23px;
+  height: 23px;
+  margin-right: 15px;
+  border: 2px solid var(--collection-listing-ring);
+  border-radius: 50%;
+}
+
+.collection-listing .collection-listing-room[aria-current='page']::before {
+  border-color: var(--collection-listing-accent);
+  box-shadow: inset 0 0 0 4px var(--background-color);
+  background: var(--collection-listing-accent);
+}
+
+.collection-listing .collection-listing-room:hover {
+  color: var(--collection-listing-accent);
+}
+
+.collection-listing .collection-listing-option {
+  position: relative;
+  color: #2a2a2a;
+  text-transform: capitalize;
+}
+
+.collection-listing .collection-listing-option input {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  opacity: 0;
+}
+
+.collection-listing .collection-listing-box {
+  position: relative;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 1px solid var(--collection-listing-box);
+  background: var(--background-color);
+}
+
+.collection-listing .collection-listing-option input:focus-visible + .collection-listing-box {
+  outline: 2px solid var(--collection-listing-accent);
+  outline-offset: 2px;
+}
+
+.collection-listing .collection-listing-option input:checked + .collection-listing-box {
+  border-color: var(--collection-listing-accent);
+  background: var(--collection-listing-accent);
+}
+
+.collection-listing .collection-listing-option input:checked + .collection-listing-box::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--background-color);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* values no texture would match */
+.collection-listing .collection-listing-option:has(input:disabled) {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.collection-listing .collection-listing-count {
+  font-weight: inherit;
+}
+
+/* results bar: Filter (mobile) and sort, 5% apart as on the source, then the applied filters */
+.collection-listing .collection-listing-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 5%;
+  margin-bottom: 14px;
+}
+
+.collection-listing .collection-listing-open,
+.collection-listing .collection-listing-sort {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-height: 46px;
+  margin-bottom: 17px;
+  padding: 14px 15px;
+  border: 1px solid var(--collection-listing-accent);
+  color: var(--collection-listing-accent);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 13px;
+  text-transform: uppercase;
+}
+
+.collection-listing .collection-listing-open::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 30px;
+  border: solid currentcolor;
+  border-width: 0 1px 1px 0;
+  transform: rotate(45deg);
+}
+
+.collection-listing .collection-listing-pills {
+  display: flex;
+  flex-wrap: wrap;
+  order: 3;
+  width: 100%;
+}
+
+.collection-listing .collection-listing-pills:empty {
+  display: none;
+}
+
+.collection-listing .collection-listing-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 3.5px 5px 0;
+  padding: 7px 24px 7px 10px;
+  border: 1px solid rgb(34 34 34 / 20%);
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 12px;
+  text-transform: capitalize;
+}
+
+.collection-listing .collection-listing-pill-remove {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  width: 24px;
+  height: 24px;
+  transform: translateY(-50%);
+}
+
+.collection-listing .collection-listing-pill-remove::before,
+.collection-listing .collection-listing-pill-remove::after {
+  height: 10px;
+}
+
+.collection-listing .collection-listing-sort label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.collection-listing .collection-listing-sort select {
+  appearance: none;
+  padding: 0 20px 0 10px;
+  border: 0;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23431a80' stroke-width='1.3'/%3E%3C/svg%3E") right center / 12px 8px no-repeat;
+  color: inherit;
+  font: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* the grid: 2 columns on mobile, 3 on desktop */
+.collection-listing .collection-listing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 35px 20px;
+}
+
+/* the shades sit at the bottom of the card, so they line up across a row, as on the source */
+.collection-listing .collection-listing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.collection-listing .collection-listing-card-link {
+  display: block;
+  flex: 1 0 auto;
+}
+
+.collection-listing .collection-listing-card-image {
+  position: relative;
+  display: block;
+  margin-bottom: 17px;
+  overflow: hidden;
+  border-radius: 2px;
+  aspect-ratio: 308 / 257;
+}
+
+.collection-listing .collection-listing-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.collection-listing .collection-listing-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: var(--collection-listing-accent);
+  color: var(--background-color);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.collection-listing .collection-listing-card-name {
+  margin: 0 0 7px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.collection-listing .collection-listing-card-link:hover .collection-listing-card-name {
+  text-decoration: none;
+}
+
+/* wishlist heart (state and clicks: scripts/wishlist.js) */
+.collection-listing .collection-listing-wishlist {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 0;
+  background: url('../../icons/old-type-wishlist-unselected.svg') center / 40px 40px no-repeat;
+}
+
+.collection-listing .collection-listing-wishlist[aria-pressed='true'] {
+  background-image: url('../../icons/old-type-wishlist-selected.svg');
+}
+
+/* shade swatches: the first three, the current one ringed */
+.collection-listing .collection-listing-shades {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 22.7px;
+}
+
+.collection-listing .collection-listing-shade {
+  box-sizing: border-box;
+  width: 21px;
+  height: 21px;
+  margin: 0 7px 0 0;
+  border: 3px solid transparent;
+  border-radius: 50%;
+
+  /* as on the source: the swatch at its natural size from the top left (a zoomed-in crop),
+     tiled under the transparent border so it fills the whole circle; the small rendition the
+     block loads sets --shade-size to draw it at about the original's size */
+  background: var(--shade) 0 0 / var(--shade-size, auto) repeat;
+}
+
+/* the current shade: 15px, with a 21px ring 2px outside it */
+.collection-listing .collection-listing-shade[aria-pressed='true'] {
+  width: 15px;
+  height: 15px;
+  margin: 3px 7px 3px 3px;
+  border: 0;
+  box-shadow: 0 0 0 2px var(--light-color), 0 0 0 3px var(--collection-listing-accent);
+}
+
+.collection-listing .collection-listing-more-shades {
+  position: relative;
+  top: 4.2px;
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.collection-listing .collection-listing-more-shades:hover {
+  text-decoration: underline;
+}
+
+/* Load more */
+.collection-listing .collection-listing-more {
+  margin-top: 21px;
+  padding-bottom: 40px;
+  text-align: center;
+}
+
+.collection-listing .collection-listing-load {
+  width: 100%;
+  padding: 9px 20px;
+  border: 1px solid var(--collection-listing-accent);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--collection-listing-accent);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  text-transform: uppercase;
+}
+
+.collection-listing .collection-listing-load:hover {
+  background: var(--collection-listing-accent);
+  color: var(--background-color);
+}
+
+@media (width < 992px) {
+  /* the full-screen filter panel: the page behind doesn't scroll */
+  body.collection-listing-locked {
+    overflow: hidden;
+  }
+}
+
+@media (width >= 992px) {
+  .collection-listing .collection-listing-colours ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 5%;
+  }
+
+  /* 104px at 1440px wide: a share of the row, so the tabs widen with the page */
+  .collection-listing .collection-listing-colour {
+    box-sizing: border-box;
+    width: 8.025%;
+    height: 96px;
+    margin: 0;
+  }
+
+  /* colour swatches sit 2.5% in from the tab's sides (the "All" one runs edge to edge) */
+  .collection-listing .collection-listing-colour-swatches {
+    height: 34px;
+    margin: 0 2.5%;
+  }
+
+  .collection-listing .collection-listing-colour-swatches:has(.collection-listing-colour-all) {
+    margin: 0;
+  }
+
+  .collection-listing .collection-listing-colour-name {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    padding: 10px 0 8px;
+    color: var(--collection-listing-muted);
+    text-transform: uppercase;
+    white-space: normal;
+  }
+
+  .collection-listing .is-current .collection-listing-colour-name {
+    color: var(--collection-listing-text);
+    font-weight: 700;
+  }
+
+  .collection-listing .collection-listing-colour a:hover .collection-listing-colour-name {
+    color: var(--collection-listing-text);
+  }
+
+  /* side space and gutter as shares of the page (4%, and 53px at 1440px), like the source's */
+  .collection-listing .collection-listing-body {
+    display: grid;
+    grid-template-columns: 265px minmax(0, 1fr);
+    column-gap: 3.84%;
+    padding: 0 0 0 4%;
+    background: none;
+  }
+
+  .collection-listing .collection-listing-current {
+    display: none;
+  }
+
+  /* at most 800px tall, scrolling inside, as on the source */
+  .collection-listing .collection-listing-filters {
+    display: block;
+    align-self: start;
+    max-height: 800px;
+    overflow-y: auto;
+  }
+
+  .collection-listing .collection-listing-filters-head {
+    padding-bottom: 21px;
+  }
+
+  .collection-listing .collection-listing-close,
+  .collection-listing .collection-listing-filters-actions {
+    display: none;
+  }
+
+  .collection-listing .collection-listing-clear {
+    padding: 1px 6px;
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 13px;
+    text-decoration: underline;
+    text-transform: uppercase;
+  }
+
+  /* the chevron: down when closed, up when open */
+  .collection-listing .collection-listing-group-toggle::before {
+    display: none;
+  }
+
+  .collection-listing .collection-listing-group-toggle::after {
+    top: 23px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    border: solid var(--collection-listing-text);
+    border-width: 0 1px 1px 0;
+    background: none;
+    transform: rotate(45deg);
+  }
+
+  .collection-listing .collection-listing-group-toggle[aria-expanded='true']::after {
+    top: 27px;
+    transform: rotate(-135deg);
+  }
+
+  .collection-listing .collection-listing-results {
+    margin: -20px 4px 0 0;
+    padding: 20px 45px 60px 30px;
+    background: var(--light-color);
+  }
+
+  .collection-listing .collection-listing-bar {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    column-gap: 17px;
+    margin-bottom: 14px;
+  }
+
+  .collection-listing .collection-listing-open {
+    display: none;
+  }
+
+  .collection-listing .collection-listing-pills {
+    order: 0;
+    width: auto;
+    padding-left: 20px;
+  }
+
+  .collection-listing .collection-listing-pills:empty {
+    display: flex;
+  }
+
+  .collection-listing .collection-listing-sort {
+    flex: 0 0 auto;
+    align-items: flex-start;
+    min-height: 0;
+    margin: 0 7px 0 auto;
+    padding: 0;
+    border: 0;
+    color: var(--collection-listing-text);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+
+  .collection-listing .collection-listing-sort label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    margin-bottom: 7px;
+    padding-right: 10px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  .collection-listing .collection-listing-sort select {
+    padding: 0 15px 0 0;
+    font-weight: 700;
+    line-height: 22px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23222' stroke-width='1.3'/%3E%3C/svg%3E");
+  }
+
+  /* the source keeps a row gap below the last row too */
+  .collection-listing .collection-listing-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 0 0 29px 20px;
+  }
+
+  .collection-listing .collection-listing-card-image {
+    margin-bottom: 23px;
+  }
+
+  .collection-listing .collection-listing-card-name {
+    padding-right: 10px;
+    font-size: 13px;
+    line-height: 22px;
+  }
+
+  .collection-listing .collection-listing-wishlist {
+    top: 10px;
+    right: 10px;
+  }
+
+  .collection-listing .collection-listing-shade {
+    margin-right: 10px;
+  }
+
+  .collection-listing .collection-listing-shade[aria-pressed='true'] {
+    margin-right: 10px;
+  }
+
+  .collection-listing .collection-listing-more-shades {
+    font-size: 13px;
+  }
+
+  .collection-listing .collection-listing-more {
+    padding-bottom: 70px;
+  }
+
+  .collection-listing .collection-listing-load {
+    width: 270px;
+    padding: 16px 20px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .collection-listing .collection-listing-load,
+  .collection-listing .collection-listing-colour-name {
+    transition: background-color 0.2s, color 0.2s;
+  }
+}
+
+
+/* ---- section layout (part of the self-contained base, see the top of this file) ---- */
+/* stylelint-disable max-line-length, no-duplicate-selectors */
+
+/* section layout: edge to edge (was Section Metadata "Style: full-width") */
+main > .section.collection-listing-container > div {
+  max-width: none;
+  padding: 0;
+}
+
+/* the source zooms the whole page below 1440px; scale the section the same way (by less when the
+   host page already zooms the body and sets --body-zoom) */
+@media (width >= 992px) and (width < 1100px) {
+  main > .section.collection-listing-container {
+    zoom: calc(0.7 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1100px) and (width < 1200px) {
+  main > .section.collection-listing-container {
+    zoom: calc(0.75 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1200px) and (width < 1280px) {
+  main > .section.collection-listing-container {
+    zoom: calc(0.8 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1280px) and (width < 1366px) {
+  main > .section.collection-listing-container {
+    zoom: calc(0.85 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1366px) and (width < 1440px) {
+  main > .section.collection-listing-container {
+    zoom: calc(0.9 / var(--body-zoom, 1));
+  }
+}
+
+/* stylelint-enable max-line-length, no-duplicate-selectors */
+
+/* ---- end of section layout ---- */
+
+/* ===== FIX START: Collection Listing like live (www.asianpaints.com/interior-textures.html) =====
+   - the live tick on the current colour tab inline; the wishlist hearts from icons/old-type-wishlist-*.svg
+   - card images 6:5 and cards 33.33% of the list wide, like live
+   - desktop: the results run to 0.32% of the page from the right edge, like live
+   - desktop: the filters dock below the sticky header while the list scrolls, like live */
+/* stylelint-disable no-descending-specificity, no-duplicate-selectors -- overrides of the rules above, kept in this section */
+.collection-listing .is-current .collection-listing-colour-swatches::after {
+  background-image: url('data:image/webp;base64,UklGRrYAAABXRUJQVlA4WAoAAAAQAAAADgAADgAAQUxQSHgAAAABcEhbbyY9hEEIQhGCUIOtSWPSMRmEQQhCEL75W4eImADeHis6f3upspTjY+pwoO2awFDwHeqQi/9H0dW+7Gwuj+LTMo2KPcHAMg1yRdH1s0wDKly+nao0oMmpg+1MA1gJXZPNAKYGEFoN8EPBe6QqS9X522OF8wZWUDggGAAAADABAJ0BKg8ADwABQCIlpAADcAD++ZDAAA==');
+}
+
+.collection-listing .collection-listing-wishlist {
+  background: url('../../icons/old-type-wishlist-unselected.svg') center / contain no-repeat;
+}
+
+.collection-listing .collection-listing-wishlist[aria-pressed='true'] {
+  background: url('../../icons/old-type-wishlist-selected.svg') center / contain no-repeat;
+}
+
+.collection-listing .collection-listing-card-image {
+  aspect-ratio: 6 / 5;
+}
+
+@media (width >= 992px) {
+  /* 4.6px at 1440px, 6px at 1920px, 8px at 2560px */
+  .collection-listing .collection-listing-body {
+    padding-right: 0.32%;
+  }
+
+  .collection-listing .collection-listing-results {
+    margin-right: 0;
+  }
+
+  /* live: each card is 33.33% of the list (the list's 20px left padding included) minus 20px */
+  .collection-listing .collection-listing-grid {
+    grid-template-columns: repeat(3, calc((100% + 20px) * 0.3333 - 20px));
+  }
+
+  /* live: sticky 100px from the top, under the 100px sticky header */
+  .collection-listing .collection-listing-filters {
+    position: sticky;
+    top: 100px;
+  }
+}
+
+/* colour tabs like live: a 1px #d8d8d8 outline on every swatch; only one-colour swatches
+   (All, Greys, Blues, Browns) keep the shadow, the pairs have none */
+.collection-listing .collection-listing-colour-swatches {
+  outline: 1px solid #d8d8d8;
+}
+
+.collection-listing .collection-listing-colour-swatches:has(> .collection-listing-colour-swatch + .collection-listing-colour-swatch) {
+  box-shadow: none;
+}
+
+/* the listing sits on white like live, also on sites with a tinted page background */
+main > .section.collection-listing-container {
+  background-color: var(--background-color);
+}
+
+@media (width >= 992px) {
+  /* live: each tab is 8% of the row (103.7px at 1440px) */
+  .collection-listing .collection-listing-colour {
+    width: 8%;
+  }
+}
+
+/* stylelint-enable no-descending-specificity, no-duplicate-selectors */
+
+/* ===== FIX END ===== */
+
+/* ===== FIX START: Collection Listing details like live (filter panel, +more, spacing */
+@media (width < 992px) {
+  .collection-listing .collection-listing-current {
+    padding-bottom: 20px;
+  }
+
+  .collection-listing .collection-listing-bar {
+    margin-bottom: 17px;
+  }
+
+  .collection-listing .collection-listing-sort {
+    min-height: 45px;
+    margin-top: 1px;
+  }
+
+  /* the text sits 8px left of centre like live; the side padding still adds up to 30px */
+  .collection-listing .collection-listing-open {
+    position: relative;
+    padding-right: 23px;
+    padding-left: 7px;
+  }
+
+  .collection-listing .collection-listing-open::after {
+    position: absolute;
+    top: 50%;
+    right: 21px;
+    margin: 0;
+    transform: translateY(-75%) rotate(45deg);
+  }
+
+  .collection-listing .collection-listing-more:has(> .collection-listing-load[hidden]) {
+    margin-top: 0;
+    padding-bottom: 35px;
+  }
+}
+
+@media (width >= 992px) {
+  .collection-listing .collection-listing-more {
+    margin-top: 27px;
+  }
+
+  .collection-listing .collection-listing-filters {
+    box-sizing: border-box;
+    align-self: stretch;
+    max-height: calc(100vh - 100px);
+  }
+
+  .collection-listing .collection-listing-filters.is-docked {
+    padding: 10px;
+    background: var(--background-color);
+  }
+}
+
+/* ===== FIX END ===== */
+

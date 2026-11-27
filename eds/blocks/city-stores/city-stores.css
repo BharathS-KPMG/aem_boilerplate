@@ -1,0 +1,181 @@
+/*
+ * city-stores — "Explore stores by cities": title over the city-card grid.
+ * Source: asianpaints.com/store-locator (apCityCarousel "variant-three").
+ * Authoring and behaviour: README.md.
+ *
+ * Every value is the source's computed value at 1440px, 1024px (desktop, from
+ * 992px) or 390px (mobile, up to 991px; the source's breakpoints), including
+ * the spacing its page grid adds around the component (side padding 4.5% /
+ * 4%, the empty description wrapper above the title, 25px / 50px below).
+ * Between 992px and 1439px the source zooms the whole page (0.7 / 0.75 / 0.8 /
+ * 0.85 / 0.9); the site's styles.css already does that on the body, so this
+ * block must not zoom again (it would shrink twice).
+ *
+ * Fonts: the source sets everything in "Manrope". This repo does not load
+ * Manrope (the main site does); see README.
+ */
+
+/* the band is full-bleed; the block pads itself like the source's grid */
+main > .section.city-stores-container {
+  margin: 0 0 25px;
+}
+
+main > .section.city-stores-container > .city-stores-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.city-stores {
+  /* source values */
+  --city-stores-font: "Manrope", sans-serif;
+  --city-stores-text: #222;
+  --city-stores-heading: #232426;
+  --city-stores-focus: #232426;
+  --city-stores-radius: 8px;
+
+  padding: 51px 4.5% 0;
+  color: var(--city-stores-text);
+  font-family: var(--city-stores-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+}
+
+.city-stores *,
+.city-stores *::before,
+.city-stores *::after {
+  box-sizing: border-box;
+}
+
+.city-stores .city-stores-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.city-stores .city-stores-title {
+  margin: 0 0 10px;
+  color: var(--city-stores-heading);
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 33.6px;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.city-stores .city-stores-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.city-stores .city-stores-card {
+  flex: 0 1 calc(50% - 8px);
+}
+
+.city-stores .city-stores-link {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.city-stores a.city-stores-link {
+  cursor: pointer;
+}
+
+.city-stores .city-stores-media {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--city-stores-radius);
+}
+
+.city-stores .city-stores-media picture {
+  display: block;
+  transition: transform 0.5s;
+  transform-origin: left top;
+  will-change: transform;
+}
+
+.city-stores .city-stores-media img {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  border-radius: inherit;
+  object-fit: cover;
+  aspect-ratio: auto 458 / 420;
+}
+
+.city-stores .city-stores-name {
+  color: var(--city-stores-heading);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+.city-stores a.city-stores-link:focus-visible {
+  outline: 2px solid var(--city-stores-focus);
+  outline-offset: 4px;
+  border-radius: var(--city-stores-radius);
+}
+
+@media (width >= 992px) {
+  main > .section.city-stores-container {
+    margin-bottom: 50px;
+  }
+
+  .city-stores {
+    padding: 35px 4% 0;
+  }
+
+  .city-stores .city-stores-title {
+    margin-bottom: 40px;
+    font-size: 32px;
+    line-height: 41.6px;
+    text-align: center;
+  }
+
+  .city-stores .city-stores-list {
+    gap: 40px;
+  }
+
+  .city-stores .city-stores-card {
+    flex: 0 1 calc(20% - 32px);
+  }
+
+  .city-stores .city-stores-name {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  /* the source zooms the picture on hover; keyboard focus gets the same */
+  .city-stores a.city-stores-link:hover picture,
+  .city-stores a.city-stores-link:focus-visible picture {
+    transform: scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .city-stores .city-stores-media picture {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .city-stores a.city-stores-link:focus-visible {
+    outline-color: Highlight;
+  }
+}

@@ -1,0 +1,504 @@
+.section.seo-content-container {
+    margin: 40px auto;
+}
+
+.seo-content.large-side-space {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+@media (width >=900px) {
+    .seo-content.large-side-space {
+        padding-left: 18%;
+        padding-right: 18%;
+    }
+}
+
+.seo-content.block h2 {
+    color: #222;
+    margin-bottom: 8px;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 34px;
+
+    @media (width <= 991px) {
+        font-size: 22px;
+        line-height: 24px;
+        letter-spacing: normal;
+    }
+}
+
+.seo-content.block h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+    margin-top: 2.5rem;
+
+    @media (width <= 991px) {
+        font-size: 16px;
+        line-height: 22px;
+        letter-spacing: normal;
+    }
+}
+
+.seo-content.block p {
+    font-size: 14px;
+    letter-spacing: .5px;
+    margin-top: 0.67em;
+    margin-bottom: 0;
+
+    @media (width <= 991px) {
+        font-size: 14px;
+        line-height: 1.57;
+        letter-spacing: .5px;
+        font-weight: 400;
+    }
+}
+
+.seo-content.fsize-16.block p {
+    font-size: 16px;
+    letter-spacing: .5px;
+    margin-top: 0.67em;
+    color: #222;
+}
+
+/* ===== TEXTURE TOOL PAGE (seo-content) : START =====
+   parent has .texture-tool-page */
+.texture-tool-page .seo-content.block h2 {
+    @media (width <= 991px) {
+        text-align: left;
+    }
+}
+
+.texture-tool-page .seo-content.block p {
+    font-size: 16px;
+    font-weight: 500;
+
+    @media (width <= 991px) {
+        text-align: left;
+    }
+
+    @media (width >= 992px) {
+        line-height: 21.86px;
+    }
+}
+
+/* ===== TEXTURE TOOL PAGE (seo-content) : END ===== */
+
+.seo-content.block p a {
+    color: #00e;
+    text-decoration: underline;
+}
+
+.seo-content.block ul li strong {
+    font-size: 20px;
+}
+
+.seo-content.block ul {
+    padding: 0 16px;
+}
+
+.seo-content.block ul li {
+    font-size: 14px;
+    color: #222;
+    margin-bottom: 14px;
+    letter-spacing: .5px;
+    line-height: 22px;
+}
+
+.seo-content.block ul li a {
+    color: #00e;
+    text-decoration: underline;
+}
+
+.seo-content.block ul li::marker {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.seo-content.block ul li p strong {
+    font-size: 20px;
+}
+
+/* Hide list style */
+.seo-content.block.hide-list-style ul {
+    padding: 0;
+}
+
+.seo-content.block.hide-list-style li {
+    list-style: none;
+}
+
+
+/* ============================================
+   Variant: List Padding 1
+   ============================================ */
+.seo-content.block.list-padding-1 ul {
+    margin-top: 0;
+    padding-left: 20px;
+}
+
+.seo-content.block.list-padding-1 ul li strong {
+    font-size: 14px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity, no-duplicate-selectors -- adds to the earlier rule, kept with this section; the more specific rule above still wins */
+.seo-content.block ul li p strong {
+    font-size: 14px;
+}
+
+/* ============================================
+   Variant: Hollow Circle Bullets
+   DA block name: "Seo Content (hollow-circle-bullets)", with any other variants,
+   e.g. "Seo Content (mt-5, list-padding-1, hollow-circle-bullets)".
+   The block's list items are sub-headings with a hollow circle bullet, as the
+   source's <h3><ul><li>Putty</li></ul></h3> (e.g. undercoats "Different Types of
+   Undercoat Paints"): 20px bold (16px up to 991px), 32px in; a paragraph after
+   a list is its description, 16px in.
+   ============================================ */
+.seo-content.block.hollow-circle-bullets ul {
+    margin: 0 0 7px;
+    padding: 0 0 0 32px;
+    list-style: circle;
+}
+
+/* the first list under the heading: the source's empty paragraph above it */
+.seo-content.block.hollow-circle-bullets h2 + ul {
+    margin-top: 43px;
+}
+
+.seo-content.block.hollow-circle-bullets ul > li {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: normal;
+}
+
+.seo-content.block.hollow-circle-bullets ul > li strong {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+@media (width <= 991px) {
+    .seo-content.block.hollow-circle-bullets ul > li {
+        font-size: 16px;
+    }
+}
+
+
+
+/* Responsive */
+@media screen and (width <= 992px) {
+    .seo-content.mt-5.block {
+        margin-top: 3rem !important;
+    }
+
+    .section.seo-content-container {
+        padding: 0 16px;
+        margin: 50px auto 40px;
+    }
+
+    .seo-content.block h2 {
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .seo-content.block ul li strong {
+        font-size: 16px;
+    }
+
+    .seo-content.block ul li h3 {
+        margin-top: 1rem;
+    }
+}
+
+/* ============================================
+   Variant: Table Style
+   ============================================ */
+
+@media screen and (width <= 992px) {
+    .seo-content.block.table-style {
+        padding: 0 !important;
+    }
+}
+
+.seo-content.block.table-style {
+    overflow-x: auto;
+    padding: 0 30px;
+}
+
+.seo-content.block.table-style table {
+    width: fit-content;
+    max-width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #222;
+}
+
+.seo-content.block.table-style th,
+.seo-content.block.table-style td {
+    border: 1px solid #ddd;
+    padding: 14px 16px;
+    text-align: left;
+    vertical-align: top;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+}
+
+.seo-content.block.table-style th {
+    font-weight: 700;
+    background: #f7f7f7;
+}
+
+@media screen and (width <= 992px) {
+    .seo-content.block.table-style table {
+        min-width: 640px;
+    }
+
+    .seo-content.block.table-style th,
+    .seo-content.block.table-style td {
+        padding: 12px;
+        font-size: 13px;
+    }
+}
+
+/* ============================================
+   Variant: Table Style 2
+   DA block name: "Seo Content (table-style-2)". The JS turns the rows into a <table>: every row
+   is a table row, the first row is the header (authored bold). Centred text, narrow first column.
+   ============================================ */
+.seo-content.block.table-style-2 table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #222;
+}
+
+.seo-content.block.table-style-2 th,
+.seo-content.block.table-style-2 td {
+    width: 40%;
+    padding: 12px 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 22px;
+}
+
+.seo-content.block.table-style-2 th:first-child,
+.seo-content.block.table-style-2 td:first-child {
+    width: 20%;
+}
+
+.seo-content.block.table-style-2 p {
+    font-size: 13px;
+}
+
+@media (width >= 900px) {
+    .seo-content.block.table-style-2 th,
+    .seo-content.block.table-style-2 td {
+        width: 43%;
+        padding: 15px 16px;
+    }
+
+    .seo-content.block.table-style-2 th:first-child,
+    .seo-content.block.table-style-2 td:first-child {
+        width: 14%;
+    }
+}
+
+/* Modifier: fit-content, used with table-style-2. DA block name:
+   "Seo Content (table-style-2, fit-content)". The table is only as wide as its content (up to
+   the block's width) instead of full width, and the columns drop their fixed widths. */
+.seo-content.block.table-style-2.fit-content table {
+    width: auto;
+}
+
+.seo-content.block.table-style-2.fit-content th,
+.seo-content.block.table-style-2.fit-content td {
+    width: auto;
+}
+
+
+@media screen and (width >= 992px) {
+    .royale-seo-content-container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .royale-seo-content-container .seo-content-wrapper,
+    .royale-seo-content-container .default-content-wrapper {
+        max-width: 1440px;
+        margin: auto !important;
+        padding-left: 4% !important;
+        padding-right: 4% !important;
+    }
+
+    #types-of-wall-texture-designs-for-interior-walls {
+        line-height: 42px;
+        margin: 60px 0 30px;
+    }
+
+    #difference-between-normal-paint-and-texture-paint {
+        margin: 50px 0 40px;
+    }
+
+    #texture-painting-techniques-used-in-royale-play {
+        margin: 50px 0 40px;
+    }
+
+    .royale-seo-content-container .seo-content.block.table-style {
+        padding: 0;
+    }
+
+    .royale-seo-content-container .seo-content-wrapper h2 {
+        margin-top: 20px;
+        line-height: 34px;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    #textured-paint-designs,
+    #how-to-maintain-textured-walls {
+        line-height: 34px;
+        font-size: 30px;
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+
+    .royale-seo-content-container .seo-content-wrapper h2#why-choose-royale-play-texture-paint {
+        margin-top: 55px;
+    }
+
+    .royale-seo-content-container .seo-content-wrapper h3 {
+        font-size: 20px;
+        line-height: 22px;
+    }
+
+    .royale-seo-content-container .seo-content-wrapper .table-style.block {
+        margin-top: 30px;
+    }
+
+    .royale-seo-content-container .default-content-wrapper p {
+        letter-spacing: 0.5px;
+    }
+}
+
+/* ==================== side-by-side : start ==================== */
+
+/* Titled text sections. Mobile: one column; desktop: two columns that
+   fill top-to-bottom, in authored order. */
+.seo-content.side-by-side {
+    --seo-title: #23242b;
+    --seo-text: #3b3d40;
+}
+
+.seo-content.side-by-side .seo-content-item {
+    margin-bottom: 20px;
+    break-inside: avoid;
+}
+
+.seo-content.side-by-side .seo-content-title {
+    /* font-size/line-height come from the existing .seo-content.block h3 rule */
+    margin: 0 0 8px;
+    color: var(--seo-title);
+}
+
+/* font-size/letter-spacing match the existing .seo-content.block p rule */
+.seo-content.side-by-side .seo-content-desc {
+    font-size: 14px;
+    letter-spacing: .5px;
+    color: var(--seo-text);
+}
+
+.seo-content.side-by-side .seo-content-desc p {
+    margin: 0;
+    color: var(--seo-text);
+}
+
+.seo-content.side-by-side .seo-content-desc p+p {
+    margin-top: 8px;
+}
+
+.seo-content.side-by-side .seo-content-desc a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+@media (width >=900px) {
+    .seo-content.side-by-side .seo-content-list {
+        column-count: 2;
+        column-gap: 32px;
+    }
+
+    .seo-content.side-by-side .seo-content-item {
+        margin-bottom: 24px;
+    }
+}
+
+/* ==================== side-by-side : end ==================== */
+
+/* table-style: no margins on the cells' paragraphs (after the side-by-side paragraph rules for
+   stylelint's no-descending-specificity) */
+.seo-content.block.table-style td p,
+.seo-content.block.table-style th p,
+.seo-content.block.table-style-2 td p,
+.seo-content.block.table-style-2 th p {
+    margin: 0;
+}
+
+/* hollow-circle-bullets (see above): the description after a list, 16px in, with the source's empty
+   line after it (<br><br>); after the table and side-by-side paragraph rules for stylelint's
+   no-descending-specificity */
+.seo-content.block.hollow-circle-bullets ul + p {
+    margin: 0 0 14px 16px;
+    padding-bottom: 22px;
+    line-height: 22px;
+}
+
+/* first paragraph of a list item (after the table and side-by-side paragraph rules, which have
+   lower specificity: stylelint's no-descending-specificity) */
+.seo-content.block ul li p:nth-child(1) {
+    margin-bottom: .2rem;
+}
+
+/* list item headings (after the royale h3 rule for stylelint's no-descending-specificity) */
+.seo-content.block ul li h3 {
+    margin-top: 0.5rem;
+}
+
+@media (width >= 992px) {
+    .seo-content.block ul li h3 {
+        margin-top: 1rem;
+    }
+}
+
+/* Paragarph bullet points */
+/* stylelint-disable-next-line no-descending-specificity -- kept in its section; the more specific rule above still wins */
+.seo-content.paragraph-bullet ul li, .seo-content.paragraph-bullet ul li strong {
+    font-size: 14px;
+    color: #222;
+    margin-bottom: 14px;
+    letter-spacing: .5px;
+    line-height: 22px;
+}
+
+/* Paragarph serial number  points */
+/* stylelint-disable-next-line no-descending-specificity -- kept in its section; the more specific rule above still wins */
+.seo-content.paragraph-serial-number ol li, .seo-content.paragraph-serial-number ol li strong {
+    font-size: 14px;
+    color: #222;
+    margin-bottom: 14px;
+    letter-spacing: .5px;
+    line-height: 22px;
+}
+
+@media (width >= 900px) {
+    .seo-content.paragraph-serial-number ol {
+        padding-left: 2.7rem;
+    }
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- kept in its section; the more specific rule above still wins */
+.seo-content-wrapper.light-black p{
+    color: #222;
+}

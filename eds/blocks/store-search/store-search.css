@@ -1,0 +1,442 @@
+/*
+ * store-search — the store locator's banner: breadcrumb, title (h1), city /
+ * pincode search with suggestions, banner picture. Source:
+ * asianpaints.com/store-locator (storelocatorlepton ".store-locator-banner").
+ * Authoring and behaviour: README.md.
+ *
+ * Every value is the source's computed value at 1440px (desktop, from 992px)
+ * or 390px (mobile, up to 991px; the source's breakpoints). Between 992px and
+ * 1439px the source zooms the whole page (0.7 / 0.75 / 0.8 / 0.85 / 0.9); the
+ * site's styles.css already does that on the body, so this block must not zoom
+ * again (it would shrink twice). Icons are the source's (icons/).
+ *
+ * Fonts: the source sets everything in "Manrope" (the title in its 300
+ * weight). This repo does not load Manrope (the main site does); see README.
+ */
+
+main > .section.store-search-container:not(.store-finder-container) {
+  margin: 0;
+}
+
+main > .section.store-search-container > .store-search-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.store-search {
+  /* source values */
+  --store-search-font: "Manrope", sans-serif;
+  --store-search-text: #222;
+  --store-search-heading: #232426;
+  --store-search-heading-mobile: #000;
+  --store-search-crumb: #5d4f43;
+  --store-search-crumb-separator: #cfc4ab;
+  --store-search-border: #8b8b8e;
+  --store-search-placeholder: #757575;
+  --store-search-focus: #4a90e2;
+  --store-search-focus-glow: rgb(74 144 226 / 50%);
+  --store-search-white: #fff;
+  --store-search-error: #ed1c24;
+  --store-search-list-border: #ddd;
+  --store-search-option-hover: #fff7e8;
+  --store-search-option-mark: #e59f15;
+  --store-search-muted: #666;
+  --store-search-ring: #232426;
+
+  /* Contrast: the source's values are kept (failures flagged); README has the table.
+     --store-search-error: #c8161d;    "Invalid location" (14px) on the banner's
+                                       cream: 3.96:1 -> 5.21:1
+     --store-search-error-plate: #fff; mobile, after a search the messages sit
+                                       over the dark map (#ed1c24 on #193b70
+                                       2.52:1): give .store-search-error this
+                                       background (5.0:1) */
+
+  position: relative;
+  color: var(--store-search-text);
+  font-family: var(--store-search-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.store-search *,
+.store-search *::before,
+.store-search *::after {
+  box-sizing: border-box;
+}
+
+.store-search .store-search-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- breadcrumb (desktop only, as the source) ---------- */
+.store-search .store-search-breadcrumb {
+  display: none;
+}
+
+/* ---------- banner ---------- */
+.store-search .store-search-banner {
+  position: relative;
+  width: 100%;
+}
+
+.store-search .store-search-banner picture {
+  display: block;
+}
+
+.store-search .store-search-banner img {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 200px;
+}
+
+.store-search .store-search-title {
+  position: absolute;
+  top: 25px;
+  width: 100%;
+  margin: 0;
+  color: var(--store-search-heading-mobile);
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 33.6px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.store-search .store-search-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 100%;
+  padding: 0 40px;
+  transform: translate(-50%, -50%);
+}
+
+.store-search .store-search-field {
+  position: relative;
+  transition: 0.2s;
+}
+
+.store-search .store-search-input {
+  display: block;
+  width: 100%;
+  height: 50px;
+  margin: 0;
+  padding: 10px 30px 10px 15px;
+  border: 1px solid var(--store-search-border);
+  border-radius: 6px;
+  background: var(--store-search-white);
+  color: var(--store-search-heading);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.8px;
+  letter-spacing: 0.54px;
+  appearance: none;
+}
+
+.store-search .store-search-input::placeholder {
+  color: var(--store-search-placeholder);
+  opacity: 1;
+}
+
+.store-search .store-search-input:focus {
+  outline: 0;
+  border-color: var(--store-search-focus);
+  box-shadow: 0 0 5px var(--store-search-focus-glow);
+}
+
+/* the source's global input:focus::placeholder (its site stylesheet): the hint turns thin on focus */
+.store-search .store-search-input:focus::placeholder {
+  font-weight: 200;
+}
+
+/* the magnifier (a chevron once there is text, as the source); a 24px target around the 16px icon */
+.store-search .store-search-submit {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.store-search .store-search-submit-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: url("icons/search-button-silver.svg") no-repeat;
+  transition: transform 0.25s ease-in-out;
+}
+
+.store-search .store-search-submit.has-text .store-search-submit-icon {
+  width: 10px;
+  height: 6px;
+  background-image: url("icons/down-icon.svg");
+}
+
+.store-search .store-search-submit:focus-visible {
+  outline: 2px solid var(--store-search-ring);
+  outline-offset: 1px;
+}
+
+/* waiting for the results (the source's "animation-effect") */
+.store-search .store-search-spinner {
+  display: none;
+}
+
+.store-search .store-search-field.is-busy .store-search-input {
+  opacity: 0.5;
+}
+
+.store-search .store-search-field.is-busy .store-search-spinner {
+  position: absolute;
+  top: 15px;
+  right: 38%;
+  display: block;
+  animation: store-search-rotate 2s linear infinite;
+}
+
+@keyframes store-search-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* suggestions (the source's ".dropdown-results") */
+.store-search .store-search-results {
+  position: absolute;
+  top: 50px;
+  right: 40px;
+  left: 40px;
+  z-index: 1000;
+  max-height: 220px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  border: 1px solid var(--store-search-list-border);
+  border-top: 0;
+  border-radius: 0 0 4px 4px;
+  background-color: var(--store-search-white);
+  list-style: none;
+}
+
+.store-search .store-search-results[hidden] {
+  display: none;
+}
+
+.store-search .store-search-option {
+  padding: 10px;
+  border-left: 4px solid transparent;
+  color: var(--store-search-heading);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.store-search .store-search-option:hover,
+.store-search .store-search-option[aria-selected="true"] {
+  background-color: var(--store-search-option-hover);
+}
+
+.store-search .store-search-option:active,
+.store-search .store-search-option[aria-selected="true"] {
+  border-left-color: var(--store-search-option-mark);
+}
+
+/* keyboard: the active option also gets a ring (the mark alone is 2.2:1) */
+.store-search .store-search-option[aria-selected="true"] {
+  outline: 2px solid var(--store-search-ring);
+  outline-offset: -2px;
+}
+
+.store-search .store-search-error {
+  margin: 0;
+}
+
+.store-search .store-search-error.is-invalid {
+  display: flex;
+  gap: 3px;
+  padding-top: 5px;
+  color: var(--store-search-error);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.store-search .store-search-error.is-invalid::before {
+  content: url("icons/error-icon.svg");
+  align-self: center;
+  width: 15px;
+  height: 14px;
+  margin-bottom: 2px;
+}
+
+.store-search .store-search-error[hidden] {
+  display: none;
+}
+
+/* after a search on mobile the picture goes and the box sits over the map (the source) */
+@media (width <= 991px) {
+  /* the source places title and box absolutely (top 25px, centred); a grid gives the
+     same places but lets a taller title (zoom, text spacing) push the box down */
+  .store-search:not(.is-searched) .store-search-banner {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .store-search:not(.is-searched) .store-search-banner picture {
+    grid-area: 1 / 1 / 4 / 2;
+  }
+
+  .store-search:not(.is-searched) .store-search-title {
+    position: relative;
+    top: auto;
+    grid-area: 1 / 1;
+    margin-top: 25px;
+  }
+
+  .store-search:not(.is-searched) .store-search-form {
+    position: relative;
+    top: auto;
+    left: auto;
+    grid-area: 2 / 1;
+    margin-top: 16.4px;
+    transform: none;
+  }
+
+  .store-search.is-searched .store-search-banner picture {
+    display: none;
+  }
+
+  .store-search.is-searched .store-search-form {
+    top: 20px;
+    transform: translate(-50%);
+  }
+}
+
+@media (width >= 992px) {
+  .store-search .store-search-breadcrumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    padding: 0 0 10.5px 40px;
+    color: var(--store-search-crumb);
+  }
+
+  .store-search .store-search-breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 9px 0 0;
+    list-style: none;
+  }
+
+  .store-search .store-search-breadcrumb a {
+    color: var(--store-search-crumb);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    text-decoration: none;
+  }
+
+  .store-search .store-search-breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .store-search .store-search-breadcrumb a:focus-visible {
+    outline: 2px solid var(--store-search-ring);
+    outline-offset: 2px;
+  }
+
+  .store-search .store-search-breadcrumb li:not(:last-child) a {
+    padding-right: 8px;
+  }
+
+  /* the source's markup leaves a space before the separator */
+  .store-search .store-search-breadcrumb li:not(:last-child)::after {
+    content: "\00a0/";
+    position: relative;
+    color: var(--store-search-crumb-separator);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  .store-search .store-search-banner img {
+    height: auto;
+  }
+
+  .store-search .store-search-title {
+    top: 70px;
+    color: var(--store-search-heading);
+    font-size: 60px;
+    font-weight: 300;
+    line-height: 66px;
+  }
+
+  .store-search .store-search-form {
+    top: 55%;
+    width: auto;
+    padding: 0;
+    transform: translateX(-50%);
+  }
+
+  .store-search .store-search-input {
+    width: 320px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .store-search .store-search-results {
+    right: 0;
+    left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-search .store-search-field,
+  .store-search .store-search-submit-icon {
+    transition: none;
+  }
+
+  .store-search .store-search-field.is-busy .store-search-spinner {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .store-search .store-search-input:focus {
+    outline: 2px solid Highlight;
+  }
+
+  .store-search .store-search-option[aria-selected="true"] {
+    outline-color: Highlight;
+  }
+
+  .store-search .store-search-submit-icon,
+  .store-search .store-search-error.is-invalid::before {
+    forced-color-adjust: none;
+  }
+}

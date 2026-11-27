@@ -1,0 +1,309 @@
+/*
+ * Popular This Week: from the AEM popularthisweek component styles and the live blog pages
+ * (www.asianpaints.com/blogs/...). Mobile first; the AEM "forMobileToIpadPro" range is up to
+ * 1024px, so the desktop layout starts at 1025px.
+ */
+.popular-this-week {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 35px 0 30px 20px;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #222;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* mobile / tablet: title and view more on top, cards scroll sideways */
+.popular-this-week .popular-this-week-head {
+  display: contents;
+}
+
+.popular-this-week .popular-this-week-title {
+  order: 0;
+  flex-basis: 70%;
+  margin: 0 0 10px;
+  color: #222;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: capitalize;
+}
+
+.popular-this-week .popular-this-week-more:any-link {
+  order: 1;
+  align-self: flex-start;
+  margin: 8px 20px 0 auto;
+  padding: 0 0 2px;
+  border-bottom: 2px solid #5e25b2;
+  color: #222;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 12px;
+  letter-spacing: 1.2px;
+  text-decoration: none;
+}
+
+.popular-this-week .popular-this-week-list {
+  order: 2;
+  display: flex;
+  flex-basis: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: auto hidden;
+  scrollbar-width: none;
+}
+
+.popular-this-week .popular-this-week-list::-webkit-scrollbar {
+  display: none;
+}
+
+.popular-this-week .popular-this-week-item {
+  flex: 0 0 70%;
+  min-width: 70%;
+  margin: 0 10px 0 0;
+  padding: 15px 0 0;
+}
+
+.popular-this-week .popular-this-week-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.popular-this-week .popular-this-week-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 230 / 220;
+  object-fit: cover;
+  border-radius: 1px;
+}
+
+.popular-this-week .popular-this-week-text {
+  padding-top: 20px;
+}
+
+.popular-this-week .popular-this-week-text p {
+  margin: 0 0 10px;
+  padding-top: 5px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+/* tag pills (AEM popularTag-withotredirection) */
+.popular-this-week .popular-this-week-text .popular-this-week-tag {
+  display: inline-block;
+  margin: 0 4px 10px 0;
+  padding: 2px 8px;
+  border: 1px solid #f0e6ff;
+  background-color: #faf8ff;
+  color: #431a80;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.46px;
+}
+
+/* desktop: like live, a 662px row of 200px cards, title and view more on one line above */
+@media (width >= 1025px) {
+  .popular-this-week {
+    flex-flow: column nowrap;
+    align-items: center;
+    max-width: 662px;
+    margin: 0 auto;
+    padding: 35px 20px 30px;
+  }
+
+  .popular-this-week .popular-this-week-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 22px;
+    margin: 0 0 -15px;
+  }
+
+  .popular-this-week .popular-this-week-title {
+    flex-basis: auto;
+    margin: 0;
+    font-size: 14px;
+    line-height: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .popular-this-week .popular-this-week-more:any-link {
+    align-self: center;
+    margin: 0 12px 0 auto;
+    padding: 0;
+    border: 0;
+    color: #000;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: normal;
+    text-decoration: underline;
+  }
+
+  .popular-this-week .popular-this-week-list {
+    flex-basis: auto;
+    gap: 5px;
+    width: auto;
+    overflow: visible;
+  }
+
+  .popular-this-week .popular-this-week-item {
+    flex: 0 0 210px;
+    min-width: 0;
+    margin: 0;
+    padding: 25px 0;
+  }
+
+  .popular-this-week .popular-this-week-image {
+    width: 200px;
+    margin: 0 10px 0 0;
+  }
+
+  .popular-this-week .popular-this-week-image img {
+    width: 200px;
+    height: 200px;
+    aspect-ratio: auto;
+  }
+
+  .popular-this-week .popular-this-week-text {
+    margin-top: 10px;
+    padding: 0;
+    text-align: left;
+  }
+
+  .popular-this-week .popular-this-week-text p {
+    padding: 0;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  .popular-this-week .popular-this-week-text .popular-this-week-tag {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: normal;
+  }
+
+  /* live indents the second tag by 3% */
+  .popular-this-week .popular-this-week-text .popular-this-week-tag + .popular-this-week-tag {
+    margin-left: 3%;
+  }
+}
+
+/* START FIX VIEW MORE CLICK: like live the cards row overlaps the title line by 15px on desktop;
+   keep the title line (and its VIEW MORE link) above the cards so the whole link is clickable */
+@media (width >= 1025px) {
+  .popular-this-week > .popular-this-week-head {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* END FIX VIEW MORE CLICK */
+
+/* START FIX GAP AFTER AP-BLOGS: like live, the block starts 84px under the last line of the
+   previous / next article row on desktop (that row already ends with 70px of padding, so the
+   section keeps only a 14px top margin instead of the default 40px) */
+@media (width >= 1025px) {
+  main > .section.ap-blogs-container + .section.popular-this-week-container {
+    margin-top: 14px;
+  }
+}
+
+/* END FIX GAP AFTER AP-BLOGS */
+
+/* START FIX HEADING SIZE: like live, the title is 14px (28px line) and VIEW MORE an underlined
+   12px link up to 1024px (live overrides the 22px of the AEM styles); between 992px and 1439px the
+   block is zoomed like the live page (and like the ap-blogs block) */
+@media (width <= 1024px) {
+  .popular-this-week .popular-this-week-title {
+    font-size: 14px;
+    line-height: 28px;
+  }
+
+  .popular-this-week .popular-this-week-more:any-link {
+    padding: 0;
+    border-bottom: 0;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: normal;
+    text-decoration: underline;
+  }
+}
+
+@media (width >= 992px) and (width < 1100px) {
+  .popular-this-week {
+    zoom: calc(0.7 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1100px) and (width < 1200px) {
+  .popular-this-week {
+    zoom: calc(0.75 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1200px) and (width < 1280px) {
+  .popular-this-week {
+    zoom: calc(0.8 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1280px) and (width < 1366px) {
+  .popular-this-week {
+    zoom: calc(0.85 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1366px) and (width < 1440px) {
+  .popular-this-week {
+    zoom: calc(0.9 / var(--body-zoom, 1));
+  }
+}
+
+/* like live, from 992px the block is 46% of the page width, centred (662px at 1440px) */
+@media (width >= 992px) {
+  main > .section.popular-this-week-container > .popular-this-week-wrapper {
+    max-width: none;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .popular-this-week {
+    width: 46%;
+    max-width: none;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+/* live between 992px and 1024px: the centred block with the side padding of the desktop, the
+   sideways list of the mobile layout and fixed 200px images */
+@media (width >= 992px) and (width <= 1024px) {
+  .popular-this-week {
+    padding: 35px 20px 30px;
+  }
+
+  .popular-this-week .popular-this-week-image img {
+    width: 200px;
+    height: 200px;
+    aspect-ratio: auto;
+  }
+}
+
+/* END FIX HEADING SIZE */
+

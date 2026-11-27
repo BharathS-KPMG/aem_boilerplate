@@ -1,0 +1,862 @@
+/* values follow the live AEM product listing on www.asianpaints.com/enamel-paints.html
+   (title/subtitle, "Filter by" panel with option chips, two product cards per row from 576px) */
+
+/* full page width, grey band like live */
+main>.section.enamel-paints-container:has(.enamel-paints) {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+main>.section>div:has(> .enamel-paints) {
+    max-width: none;
+    padding: 0;
+}
+
+.enamel-paints {
+    background: #f8f8f8;
+    color: #222;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.enamel-paints button {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.enamel-paints .enamel-paints-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- title + subtitle ---------- */
+.enamel-paints .enamel-paints-header {
+    padding: 31px 10px 0;
+    text-align: center;
+}
+
+.enamel-paints .enamel-paints-title {
+    margin: 0 0 7px;
+    color: #222;
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.enamel-paints .enamel-paints-subtitle {
+    margin: 0 0 14px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+}
+
+/* ---------- filter bar: applied pills + "Filter by" toggle, panel below ---------- */
+.enamel-paints .enamel-paints-filters {
+    padding: 20px 4.5%;
+}
+
+.enamel-paints .enamel-paints-filters.is-open {
+    background: #fff;
+}
+
+.enamel-paints .enamel-paints-filters-head {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+}
+
+.enamel-paints .enamel-paints-filters-toggle {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    padding: 5px 40px 5px 20px;
+    border: 1px solid #431a80;
+    border-radius: 2px;
+    background: transparent;
+    color: #431a80;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 26px;
+    letter-spacing: 1px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+/* chevron: down when closed, up when open */
+.enamel-paints .enamel-paints-filters-toggle::after {
+    content: "";
+    position: absolute;
+    right: 5px;
+    background-image: url('https://www.asianpaints.com/etc.clientlibs/apcolourcatalogue/clientlibs/clientlib-global/resources/images/Icons-Sprite.webp');
+    background-position: -668px -382px;
+    width: 24px;
+    height: 24px;
+}
+
+.enamel-paints .enamel-paints-filters-toggle[aria-expanded='true']::after {
+        background-position: -708px -382px;
+}
+
+/* applied options, each removable */
+.enamel-paints .enamel-paints-pills {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.enamel-paints .enamel-paints-pills:empty {
+    display: none;
+}
+
+.enamel-paints .enamel-paints-pill {
+    position: relative;
+    margin: 0 10px 5px 0;
+    padding: 7px 24px 7px 10px;
+    border: 1px solid rgb(34 34 34 / 19.6%);
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 13px;
+    text-transform: capitalize;
+}
+
+.enamel-paints .enamel-paints-pill-remove {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    width: 10px;
+    height: 12px;
+    transform: translateY(-50%);
+}
+
+/* the "x" */
+.enamel-paints .enamel-paints-pill-remove::before,
+.enamel-paints .enamel-paints-pill-remove::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 2px;
+    width: 10px;
+    height: 1px;
+    background: #222;
+    transform: rotate(45deg);
+}
+
+.enamel-paints .enamel-paints-pill-remove::after {
+    transform: rotate(-45deg);
+}
+
+/* mobile panel: one accordion per group, options as rows with a round tick on the right */
+.enamel-paints .enamel-paints-filters-panel {
+    margin-top: 20px;
+}
+
+.enamel-paints .enamel-paints-filters-panel[hidden] {
+    display: none;
+}
+
+.enamel-paints .enamel-paints-group {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.enamel-paints .enamel-paints-group.is-open {
+    border-bottom: 0;
+    background: #f8f8f8;
+}
+
+.enamel-paints .enamel-paints-group-label {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 24px 40px 24px 14px;
+    color: #222;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.92px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+/* plus when closed, minus when open */
+.enamel-paints .enamel-paints-group-label::before,
+.enamel-paints .enamel-paints-group-label::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    width: 6px;
+    height: 1.8px;
+    background: currentcolor;
+}
+
+.enamel-paints .enamel-paints-group-label::before {
+    transform: rotate(90deg);
+}
+
+.enamel-paints .enamel-paints-group.is-open .enamel-paints-group-label::before {
+    display: none;
+}
+
+.enamel-paints .enamel-paints-group-options {
+    display: none;
+    padding: 0 14px 14px;
+}
+
+.enamel-paints .enamel-paints-group.is-open .enamel-paints-group-options {
+    display: block;
+}
+
+.enamel-paints .enamel-paints-option {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 13px 40px 13px 0;
+    color: #2a2a2a;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    text-transform: capitalize;
+}
+
+.enamel-paints .enamel-paints-option::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+    border: 1px solid #9b9b9b;
+    border-radius: 50%;
+    background: #fff;
+    transform: translateY(-50%);
+}
+
+.enamel-paints .enamel-paints-option[aria-pressed='true'] {
+    color: #431a80;
+    font-weight: 500;
+}
+
+.enamel-paints .enamel-paints-option[aria-pressed='true']::after {
+    border-color: #431a80;
+    background: #431a80 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3.2L15 7' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center / 16px no-repeat;
+}
+
+/* options that would leave no product */
+.enamel-paints .enamel-paints-option:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.enamel-paints .enamel-paints-filters-actions {
+    display: flex;
+    margin: 30px 14px 20px;
+}
+
+.enamel-paints .enamel-paints-filters-actions button {
+    flex: 1 1 0;
+    height: 50px;
+    padding: 5px;
+    border: 1px solid #431a80;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 12px;
+    letter-spacing: 0.92px;
+    text-transform: uppercase;
+}
+
+.enamel-paints .enamel-paints-filters-actions .enamel-paints-clear {
+    background: #fff;
+    color: #431a80;
+}
+
+.enamel-paints .enamel-paints-filters-actions .enamel-paints-apply {
+    background: #431a80;
+    color: #fff;
+}
+
+/* nothing changed yet: Apply is faded like live */
+.enamel-paints .enamel-paints-filters-actions .enamel-paints-apply:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+/* ---------- results ---------- */
+.enamel-paints .enamel-paints-disclaimer {
+    margin: -5px 4.5% 10px;
+    color: #2f2f2f;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 17.76px;
+}
+
+.enamel-paints .enamel-paints-star {
+    color: #ee4137;
+}
+
+.enamel-paints .enamel-paints-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0 4.5% 20px;
+    list-style: none;
+}
+
+.enamel-paints .enamel-paints-empty {
+    margin: 0;
+    padding: 40px 20px 60px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.enamel-paints .enamel-paints-empty[hidden] {
+    display: none;
+}
+
+/* ---------- card (mobile: title, image, features, description, price, button) ---------- */
+.enamel-paints .enamel-paints-card {
+    display: flex;
+    flex: 0 0 100%;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 0 0 20px;
+    background: #fff;
+}
+
+.enamel-paints .enamel-paints-card[hidden] {
+    display: none;
+}
+
+.enamel-paints .enamel-paints-card-body {
+    display: contents;
+}
+
+.enamel-paints .enamel-paints-card-title {
+    order: 1;
+    margin: 0 0 12px;
+    padding: 20px 50px 0 20px;
+    color: #3b3b3b;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.92px;
+    text-transform: uppercase;
+}
+
+.enamel-paints .enamel-paints-card-image {
+    order: 2;
+    padding: 6px 20px 7px;
+    text-align: center;
+}
+
+.enamel-paints .enamel-paints-card-image img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: 170px;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.enamel-paints .enamel-paints-card-info {
+    order: 3;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 0 20px;
+}
+
+.enamel-paints .enamel-paints-card-description {
+    margin: 0;
+    padding: 0 0 10px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+}
+
+.enamel-paints .enamel-paints-card-features {
+    margin: 5px 0 0;
+}
+
+.enamel-paints .enamel-paints-card-features>span {
+    display: inline-block;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+}
+
+.enamel-paints .enamel-paints-card-features ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 12px;
+    padding: 0;
+    list-style: none;
+}
+
+.enamel-paints .enamel-paints-card-features li {
+    margin: 0 0 14px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* dash separator, same width as live */
+.enamel-paints .enamel-paints-card-features li::before {
+    content: "-";
+    display: inline-block;
+    width: 8.4px;
+    margin-right: 2px;
+}
+
+.enamel-paints .enamel-paints-card-bottom {
+    order: 4;
+    padding: 10px 20px 20px;
+}
+
+.enamel-paints .enamel-paints-card-price {
+    margin: 0 0 20px;
+}
+
+.enamel-paints .enamel-paints-card-price p {
+    margin: 0;
+}
+
+.enamel-paints .enamel-paints-card-mrp {
+    color: #161515;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 21.86px;
+}
+
+.enamel-paints .enamel-paints-card-symbol {
+    margin-right: 3px;
+    font-weight: 400;
+}
+
+.enamel-paints .enamel-paints-card-value {
+    padding-left: 3px;
+}
+
+.enamel-paints .enamel-paints-card-tax {
+    color: #4d4d4d;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 15.03px;
+}
+
+.enamel-paints .enamel-paints-card-tax .enamel-paints-star {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16.39px;
+}
+
+.enamel-paints .enamel-paints-card-cta {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    padding: 11px 20px;
+    border: 1px solid #431a80;
+    border-radius: 2px;
+    color: #431a80;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0.86px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    background: transparent;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* hover / keyboard focus: filled purple, white text (beats host link rules such as a:hover) */
+.enamel-paints .enamel-paints-card .enamel-paints-card-cta:hover,
+.enamel-paints .enamel-paints-card .enamel-paints-card-cta:focus-visible {
+    border-color: #5e25b2;
+    background: #5e25b2;
+    color: #fff;
+    text-decoration: none;
+}
+
+.enamel-paints .enamel-paints-card .enamel-paints-card-cta:focus-visible {
+    outline: 2px solid #5e25b2;
+    outline-offset: 2px;
+}
+
+/* two cards per row from 576px; the 200px "Filter by" button sits on the right like live */
+@media (width >=576px) {
+    .enamel-paints .enamel-paints-filters-head {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 50px;
+    }
+
+    .enamel-paints .enamel-paints-filters-toggle {
+        flex: 0 0 200px;
+        width: 200px;
+        height: 50px;
+        margin-left: auto;
+        font-size: 13px;
+    }
+
+    .enamel-paints .enamel-paints-card {
+        flex-basis: calc(50% - 10px);
+    }
+
+    .enamel-paints .enamel-paints-card-title {
+        font-size: 20px;
+    }
+
+    .enamel-paints .enamel-paints-filters{
+        padding-left: 65px;
+    }
+}
+
+/* image left, text right from 768px */
+@media (width >=768px) {
+    .enamel-paints .enamel-paints-header {
+        padding-top: 41px;
+    }
+
+    .enamel-paints .enamel-paints-title {
+        font-size: 30px;
+        line-height: 34px;
+    }
+
+    .enamel-paints .enamel-paints-card {
+        flex-direction: row;
+    }
+
+    .enamel-paints .enamel-paints-card-image {
+        order: 0;
+        flex: 0 0 calc(50% - 10px);
+        box-sizing: border-box;
+        min-height: 468px;
+        padding: 90px 0 55px;
+    }
+
+    .enamel-paints .enamel-paints-card-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        min-width: 0;
+        padding: 50px 20px 50px 15px;
+    }
+
+    .enamel-paints .enamel-paints-card-title,
+    .enamel-paints .enamel-paints-card-info,
+    .enamel-paints .enamel-paints-card-bottom {
+        padding: 0;
+    }
+
+    .enamel-paints .enamel-paints-card-title {
+        width: 80%;
+        margin: 0 0 25px;
+        letter-spacing: 0.5px;
+    }
+
+    .enamel-paints .enamel-paints-card-info {
+        display: block;
+    }
+
+    .enamel-paints .enamel-paints-card-features {
+        margin: 0;
+    }
+
+    .enamel-paints .enamel-paints-card-features>span {
+        display: block;
+        padding: 1px 0;
+    }
+
+    .enamel-paints .enamel-paints-card-features ul {
+        flex-flow: row wrap;
+        margin: 0;
+    }
+
+    .enamel-paints .enamel-paints-card-features li {
+        margin: 0 5px 20px 0;
+        padding-right: 10px;
+        line-height: 21px;
+        position: relative;
+        padding-left: 9px;
+    }
+
+    .enamel-paints .enamel-paints-card-features li::before{
+        position: absolute;
+        left: 1px;
+        top: 0;
+    }
+
+    .enamel-paints .enamel-paints-card-bottom {
+        margin-top: auto;
+        padding-top: 0;
+    }
+
+    .enamel-paints .enamel-paints-card-price .enamel-paints-card-mrp {
+        margin-bottom: 5px;
+    }
+
+    .enamel-paints .enamel-paints-card-cta {
+        padding: 16px 20px;
+        font-size: 13px;
+    }
+
+    .enamel-paints .enamel-paints-grid {
+        padding-bottom: 50px;
+    }
+}
+
+/* desktop: toggle on the right of the applied pills, panel rows of chips, 4% sides like live */
+@media (width >=992px) {
+    .enamel-paints .enamel-paints-filters {
+        padding: 20px 4% 0;
+    }
+
+    .enamel-paints .enamel-paints-filters.is-open {
+        /* margin-bottom: 48px;
+        padding-bottom: 30px; */
+        margin-bottom: 12px;
+        padding-bottom: 40px;
+    }
+
+    .enamel-paints .enamel-paints-pills {
+        padding: 0 0 0 20px;
+        transform: translate(3px, 8px);
+    }
+
+    .enamel-paints .enamel-paints-card-title {
+        text-transform: capitalize;
+    }
+
+    .enamel-paints .enamel-paints-filters-panel {
+        margin-top: 40px;
+        padding: 0 0 0 4px;
+    }
+
+    .enamel-paints .enamel-paints-group,
+    .enamel-paints .enamel-paints-group.is-open {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+        border: 0;
+        background: none;
+    }
+
+    .enamel-paints .enamel-paints-group-label {
+        /* flex: 0 0 344px; */
+        width: 25%;
+        padding: 15px 0 0;
+        font-weight: 500;
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .enamel-paints .enamel-paints-group-label::before,
+    .enamel-paints .enamel-paints-group-label::after {
+        display: none;
+    }
+
+    .enamel-paints .enamel-paints-group-options,
+    .enamel-paints .enamel-paints-group.is-open .enamel-paints-group-options {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 5px;
+    }
+
+    .enamel-paints .enamel-paints-option {
+        width: auto;
+        height: 40px;
+        margin: 0 10px 10px 0;
+        padding: 0 20px;
+        border: 1px solid #dfdfdf;
+        border-radius: 2px;
+        text-align: center;
+    }
+
+    .enamel-paints .enamel-paints-option::after {
+        display: none;
+    }
+
+    .enamel-paints .enamel-paints-option[aria-pressed='true'] {
+        border-color: #f3ebff;
+        background: #faf8ff;
+    }
+
+    .enamel-paints .enamel-paints-filters-actions {
+        justify-content: flex-end;
+
+        /* margin: 20px 0 0; */
+        padding: 30px 0;
+        margin:0;
+    }
+
+    .enamel-paints .enamel-paints-filters-actions button {
+        flex: 0 0 200px;
+    }
+
+    .enamel-paints .enamel-paints-disclaimer {
+        margin: -2px 4% 38px;
+    }
+
+    .enamel-paints .enamel-paints-grid {
+        padding: 0 4% 50px;
+    }
+
+    .enamel-paints .enamel-paints-card-image {
+        min-height: 0;
+        padding-left: 0;
+    }
+}
+
+/* 768-991px, as live: Key Features above the description, 155px pack shot, a wrapped feature
+   indented under its text */
+@media (width >=768px) and (width < 992px) {
+    .enamel-paints .enamel-paints-card-body .enamel-paints-card-info {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .enamel-paints .enamel-paints-card-image img {
+        height: 155px;
+    }
+
+    .enamel-paints .enamel-paints-card-info .enamel-paints-card-features>span {
+        padding: 12px 0;
+    }
+
+    .enamel-paints .enamel-paints-card-info .enamel-paints-card-features ul {
+        flex-direction: column;
+    }
+
+    .enamel-paints .enamel-paints-card-info .enamel-paints-card-features li {
+        display: flex;
+        line-height: 19.5px;
+    }
+
+    .enamel-paints .enamel-paints-card-info .enamel-paints-card-features li::before {
+        flex: none;
+    }
+}
+
+/* keyboard focus on every filter control */
+.enamel-paints .enamel-paints-filters button:focus-visible {
+    outline: 2px solid #431a80;
+    outline-offset: 2px;
+}
+
+
+
+
+
+
+
+
+
+/* breadcrumb */
+.section.breadcrumb-container:has(.wbc.breadcrumb) {
+    margin-bottom: -40px;
+}
+
+@media (width >=320px)and (width <=991px) {
+    .section.breadcrumb-container:has(.wbc.breadcrumb) {
+        display: none;
+        margin: 0;
+    }
+
+    .enamel-paints .enamel-paints-filters{
+        padding: 20px 4.5%;
+       
+    }
+
+    .enamel-paints .enamel-paints-filters.is-open{
+        padding-bottom: 10px;
+    }
+
+    .enamel-paints .enamel-paints-filters-actions{
+        padding: 30px 15px;
+        margin: 0;
+    }
+
+    .enamel-paints .enamel-paints-filters.is-open+.enamel-paints-results {
+        padding-top: 50px;
+    }
+
+    .enamel-paints .enamel-paints-group.is-open .enamel-paints-group-label{
+        padding: 20px 40px 20px 15px;
+    }
+
+    .enamel-paints .enamel-paints-group-options{
+        padding: 0 14px 6px;
+    }
+
+    .enamel-paints .enamel-paints-option{
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 24px;
+        letter-spacing: 0;
+        text-align: left;
+        text-transform: capitalize;
+        padding: 13px 40px 13px 0;
+    }
+}
+
+.breadcrumb.wbc .slash-icon ul {
+    gap: 8px;
+    padding: 9px 0;
+    padding-bottom: 1px;
+}
+
+.breadcrumb.wbc .slash-icon ul li:not(:last-child) a {
+    padding-right: 11px;
+}
+
+.breadcrumb.wbc {
+    padding: 10.5px 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- base breadcrumb link rule kept in its section; the :not(:last-child) rule above is more specific */
+.breadcrumb.wbc .slash-icon ul li a {
+    color: #5d4f43 !important;
+}
+
+.breadcrumb.wbc .slash-icon ul li:not(:last-child)::after {
+    color: #cfc4ab;
+}
+
+.breadcrumb.wbc .slash-icon ul li:last-child span[aria-current="page"] {
+    color: #5d4f43 !important;
+}

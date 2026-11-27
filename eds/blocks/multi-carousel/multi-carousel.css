@@ -1,0 +1,762 @@
+.multi-carousel {
+  text-align: left;
+}
+
+/* default variant: 16px left padding on mobile, 40px left margin on desktop */
+.multi-carousel:not(.magazine) {
+  padding-left: 16px;
+}
+
+/* title with the arrows on the right */
+.multi-carousel .multi-carousel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.multi-carousel .multi-carousel-header :is(h1, h2, h3) {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* arrows are hidden on mobile, where the dots are used instead */
+.multi-carousel .multi-carousel-nav {
+  display: none;
+  flex-shrink: 0;
+  gap: 16px;
+}
+
+.multi-carousel .multi-carousel-nav button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  border: 1px solid #222;
+  border-radius: 50%;
+  padding: 0;
+  background: transparent;
+  color: #222;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.multi-carousel .multi-carousel-nav button::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.multi-carousel .multi-carousel-nav .multi-carousel-prev::before {
+  transform: scaleX(-1);
+}
+
+.multi-carousel .multi-carousel-nav button:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+.multi-carousel .multi-carousel-nav button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.multi-carousel .multi-carousel-nav button:hover:not(:disabled) {
+  background-color: var(--light-color);
+}
+
+/* hidden when swiper finds all cards fit (watchOverflow) */
+.multi-carousel .multi-carousel-nav button.swiper-button-lock {
+  display: none;
+}
+
+/* swiper card list; the gap between cards is set by swiper (spaceBetween) */
+.multi-carousel .multi-carousel-track {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* cards stretch to the tallest card so the download links line up */
+.multi-carousel .multi-carousel-card {
+  display: flex;
+  flex-direction: column;
+  width: calc((100% - 12px) / 1.75); /* swiper sets the final width */
+  height: auto;
+  min-width: 0;
+}
+
+.multi-carousel .multi-carousel-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.multi-carousel .multi-carousel-image {
+  aspect-ratio: 2 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  line-height: 0;
+  background-color: #f1f1fa;
+}
+
+.multi-carousel .multi-carousel-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.multi-carousel .multi-carousel-body :is(h2, h3, h4) {
+  margin: 12px 0 8px;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.multi-carousel .multi-carousel-body p {
+  margin: 0 0 16px;
+  color: #000;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.multi-carousel .multi-carousel-body p.multi-carousel-cta {
+  margin: auto 0 0;
+}
+
+/* download pdf link with a download icon */
+.multi-carousel .multi-carousel-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* same download icon as the AEM component (15x18) */
+.multi-carousel .multi-carousel-download::after {
+  content: "";
+  width: 15px;
+  height: 18px;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 18' fill='none'%3E%3Cpath d='M0.901855 16.1472C1.23911 16.4766 1.69653 16.6616 2.17348 16.6616H12.9636C13.4405 16.6616 13.8979 16.4766 14.2352 16.1472M7.56953 1.66162V11.6137M7.56953 11.6137L11.68 7.81104M7.56953 11.6137L3.45902 7.81104' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* no hover effect: keeps the global a:hover colour from applying */
+.multi-carousel .multi-carousel-download:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+/* pagination dots (mobile only); the current card's dot is a wider pill */
+.multi-carousel .multi-carousel-dots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 16px;
+  line-height: 0;
+}
+
+/* 6px dot with 2px between dots; the transparent border widens the tap area */
+.multi-carousel .multi-carousel-dot {
+  box-sizing: content-box;
+  width: 6px;
+  height: 6px;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 5px 0;
+  background-color: #d9d9d9;
+  background-clip: content-box;
+  cursor: pointer;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.multi-carousel .multi-carousel-dot.multi-carousel-dot-active {
+  width: 18px;
+  background-color: #4a4a4a;
+}
+
+.multi-carousel .multi-carousel-dot:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: -2px;
+}
+
+/* tablet and up: arrows instead of dots, larger text */
+@media (width >= 600px) {
+  .multi-carousel .multi-carousel-nav {
+    display: flex;
+  }
+
+  .multi-carousel .multi-carousel-dots {
+    display: none;
+  }
+
+  .multi-carousel .multi-carousel-header {
+    margin-bottom: 24px;
+  }
+
+  .multi-carousel .multi-carousel-header :is(h1, h2, h3) {
+    font-size: var(--heading-font-size-m);
+  }
+
+  .multi-carousel .multi-carousel-image {
+    border-radius: 12px;
+  }
+
+  .multi-carousel .multi-carousel-download {
+    gap: 10px;
+    font-size: var(--body-font-size-s);
+  }
+
+  .multi-carousel .multi-carousel-body :is(h2, h3, h4) {
+    font-size: var(--heading-font-size-s);
+  }
+
+  .multi-carousel .multi-carousel-body p {
+    font-size: var(--body-font-size-m);
+    line-height: 1.75;
+  }
+}
+
+/* desktop: full page width like the AEM component, wider arrow spacing */
+@media (width >= 900px) {
+  main > .section.multi-carousel-container > div {
+    max-width: none;
+  }
+
+  .multi-carousel:not(.magazine) {
+    margin-left: 40px;
+    padding-left: 0;
+  }
+
+  .multi-carousel .multi-carousel-header {
+    margin-bottom: 32px;
+  }
+
+  .multi-carousel .multi-carousel-header :is(h1, h2, h3) {
+    font-size: var(--heading-font-size-l);
+  }
+
+  .multi-carousel .multi-carousel-nav {
+    gap: 24px;
+  }
+
+  .multi-carousel:not(.magazine) .multi-carousel-body :is(h2, h3, h4) {
+    margin: 12px 0 10px;
+    color: #000;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .multi-carousel:not(.magazine) .multi-carousel-download {
+    color: #000;
+    font-size: 16px;
+  }
+
+  .multi-carousel:not(.magazine) .multi-carousel-body p:not(.multi-carousel-cta) {
+    margin-bottom: 18px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28.8px;
+  }
+}
+
+/* magazine variant: values follow the live shade-tool-magazines component.
+   Dark section, no arrows or dots; cards stack below 992px and sit in a
+   3-column grid on desktop */
+main > .section:has(.multi-carousel.magazine) {
+  padding: 20px 16px;
+  background-color: #232426;
+}
+
+/* the section sets the side padding, so the wrapper's padding is cleared */
+main > .section:has(.multi-carousel.magazine) > div:has(> .multi-carousel.magazine) {
+  max-width: none;
+  padding: 0;
+}
+
+.multi-carousel.magazine {
+  color: #fff;
+}
+
+.multi-carousel.magazine .multi-carousel-header {
+  margin-bottom: 30px;
+}
+
+.multi-carousel.magazine .multi-carousel-header :is(h1, h2, h3) {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 27.32px;
+  text-align: left;
+}
+
+.multi-carousel.magazine .multi-carousel-nav {
+  display: none;
+}
+
+/* swiper is not initialised here, so the list is laid out as a grid */
+.multi-carousel.magazine .multi-carousel-swiper {
+  overflow: visible;
+}
+
+.multi-carousel.magazine .multi-carousel-track {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 30px;
+}
+
+.multi-carousel.magazine .multi-carousel-card {
+  width: auto;
+}
+
+.multi-carousel.magazine .multi-carousel-image {
+  aspect-ratio: 328 / 277;
+  border-radius: 6px;
+  background-color: #2f3033;
+}
+
+.multi-carousel.magazine .multi-carousel-body :is(h2, h3, h4) {
+  margin: 13px 0 7px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28.8px;
+}
+
+.multi-carousel.magazine .multi-carousel-body p {
+  margin: 0 0 14px;
+  color: #8c8e90;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.multi-carousel.magazine .multi-carousel-body p.multi-carousel-cta {
+  margin: auto 0 0;
+  letter-spacing: normal;
+}
+
+/* pill button: white text on the dark background */
+.multi-carousel.magazine .multi-carousel-download {
+  box-sizing: border-box;
+  height: 38px;
+  border-radius: 45px;
+  padding: 14px 20px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.multi-carousel.magazine .multi-carousel-download::after {
+  width: 18px;
+  height: 18px;
+}
+
+.multi-carousel.magazine .multi-carousel-download:hover {
+  color: #fff;
+}
+
+.multi-carousel.magazine .multi-carousel-download:focus-visible {
+  outline: 1px solid #fff;
+}
+
+.multi-carousel.magazine .multi-carousel-dots {
+  display: none;
+}
+
+@media (width >= 992px) {
+  main > .section:has(.multi-carousel.magazine) {
+    padding: 60px 40px;
+  }
+
+  .multi-carousel.magazine .multi-carousel-header {
+    justify-content: center;
+  }
+
+  .multi-carousel.magazine .multi-carousel-header :is(h1, h2, h3) {
+    font-size: 32px;
+    line-height: 41.6px;
+    text-align: center;
+  }
+
+  .multi-carousel.magazine .multi-carousel-track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .multi-carousel.magazine .multi-carousel-body :is(h2, h3, h4) {
+    font-size: 28px;
+    line-height: 36.4px;
+  }
+
+  .multi-carousel.magazine .multi-carousel-body p {
+    font-size: 18px;
+    line-height: 28.8px;
+  }
+
+  .multi-carousel.magazine .multi-carousel-download {
+    font-size: 16px;
+  }
+}
+
+
+
+/* ===== DESIGN-CARDS START: multi-carousel design-cards variant ===== */
+
+/* design-cards variant: values follow the live "Design That Holds A Room Together"
+   carousel on the wall coverings page. Whole card is a link, 340px cards,
+   dots below 992px, round arrows top right from 992px */
+main > .section:has(.multi-carousel.design-cards) > div:has(> .multi-carousel.design-cards) {
+  max-width: none;
+  padding: 0;
+}
+
+/* Swiper sets the 16px / 20px side offsets, so the default side spacing is cleared */
+.multi-carousel.design-cards {
+  margin-left: 0;
+  padding-left: 0;
+  padding-bottom: 13px;
+}
+
+/* centred heading, arrows on the right */
+.multi-carousel.design-cards .multi-carousel-header {
+  position: relative;
+  display: block;
+  margin: 0 16px 22px;
+  text-align: center;
+}
+
+.multi-carousel.design-cards .multi-carousel-header :is(h1, h2, h3) {
+  margin: 0;
+  color: #222;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 27.32px;
+  letter-spacing: 0.5px;
+}
+
+.multi-carousel.design-cards .multi-carousel-nav {
+  display: none;
+}
+
+.multi-carousel.design-cards .multi-carousel-card {
+  display: block;
+  width: 340px;
+}
+
+.multi-carousel.design-cards .multi-carousel-card-link {
+  display: block;
+  color: #1d1d1f;
+  text-decoration: none;
+}
+
+.multi-carousel.design-cards .multi-carousel-card-link:hover {
+  color: #1d1d1f;
+  text-decoration: none;
+}
+
+.multi-carousel.design-cards .multi-carousel-card-link:focus-visible {
+  outline: 2px solid #1d1d1f;
+  outline-offset: 2px;
+}
+
+.multi-carousel.design-cards .multi-carousel-image {
+  aspect-ratio: 340 / 284;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+/* title with the thin grey arrow 12px after it (16px on desktop) */
+.multi-carousel.design-cards .multi-carousel-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 16px 0 2px;
+  color: #1d1d1f;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 21.86px;
+}
+
+.multi-carousel.design-cards .multi-carousel-title::after {
+  content: "";
+  flex: none;
+  width: 15px;
+  height: 13px;
+  margin-top: 7px;
+  background: url("../../icons/arrow-line-mob.svg") left top / 16px 14px no-repeat;
+}
+
+/* dots: grey 8px dots 6px apart, the current one a 19px dark pill */
+.multi-carousel.design-cards .multi-carousel-dots {
+  display: flex;
+  margin-top: 3px;
+  padding-left: 9px;
+}
+
+.multi-carousel.design-cards .multi-carousel-dot {
+  width: 8px;
+  height: 8px;
+  margin: 0 3px;
+  border: 0;
+  padding: 3px 0;
+  background-color: #d7d7d7;
+}
+
+.multi-carousel.design-cards .multi-carousel-dot.multi-carousel-dot-active {
+  width: 19px;
+  background-color: #4d4d4d;
+}
+
+@media (width >= 992px) {
+  .multi-carousel.design-cards {
+    padding-bottom: 14px;
+  }
+
+  .multi-carousel.design-cards .multi-carousel-header {
+    margin: 0 0 37px;
+  }
+
+  .multi-carousel.design-cards .multi-carousel-header :is(h1, h2, h3) {
+    font-size: 40px;
+    line-height: 55px;
+  }
+
+  /* 4.2 cards in view: 20px start offset + 4 gaps of 20px = 100px */
+  .multi-carousel.design-cards .multi-carousel-card {
+    width: calc((100% - 100px) / 4.2);
+  }
+
+  /* 44px round arrows, 20px apart, 24px from the right edge */
+  .multi-carousel.design-cards .multi-carousel-nav {
+    position: absolute;
+    top: calc(100% - 25px);
+    right: 24px;
+    display: flex;
+    gap: 20px;
+  }
+
+  .multi-carousel.design-cards .multi-carousel-nav button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .multi-carousel.design-cards .multi-carousel-nav button::before {
+    width: 18px;
+    height: 18px;
+  }
+
+  .multi-carousel.design-cards .multi-carousel-nav button:disabled,
+  .multi-carousel.design-cards .multi-carousel-nav button.swiper-button-disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .multi-carousel.design-cards .multi-carousel-title {
+    gap: 17px;
+    margin: 20px 0 7px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 27.32px;
+  }
+
+  .multi-carousel.design-cards .multi-carousel-title::after {
+    width: 20px;
+    height: 15px;
+    background-image: url("../../icons/arrow-line.svg");
+    background-size: 18px 14px;
+  }
+
+  .multi-carousel.design-cards .multi-carousel-dots {
+    display: none;
+  }
+}
+
+/* ===== DESIGN-CARDS END ===== */
+
+/* ===== START: multi-carousel default variant fixes (live "Our shade cards") ===== */
+
+/* default variant (live "Our shade cards"): title, dots and Download PDF as on the live
+   shade-tool-palettes component; dots below 992px, arrows from 992px */
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-header :is(h1, h2, h3) {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 27.32px;
+}
+
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-nav {
+  display: none;
+}
+
+/* grey 8px dots 5px apart, the current one a 19px dark pill */
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-dots {
+  display: flex;
+  gap: 5px;
+  margin-top: 22px;
+}
+
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-dot {
+  box-sizing: border-box;
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: 10px;
+  padding: 0;
+  background-clip: border-box;
+  background-color: rgb(128 128 128 / 25%);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-dot.multi-carousel-dot-active {
+  width: 19px;
+  background-color: #4d4d4d;
+}
+
+/* Download PDF: 16px bold, underline below the text on mouse over (like live) */
+/* stylelint-disable-next-line no-descending-specificity -- magazine rules never match here */
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-download {
+  position: relative;
+  gap: 8px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-download::after {
+  width: 18px;
+  height: 18px;
+}
+
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-download::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: none;
+  width: calc(100% - 26px);
+  border-bottom: 1px solid currentcolor;
+}
+
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-download:hover::before {
+  display: block;
+}
+
+@media (width >= 992px) {
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-header :is(h1, h2, h3) {
+    font-size: 32px;
+    line-height: 41.6px;
+  }
+
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-nav {
+    display: flex;
+  }
+
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-dots {
+    display: none;
+  }
+}
+
+/* ===== END: multi-carousel default variant fixes ===== */
+
+/* ===== BUG FIX START: magazine Download PDF hover (live shade-tool-magazines) =====
+   on mouse over the pill turns cream (#f7f2e7) with black text and a black icon, like live;
+   the icon is drawn in currentcolor, so it follows the text colour */
+.multi-carousel.magazine .multi-carousel-cta .multi-carousel-download:hover {
+  background-color: #f7f2e7;
+  color: #000;
+}
+
+/* ===== BUG FIX END ===== */
+
+/* ===== BUG FIX START: design-cards heading line break (live wall coverings) =====
+   below 992px the heading wraps after "Design That Holds A", like live; from 992px one line */
+@media (width < 992px) {
+  .multi-carousel.design-cards .multi-carousel-header :is(h1, h2, h3) {
+    max-width: 240px;
+    margin-inline: auto;
+  }
+}
+
+/* ===== BUG FIX END ===== */
+
+/* ===== BUG FIX START: design-cards mobile dots (live wall coverings) =====
+   round 8px dots like live (the 3px top/bottom padding made the clipped dot look square),
+   15px below the card title like live */
+.multi-carousel.design-cards > .multi-carousel-dots {
+  margin-top: 13px;
+}
+
+.multi-carousel.design-cards > .multi-carousel-dots .multi-carousel-dot {
+  height: 8px;
+  padding: 0;
+  border-radius: 6px;
+}
+
+
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-card {
+  width: 239px;
+}
+
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-image {
+  border-radius: 12px;
+}
+
+.multi-carousel:not(.magazine, .design-cards) .multi-carousel-body p.multi-carousel-cta {
+  display: flex;
+}
+
+@media (width < 992px) {
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-header {
+    margin-bottom: 20px;
+  }
+
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-body :is(h2, h3, h4) {
+    margin: 25px 0 8px;
+    font-size: 16px;
+    line-height: 28.8px;
+  }
+
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-body p:not(.multi-carousel-cta) {
+    margin-bottom: 18px;
+    font-size: 12px;
+    line-height: 16.8px;
+  }
+}
+
+@media (width >= 992px) {
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-card {
+    width: 284px;
+  }
+
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-header {
+    margin-bottom: 36px;
+  }
+
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-nav {
+    position: relative;
+    top: 10px;
+    gap: 20px;
+    margin-right: 24px;
+  }
+
+  .multi-carousel:not(.magazine, .design-cards) .multi-carousel-body :is(h2, h3, h4) {
+    margin: 8px 0;
+    line-height: 28px;
+  }
+}
+
+
+/* ===== FIX END ===== */
+

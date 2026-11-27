@@ -1,0 +1,784 @@
+/* warranty registration form, loaded on demand with warranty-registration.js; values from the
+   source (asianpaints.com/more/warranty.html, .right-container .form-container), in Manrope */
+.warranty-container .warranty-registration {
+  /* source colours */
+  --wr-ink: #232426;
+  --wr-muted: #8b8b8e;
+  --wr-border: #75787b;
+  --wr-error: #ff4d00;
+  --wr-tint: #fcedd6;
+  --wr-done: #28a745;
+  --wr-yellow: #fcaf17;
+  --wr-success: #28a745;
+  --wr-upload-bg: #eeeeef;
+  --wr-upload-border: #8c8e90;
+  --wr-upload-text: #3b3d40;
+  --wr-radius: 6px;
+  --wr-gap: 18px;
+
+  /* a column so the title's and the box's margins add up, as on the source */
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 22px;
+  color: #222;
+}
+
+.warranty-container .warranty-registration :is(h2, h3, h4, p, ol, ul, fieldset) {
+  margin: 0;
+}
+
+.warranty-container .warranty-registration .wr-title {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 36px;
+  color: #1d1d1f;
+}
+
+/* the step headings are for screen readers and focus; the step tabs show the names */
+.warranty-container .wr-panel > h3 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* the form replaces the banner; on mobile it stays within the page padding (the banner image
+   runs edge to edge) */
+.warranty-container .warranty-container-banner.warranty-container-banner-form {
+  margin: 0;
+}
+
+/* tinted box: step tabs above a white card, inside a tinted frame (border), as the source's
+   .form-container */
+.warranty-container .wr-box {
+  border: 4px solid var(--wr-tint);
+  border-radius: 12px;
+  background-color: var(--wr-tint);
+}
+
+.warranty-container .wr-card {
+  padding: 20px 10px;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+/* step tabs (extra class so the margin reset above does not win) */
+.warranty-container .warranty-registration .wr-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin: 0;
+  padding: 10px 27px;
+  list-style: none;
+}
+
+.warranty-container .wr-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--wr-muted);
+  text-align: center;
+}
+
+/* as the source's .step-no: outlined 11px number, filled 12px when current or done */
+.warranty-container .wr-step-number {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--wr-muted);
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 12px;
+}
+
+.warranty-container .wr-step:is([aria-current='step'], .wr-done) {
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--wr-ink);
+}
+
+.warranty-container .wr-step:is([aria-current='step'], .wr-done) .wr-step-number {
+  border: 0;
+  background-color: var(--wr-ink);
+  color: #fff;
+  font-size: 12px;
+  line-height: 13px;
+}
+
+/* a completed step is green, as on the source */
+.warranty-container .wr-step.wr-done {
+  color: var(--wr-done);
+}
+
+/* a completed step shows a tick instead of its number */
+.warranty-container .wr-step.wr-done .wr-step-number {
+  position: relative;
+  background-color: var(--wr-done);
+  font-size: 0;
+}
+
+/* centred over the (hidden) number, which still takes a grid row */
+.warranty-container .wr-step.wr-done .wr-step-number::after {
+  content: '' / '';
+  position: absolute;
+  inset: 0;
+  width: 9px;
+  height: 8px;
+  margin: auto;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='8' viewBox='0 0 9 8' fill='none'%3E%3Cpath d='M7.7 1.6 2.93 6.4 1.3 4.76' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 9px 8px no-repeat;
+}
+
+/* panels */
+.warranty-container .wr-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wr-gap);
+}
+
+.warranty-container .wr-panel[hidden],
+.warranty-container .wr-field[hidden],
+.warranty-container .wr-product[hidden],
+.warranty-container .warranty-registration .wr-steps[hidden],
+.warranty-container .warranty-registration .wr-button[hidden] {
+  display: none;
+}
+
+.warranty-container .wr-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* fields: outlined boxes with a label that floats onto the border once the field is used */
+.warranty-container .wr-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.warranty-container .wr-field > label {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  z-index: 1;
+  max-width: calc(100% - 32px);
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--wr-border);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  transition: top 0.15s, font-size 0.15s;
+}
+
+/* as the source's .input-label.top: 16px in, 10px above the box */
+.warranty-container .wr-field:where(:focus-within, :has(input:not(:placeholder-shown)), .wr-field-select, .wr-field-unit) > label {
+  top: -10px;
+  left: 16px;
+  padding: 0 4px;
+  background-color: #fff;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.warranty-container .wr-optional {
+  font-weight: 400;
+}
+
+.warranty-container .wr-input {
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  min-height: 52px;
+  border: 1px solid var(--wr-border);
+  border-radius: var(--wr-radius);
+  background-color: #fff;
+}
+
+.warranty-container .wr-field:where(:has([aria-invalid='true'])) > label {
+  color: var(--wr-error);
+}
+
+.warranty-container .wr-input:has([aria-invalid='true']) {
+  border-color: var(--wr-error);
+}
+
+/* the field being typed in: a 1px black border, as on the source, also over an error (its label
+   and message: see "while a field is focused" below) */
+.warranty-container .wr-input:focus-within {
+  border-color: #000;
+}
+
+.warranty-container .wr-input :is(input, select) {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+
+  /* 13px + the box's 1px border = the source's 52px field */
+  padding: 13px 16px;
+  border: 0;
+  border-radius: var(--wr-radius);
+  background: transparent;
+  color: #000;
+  font: inherit;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.warranty-container .wr-input :is(input, select):focus {
+  outline: none;
+}
+
+/* dropdowns with the source's caret */
+.warranty-container .wr-input select {
+  padding-right: 40px;
+  appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23222' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+  cursor: pointer;
+}
+
+.warranty-container .wr-input :is(input, select):disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+
+/* "+91" appears in front of the number once the field is in use, as on the source */
+.warranty-container .wr-addon,
+.warranty-container .wr-unit {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 24px;
+  color: #222;
+}
+
+/* the source's grey "+91" (.default-value) 16px from the box edge; the number starts 51px in,
+   as the source's 50px input padding inside its 1px border */
+.warranty-container .wr-addon {
+  display: none;
+  padding-left: 15px;
+  color: var(--wr-border);
+}
+
+.warranty-container .wr-field-addon:is(:focus-within, :has(input:not(:placeholder-shown))) .wr-addon {
+  display: flex;
+}
+
+.warranty-container .wr-field-addon:is(:focus-within, :has(input:not(:placeholder-shown))) input {
+  padding-left: 10px;
+}
+
+.warranty-container .wr-unit {
+  padding: 0 16px 0 0;
+}
+
+.warranty-container .warranty-registration .wr-error {
+  display: flex;
+  gap: 3px;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.072px;
+  color: var(--wr-error);
+}
+
+.warranty-container .warranty-registration .wr-error[hidden] {
+  display: none;
+}
+
+/* field errors start with the source's red circled "!" (icons/error-info-icon.svg, 15 x 14) */
+.warranty-container .wr-field .wr-error {
+  align-items: center;
+}
+
+.warranty-container .wr-field .wr-error::before {
+  content: '' / '';
+  flex: none;
+  width: 15px;
+  height: 14px;
+  background: url("../../icons/error-info-icon.svg") center / 15px 14px no-repeat;
+}
+
+.warranty-container .wr-note {
+  font-size: 12px;
+  line-height: 24px;
+  color: var(--wr-upload-text);
+}
+
+/* verified mobile number, as on the source: no message, a green circled tick inside the field
+   (circle-green-checkmark.svg, 20 x 20, 17px from the top and 14px from the right of the box),
+   and the field no longer reacts to the pointer; the text stays for screen readers */
+.warranty-container .warranty-registration .wr-verified {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.warranty-container .wr-field:has(.wr-verified:not([hidden])) {
+  pointer-events: none;
+}
+
+.warranty-container .wr-field:has(.wr-verified:not([hidden])) .wr-input {
+  position: relative;
+}
+
+.warranty-container .wr-field:has(.wr-verified:not([hidden])) .wr-input::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  right: 13px;
+  width: 20px;
+  height: 20px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M13.142 7.98299L8.875 12.25L7.42049 10.7955M10 1C5.02944 1 1 5.02944 1 10C1 14.9706 5.02944 19 10 19C14.9706 19 19 14.9706 19 10C19 5.02944 14.9706 1 10 1Z' stroke='%232BA45B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 0 0 / 20px 20px no-repeat;
+  pointer-events: none;
+}
+
+/* OTP and the resend countdown side by side; as on the source, the row keeps its space before
+   the OTP is sent and after it is verified, so Get OTP and Next stay in place */
+.warranty-container .wr-otp {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+}
+
+/* !important: a host page's [hidden] { display: none !important } (Bootstrap, which the stage
+   project loads on the first click) would otherwise collapse the row */
+.warranty-container .wr-otp[hidden] {
+  display: grid !important;
+  visibility: hidden;
+}
+
+/* products */
+.warranty-container .wr-product {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wr-gap);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.warranty-container .wr-product-heading {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  color: #2e2f32;
+}
+
+.warranty-container .wr-saved,
+.warranty-container .wr-files,
+.warranty-container .wr-ids {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.warranty-container .wr-saved[hidden],
+.warranty-container .wr-files[hidden] {
+  display: none;
+}
+
+.warranty-container .wr-saved li,
+.warranty-container .wr-files li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid #e9e9e9;
+  border-radius: var(--wr-radius);
+  background-color: #fafafa;
+  font-size: 14px;
+}
+
+.warranty-container .wr-saved-name {
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+}
+
+.warranty-container .wr-saved-number,
+.warranty-container .wr-file-date {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--wr-border);
+}
+
+.warranty-container .wr-file-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.warranty-container .wr-terms {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0 8px;
+  min-height: 36px;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+/* the source's checkbox: white with a dark outline, #5d5d5f with a white tick when checked */
+.warranty-container .wr-terms input[type='checkbox'] {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1px solid #292929;
+  border-radius: 4px;
+  background-color: #fff;
+  appearance: none;
+  cursor: pointer;
+}
+
+.warranty-container .wr-terms input[type='checkbox']:checked {
+  background: #5d5d5f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none'%3E%3Cpath d='M3.6 8.1 8.2 2.2M3.6 8.1 1.4 5.9' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / 10px 10px no-repeat;
+}
+
+.warranty-container .wr-terms input[type='checkbox']:focus-visible {
+  outline: 2px solid var(--wr-ink);
+  outline-offset: 2px;
+}
+
+/* "terms and conditions": the source's orange, underlined (#ffa80f; below the WCAG AA contrast
+   minimum on white, kept to match the source as asked) */
+.warranty-container .wr-terms a {
+  color: #ffa80f;
+  text-decoration: underline;
+}
+
+.warranty-container .wr-terms .wr-error {
+  grid-column: 1 / -1;
+}
+
+/* invoice upload: the source's dashed drop box; the native input is kept but visually hidden */
+.warranty-container .wr-upload {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.warranty-container .wr-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.warranty-container .wr-upload label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 122px;
+  margin-bottom: 7px;
+  border: 1px dashed var(--wr-upload-border);
+  border-radius: 12px;
+  background-color: var(--wr-upload-bg);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--wr-upload-text);
+  cursor: pointer;
+}
+
+.warranty-container .wr-upload label::before {
+  /* upload arrow */
+  content: '';
+  width: 15px;
+  height: 14px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='14' viewBox='0 0 15 14'%3E%3Cpath d='M7.5 9.5V1.5M4 5l3.5-3.5L11 5M1 9.5v3h13v-3' fill='none' stroke='%233b3d40' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+}
+
+.warranty-container .wr-upload label::after {
+  content: 'format (pdf/jpeg/jpg/png)' / '';
+}
+
+.warranty-container .wr-upload-title {
+  margin-top: 7px;
+  font-weight: 700;
+}
+
+.warranty-container .wr-upload:has(.wr-file-input:focus-visible) label {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.warranty-container .wr-upload:has(.wr-file-input:disabled) label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.warranty-container .wr-upload:has(.wr-file-input[aria-invalid='true']) label {
+  border-color: var(--wr-error);
+}
+
+/* while a field is focused, as on the source: its label is grey and its error message hidden,
+   also when it has an error (both come back when the field is left and checked again) */
+/* stylelint-disable-next-line no-descending-specificity -- field labels, not the upload box's */
+.warranty-container .wr-field:focus-within > label {
+  color: var(--wr-border);
+}
+
+.warranty-container .wr-field:focus-within .wr-error {
+  display: none;
+}
+
+/* buttons: the source's yellow pill; outlined for secondary actions */
+.warranty-container .wr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.warranty-container .wr-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 70px;
+  border: 0;
+  border-radius: 45px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.warranty-container .wr-primary {
+  background-color: var(--wr-yellow);
+  color: #1e1e1e;
+}
+
+.warranty-container .wr-secondary {
+  min-height: 38px;
+  padding: 7px 24px;
+  border: 1px solid #222;
+  background-color: transparent;
+  color: #222;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.warranty-container .wr-panel > .wr-secondary {
+  align-self: flex-start;
+}
+
+/* "+ Add another Product": the source's black outline CTA */
+.warranty-container .wr-secondary.wr-add {
+  padding: 7px 18px;
+  border-color: #232426;
+  font-weight: 700;
+}
+
+.warranty-container .wr-secondary.wr-add:hover {
+  border-color: #8c8e90;
+  background-color: #fff7e8;
+}
+
+.warranty-container .wr-secondary.wr-add:active {
+  background-color: #feeecf;
+}
+
+/* the source's CTA arrow (arrow-icon.svg, 17 x 20, black) 10px after the label; on the yellow
+   buttons it moves 6px on hover; not shown while the button is not ready, as on the source */
+.warranty-container .wr-button.wr-arrow {
+  gap: 10px;
+}
+
+.warranty-container .wr-button.wr-arrow::after {
+  content: '';
+  flex: none;
+  width: 17px;
+  height: 20px;
+  background-color: #000;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill-rule='evenodd' d='M10.26 4.13a.88.88 0 0 1 1.23 0l5.25 5.25a.88.88 0 0 1 0 1.24l-5.25 5.25a.88.88 0 0 1-1.23-1.24l3.75-3.75H3.88a.88.88 0 1 1 0-1.75h10.13l-3.75-3.75a.88.88 0 0 1 0-1.25Z'/%3E%3C/svg%3E") 0 0 / 20px 20px no-repeat;
+  transition: transform 0.2s ease-in;
+}
+
+.warranty-container .wr-primary.wr-arrow:is(:hover, :focus-visible)::after {
+  transform: translateX(6px);
+}
+
+.warranty-container .wr-button.wr-arrow:is(.wr-pending, :disabled)::after {
+  visibility: hidden;
+}
+
+/* not ready yet (still clickable, so a click lists what is missing) */
+.warranty-container .wr-button.wr-pending,
+.warranty-container .wr-button:disabled {
+  opacity: 0.6;
+}
+
+.warranty-container .wr-button:disabled {
+  cursor: not-allowed;
+}
+
+.warranty-container .wr-link-button {
+  min-height: 32px;
+  margin: 0;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: #53565a;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  cursor: pointer;
+}
+
+.warranty-container .wr-link-button:disabled {
+  font-weight: 400;
+  cursor: default;
+}
+
+/* the resend countdown beside the OTP field */
+.warranty-container .wr-otp .wr-link-button {
+  min-height: 52px;
+  justify-self: start;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: start;
+  color: #53565a;
+}
+
+.warranty-container .warranty-registration :is(button, a, input[type='checkbox']):focus-visible,
+.warranty-container .warranty-registration :is(h2, h3):focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+/* result */
+.warranty-container .wr-result {
+  gap: 20px;
+}
+
+.warranty-container .wr-result h3 {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 28px;
+}
+
+.warranty-container .wr-success h3 {
+  color: var(--wr-success);
+}
+
+.warranty-container .wr-failure h3 {
+  color: var(--wr-error);
+}
+
+.warranty-container .wr-result p {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.warranty-container .wr-result .wr-strong {
+  font-weight: 700;
+}
+
+.warranty-container .wr-result a {
+  color: #222;
+  text-decoration: underline;
+}
+
+/* the source's animated tick (tick-mark.gif), centred above the message */
+.warranty-container .wr-result .wr-success-icon {
+  display: block;
+  width: 113px;
+  height: 113px;
+  margin: 0 auto;
+}
+
+.warranty-container .wr-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (width >= 992px) {
+  .warranty-container .wr-secondary.wr-add {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .warranty-container .warranty-registration {
+    --wr-gap: 24px;
+  }
+
+  .warranty-container .warranty-registration .wr-title {
+    margin-bottom: 20px;
+  }
+
+  .warranty-container .wr-box {
+    border-width: 10px;
+    border-radius: 10px;
+  }
+
+  .warranty-container .warranty-registration .wr-steps {
+    gap: 0;
+    padding: 30px 20px;
+  }
+
+  .warranty-container .wr-step {
+    flex-direction: row;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: start;
+  }
+
+  .warranty-container .wr-card {
+    padding: 30px 20px;
+  }
+
+  .warranty-container .wr-product {
+    --wr-gap: 18px;
+  }
+
+  .warranty-container .wr-product-heading {
+    line-height: 30px;
+  }
+
+  .warranty-container .wr-actions {
+    margin-top: 25px;
+  }
+}

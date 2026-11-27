@@ -1,0 +1,470 @@
+/* PDP Banner Carousel — full-bleed product banner with overlapping packshot */
+
+/*
+ * Site tokens are referenced with fallbacks (var(--token, value)) so the block
+ * renders correctly in projects whose styles.css does not define them.
+ */
+
+/* full-bleed: no section padding or container width */
+main > .section.pdp-banner-carousel-container {
+  padding-top: 0;
+}
+
+.pdp-banner-carousel-container .pdp-banner-carousel-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.pdp-banner-carousel {
+  /* banner aspect ratio on phones and tablets: the authored mobile image's own proportions
+     (--banner-ratio-mobile, set by the JS) so it shows uncropped like the source;
+     reserved up front to avoid CLS */
+  --banner-ratio: var(--banner-ratio-mobile, 1236 / 1324);
+  --packshot-height: 203px;
+  --icon-button-size: 44px;
+
+  position: relative;
+}
+
+@media (width < 991px) {
+  .pdp-banner-carousel {
+    --packshot-height: 203px;
+  }
+}
+
+/* ===== Slides track ===== */
+
+.pdp-banner-carousel .pdp-banner-carousel-slides {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-slides::-webkit-scrollbar {
+  display: none;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+/* ===== Banner (background image + text overlay) ===== */
+
+.pdp-banner-carousel .pdp-banner-carousel-banner {
+  position: relative;
+  aspect-ratio: var(--banner-ratio);
+  overflow: hidden;
+  background-color: var(--dark-color, #0f1a14);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-banner picture {
+  position: absolute;
+  inset: 0;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* top scrim keeps white text readable on light imagery (WCAG AA) */
+.pdp-banner-carousel .pdp-banner-carousel-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-content {
+  position: relative;
+  z-index: 1;
+  padding: 7% var(--gap-lg, 24px) 0;
+  text-align: center;
+  color: var(--background-color, #fff);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-content > * {
+  margin: 0 auto;
+  max-width: var(--container-max-width, 1200px);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-eyebrow {
+  margin-bottom: var(--gap-md, 16px);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  color: var(--background-color, #fff);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-title {
+  margin-top: 0;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: 1.33;
+  color: var(--background-color, #fff);
+}
+
+/* ===== Packshot overlapping the banner's bottom edge ===== */
+
+.pdp-banner-carousel .pdp-banner-carousel-packshot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  height: var(--packshot-height);
+  margin-top: calc(var(--packshot-height) / -2.03);
+  padding: 0 var(--gap-lg, 24px);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-packshot img {
+  width: auto;
+  height: 100%;
+  max-width: 171px;
+  max-height: 203px;
+  object-fit: contain;
+}
+
+/* ===== Description below the packshot ===== */
+
+.pdp-banner-carousel .pdp-banner-carousel-description {
+  max-width: var(--container-narrow-max-width, 768px);
+  margin: var(--gap-lg, 18px) auto 0;
+  padding: 0 var(--gap-lg, 18px);
+  text-align: center;
+  font-size: var(--body-font-size-s, 14px);
+  letter-spacing: 0.5px;
+  line-height: 1.57;
+  color: var(--text-color, #0f1a14);
+}
+
+/* single-paragraph cells arrive as bare text; multi-paragraph as <p> */
+.pdp-banner-carousel .pdp-banner-carousel-description p {
+  margin-bottom: var(--gap-sm, 8px);
+  line-height: inherit;
+  margin-top: -8px;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-description p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Controls overlay (sized to the banner) ===== */
+
+.pdp-banner-carousel .pdp-banner-carousel-tools {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  aspect-ratio: var(--banner-ratio);
+  pointer-events: none;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-tools > * {
+  pointer-events: auto;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border-color-light, #ddd8cf);
+  border-radius: 50%;
+  background-color: var(--background-color, #fff);
+  color: var(--text-color-subtle, #3d4f45);
+  cursor: pointer;
+  transition: var(--card-hover-transition, background-color 0.15s, border-color 0.15s, box-shadow 0.15s);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-icon-button:hover {
+  background-color: var(--cream-color, #f5f0e8);
+  box-shadow: var(--card-hover-shadow, 0 4px 20px rgb(0 0 0 / 8%));
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-icon-button:focus-visible {
+  outline: 2px solid var(--background-color, #fff);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--dark-color, #0f1a14);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-icon-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-icon-button svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* wishlist + share group, bottom right of the banner —
+   lifted above the overlapping packshot on narrow screens */
+.pdp-banner-carousel .pdp-banner-carousel-actions {
+  position: absolute;
+  right: var(--gap-md, 16px);
+  bottom: calc(var(--packshot-height) / 2 + var(--gap-md, 16px));
+  display: flex;
+  gap: var(--gap-xs, 12px);
+}
+
+/* prev / next */
+.pdp-banner-carousel .pdp-banner-carousel-prev,
+.pdp-banner-carousel .pdp-banner-carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-prev {
+  left: var(--gap-md, 16px);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-next {
+  right: var(--gap-md, 16px);
+}
+
+/* dots */
+.pdp-banner-carousel .pdp-banner-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-sm, 8px);
+  margin-top: var(--gap-md, 16px);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-dots button {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-dots button::before {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: auto;
+  border-radius: 50%;
+  background-color: var(--border-color, #c8c2b8);
+  transition: background-color var(--transition-fast, 0.15s);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-dots button[aria-current='true']::before {
+  background-color: var(--accent-color, #e8651a);
+}
+
+/* ===== Tablet ===== */
+@media (width >= 600px) {
+  .pdp-banner-carousel {
+    --packshot-height: 264px;
+  }
+
+  .pdp-banner-carousel .pdp-banner-carousel-packshot img {
+    max-width: none;
+    max-height: none;
+  }
+
+  .pdp-banner-carousel .pdp-banner-carousel-actions {
+    right: var(--gap-2xl, 48px);
+    bottom: var(--gap-lg, 24px);
+  }
+}
+
+/* ===== Desktop: wide crop ===== */
+@media (width >= 900px) {
+  .pdp-banner-carousel {
+    /* the authored desktop image's own proportions (JS), so it is not cropped */
+    --banner-ratio: var(--banner-ratio-desktop, 1366 / 474);
+  }
+
+  /* source keeps description at 14px on desktop */
+  .pdp-banner-carousel .pdp-banner-carousel-description {
+    font-size: var(--body-font-size-xs, 12px);
+  }
+
+  .pdp-banner-carousel .pdp-banner-carousel-prev {
+    left: var(--gap-2xl, 48px);
+  }
+
+  .pdp-banner-carousel .pdp-banner-carousel-next {
+    right: var(--gap-2xl, 48px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdp-banner-carousel .pdp-banner-carousel-icon-button,
+  .pdp-banner-carousel .pdp-banner-carousel-dots button::before {
+    transition: none;
+  }
+}
+
+@media (width < 991px) {
+  .pdp-banner-carousel .pdp-banner-carousel-content{
+    padding: 15% var(--gap-lg, 20px) 0;
+  }
+
+  .pdp-banner-carousel .pdp-banner-carousel-eyebrow {
+    line-height: 24px;
+  }
+
+  .pdp-banner-carousel .pdp-banner-carousel-title{
+    font-size: 24px;
+    width: 90%;
+  }
+
+  .pdp-banner-carousel .pdp-banner-carousel-description p:last-child{
+    padding: 0 8px;
+    font-size: 14px;
+  }
+}
+
+/* the source's description starts with a non-breaking space (the publishing pipeline
+   trims it from authored text), which sets its line breaks: "SmartCare | Damp Proof" */
+.pdp-banner-carousel .pdp-banner-carousel-description > p:first-child::before,
+.pdp-banner-carousel .pdp-banner-carousel-description:not(:has(> p))::before {
+  content: '\a0';
+}
+
+/* =============================================
+   Start: source wishlist + share icons, description (asianpaints.com PDP banner)
+   The two icons are placeholders with no functionality, 40px each: wishlist is
+   icons/old-type-wishlist-unselected.svg, share is the source's sprite icon (the white
+   circle is part of each image). The source places them at 65% (66% on
+   phones) of the banner plus the packshot's overhang, measured here from the banner:
+   stacked 25px apart, 20px from the right below 576px (44px from 576px), side by side
+   with 5px around each from 768px. The description: Manrope 14px / 22px, #222, 0.5px
+   letter spacing, centred; full width with 20px padding, a 733px column from 992px.
+   ============================================= */
+
+/* this section overrides rules above, so it repeats their selectors */
+/* stylelint-disable no-duplicate-selectors, no-descending-specificity */
+.pdp-banner-carousel .pdp-banner-carousel-actions {
+  top: calc(66% + 72px);
+  right: 20px;
+  bottom: auto;
+  flex-direction: column;
+  gap: 25px;
+  padding-top: 25px;
+}
+
+/* placeholder icons only, no click behaviour: the group lets clicks through,
+   the icons themselves take the pointer so they show a hand cursor like the source */
+.pdp-banner-carousel .pdp-banner-carousel-actions {
+  pointer-events: none;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-placeholder {
+  pointer-events: auto;
+  cursor: pointer;
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: url('../../icons/old-type-wishlist-unselected.svg') center / contain no-repeat;
+  box-shadow: 0 0 4px 1px rgb(34 34 34 / 10%);
+}
+
+/* working wishlist heart (a button): clickable, red when saved */
+.pdp-banner-carousel button.pdp-banner-carousel-wishlist {
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.pdp-banner-carousel button.pdp-banner-carousel-wishlist[aria-pressed='true'] {
+  background: url('../../icons/old-type-wishlist-selected.svg') center / contain no-repeat;
+}
+
+.pdp-banner-carousel button.pdp-banner-carousel-wishlist:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-placeholder.pdp-banner-carousel-share {
+  background: url('https://www.asianpaints.com/etc.clientlibs/apcolourcatalogue/clientlibs/clientlib-global/resources/images/Icons-Sprite-firstFold.webp') -415px -44px no-repeat;
+}
+
+/* the share block's button replaces the share placeholder: clickable, menu opens downwards */
+.pdp-banner-carousel .pdp-banner-carousel-share-wrap {
+  pointer-events: auto;
+}
+
+/* same shadow as the wishlist icon, so the white circle shows where it overlaps the page */
+.pdp-banner-carousel .pdp-banner-carousel-share-wrap .share-button {
+  box-shadow: 0 0 4px 1px rgb(34 34 34 / 10%);
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-share-wrap .share-menu {
+  top: calc(100% + 5px);
+  bottom: auto;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-description {
+  max-width: none;
+  margin-top: 18px;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+  color: #222;
+}
+
+.pdp-banner-carousel .pdp-banner-carousel-description p,
+.pdp-banner-carousel .pdp-banner-carousel-description p:last-child {
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+@media (width >= 576px) {
+  .pdp-banner-carousel .pdp-banner-carousel-actions {
+    top: calc(65% + 54px);
+    right: 44px;
+  }
+}
+
+@media (width >= 768px) {
+  .pdp-banner-carousel .pdp-banner-carousel-actions {
+    top: calc(65% + 94px);
+    right: 44px;
+    flex-direction: row;
+    gap: 13px;
+    padding: 0 5px;
+  }
+
+  .pdp-banner-carousel .pdp-banner-carousel-placeholder,
+  .pdp-banner-carousel .pdp-banner-carousel-share-wrap .share-button {
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+@media (width >= 992px) {
+  .pdp-banner-carousel .pdp-banner-carousel-description {
+    max-width: 733px;
+    padding: 0;
+  }
+}
+
+/* stylelint-enable no-duplicate-selectors, no-descending-specificity */
+
+/* =============================================
+   End: source wishlist + share icons, description
+   ============================================= */

@@ -1,0 +1,667 @@
+/* =============================================
+   SOLUTION FINDER
+   Desktop: main tabs → card with radio options + sub tabs (left) and
+   content (right).
+   Mobile first: pill tabs, radios side by side, sub tabs as an accordion,
+   product cards scroll sideways with prev / next arrows.
+   ============================================= */
+
+.solution-finder {
+  --sf-accent: #feb940;
+  --sf-active-bg: #e2f9eb;
+  --sf-active-border: #00c853;
+  --sf-radio: #00c853;
+  --sf-text: #222;
+  --sf-heading: #000;
+  --sf-body: #4d4d4d;
+  --sf-muted: #808080;
+  --sf-disabled: #b3b3b3;
+  --sf-page-bg: #fcfaf5;
+  --sf-card-bg: #fff;
+  --sf-card-border: #efefef;
+  --sf-title-gradient: linear-gradient(91deg, #431a80 1.46%, #ee4137 51.38%, #feb940);
+  --sf-gutter: 12px;
+
+  padding: 16px 0 24px;
+  background: var(--sf-card-bg);
+  color: var(--sf-text);
+}
+
+.solution-finder-container .solution-finder-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.solution-finder .solution-finder-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- block heading ---------- */
+.solution-finder .solution-finder-heading {
+  margin: 8px var(--sf-gutter) 37px;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+  color: var(--sf-text);
+  text-align: center;
+}
+
+.solution-finder .solution-finder-heading-gradient {
+  background: var(--sf-title-gradient);
+  /* stylelint-disable-next-line property-no-vendor-prefix -- gradient text in older Safari */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- main tabs ---------- */
+.solution-finder .solution-finder-tabs {
+  display: flex;
+  gap: 23px;
+  margin: 0 0 26px 7px;
+  padding: 0 var(--sf-gutter);
+  overflow-x: auto;
+  scroll-padding-inline: var(--sf-gutter);
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.solution-finder .solution-finder-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.solution-finder .solution-finder-tab {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 2.5px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--sf-heading);
+  white-space: nowrap;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+
+.solution-finder .solution-finder-tab[aria-selected='true'] {
+  border-color: var(--sf-active-border);
+  background: var(--sf-active-bg);
+  font-weight: 600;
+  color: #2f2f2f;
+}
+
+/* ---------- panel ---------- */
+.solution-finder .solution-finder-body {
+  box-sizing: border-box;
+}
+
+/* ---------- options (radios) ---------- */
+.solution-finder .solution-finder-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 24px;
+  min-width: 0;
+  margin: 0;
+  padding: 0 var(--sf-gutter);
+  border: 0;
+}
+
+/* radios share one row, the open option's sub tabs wrap below them */
+.solution-finder .solution-finder-option {
+  display: contents;
+}
+
+.solution-finder .solution-finder-option-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.solution-finder .solution-finder-radio {
+  flex: 0 0 auto;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1px solid #1d1d1f;
+  border-radius: 50%;
+  background: var(--sf-card-bg);
+  cursor: pointer;
+}
+
+.solution-finder .solution-finder-radio:checked {
+  border-color: var(--sf-radio);
+  background: radial-gradient(circle, var(--sf-radio) 0 5px, transparent 5.5px);
+}
+
+.solution-finder .solution-finder-radio:focus-visible {
+  outline: 2px solid var(--sf-heading);
+  outline-offset: 2px;
+}
+
+.solution-finder .solution-finder-option label {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--sf-text);
+  cursor: pointer;
+}
+
+.solution-finder .solution-finder-radio:checked + label {
+  font-weight: 700;
+}
+
+/* ---------- sub tabs (accordion on mobile) ---------- */
+.solution-finder .solution-finder-subtabs {
+  order: 1;
+  flex: 0 0 calc(100% + 2 * var(--sf-gutter));
+  min-width: 0;
+  margin: 16px calc(-1 * var(--sf-gutter)) 0;
+}
+
+.solution-finder .solution-finder-subtabs[hidden] {
+  display: none;
+}
+
+.solution-finder .solution-finder-subtab {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 55px;
+  margin: 0;
+  padding: 14px 22px 14px 15px;
+  border: 0;
+  background: var(--sf-page-bg);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--sf-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+/* chevron */
+.solution-finder .solution-finder-subtab::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin-right: -1px;
+  background: url("../../icons/arrow-down-icon.svg") center / contain no-repeat;
+}
+
+.solution-finder .solution-finder-subtab.is-active {
+  background: var(--sf-card-bg);
+}
+
+.solution-finder .solution-finder-subtab.is-active::after {
+  transform: rotate(180deg);
+}
+
+.solution-finder .solution-finder-subtab-item .solution-finder-detail {
+  padding: 4px var(--sf-gutter) 24px 15px;
+}
+
+/* ---------- content ---------- */
+.solution-finder .solution-finder-content {
+  min-width: 0;
+}
+
+.solution-finder .solution-finder-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--sf-heading);
+}
+
+.solution-finder .solution-finder-section-label,
+.solution-finder .solution-finder-products-label {
+  margin: 20px 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #2f2f2f;
+}
+
+.solution-finder .solution-finder-products-label {
+  margin-top: 30px;
+  padding-bottom: 10px;
+}
+
+.solution-finder .solution-finder-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.solution-finder .solution-finder-section-image {
+  flex: 0 0 auto;
+}
+
+.solution-finder .solution-finder-section-image picture,
+.solution-finder .solution-finder-section-image img {
+  display: block;
+}
+
+.solution-finder .solution-finder-section-image img {
+  width: 136px;
+  height: 89px;
+  object-fit: cover;
+}
+
+.solution-finder .solution-finder-section-description {
+  min-width: 0;
+  padding-right: 3px;
+}
+
+.solution-finder .solution-finder-section-description,
+.solution-finder .solution-finder-section-description p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  color: #0a0909;
+}
+
+.solution-finder .solution-finder-section-description p+p {
+  margin-top: 8px;
+}
+
+.solution-finder .solution-finder-section-description a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* ---------- product cards ---------- */
+.solution-finder .solution-finder-products {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.solution-finder .solution-finder-products::-webkit-scrollbar {
+  display: none;
+}
+
+/* no Products Label authored: keep the gap the heading would have given */
+.solution-finder .solution-finder-detail> :not(.solution-finder-products-label)+.solution-finder-products {
+  margin-top: 24px;
+}
+
+.solution-finder .solution-finder-card {
+  position: relative;
+  flex: 0 0 148px;
+  padding: 17px 10px 10px;
+  border: 1px solid var(--sf-card-border);
+  border-radius: 8px;
+  background: var(--sf-card-bg);
+  scroll-snap-align: start;
+}
+
+.solution-finder .solution-finder-card-link {
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  padding: 0;
+  color: var(--sf-text);
+  text-decoration: none;
+}
+
+.solution-finder .solution-finder-card-image {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.solution-finder .solution-finder-card-image picture {
+  display: block;
+}
+
+.solution-finder .solution-finder-card-image img {
+  display: block;
+  width: auto;
+  height: 64px;
+  object-fit: contain;
+}
+
+.solution-finder .solution-finder-card-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.solution-finder .solution-finder-card-bullets {
+  margin: 0;
+  padding-left: 14px;
+  list-style-type: disc;
+  font-size: 10px;
+  line-height: 14px;
+  text-align: left;
+}
+
+.solution-finder .solution-finder-card-bullets li {
+  margin: 0;
+  text-transform: lowercase;
+}
+
+.solution-finder .solution-finder-card-bullets li::first-letter {
+  text-transform: uppercase;
+}
+
+/* wishlist heart, as in cards-nilaya; state and clicks from scripts/wishlist.js */
+.solution-finder .solution-finder-wishlist {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: url('/eds/icons/wishlist-unselected.svg') center / 24px 24px no-repeat;
+  cursor: pointer;
+}
+
+.solution-finder .solution-finder-wishlist[aria-pressed='true'] {
+  background-image: url('/eds/icons/wishlist-selected.svg');
+}
+
+.solution-finder .solution-finder-wishlist:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+/* prev / next arrows */
+.solution-finder .solution-finder-products-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.solution-finder .solution-finder-products-nav[hidden] {
+  display: none;
+}
+
+.solution-finder .solution-finder-products-nav button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 1.5px solid currentcolor;
+  border-radius: 50%;
+  background: var(--sf-card-bg);
+  color: var(--sf-heading);
+  cursor: pointer;
+}
+
+.solution-finder .solution-finder-products-nav button:disabled {
+  color: var(--sf-disabled);
+  cursor: default;
+}
+
+.solution-finder .solution-finder-products-prev svg {
+  transform: scaleX(-1);
+}
+
+/* keyboard focus */
+.solution-finder .solution-finder-tab:focus-visible,
+.solution-finder .solution-finder-subtab:focus-visible,
+.solution-finder .solution-finder-card-link:focus-visible,
+.solution-finder .solution-finder-panel:focus-visible {
+  outline: 2px solid var(--sf-heading);
+  outline-offset: 2px;
+}
+
+/* =============================================
+   DESKTOP
+   ============================================= */
+@media (width >=900px) {
+  .solution-finder {
+    padding: 24px 0 48px;
+    background: var(--sf-page-bg);
+  }
+
+  .solution-finder .solution-finder-heading {
+    margin: 24px 24px 65px;
+    font-size: 32px;
+    line-height: 1.25;
+  }
+
+  /* main tabs: underline style */
+  .solution-finder .solution-finder-tabs {
+    justify-content: center;
+    gap: 80px;
+    margin-bottom: 27px;
+    margin-left: 0;
+    overflow: visible;
+  }
+
+  .solution-finder .solution-finder-tab {
+    position: relative;
+    padding: 4px 0;
+    border: 0;
+    border-radius: 0;
+    font-size: 20px;
+    line-height: 1.3;
+    color: var(--sf-muted);
+  }
+
+  .solution-finder .solution-finder-tab[aria-selected='true'] {
+    background: none;
+    font-weight: 700;
+    color: var(--sf-heading);
+  }
+
+  .solution-finder .solution-finder-tab[aria-selected='true']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--sf-accent);
+  }
+
+  /* panel card */
+  .solution-finder .solution-finder-body {
+    display: grid;
+    grid-template-columns: 30.1% 1fr;
+    gap: 0;
+    width: auto;
+    margin: 0 50px;
+    padding: 49px 40px;
+    border-radius: 8px;
+    background: var(--sf-card-bg);
+    box-shadow: 0 4px 16px -2px rgb(16 24 40 / 10%);
+  }
+
+  /* options stacked, sub tabs listed under the open one */
+  .solution-finder .solution-finder-options {
+    display: block;
+    padding: 0;
+  }
+
+  .solution-finder .solution-finder-option {
+    display: block;
+  }
+
+  .solution-finder .solution-finder-option+.solution-finder-option {
+    margin-top: 28px;
+  }
+
+  .solution-finder .solution-finder-option-control {
+    gap: 12px;
+  }
+
+  .solution-finder .solution-finder-radio {
+    border: 1.5px solid var(--sf-text);
+  }
+
+  .solution-finder .solution-finder-option label,
+  .solution-finder .solution-finder-radio:checked + label {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .solution-finder .solution-finder-subtabs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    margin: 20px 0 0 20px;
+  }
+
+  .solution-finder .solution-finder-subtab {
+    display: block;
+    width: auto;
+    min-height: 0;
+    padding: 5px 8px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--sf-muted);
+  }
+
+  .solution-finder .solution-finder-subtab::after {
+    content: none;
+  }
+
+  .solution-finder .solution-finder-subtab.is-active {
+    border-color: var(--sf-active-border);
+    background: var(--sf-active-bg);
+    color: #2f2f2f;
+  }
+
+  /* content */
+  .solution-finder .solution-finder-title {
+    font-size: 24px;
+    line-height: 1.1;
+  }
+
+  .solution-finder .solution-finder-section-label,
+  .solution-finder .solution-finder-products-label {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .solution-finder .solution-finder-section-label {
+    margin: 30px 0 16px;
+  }
+
+  .solution-finder .solution-finder-products-label {
+    margin: 40px 0 16px;
+    padding-bottom: 0;
+  }
+
+  .solution-finder .solution-finder-section {
+    gap: 16px;
+  }
+
+  .solution-finder .solution-finder-section-image img {
+    width: 152px;
+    height: 100px;
+  }
+
+  .solution-finder .solution-finder-section-description {
+    display: inline-block;
+    width: 550px;
+    margin-bottom: 30px;
+    padding-right: 0;
+  }
+
+  .solution-finder .solution-finder-section-description,
+  .solution-finder .solution-finder-section-description p {
+    color: var(--sf-body);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0;
+  }
+
+  /* product cards wrap, no arrows */
+  .solution-finder .solution-finder-products {
+    flex-wrap: wrap;
+    gap: 18px;
+    overflow: visible;
+  }
+
+  .solution-finder .solution-finder-detail> :not(.solution-finder-products-label)+.solution-finder-products {
+    margin-top: 40px;
+  }
+
+  .solution-finder .solution-finder-card {
+    flex: 0 0 174px;
+    height: 257px;
+    padding: 0;
+  }
+
+  .solution-finder .solution-finder-card-link {
+    padding: 32px 20px 20px;
+  }
+
+  .solution-finder .solution-finder-card-image {
+    width: 80px;
+    margin: 0 auto;
+  }
+
+  .solution-finder .solution-finder-card-image img {
+    height: 92px;
+  }
+
+  .solution-finder .solution-finder-card-title {
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+
+  .solution-finder .solution-finder-card-bullets {
+    max-width: 90%;
+    margin-top: 14px;
+    padding-left: 20px;
+    color: #000;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .solution-finder .solution-finder-wishlist {
+    top: 12px;
+    right: 12px;
+  }
+
+  .solution-finder .solution-finder-products-nav {
+    display: none;
+  }
+}

@@ -1,0 +1,376 @@
+/*
+ * colour-book-showcase — intro (eyebrow, title, CTA) beside a strip of room
+ * images that swap to hover artwork, then a heading and text.
+ *
+ * AUTHORING (DA table, two columns; one field per row, then the images):
+ *
+ *   +-------------------------------------------------------------------+
+ *   | colour-book-showcase                                              |
+ *   +------------------+------------------------------------------------+
+ *   | Eyebrow          | Royale Book of Colours                         |
+ *   | Title            | Create a space that bears your Signature!      |
+ *   | CTA label        | Download royale book of colours                |
+ *   | CTA link         | https://…/Royale-Book-of-colours-2024.pdf      |
+ *   | Mobile CTA link  | (optional; phone CTA, defaults to CTA link)    |
+ *   | Open in new tab  | true                                           |
+ *   | Heading          | A shade guide for interiors                    |
+ *   | Text             | Enjoy depth of colour … Teflon^TM …            |
+ *   +------------------+------------------------------------------------+
+ *   | Image            | Hover image                                    |
+ *   | <room image>     | <theme artwork>                                |
+ *   | …one row per image                                                |
+ *   +------------------+------------------------------------------------+
+ *
+ * - Every field is optional. A row with only one image shows it at all times.
+ * - The CTA gets a download icon; it sits under the title from 651px and
+ *   moves below the text (centred) on phones, as on the source.
+ * - VARIANTS: none.
+ *
+ * Values are the source's computed CSS (www.asianpaints.com
+ * .twovariantscolumn, at 1x): the 992-1439px page scaling there is the
+ * site-wide `body { zoom }`, which is not part of this block. Breakpoints:
+ * 651px (CTA position), 576 / 768px (columns), 992px (desktop), 1366px
+ * (image fit).
+ */
+
+/* the block's own page spacing (source .padding45 wrapper). With the 40px
+   section margins of this repo and the main site, the top padding gives the
+   source's 55px / 120px gap below the inspiration banner. */
+.colour-book-showcase-container .colour-book-showcase-wrapper {
+  max-width: none;
+  padding: 15px 4.5% 0;
+}
+
+.colour-book-showcase {
+  --colour-book-showcase-text: #222;
+  --colour-book-showcase-cta-border: #232426;
+  --colour-book-showcase-cta-hover-bg: #fff7e8;
+  --colour-book-showcase-cta-focus-bg: #feeecf;
+  --colour-book-showcase-strip-bg: #fff;
+  --colour-book-showcase-gradient-eyebrow: linear-gradient(270deg, #f8a12e, #be2a1d 20.78%, #45216c 50.29%, #000 98.1%);
+  --colour-book-showcase-gradient-heading: linear-gradient(270deg, #f8a12e, #be2a1d 50.07%, #45216c 98.1%);
+
+  color: var(--colour-book-showcase-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+/* bootstrap .row / .col-md-4 / .col-md-8 on the source */
+.colour-book-showcase .colour-book-showcase-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.colour-book-showcase .colour-book-showcase-intro,
+.colour-book-showcase .colour-book-showcase-media {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 15px;
+}
+
+/* --- intro --- */
+.colour-book-showcase .colour-book-showcase-intro {
+  padding-top: 36px;
+}
+
+.colour-book-showcase h2,
+.colour-book-showcase h3,
+.colour-book-showcase p {
+  color: inherit;
+}
+
+.colour-book-showcase .colour-book-showcase-eyebrow,
+.colour-book-showcase .colour-book-showcase-heading {
+  margin: 0 0 7px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.colour-book-showcase .colour-book-showcase-gradient {
+  background-image: var(--colour-book-showcase-gradient-heading);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.colour-book-showcase .colour-book-showcase-eyebrow .colour-book-showcase-gradient {
+  background-image: var(--colour-book-showcase-gradient-eyebrow);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 27.32px;
+}
+
+.colour-book-showcase .colour-book-showcase-title {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+.colour-book-showcase .colour-book-showcase-title span {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 28.8px;
+}
+
+/* the source keeps an empty 22px line + 14px gap above the CTA */
+.colour-book-showcase .colour-book-showcase-intro .colour-book-showcase-cta-wrap {
+  margin: 0;
+  padding-top: 36px;
+}
+
+.colour-book-showcase a.colour-book-showcase-cta:any-link {
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  width: fit-content;
+  height: 38px;
+  padding: 12px 18px;
+  border: 1px solid var(--colour-book-showcase-cta-border);
+  border-radius: 45px;
+  background-color: transparent;
+  color: var(--colour-book-showcase-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  text-decoration: none;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.colour-book-showcase a.colour-book-showcase-cta:hover {
+  background-color: var(--colour-book-showcase-cta-hover-bg);
+}
+
+.colour-book-showcase a.colour-book-showcase-cta:focus {
+  background-color: var(--colour-book-showcase-cta-focus-bg);
+}
+
+/* not on the source (it removes focus outlines): kept for keyboard users */
+.colour-book-showcase a.colour-book-showcase-cta:focus-visible {
+  outline: 2px solid var(--colour-book-showcase-text);
+  outline-offset: 2px;
+}
+
+.colour-book-showcase .colour-book-showcase-cta-icon {
+  display: flex;
+}
+
+/* --- image strip --- */
+.colour-book-showcase .colour-book-showcase-strip {
+  position: relative;
+  padding: 0 0 0 15px;
+}
+
+.colour-book-showcase .colour-book-showcase-gallery {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: start;
+  column-gap: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.colour-book-showcase .colour-book-showcase-gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.colour-book-showcase .colour-book-showcase-gallery:focus-visible {
+  outline: 1px solid currentcolor;
+}
+
+.colour-book-showcase .colour-book-showcase-gallery li {
+  position: relative;
+  display: block;
+  flex: 0 0 77%;
+  width: 100%;
+  height: 372px;
+  margin: 0 2px;
+  border-radius: 4px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+}
+
+.colour-book-showcase .colour-book-showcase-gallery:is(:hover, :focus-visible) li {
+  margin: 0 1px;
+  transition: all 1.5s ease;
+}
+
+.colour-book-showcase .colour-book-showcase-gallery picture {
+  display: block;
+  height: 372px;
+}
+
+/* below 992px the hover artwork is shown */
+.colour-book-showcase .colour-book-showcase-gallery .colour-book-showcase-image {
+  display: none;
+}
+
+.colour-book-showcase .colour-book-showcase-gallery img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: fill;
+}
+
+/* --- heading + text --- */
+
+/* flow-root keeps the paragraph margin inside, as on the source */
+.colour-book-showcase .colour-book-showcase-text {
+  display: flow-root;
+  padding: 10px 4.5% 0;
+}
+
+.colour-book-showcase .colour-book-showcase-text p {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+.colour-book-showcase .colour-book-showcase-text sup {
+  position: relative;
+  top: -0.5em;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+/* phone-only CTA below the text */
+.colour-book-showcase .colour-book-showcase-cta-mobile {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.colour-book-showcase .colour-book-showcase-cta-mobile .colour-book-showcase-cta-wrap {
+  margin: 0 0 25px;
+}
+
+@media (width <= 360px) {
+  .colour-book-showcase a.colour-book-showcase-cta:any-link {
+    gap: 4px;
+    padding: 12px 10px;
+  }
+}
+
+/* source AEM grid "phone" range: the CTA moves below the text */
+@media (width <= 650px) {
+  .colour-book-showcase .colour-book-showcase-intro a.colour-book-showcase-cta:any-link {
+    display: none;
+  }
+}
+
+@media (width >= 576px) {
+  .colour-book-showcase .colour-book-showcase-gallery li {
+    flex: 0 0 34%;
+  }
+}
+
+@media (width >= 651px) {
+  .colour-book-showcase .colour-book-showcase-cta-mobile .colour-book-showcase-cta-wrap {
+    display: none;
+  }
+}
+
+@media (width >= 768px) {
+  .colour-book-showcase .colour-book-showcase-intro {
+    flex: 0 0 33.3333%;
+    max-width: 33.3333%;
+  }
+
+  .colour-book-showcase .colour-book-showcase-media {
+    flex: 0 0 66.6667%;
+    max-width: 66.6667%;
+  }
+}
+
+/* --- desktop --- */
+@media (width >= 992px) {
+  .colour-book-showcase-container .colour-book-showcase-wrapper {
+    padding: 50px 4% 0;
+  }
+
+  .colour-book-showcase .colour-book-showcase-eyebrow,
+  .colour-book-showcase .colour-book-showcase-heading {
+    font-size: 20px;
+  }
+
+  /* 7px + the source's 20px padding above the title */
+  .colour-book-showcase .colour-book-showcase-eyebrow {
+    margin-bottom: 27px;
+  }
+
+  .colour-book-showcase .colour-book-showcase-eyebrow .colour-book-showcase-gradient {
+    font-size: 32px;
+    line-height: 43.71px;
+  }
+
+  .colour-book-showcase .colour-book-showcase-title span {
+    font-size: 54px;
+    line-height: 56.4px;
+  }
+
+  .colour-book-showcase a.colour-book-showcase-cta:any-link {
+    padding: 14px 20px;
+  }
+
+  .colour-book-showcase .colour-book-showcase-strip {
+    padding: 0 4% 4%;
+    background-color: var(--colour-book-showcase-strip-bg);
+  }
+
+  .colour-book-showcase .colour-book-showcase-gallery {
+    justify-content: center;
+    overflow-x: visible;
+  }
+
+  .colour-book-showcase .colour-book-showcase-gallery li {
+    flex: 0 1 auto;
+    margin: 0 1px;
+  }
+
+  .colour-book-showcase .colour-book-showcase-gallery .colour-book-showcase-image {
+    display: block;
+  }
+
+  .colour-book-showcase .colour-book-showcase-gallery .colour-book-showcase-hover {
+    display: none;
+  }
+
+  .colour-book-showcase .colour-book-showcase-gallery:is(:hover, :focus-visible) .colour-book-showcase-image {
+    display: none;
+  }
+
+  .colour-book-showcase .colour-book-showcase-gallery:is(:hover, :focus-visible) .colour-book-showcase-hover {
+    display: block;
+  }
+
+  /* images appear one by one when the strip scrolls into view */
+  .colour-book-showcase .colour-book-showcase-gallery li:not(.is-revealed) img {
+    visibility: hidden;
+  }
+
+  .colour-book-showcase .colour-book-showcase-text {
+    padding: 50px 4% 0;
+  }
+
+  .colour-book-showcase .colour-book-showcase-cta-mobile {
+    padding-top: 50px;
+  }
+}
+
+@media (width >= 992px) and (width <= 1365px) {
+  .colour-book-showcase .colour-book-showcase-gallery img {
+    object-fit: cover;
+  }
+}

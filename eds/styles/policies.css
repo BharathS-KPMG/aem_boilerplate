@@ -1,0 +1,392 @@
+/* =============================================
+   POLICIES
+   ============================================= */
+
+@media (width >=992px) {
+   .show-only-in-mobile {
+      display: none !important;
+   }
+
+   .desktop-mt-100 {
+      margin-top: 100px !important;
+   }
+
+   .desktop-mt-80 {
+      margin-top: 80px !important;
+   }
+
+   .desktop-mt-70 {
+      margin-top: 70px !important;
+   }
+
+   .desktop-side-padding-4 {
+      padding-left: 4% !important;
+      padding-right: 4% !important;
+   }
+
+   .desktop-side-padding-40 {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+   }
+
+   .desktop-side-padding-80 {
+      padding-left: 80px !important;
+      padding-right: 80px !important;
+   }
+
+   .desktop-side-padding-90 {
+      padding-left: 90px !important;
+      padding-right: 90px !important;
+   }
+
+   .desktop-side-padding-100 {
+      padding-left: 100px !important;
+      padding-right: 100px !important;
+   }
+
+   .desktop-side-padding-110 {
+      padding-left: 110px !important;
+      padding-right: 110px !important;
+   }
+
+   .desktop-side-padding-130 {
+      padding-left: 130px !important;
+      padding-right: 130px !important;
+   }
+
+   .mx-lg-5 {
+      margin-right: 3rem !important;
+      margin-left: 3rem !important;
+   }
+
+   .desktop-side-padding-17 {
+      padding-left: 17% !important;
+      padding-right: 17% !important;
+   }
+
+   .desktop-pb-50 {
+      padding-bottom: 50px !important;
+   }
+}
+
+@media (width < 992px) {
+   .mobile-px-small {
+      padding-left: 4.5%;
+      padding-right: 4.5%;
+   }
+
+   .show-only-in-desktop {
+      display: none !important;
+   }
+
+   .mobile-mt-100 {
+      margin-top: 100px;
+   }
+
+   .mobile-mt-60 {
+      margin-top: 60px;
+   }
+
+   .mobile-side-padding-16 {
+      padding-left: 16px;
+      padding-right: 16px;
+   }
+
+   .mobile-side-padding-4-5-percent {
+      padding-left: 4.5%;
+      padding-right: 4.5%;
+   }
+}
+
+/* Bootstrap utility fallbacks.
+   Bootstrap CSS is deliberately deferred until first user interaction
+   (see loadDelayed in scripts.js), so any of its utility classes used on
+   content visible at page load are unstyled until then. The utilities
+   below mirror Bootstrap 5.3 exactly (same values, same !important) so
+   they apply at load and nothing shifts when Bootstrap arrives later. */
+.d-none {
+   display: none !important;
+}
+
+.d-flex {
+   display: flex !important;
+}
+
+.flex-column {
+   flex-direction: column !important;
+}
+
+.flex-wrap {
+   flex-wrap: wrap !important;
+}
+
+.align-items-center {
+   align-items: center !important;
+}
+
+.w-100 {
+   width: 100% !important;
+}
+
+.m-0 {
+   margin: 0 !important;
+}
+
+.p-0 {
+   padding: 0 !important;
+}
+
+.position-relative {
+   position: relative !important;
+}
+
+.overflow-hidden {
+   overflow: hidden !important;
+}
+
+.mt-0 {
+   margin-top: 0 !important;
+}
+
+.mt-1 {
+   margin-top: 0.25rem !important;
+}
+
+.mt-2 {
+   margin-top: 0.5rem !important;
+}
+
+.mt-3 {
+   margin-top: 1rem !important;
+}
+
+.mt-4 {
+   margin-top: 1.5rem !important;
+}
+
+.mt-5 {
+   margin-top: 3rem !important;
+}
+
+.mb-0 {
+   margin-bottom: 0 !important;
+}
+
+.mb-1 {
+   margin-bottom: 0.25rem !important;
+}
+
+.mb-2 {
+   margin-bottom: 0.5rem !important;
+}
+
+.mb-3 {
+   margin-bottom: 1rem !important;
+}
+
+.mb-4 {
+   margin-bottom: 1.5rem !important;
+}
+
+.mb-5 {
+   margin-bottom: 3rem !important;
+}
+
+.pt-5 {
+   padding-top: 3rem !important;
+}
+
+.pb-5 {
+   padding-bottom: 3rem !important;
+}
+
+.pb-lg-5 {
+   padding-bottom: 1.5rem !important;
+}
+
+.text-center {
+   text-align: center;
+}
+
+/* =============================================
+   POLICIES
+   Reusable classes applied from the document:
+   - a section style (Section Metadata > Style), or
+   - a block option, e.g. "cards (dark)".
+   ============================================= */
+
+/* ---------------------------------------------------------------------------
+   rte-text: section style. Centred title (Heading 2) + description
+   (Heading 6) as default content, as the source's "rte text" component
+   (asianpaints.com/nilaya-arc-inspiration). Source values; breakpoint 992px.
+
+     | Section Metadata |          |
+     | Style            | rte-text |
+
+   The desktop title uses the source's "apFontExtraBold": Manrope-ExtraBold
+   declared without a weight and drawn at 700, so it gets the same synthetic
+   bold as on the source.
+   --------------------------------------------------------------------------- */
+
+/* the top margin collapses with the previous section's bottom margin, so the
+   gap above the title is exactly the source's 50px (100px on desktop) */
+main>.section.rte-text {
+   display: block;
+   margin-top: 50px;
+   padding: 0 4.5%;
+   text-align: center;
+}
+
+main>.section.rte-text>div {
+   width: auto;
+   max-width: none;
+   margin: 0;
+   padding: 0;
+}
+
+main>.section.rte-text>.default-content-wrapper>h2 {
+   margin: 0 0 7px;
+   padding: 0;
+   color: #222;
+   font-size: 22px;
+   font-weight: 700;
+   line-height: 24px;
+   letter-spacing: normal;
+   text-align: center;
+}
+
+main>.section.rte-text>.default-content-wrapper>h6,
+main>.section.rte-text>.default-content-wrapper>p {
+   max-width: none;
+   margin: 0 0 7px;
+   color: #222;
+   font-family: Manrope, manrope-fallback, sans-serif;
+   font-size: 14px;
+   font-weight: 500;
+   line-height: normal;
+   letter-spacing: normal;
+   text-align: center;
+}
+
+@media (width >=992px) {
+   main>.section.rte-text {
+      margin-top: 0;
+      padding: 0 4%;
+   }
+
+   /* source: 40px extra-bold text in a 30px/34px heading; the 4px bottom
+     padding gives the same 38px line (same baseline) */
+   main>.section.rte-text>.default-content-wrapper>h2 {
+      padding-bottom: 4px;
+      font-family: ap-font-extrabold, Manrope, manrope-fallback, sans-serif;
+      font-size: 40px;
+      line-height: 34px;
+   }
+
+   main>.section.rte-text>.default-content-wrapper>h6,
+   main>.section.rte-text>.default-content-wrapper>p {
+      max-width: 60%;
+      margin: 22px auto 0;
+   }
+}
+
+main>.section.rte-text.gradient-title>.default-content-wrapper> :is(h1, h2, h3, h4, h5) {
+   display: block;
+   width: fit-content;
+   margin: 0 auto 7px;
+   padding: 0 0 0.12em;
+   font-size: 20px;
+   font-weight: 700;
+   line-height: 1.25;
+   text-align: center;
+   background: linear-gradient(270deg, #f8a12e, #be2a1d 20.78%, #45216c 50.29%, #000 98.1%);
+   /* stylelint-disable-next-line property-no-vendor-prefix -- gradient text in older browsers */
+   -webkit-background-clip: text;
+   background-clip: text;
+   -webkit-text-fill-color: transparent;
+   color: transparent;
+}
+
+@media (width >=992px) {
+   main>.section.rte-text.gradient-title>.default-content-wrapper> :is(h1, h2, h3, h4, h5) {
+      font-size: 32px;
+      line-height: 1.25;
+   }
+}
+
+/* ---------------------------------------------------------------------------
+   Text styles for a section's default content (title + description).
+   Composable section styles, measured on asianpaints.com
+   (/waterproofing-products/interiors.html, "Other Problem Areas").
+   Use them alone or with rte-text. Breakpoint 992px.
+
+     | Section Metadata |                                              |
+     | Style            | rte-text, title-extrabold, title-accent,     |
+     |                  | desc-spaced, rte-width-50                    |
+
+   title-extrabold   Title in the extra-bold face: 20px on mobile, 32px from 992px,
+                     line-height 1.1, letter-spacing 0.5px, colour #222.
+   title-accent      Bold text inside the title gets the brand gradient; the
+                     rest of the title keeps its colour.  ## Other **Problem Areas**
+   desc-spaced       Description in Manrope Medium: 12px on mobile, 16px from 992px,
+                     22px line box, letter-spacing 0.5px, 14px bottom margin.
+   rte-width-50      Title and description column is half the page width from 992px
+                     (rte-text uses 60% of the padded width).
+   --------------------------------------------------------------------------- */
+main>.section.title-extrabold>.default-content-wrapper> :is(h1, h2, h3, h4, h5, h6) {
+   margin: 0 0 14px;
+   padding: 0;
+   color: #222;
+   font-size: 20px;
+   font-weight: 400;
+   line-height: 1.366;
+   letter-spacing: 0.5px;
+   text-align: center;
+}
+
+@media (width >=992px) {
+   main>.section.title-extrabold>.default-content-wrapper> :is(h1, h2, h3, h4, h5, h6) {
+      font-size: 32px;
+      line-height: 1.1;
+   }
+}
+
+/* bold text in the title = the accent (gradient) part */
+main>.section.title-accent>.default-content-wrapper> :is(h1, h2, h3, h4, h5, h6) :is(strong, b, em) {
+   font-weight: inherit;
+   font-style: normal;
+   background: var(--gradient-brand);
+   /* stylelint-disable-next-line property-no-vendor-prefix -- gradient text in older browsers */
+   -webkit-background-clip: text;
+   background-clip: text;
+   -webkit-text-fill-color: transparent;
+   color: transparent;
+}
+
+main>.section.desc-spaced>.default-content-wrapper> :is(p, h6) {
+   margin: 0 0 14px;
+   color: #222;
+   font-size: 12px;
+   font-weight: 500;
+   line-height: 22px;
+   letter-spacing: 0.5px;
+   text-align: center;
+}
+
+@media (width >=992px) {
+   main>.section.desc-spaced>.default-content-wrapper> :is(p, h6) {
+      font-size: 16px;
+   }
+}
+
+/* the text column is half the page width, as on the source (718px at 1440px) */
+@media (width >=992px) {
+   main>.section.rte-width-50 {
+      padding-inline: 25%;
+   }
+
+   main>.section.rte-width-50>.default-content-wrapper> :is(p, h6) {
+      max-width: none;
+      margin-inline: 0;
+   }
+}

@@ -1,0 +1,1629 @@
+{
+  "count": 153,
+  "blocks": [
+    {
+      "name": "about-us",
+      "description": "Moves the content of the given cells into one element, dropping empty nodes.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "accordion",
+      "description": "Accordion Block",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "faq",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "ap-blogs",
+      "description": "AP Blogs block: the whole Asian Paints blog details page from one block table",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "application-process",
+      "description": "migrated from the AEM \"applicationProc\" component",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "arc-slider",
+      "description": "a start screen (banner + \"Enter\") that opens a lookbook",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "back-to-top",
+      "description": "\"Back To Top\" link, as on the AEM site. Built and loaded from",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "banner-accordian",
+      "description": "Tab row - starts a new tab",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "banner-float",
+      "description": "Banner Float",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "ids-type-variant",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "banner-video",
+      "description": "Full-width banner slider; each row below the column-name row is one video or image slide.",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "waterproofing-damp-proof-variant",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "bhs-calculator",
+      "description": "the Interior Design Solution Cost Calculator: pick rooms",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "bhs-calculator-result",
+      "description": "the result page of the Interior Design Solution Cost",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "big-heading-banner",
+      "description": "Big Heading Banner - the \"Image Carousel (centered-text, text-large, big-heading)\" banner as",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "breadcrumb",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "inspiration",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "inspiration-listing",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "budget-calculator",
+      "description": "the Paint Budget Calculator: choose a space and a need,",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "calculator-hub",
+      "description": "look (navy panel, translucent form card, glass tiles). Keep \"variant | wbc\" in the rows.",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "waterproofing-variant",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "calculatorhub",
+      "description": "Extract a URL from an authored cell — an anchor href, an image src,",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "callout-box",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "cards",
+      "description": "Tab row (one cell)  - tab label; the rows below it belong to that tab",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "benefits",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "blog",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "cta",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "gallery",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "grid",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "room",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "room-colors",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "services",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "stats",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "tabs",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "cards-action",
+      "description": "Header row (optional, skipped):",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "cards-inspiration",
+      "description": "Cards Inspiration",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "cards-popular",
+      "description": "Popular product tiles (the source's \"Popular products\" row, div.interiorpopularproducts, under",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "cards-steps",
+      "description": "Cards Steps Block",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "cards-textures",
+      "description": "Intro rows - two columns: label | value",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "carousel-categories",
+      "description": "Each slide cell contains desktop + mobile image",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "carousel-collections",
+      "description": "Carousel Collections Block",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "carousel-expertise",
+      "description": "Four Image Row - Mobile Only Swiper (Robust)",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "carousel-hero-banner",
+      "description": "Defer Swiper import + init until first user interaction.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "carousel-trending",
+      "description": "- optional; when empty the card is not clickable (no hand cursor)",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "service-variant",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "catalogue-listing",
+      "description": "Catalogue Listing block, 2 columns: label | value. Rows are found by their label, so the order",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "catalogue-listing-v2",
+      "description": "Catalogue Listing v2 block, 2 columns: label | value. Rows are found by their label, so the order",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "category-showcase",
+      "description": "Optional row: Arrow | true/false (an arrow beside each card title; default false)",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "large-size-variant",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "side-cta-variant",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "three-img-variant",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "choose-plan",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "icons",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "circle-filters",
+      "description": "Opens the link in a new tab when the author asked for it.",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "carousel",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "service",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "city-carousel",
+      "description": "(block authored as \"city-carousel (grid-variant)\")",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "before-after-variant",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "center-mobile-variant",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "cities",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "grid-variant",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "hero",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "city-stores",
+      "description": "\"Explore stores by cities\": a title over a grid of city cards",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "collage-slideshow",
+      "description": "Image-only slides whose layout follows the number of filled cells in the row",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "collection",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "images",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "no-autoplay",
+          "css": false,
+          "js": true
+        },
+        {
+          "name": "wood-finish",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "collection-collage",
+      "description": "a titled band of product collections: each has a",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "collection-listing",
+      "description": "Collection Listing",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "color-gallery",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "color-inspiration-listing",
+      "description": "Colour Inspiration Listing (color-inspiration-listing)",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "colour-book-showcase",
+      "description": "intro (eyebrow, title, CTA) beside a strip of room",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "colour-combination-carousel",
+      "description": "Colour Combination Carousel block — a title, subtitle and a Swiper carousel",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "colour-explorer",
+      "description": "pick a shade from a swatch strip and preview it in place.",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "one-row",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "colour-quiz",
+      "description": "step-by-step colour quiz with branching questions; results",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "columns",
+      "description": "Columns block",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "color-title-variant",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "cross-links",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "wood-finish",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "complete-look",
+      "description": "a heading and subtitle beside (desktop) or above (mobile)",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "contact-complaint-bot",
+      "description": "Contact Us - Complaint Bot block.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "contact-email-outsourcing",
+      "description": "Contact Us - Email Outsourcing block.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "contact-get-in-touch",
+      "description": "Get in Touch block.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "cta",
+      "description": "Opens the file in a new tab. If the browser blocks the tab (no click to",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "filled",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "left",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "right",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "cwap-banner",
+      "description": "CWAP Banner",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "cwap-mobile-app",
+      "description": "CWAP (\"Colour With Asian Paints\") mobile-app block. Each row is named in its",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "designer-collection-inspiration",
+      "description": "Card image as a real <picture> (not a CSS background) so the browser can",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "designer-collections",
+      "description": "eslint-disable -- stage site version of this block, kept as is; QA fixes are marked BUG FIX",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "discover-collections",
+      "description": "(heading, description, Download PDF link, optional View link;",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "single",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "download-multiple-pdfs",
+      "description": "Download Multiple PDFs",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "embed",
+      "description": "Embed Block",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "autoplay",
+          "css": false,
+          "js": true
+        },
+        {
+          "name": "loop",
+          "css": false,
+          "js": true
+        },
+        {
+          "name": "media",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "muted",
+          "css": false,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "enamel-paints",
+      "description": "Two-column rows: label | value. All content and labels come from these rows: the block has no",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "expert-tips",
+      "description": "Expert Tips",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "blogs-preview-variant",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "explore-split",
+      "description": "Returns the section-level title (h2 in the .section wrapper) for the",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "explore-store",
+      "description": "\"Explore Our Stores\": a title and text beside a list of",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "explore-store-cards",
+      "description": "Opens the link in a new tab when the author asked for it.",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "bhps",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "fandeck",
+      "description": "Fandeck block, 2 columns: label | value. Rows are found by their label, so the order can change",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "featured-products",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "festive-palette",
+      "description": "\"Find the Diwali look for your walls\": a start screen,",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "footer",
+      "description": "Asian Paints Footer Block",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "form",
+      "description": "Form block",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "blue-form",
+          "css": false,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "form-banner",
+      "description": "Each column → one carousel slide: desktop banner image, then mobile banner image",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "img-h",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "form-configs",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "form-consultation",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "fragment",
+      "description": "Fragment Block",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "get-inspired",
+      "description": "Derive the card's room name (eVar67) from its destination URL slug.",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "waterproofing-variant",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "header",
+      "description": "Header Block",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "heading",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "center",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "hero",
+      "description": "Moves the sources of the authored mobile picture into the desktop picture,",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "about",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "center-text",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "services",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "hero-form",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "homepage-icons-container",
+      "description": "STEP 1: FIND SECTION + SIBLINGS",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "explore-bar-variant",
+          "css": false,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "how-it-works-steps",
+      "description": "How It Works Steps Block (EDS)",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "image-carousel",
+      "description": "Config rows (Col 1 → key, Col 2 → value)",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "carousel--peek",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "centered-text",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "inspiration-banner",
+      "description": "full-width hero with a looping background video, a logo,",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "no-toggle",
+          "css": false,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "inspiration-popular",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "int-ext-image-content",
+      "description": "Int Ext Image Content block — image on the left, title, description and",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "interior-texture-finder",
+      "description": "Interior Texture Finder",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "interiors-shop",
+      "description": "eslint-disable -- stage site version of this block, kept as is; the colours variant is marked COLOURS VARIANT",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "colours",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "single-cta-variant",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "lead-form",
+      "description": "eslint no-use-before-define: [\"error\", { \"functions\": false }] --",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "lookbook-carousel",
+      "description": "Parses one \"colour applied\" list item:",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "metric-section",
+      "description": "\"Why choose us\" metrics band.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "modal",
+      "description": "This is not a traditional block, so there is no decorate function.",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "promo",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "multi-carousel",
+      "description": "Desktop image | Mobile image | Title | Subtitle | CTA label | Link",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "design-cards",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "magazine",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "multi-column-video",
+      "description": "One row per video:",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "page-insights",
+      "description": "page-insights block",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "paint-quotation-tool",
+      "description": "Paint Quotation Calculator (PQC) — a 3-screen painting quotation calculator.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "palette-collections",
+      "description": "gradient section title over designer palette",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "pdp-banner-carousel",
+      "description": "PDP Banner Carousel",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "no-share",
+          "css": false,
+          "js": true
+        },
+        {
+          "name": "no-wishlist",
+          "css": false,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "pincode",
+      "description": "Saves pincode to both localStorage (primary, matches AEM live site",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "cta",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "search",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "plp-circle-filters",
+      "description": "PLP Circle Filters: the product listing of Asian Paints category pages (the source's",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "plp-left-filter",
+      "description": "PLP Left Filter: the product listing of Asian Paints waterproofing pages (the source's",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "popular-shades",
+      "description": "Settings, one label | value row each (any order, all optional):",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "exterior",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "left-aligned-swatch",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "no-autoplay",
+          "css": false,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "popular-shades-nilaya",
+      "description": "tabbed shade explorer: pick a finish (tab), then a shade",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "popular-tags",
+      "description": "Tags in a row. Column layout: \"Tag label | Tag link (URL)\". Also accepts",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "popular-this-week",
+      "description": "Popular This Week",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "processshowcase",
+      "description": "a tabbed process/step showcase with per-tab video and a",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "product-filters",
+      "description": "Product Filters",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "page-filters",
+          "css": false,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "product-range",
+      "description": "two product panels (source: Asian Paints Nilaya Arc",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "products-listing",
+      "description": "Products Listing: the product listing of the listing pages (the source's listing-products-cards",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "propensity-nudge",
+      "description": "Propensity Nudge block.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "quick-links",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "gradiant-text-variant",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "waterproofing-variant",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "quote",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "royal-play-banner",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "search",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "minimal",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "seo-content",
+      "description": "Default: the block is left as authored.",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "fsize-16",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "large-side-space",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "mt-5",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "paragraph-bullet",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "paragraph-serial-number",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "side-by-side",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "table-style",
+          "css": false,
+          "js": true
+        },
+        {
+          "name": "table-style-2",
+          "css": false,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "service-banner",
+      "description": "get the \"content-text\" class (CTA paragraphs are already .button-container)",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "store-locator-variant",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "swap-image-with-cta",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "text-dark",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "text-variant",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "service-matrix",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "service-steps",
+      "description": "Service Steps",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "services-grid",
+      "description": "Reads the authored rows:",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "share",
+      "description": "Share block: the round share button of the live Asian Paints pages (sharetool) with its menu of",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "center",
+          "css": true,
+          "js": false
+        },
+        {
+          "name": "left",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "sheen-showcase",
+      "description": "auto-rotating vertical tabs over a full-width room image,",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "similar-products",
+      "description": "Swiper carousel. Desktop (>= 992px): 3 slides 16px apart, looping from 4 cards (fewer are",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "solution-finder",
+      "description": "Solution Finder",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "splash-popup",
+      "description": "Splash Popup Block",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "square-image-cross-links",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "sr-only",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "store-banner",
+      "description": "Store Banner Block",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "bg-cream",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "store-finder",
+      "description": "the store locator's results: \"Showing results for stores in",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "store-search",
+      "description": "the store locator's banner: breadcrumb, \"Find store by city",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "switch-image",
+      "description": "migrated from the AEM \"switch-image\" component.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "table",
+      "description": "Table Block",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "no-header",
+          "css": false,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "categories",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "tabs-image-carousel",
+      "description": "Optional first row with column labels for authors",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "tabs-image-carousel-test",
+      "description": "",
+      "js": false,
+      "css": false,
+      "variants": []
+    },
+    {
+      "name": "tabs-wraper",
+      "description": "Tabs Wraper",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "nilaya-arc-page",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "testimonial-carousel",
+      "description": "(block authored as \"testimonial-carousel (stories-variant)\")",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "home-work",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "stories-variant",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "text-in-box-variant",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "waterproofing-variant",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "text-with-icon",
+      "description": "a row of icons with short uppercase labels (source:",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "texture-finder",
+      "description": "the Interior Texture Finder: a start screen, three",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "texture-finder-tool-test",
+      "description": "festive-palette — \"Find the Diwali look for your walls\": a start screen,",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "texture-listing",
+      "description": "texture catalogue: colour-family tabs, a \"Filter by\"",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "title-image-description",
+      "description": "migrated from the AEM \"You may also like\"",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "title-with-multi-field",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "pack-size-font-variant",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "tools-carousel",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "two-column-image",
+      "description": "Two Column Image",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "trending-articles-variant",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "video",
+      "description": "Video Block",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "autoplay",
+          "css": false,
+          "js": true
+        },
+        {
+          "name": "promo",
+          "css": true,
+          "js": true
+        },
+        {
+          "name": "side-images",
+          "css": true,
+          "js": true
+        }
+      ]
+    },
+    {
+      "name": "video-shorts",
+      "description": "global saleassistVideoTiles",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "video-switcher",
+      "description": "Video Switcher",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "wallpaint-tool",
+      "description": "Wall Paint Tool — a 3-step guided flow. All content is authored in DA.",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "wallpaper-collection",
+      "description": "Wallpaper Collection",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "warranty-container",
+      "description": "Warranty Container",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "waterproofing-area",
+      "description": "one problem area (e.g. Ceiling) of the waterproofing",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "waterproofing-calculator",
+      "description": "",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "waterproofing-problems",
+      "description": "\"Identify Your Waterproofing Problems\": Interior /",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "wbc-calculator",
+      "description": "WBC Calculator — the Waterproofing Budget Calculator, migrated from the AEM",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "what-next",
+      "description": "text column beside a promo image, with optional promo copy and",
+      "js": true,
+      "css": true,
+      "variants": []
+    },
+    {
+      "name": "why-choose-us",
+      "description": "Rows 6+: Col 1 contains the icon, Col 2 contains the item title, Col 3 contains the item subtitle",
+      "js": true,
+      "css": true,
+      "variants": [
+        {
+          "name": "icon-grid",
+          "css": true,
+          "js": false
+        }
+      ]
+    },
+    {
+      "name": "wood-listing-products",
+      "description": "Two-column rows: label | value",
+      "js": true,
+      "css": true,
+      "variants": []
+    }
+  ]
+}

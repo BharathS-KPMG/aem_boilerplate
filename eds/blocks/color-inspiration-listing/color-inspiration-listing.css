@@ -1,0 +1,410 @@
+/* Colour Inspiration Listing: room tabs, the Filters pop-up and Load More, sized as the legacy
+   colorinspirationlisting (asianpaints.com/inspiration/bedroom-colour-combination) */
+
+.color-inspiration-listing {
+  --cil-brown: #5d4f43;
+  --cil-brown-light: #97836a;
+  --cil-ink: #232426;
+  --cil-option: #53565a;
+  --cil-hover: #fff7e8;
+  --cil-panel-shadow: 1px 6px 25px -4px rgb(16 24 40 / 16%);
+
+  color: #222;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* its section holds the page's side spacing, once (the block adds none): 4.5% of the page
+   below 992px, 4% from 992px, as on the source. A section style that sets its own padding
+   replaces this, it does not add to it. */
+main > .section.color-inspiration-listing-container {
+  margin: 0;
+  padding: 0 4.5%;
+
+  /* source offsets the block 27px below the header on mobile (position: relative; top: 27px) */
+  padding-top: 27px;
+}
+
+main .section.color-inspiration-listing-container > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.color-inspiration-listing *,
+.color-inspiration-listing *::before,
+.color-inspiration-listing *::after {
+  box-sizing: border-box;
+}
+
+/* keyboard focus */
+.color-inspiration-listing button:focus-visible,
+.color-inspiration-listing a:focus-visible,
+.color-inspiration-listing input:focus-visible {
+  outline: 2px solid var(--cil-ink);
+  outline-offset: 2px;
+}
+
+/* ---- header. Mobile: title | Filters, then the tabs; desktop: title, then tabs | Filters ---- */
+.color-inspiration-listing .color-inspiration-listing-header {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+/* mobile title: half the width, black and light, as on the source */
+.color-inspiration-listing .color-inspiration-listing-title {
+  width: 50%;
+  margin: 0 0 30px;
+  color: #000;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 21px;
+  text-align: left;
+}
+
+.color-inspiration-listing .color-inspiration-listing-tabs {
+  min-width: 0;
+  padding: 0 4px;
+}
+
+.color-inspiration-listing .color-inspiration-listing-tabs-list {
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.color-inspiration-listing .color-inspiration-listing-tabs-list::-webkit-scrollbar {
+  display: none;
+}
+
+.color-inspiration-listing .color-inspiration-listing-tab {
+  display: block;
+  padding: 6px 14px;
+
+  /* color: var(--cil-brown-light); */
+  color: #69553f;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.color-inspiration-listing .color-inspiration-listing-tab:hover {
+  text-decoration: underline 1px rgb(0 0 0 / 50%);
+  text-underline-offset: 6px;
+}
+
+.color-inspiration-listing .color-inspiration-listing-tab[aria-current="page"] {
+  color: var(--cil-brown);
+  text-decoration: underline 2px var(--cil-brown);
+  text-underline-offset: 6px;
+}
+
+/* ---- Filters button and pop-up ---- */
+
+/* mobile: the first tab sits on the edge */
+.color-inspiration-listing .color-inspiration-listing-tabs-list li:first-child .color-inspiration-listing-tab {
+  padding-left: 0;
+}
+
+/* mobile: top right, beside the title, as on the source */
+.color-inspiration-listing .color-inspiration-listing-filter {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.color-inspiration-listing .color-inspiration-listing-filter[hidden] {
+  display: none;
+}
+
+/* the source's black outline pills */
+.color-inspiration-listing .color-inspiration-listing-toggle,
+.color-inspiration-listing .color-inspiration-listing-apply,
+.color-inspiration-listing .color-inspiration-listing-load-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  border: 1px solid var(--cil-ink);
+  border-radius: 45px;
+  padding: 7px 18px;
+  background-color: transparent;
+  color: var(--cil-ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.color-inspiration-listing .color-inspiration-listing-toggle:hover,
+.color-inspiration-listing .color-inspiration-listing-toggle[aria-expanded="true"],
+.color-inspiration-listing .color-inspiration-listing-apply:hover,
+.color-inspiration-listing .color-inspiration-listing-load-more:hover {
+  background-color: var(--cil-hover);
+}
+
+.color-inspiration-listing .color-inspiration-listing-toggle-icon {
+  width: 20px;
+  height: 20px;
+  background: no-repeat center / 20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%23232426' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M5.385 10h9.23M3.333 5.833h13.334M8.462 14.167h3.076'/%3E%3C/svg%3E");
+}
+
+/* 1 when this page is a colour page (mobile, as in the spec) */
+.color-inspiration-listing .color-inspiration-listing-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  margin-right: -4px;
+  border-radius: 10px;
+  padding: 0 6px;
+  background-color: var(--cil-ink);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.color-inspiration-listing .color-inspiration-listing-badge[hidden] {
+  display: none;
+}
+
+/* the source's white dropdown card, right-aligned under the button */
+.color-inspiration-listing .color-inspiration-listing-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 9999;
+  width: 244px;
+  border-radius: 10px;
+  padding: 25px 20px;
+  background-color: #fff;
+  box-shadow: var(--cil-panel-shadow);
+}
+
+.color-inspiration-listing .color-inspiration-listing-panel[hidden] {
+  display: none;
+}
+
+.color-inspiration-listing .color-inspiration-listing-group {
+  min-width: 0;
+  margin: 0 0 6px;
+  border: 0;
+  padding: 0;
+}
+
+.color-inspiration-listing .color-inspiration-listing-group-title {
+  margin: 0 0 14px;
+  padding: 0;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+.color-inspiration-listing .color-inspiration-listing-options {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.color-inspiration-listing .color-inspiration-listing-options li {
+  margin: 0 0 14px;
+}
+
+.color-inspiration-listing .color-inspiration-listing-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cil-option);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+/* the source's 20px round control: a thick brown ring when chosen */
+.color-inspiration-listing .color-inspiration-listing-option input {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1px solid var(--cil-option);
+  border-radius: 50%;
+  background-color: #fff;
+  appearance: none;
+  cursor: pointer;
+}
+
+.color-inspiration-listing .color-inspiration-listing-option input[type="checkbox"] {
+  border-radius: 4px;
+}
+
+.color-inspiration-listing .color-inspiration-listing-option input:checked {
+  border: 4px solid var(--cil-brown);
+}
+
+.color-inspiration-listing .color-inspiration-listing-option:has(input:checked) {
+  color: var(--cil-brown);
+}
+
+.color-inspiration-listing .color-inspiration-listing-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-inspiration-listing .color-inspiration-listing-actions .color-inspiration-listing-apply {
+  padding: 7px 20px;
+}
+
+.color-inspiration-listing .color-inspiration-listing-clear {
+  margin: 0;
+  border: 0;
+  border-radius: 2px;
+  padding: 6px 16px;
+  background: none;
+  color: var(--cil-ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.color-inspiration-listing .color-inspiration-listing-clear:hover {
+  text-decoration: underline;
+}
+
+/* ---- results ---- */
+
+/* the listing sections moved in here keep only their content */
+.color-inspiration-listing .color-inspiration-listing-results > .section {
+  margin: 0;
+  padding: 0;
+}
+
+.color-inspiration-listing .color-inspiration-listing-results > .section > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.color-inspiration-listing .color-inspiration-listing-results > .section[hidden],
+.color-inspiration-listing .color-inspiration-listing-feed[hidden],
+.color-inspiration-listing .color-inspiration-listing-more[hidden] {
+  display: none;
+}
+
+.color-inspiration-listing .color-inspiration-listing-results > .section + .section,
+.color-inspiration-listing .color-inspiration-listing-feed {
+  margin-top: 20px;
+}
+
+.color-inspiration-listing .color-inspiration-listing-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.color-inspiration-listing .color-inspiration-listing-more {
+  margin: 40px 0;
+  text-align: center;
+}
+
+/* Load More waits for the listing sections above it: loadSection() keeps a section display: none
+   until its cards and first image have loaded, and a Load More shown under the tabs meanwhile is
+   pushed down when the cards appear (CLS) */
+.color-inspiration-listing .color-inspiration-listing-results > .section:not([data-section-status="loaded"]) ~ .color-inspiration-listing-more {
+  display: none;
+}
+
+.color-inspiration-listing .color-inspiration-listing-more .color-inspiration-listing-load-more {
+  padding: 7px 18px;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+/* ---- desktop (from 992px, as on the source) ---- */
+@media (width >= 992px) {
+  main > .section.color-inspiration-listing-container {
+    padding: 0 4%;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-header {
+    display: grid;
+    grid-template: "title title" auto "tabs filter" auto / minmax(0, 1fr) auto;
+    align-items: start;
+    margin-bottom: 34px;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-title {
+    grid-area: title;
+    width: auto;
+    margin-bottom: 20px;
+    color: var(--cil-brown);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 36.4px;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-tabs {
+    grid-area: tabs;
+    justify-self: start;
+    padding: 0;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-filter {
+    position: relative;
+    grid-area: filter;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-tabs-list {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-tabs-list li:first-child .color-inspiration-listing-tab {
+    padding-left: 14px;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-toggle {
+    padding: 7px 20px;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-panel {
+    top: calc(100% + 22px);
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-badge {
+    display: none;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-more .color-inspiration-listing-load-more {
+    padding: 7px 20px;
+  }
+
+  .color-inspiration-listing .color-inspiration-listing-results > .section + .section,
+  .color-inspiration-listing .color-inspiration-listing-feed {
+    margin-top: 30px;
+  }
+}
+
+@media (width >= 992px) and (width <= 1150px) {
+  .color-inspiration-listing .color-inspiration-listing-tabs-list {
+    gap: 12px;
+  }
+}

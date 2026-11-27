@@ -1,0 +1,175 @@
+/* sizes below are the reference page's (downloadmultiplepdfs on asianpaints.com) */
+main > .section.download-multiple-pdfs-container > div {
+  max-width: none;
+  padding: 0;
+}
+
+/* like the reference, a following Banner Float starts right below */
+main > .section.download-multiple-pdfs-container {
+  margin-bottom: 0;
+}
+
+main > .section.download-multiple-pdfs-container + .section.banner-float-container {
+  margin-top: 0;
+}
+
+.download-multiple-pdfs {
+  font-size: 14px;
+  line-height: 22px;
+  color: #3b3b3b;
+}
+
+/* mobile: photo on top, grey panel rising 160px behind its lower part */
+.download-multiple-pdfs .download-multiple-pdfs-inner {
+  display: flex;
+  flex-direction: column;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.download-multiple-pdfs .download-multiple-pdfs-media {
+  position: relative;
+  z-index: 1;
+  padding: 0 20px 20px;
+}
+
+.download-multiple-pdfs .download-multiple-pdfs-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.download-multiple-pdfs .download-multiple-pdfs-panel {
+  position: relative;
+  top: -160px;
+  margin-bottom: -160px;
+  padding: 170px 20px 30px;
+  background: #f0f0f0;
+}
+
+.download-multiple-pdfs h2 {
+  margin: 0 0 15px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 22px;
+  color: #3b3b3b;
+}
+
+.download-multiple-pdfs .download-multiple-pdfs-text {
+  margin: 0 0 30px;
+  letter-spacing: 0.62px;
+}
+
+.download-multiple-pdfs .download-multiple-pdfs-item {
+  margin: 0 0 10px;
+}
+
+/* white button with the download arrow on the right */
+.download-multiple-pdfs .download-multiple-pdfs-button {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 100%;
+  padding: 15px 20px;
+  border: 1px solid #d3d3d3;
+  border-radius: 2px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 1px;
+  text-align: left;
+  text-decoration: none;
+  color: #373737;
+}
+
+.download-multiple-pdfs .download-multiple-pdfs-button::after {
+  content: '';
+  float: right;
+  width: 25px;
+  height: 18px;
+  background: url('https://www.asianpaints.com/etc.clientlibs/apcolourcatalogue/clientlibs/clientlib-global/resources/images/Icons-Sprite.webp') -965px -315px no-repeat;
+}
+
+/* desktop: photo left, grey panel right, overlapping it and set 10% lower */
+@media (width >= 992px) {
+  .download-multiple-pdfs .download-multiple-pdfs-inner {
+    flex-direction: row;
+    margin-bottom: 100px;
+  }
+
+  .download-multiple-pdfs .download-multiple-pdfs-media {
+    flex: 0 0 48%;
+    margin-left: 4%;
+    padding: 0;
+  }
+
+  .download-multiple-pdfs .download-multiple-pdfs-panel {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 0 52%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    margin: 0 0 0 -8%;
+
+    /* 8% of the panel itself (52% of the row), as on the reference */
+    padding: 0 0 50px 4.16%;
+    transform: translateY(10%);
+  }
+
+  .download-multiple-pdfs .download-multiple-pdfs-info {
+    width: 55%;
+    margin: 40px 10% 0 26%;
+  }
+
+  .download-multiple-pdfs h2 {
+    font-size: 30px;
+    line-height: 34px;
+  }
+
+  .download-multiple-pdfs .download-multiple-pdfs-text {
+    margin-bottom: 20px;
+  }
+
+  .download-multiple-pdfs .download-multiple-pdfs-button {
+    padding: 20px;
+    font-size: 13px;
+  }
+}
+
+/* smaller desktops: the reference page zooms out in these steps */
+@media (width >= 992px) and (width < 1100px) {
+  .download-multiple-pdfs {
+    zoom: 0.7;
+  }
+}
+
+@media (width >= 1100px) and (width < 1200px) {
+  .download-multiple-pdfs {
+    zoom: 0.75;
+  }
+}
+
+@media (width >= 1200px) and (width < 1280px) {
+  .download-multiple-pdfs {
+    zoom: 0.8;
+  }
+}
+
+@media (width >= 1280px) and (width < 1366px) {
+  .download-multiple-pdfs {
+    zoom: 0.85;
+  }
+}
+
+@media (width >= 1366px) and (width < 1440px) {
+  .download-multiple-pdfs {
+    zoom: 0.9;
+  }
+}
+
+/* the page is already zoomed (see syncPageZoom in the JS): don't zoom twice */
+.download-multiple-pdfs[data-page-zoomed] {
+  zoom: 1;
+}

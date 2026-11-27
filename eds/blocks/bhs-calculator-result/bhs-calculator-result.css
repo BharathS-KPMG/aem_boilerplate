@@ -1,0 +1,660 @@
+.bhs-calculator-result {
+  color: #222;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+main .section.bhs-calculator-result-container > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+main > .section.bhs-calculator-result-container {
+  margin: 0;
+  padding: 0;
+}
+
+/* the photo sits behind the heading and the top of the panel */
+.bhs-calculator-result .bhs-result-top {
+  position: relative;
+  padding-top: 36px;
+}
+
+.bhs-calculator-result .bhs-result-top > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: auto;
+  max-height: 700px;
+  object-fit: fill;
+}
+
+.bhs-calculator-result .bhs-result-hero {
+  position: relative;
+  text-align: center;
+  color: #fff;
+}
+
+.bhs-calculator-result .bhs-result-hero h1 {
+  margin: 0 0 5px;
+  padding: 0 20px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 117.2%;
+  letter-spacing: 0.5px;
+}
+
+.bhs-calculator-result .bhs-result-sub {
+  margin: 0 0 30px;
+  padding: 0 45px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0.5px;
+}
+
+.bhs-calculator-result .bhs-result-outer {
+  position: relative;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.bhs-calculator-result .bhs-result-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 20px 24px;
+  background: #fff5eb;
+  border: 1.5px solid rgb(0 0 0 / 10%);
+  border-radius: 10px;
+}
+
+.bhs-calculator-result .bhs-result-intro {
+  margin: 0 0 26px;
+  padding: 0 23px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0.28px;
+  text-align: center;
+}
+
+/* package name, price and the button back to the calculator */
+.bhs-calculator-result .bhs-result-package {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.bhs-calculator-result .bhs-result-package-info {
+  margin-bottom: 13px;
+}
+
+.bhs-calculator-result .bhs-result-package-head {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.bhs-calculator-result .bhs-result-package-head img {
+  width: 63px;
+  height: 63px;
+  object-fit: contain;
+}
+
+.bhs-calculator-result .bhs-result-package-name p {
+  margin: 0 0 10px;
+  color: #202020;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 20px;
+  letter-spacing: -0.198px;
+}
+
+.bhs-calculator-result .bhs-result-price {
+  margin: 15px 0 0;
+  color: #000;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 44px;
+  letter-spacing: 0.5px;
+}
+
+.bhs-calculator-result .bhs-result-package-cta {
+  display: flex;
+  flex-direction: column;
+}
+
+/* buttons */
+.bhs-calculator-result .bhs-result-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  margin: 15px 0 0;
+  padding: 8.2px 20px;
+  border-radius: 45px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 19.6px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s ease-in;
+}
+
+.bhs-calculator-result .bhs-result-btn-outline {
+  color: #000;
+  background: transparent;
+  border: 1px solid #000;
+}
+
+.bhs-calculator-result .bhs-result-btn-fill {
+  margin: 0 0 20px;
+  padding: 9.2px 60px;
+  color: #1e1e1e;
+  background: linear-gradient(#fec940, #f90);
+  border: 0;
+  text-transform: capitalize;
+  width: 100%;
+}
+
+/* hover and focus as on the source site */
+.bhs-calculator-result .bhs-result-btn-outline:hover {
+  padding: 9px 21px;
+  color: rgb(29 29 31);
+  background: linear-gradient(180deg, #fec940, #f90);
+  border: 0;
+}
+
+.bhs-calculator-result .bhs-result-btn-fill:hover:not(:disabled) {
+  padding: 8.4px 60px;
+  color: #222;
+  background: transparent;
+  border: 1px solid #000;
+}
+
+.bhs-calculator-result .bhs-result-btn-fill:focus:not(:disabled) {
+  color: #222;
+  background: #fed440;
+}
+
+.bhs-calculator-result .bhs-result-btn:hover .bhs-result-arrow,
+.bhs-calculator-result .bhs-result-btn:focus .bhs-result-arrow,
+.bhs-calculator-result .bhs-result-btn:hover .bhs-result-download-icon,
+.bhs-calculator-result .bhs-result-btn:focus .bhs-result-download-icon {
+  transform: translateX(6px);
+}
+
+.bhs-calculator-result .bhs-result-btn:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.bhs-calculator-result .bhs-result-btn:focus-visible,
+.bhs-calculator-result .bhs-result-more:focus-visible {
+  outline: -webkit-focus-ring-color auto 5px;
+}
+
+/* arrow and download icons inside the buttons */
+/* stylelint-disable no-descending-specificity -- base rule kept in its section; the :hover / :focus-visible rules above are more specific */
+.bhs-calculator-result .bhs-result-arrow,
+.bhs-calculator-result .bhs-result-download-icon {
+  display: flex;
+  width: 17px;
+  height: 20px;
+  transition: 0.2s ease-in;
+}
+/* stylelint-enable no-descending-specificity */
+
+.bhs-calculator-result .bhs-result-arrow::after,
+.bhs-calculator-result .bhs-result-download-icon::after {
+  content: "";
+  display: block;
+  width: 17px;
+  height: 20px;
+
+  /* the source draws the icon at its own size, cropped to the 17x20 box */
+  background: url('/eds/icons/arrow-icon.svg');
+  filter: invert(1);
+}
+
+.bhs-calculator-result .bhs-result-download-icon::after {
+  background-image: url('/eds/icons/download-icon-new.svg');
+}
+
+.bhs-calculator-result .bhs-result-rotating {
+  animation: bhs-result-rotating 2s linear infinite;
+}
+
+.bhs-calculator-result .bhs-result-rotating[hidden] {
+  display: none;
+}
+
+@keyframes bhs-result-rotating {
+  100% { transform: rotate(1turn); }
+}
+
+/* room cards */
+.bhs-calculator-result .bhs-result-card {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin: 0 0 20px;
+  padding: 20px 15px;
+  background: #fff;
+  border: 1px solid #d6d6d6;
+}
+
+.bhs-calculator-result .bhs-result-label {
+  margin: 0 0 8px;
+  padding-right: 15px;
+  color: #202020;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 18.72px;
+  letter-spacing: -0.198px;
+}
+
+.bhs-calculator-result .bhs-result-text {
+  margin: 0;
+  color: rgb(32 32 32 / 90%);
+  font-size: 16px;
+  line-height: 25.6px;
+  letter-spacing: -0.198px;
+}
+
+.bhs-calculator-result .bhs-result-note {
+  margin: 0 0 33px;
+  color: #202020;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* compare packages */
+.bhs-calculator-result .bhs-result-compare {
+  max-width: 1280px;
+  margin: 40px auto 70px;
+  padding: 0;
+}
+
+.bhs-calculator-result .bhs-result-compare-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 30px;
+  padding-right: 20px;
+}
+
+.bhs-calculator-result .bhs-result-compare-top h2 {
+  margin: 0 0 7px;
+  color: #000;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: normal;
+  text-align: center;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- base rule kept in its section; the :hover / :focus-visible rules above are more specific */
+.bhs-calculator-result .bhs-result-more {
+  padding: 1px 6px;
+  color: #000;
+  background: transparent;
+  border: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 19.6px;
+  letter-spacing: -0.198px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.bhs-calculator-result .bhs-result-compare-cards {
+  display: flex;
+  gap: 10px;
+  overflow: auto;
+  padding: 0 14px 20px 24px;
+  scrollbar-width: none;
+}
+
+.bhs-calculator-result .bhs-result-compare-cards::-webkit-scrollbar {
+  display: none;
+}
+
+.bhs-calculator-result .bhs-result-compare-card {
+  width: 100%;
+  min-width: 276px;
+  max-width: 424px;
+  background: #f1ffdf;
+  box-shadow: rgb(0 0 0 / 10%) 0 2px 4px 2px;
+}
+
+.bhs-calculator-result .bhs-result-compare-card:last-child {
+  margin-right: 10px;
+}
+
+.bhs-calculator-result .bhs-result-compare-card.is-premium { background: #edfcff; }
+.bhs-calculator-result .bhs-result-compare-card.is-luxury { background: #fff7ed; }
+
+.bhs-calculator-result .bhs-result-compare-banner {
+  position: relative;
+}
+
+.bhs-calculator-result .bhs-result-compare-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 276 / 116;
+  object-fit: cover;
+}
+
+.bhs-calculator-result .bhs-result-compare-banner h3 {
+  position: absolute;
+  top: 30px;
+  left: 27px;
+  max-height: 85px;
+  margin: 0 0 7px;
+  overflow: hidden;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 31.2px;
+}
+
+.bhs-calculator-result .bhs-result-compare-price {
+  padding: 12px 0 39px 21px;
+}
+
+.bhs-calculator-result .bhs-result-compare-price p {
+  margin: 0;
+  color: #000;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 35.2px;
+  letter-spacing: 0.5px;
+}
+
+.bhs-calculator-result .bhs-result-compare-price span {
+  display: block;
+  margin-top: 5px;
+  color: #202020;
+  font-size: 11px;
+  line-height: normal;
+}
+
+.bhs-calculator-result .bhs-result-compare-info {
+  display: none;
+  padding: 24px 33px 22px;
+  transition: 0.3s;
+}
+
+.bhs-calculator-result .bhs-result-compare-cards.is-open .bhs-result-compare-info {
+  display: block;
+  margin-top: -57px;
+}
+
+.bhs-calculator-result .bhs-result-compare-room {
+  margin: 21.83px 0;
+}
+
+/* the divider between the room groups */
+.bhs-calculator-result .bhs-result-compare-room::after {
+  content: "";
+  display: block;
+  padding-top: 21px;
+  border-bottom: 1px solid #bebebe;
+}
+
+.bhs-calculator-result .bhs-result-compare-room:last-child::after {
+  border: 0;
+}
+
+.bhs-calculator-result .bhs-result-compare-room > p {
+  margin: 0 0 14px;
+  color: #202020;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: -0.154px;
+}
+
+.bhs-calculator-result .bhs-result-compare-room > span {
+  color: #202020;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.154px;
+}
+
+.bhs-calculator-result .bhs-result-compare-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bhs-calculator-result .bhs-result-compare-type {
+  color: #202020;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: -0.154px;
+}
+
+.bhs-calculator-result .bhs-result-compare-type > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 5px 0 0 22px;
+  padding: 0;
+  list-style: circle;
+}
+
+.bhs-calculator-result .bhs-result-compare-type > ul > li {
+  color: #202020;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.154px;
+  list-style-type: disc;
+}
+
+.bhs-calculator-result .bhs-result-empty {
+  padding: 30px 10px;
+  text-align: center;
+}
+
+.bhs-calculator-result .bhs-result-empty .bhs-result-btn {
+  width: fit-content;
+  margin: 15px auto 0;
+}
+
+@media (width >= 769px) {
+  .bhs-calculator-result .bhs-result-compare {
+    padding: 0 15px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-top {
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-right: 0;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-top h2 {
+    color: #202020;
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-cards {
+    overflow: visible;
+    gap: 0;
+    padding: 0;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-card {
+    min-width: 0;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-card:last-child {
+    margin-right: 0;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-banner img {
+    aspect-ratio: 417 / 175;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-banner h3 {
+    top: 26.8%;
+    left: 10.2%;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 35.2px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-price {
+    padding: 17.61px 32.67px 50px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-price p {
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-price span {
+    margin-top: 7.15px;
+    font-size: 14px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-room > p {
+    letter-spacing: -0.198px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-room > span,
+  .bhs-calculator-result .bhs-result-compare-type > ul > li {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.176px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-type {
+    letter-spacing: -0.198px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare-type > ul {
+    margin-top: 10px;
+  }
+}
+
+@media (width >= 992px) {
+  .bhs-calculator-result .bhs-result-hero h1 {
+    padding: 0 125px;
+    font-size: 32px;
+    line-height: 35.2px;
+  }
+
+  .bhs-calculator-result .bhs-result-sub {
+    margin-bottom: 46px;
+    padding: 0 125px;
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  .bhs-calculator-result .bhs-result-outer {
+    padding: 0 4%;
+  }
+
+  .bhs-calculator-result .bhs-result-panel {
+    padding: 39px 109px 54px;
+  }
+
+  .bhs-calculator-result .bhs-result-intro {
+    margin-bottom: 64px;
+    padding: 0;
+    color: #323232;
+    line-height: normal;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.48px;
+  }
+
+  .bhs-calculator-result .bhs-result-package {
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 45px;
+  }
+
+  .bhs-calculator-result .bhs-result-package-info {
+    margin-bottom: 0;
+  }
+
+  .bhs-calculator-result .bhs-result-package-head img {
+    width: 59px;
+  }
+
+  .bhs-calculator-result .bhs-result-package-name p {
+    margin-bottom: 12px;
+    font-size: 32px;
+    line-height: 35.2px;
+    letter-spacing: 0.5px;
+  }
+
+  .bhs-calculator-result .bhs-result-price {
+    margin-top: 45px;
+    font-size: 40px;
+  }
+
+  .bhs-calculator-result .bhs-result-package .bhs-result-btn {
+    margin-top: 0;
+  }
+
+  .bhs-calculator-result .bhs-result-card {
+    gap: 36px;
+    padding: 40px 50px;
+  }
+
+  .bhs-calculator-result .bhs-result-row {
+    display: flex;
+  }
+
+  .bhs-calculator-result .bhs-result-label {
+    flex: 0 0 20%;
+    max-width: 20%;
+    margin: 0;
+    line-height: 24px;
+  }
+
+  .bhs-calculator-result .bhs-result-text {
+    line-height: 24px;
+    color: #202020;
+  }
+
+  .bhs-calculator-result .bhs-result-note {
+    margin-bottom: 40px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .bhs-calculator-result .bhs-result-btn-fill {
+    width: fit-content;
+    margin: 0 auto 16px;
+    gap: 19px;
+  }
+
+  .bhs-calculator-result .bhs-result-compare {
+    margin: 100px auto 30px;
+  }
+}

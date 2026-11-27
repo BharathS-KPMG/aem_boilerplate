@@ -1,0 +1,10 @@
+/* config-only block: its rows are read by other blocks (e.g. ap-blogs lead form), never shown */
+.form-configs-wrapper,
+.form-configs {
+  display: none;
+}
+
+/* a section that holds only the config would leave an empty gap */
+main > .section:has(> .form-configs-wrapper:only-child) {
+  display: none;
+}

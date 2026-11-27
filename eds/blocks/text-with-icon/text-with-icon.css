@@ -1,0 +1,102 @@
+/*
+ * text-with-icon — icons with uppercase labels.
+ * Source: https://www.asianpaints.com/nilaya-arc-inspiration.html (.textwithicon)
+ * Authoring: see README.md (one row per item: icon | label).
+ *
+ * Source values; breakpoint 992px.
+ * Mobile: two per row; like the source's script, every label is as tall as
+ * the tallest one (a subgrid: an icon track + equal 1fr label tracks).
+ * Desktop: one row (space-between); each item is as wide as its label on one
+ * line, the label then wraps at 75% of that width, as on the source.
+ */
+
+.text-with-icon {
+  color: #222;
+  text-align: center;
+}
+
+.text-with-icon .text-with-icon-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: auto 1fr;
+  gap: 0;
+  margin: 0;
+  padding: 15px 0 0;
+  list-style: none;
+}
+
+.text-with-icon .text-with-icon-item {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  gap: 0;
+  margin: 0;
+  padding: 20px;
+}
+
+/* an odd last item is centred, as in the source's centred flex row */
+@media (width < 992px) {
+  .text-with-icon .text-with-icon-item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 50%;
+  }
+}
+
+.text-with-icon .text-with-icon-icon {
+  display: flex;
+  grid-row: 1;
+  align-self: start;
+  justify-content: center;
+  margin: 0 0 20px;
+  line-height: 0;
+}
+
+.text-with-icon .text-with-icon-icon picture,
+.text-with-icon .text-with-icon-icon img {
+  display: block;
+}
+
+.text-with-icon .text-with-icon-icon img {
+  width: 56px;
+  max-width: none;
+  height: auto;
+}
+
+/* the source asks for 600 on mobile but loads no Manrope SemiBold, so its
+   labels are drawn in Bold: 700 here gives the same glyphs */
+.text-with-icon .text-with-icon-label {
+  grid-row: 2;
+  align-self: start;
+  margin: 0 0 5px;
+  padding: 0;
+  color: #222;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 1.08px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@media (width >= 992px) {
+  .text-with-icon .text-with-icon-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 30px 0;
+  }
+
+  .text-with-icon .text-with-icon-item {
+    display: block;
+    flex: 0 1 auto;
+    width: max-content;
+    padding: 15px;
+  }
+
+  .text-with-icon .text-with-icon-label {
+    max-width: 75%;
+    margin: 0 auto 17px;
+    line-height: normal;
+  }
+}

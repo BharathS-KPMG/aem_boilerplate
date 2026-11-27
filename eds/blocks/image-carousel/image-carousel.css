@@ -1,0 +1,786 @@
+/* stylelint-disable selector-class-pattern -- this block uses BEM (carousel__*) class names and the legacy banner markup's camelCase ones */
+
+/* =============================
+   AP tokens (from globalStylesVariables)
+   Keep only what this block needs
+   + Carousel base (EDS)
+   ============================= */
+.image-carousel {
+    --ap-white: #fff;
+    --ap-background: #f8f8f8;
+    --ap-link-border: #8839ff;
+    --ap-dark-purple: #431a80;
+
+    position: relative;
+}
+
+.image-carousel .carousel__viewport {
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Swiper drives transform/transition; this keeps the first slide laid out
+   correctly before swiper.css/js load (and for single-slide banners). */
+.image-carousel .carousel__track {
+    display: flex;
+}
+
+.image-carousel .carousel__slide {
+    flex: 0 0 100%;
+    position: relative;
+}
+
+.image-carousel.carousel--peek .carousel__slide {
+    /* ~1.07 slides visible */
+    flex: 0 0 93.5%;
+}
+
+.image-carousel .carousel__wrap {
+    position: relative;
+}
+
+/* Pill with prev arrow, dots and next arrow, centred at the bottom */
+.image-carousel .carousel__controls {
+    position: absolute;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--ap-white);
+}
+
+.image-carousel .carousel__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #000;
+    cursor: pointer;
+}
+
+.image-carousel .carousel__prev .carousel__icon {
+    transform: scaleX(-1);
+}
+
+/* Swiper pagination el; reset swiper.css horizontal-bullets left/width */
+.image-carousel .carousel__controls .carousel__dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    left: auto;
+}
+
+.image-carousel .carousel__dot {
+    width: 6px;
+    height: 6px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #8e8e8e;
+    cursor: pointer;
+    transition: width 250ms ease, background-color 250ms ease;
+}
+
+.image-carousel .carousel__dot.is-active {
+    width: 40px;
+    background: #000;
+}
+
+/* Per-slide CTA: yellow pill under the banner copy (copy is part of the image) */
+.image-carousel .carousel__cta-wrap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 26.5%;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    padding: 0 60px;
+    pointer-events: none;
+}
+
+.image-carousel .carousel__cta-wrap--left {
+    justify-content: flex-start;
+}
+
+.image-carousel .carousel__cta-wrap--right {
+    justify-content: flex-end;
+}
+
+.image-carousel .carousel__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 38px;
+    padding: 0 20px;
+    border: 1px solid transparent;
+    border-radius: 45px;
+    background: var(--gradient, linear-gradient(180deg, #fec940, #f90));
+    color: #1e1e1e;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    pointer-events: auto;
+    transition: color 250ms ease, border-color 250ms ease;
+}
+
+.image-carousel .carousel__cta .carousel__icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    filter: invert(1);
+}
+
+/* Hover: transparent button with white text, so show the white arrow */
+.image-carousel .carousel__cta:hover .carousel__icon {
+    filter: none;
+}
+
+.image-carousel .carousel__cta:hover {
+    color: #fff;
+    background: transparent;
+    border-color: #fff;
+}
+
+@media (width <= 767px) {
+    /* CTA is desktop-only */
+    .image-carousel .carousel__cta-wrap {
+        display: none;
+    }
+
+    .image-carousel .carousel__controls {
+        bottom: 16px;
+        padding: 10px 12px;
+    }
+
+    /* Mobile: dots only, no arrows (swipe-style pill) */
+    .image-carousel .carousel__nav {
+        display: none;
+    }
+
+    .image-carousel .carousel__dot.is-active {
+        width: 36px;
+    }
+}
+
+/* =============================
+   Legacy banner styles (ported from your SCSS + matches existing compiled)
+   ============================= */
+
+/* .bannerWithGreybackground */
+.image-carousel .bannerWithGreybackground {
+    margin: 0 auto;
+    position: relative;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* forAllMobileScreen() */
+@media (320px <= width <= 991px) {
+    .image-carousel .bannerWithGreybackground {
+        width: 100%;
+        margin: 0;
+        padding-bottom: 20px;
+    }
+}
+
+/* Overlay block (legacy); ahead of the .bannerWithGreybackground copy, which overrides it */
+.image-carousel .bannerTextDesc {
+    position: absolute;
+    width: 60%;
+    padding: 0 60px;
+}
+
+/* smallScreen() */
+@media (320px <= width <= 767px) {
+    .image-carousel .bannerTextDesc {
+        width: 100%;
+        padding: 0 15px;
+    }
+}
+
+/* semi-mediumScreen() */
+@media (768px <= width <= 991px) {
+    .image-carousel .bannerTextDesc {
+        width: 65%;
+    }
+}
+
+/* mediumLargeScreen() (matches your mixin) */
+@media (991px <= width <= 1200px) {
+    .image-carousel .bannerTextDesc {
+        width: 62%;
+    }
+}
+
+.image-carousel .bannerWithGreybackground .bannerTextDesc {
+    display: block !important;
+    width: 100%;
+    padding: 0 30px;
+    color: var(--ap-white);
+}
+
+.image-carousel .bannerWithGreybackground .image-component {
+    position: relative;
+    z-index: 9;
+    margin: auto;
+    width: 80%;
+    text-align: center;
+}
+
+/* forAllMobileScreen() */
+@media (320px <= width <= 991px) {
+    .image-carousel .bannerWithGreybackground .image-component {
+        width: 90%;
+    }
+}
+
+/* Text styles */
+.image-carousel .bannerWithGreybackground .image-component .bannerTextDesc p {
+    font-size: 13px;
+    line-height: 1.85;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    color: var(--ap-white);
+    text-transform: uppercase;
+}
+
+.image-carousel .bannerWithGreybackground .image-component .bannerTextDesc h2 {
+    font-weight: 600;
+    font-size: 60px;
+    line-height: 1;
+}
+
+/* forAllMobileScreen() */
+@media (320px <= width <= 991px) {
+    .image-carousel .bannerWithGreybackground .image-component .bannerTextDesc h2 {
+        font-size: 24px;
+    }
+}
+
+/* semi-mediumScreen() */
+@media (768px <= width <= 991px) {
+    .image-carousel .bannerWithGreybackground .image-component .bannerTextDesc h2 {
+        font-size: 30px;
+    }
+}
+
+.image-carousel .bannerWithGreybackground .image-component .bannerTextDesc .textCompWrap {
+    text-align: center;
+}
+
+.image-carousel .bannerWithGreybackground .image-component .bannerTextDesc .textCompWrap .viewAllLink {
+    font-size: 13px;
+    border-bottom: 2px solid var(--ap-link-border);
+    text-decoration: none;
+    color: var(--ap-white);
+}
+
+/* grey background behind image */
+.image-carousel .bannerWithGreybackground .image-backgroundCT {
+    position: absolute;
+    width: 95%;
+    height: 65%;
+    top: 50%;
+    z-index: 0;
+    background-color: var(--ap-background);
+}
+
+/* smallScreen() */
+@media (320px <= width <= 767px) {
+    .image-carousel .bannerWithGreybackground .image-backgroundCT {
+        display: none;
+    }
+}
+
+/* Banner image + text overlay */
+.image-carousel .bannerImgWithLeftTextComp {
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.image-carousel .bannerImgWithLeftTextComp .full-banner-click {
+    width: 100%;
+}
+
+.image-carousel .bannerImgWithLeftTextComp img {
+    width: 100%;
+    transform: translate3d(0, 0, 0);
+    aspect-ratio: var(--slide-ratio-mobile, auto);
+}
+
+@media (width >= 768px) {
+    .image-carousel .bannerImgWithLeftTextComp img {
+        aspect-ratio: var(--slide-ratio-desktop, auto);
+    }
+}
+
+.image-carousel .prodBannerImage {
+    width: 100%;
+    height: auto;
+}
+
+/* Clickable overlay like your jQuery sets */
+.image-carousel .imagebanner .bannerTextDesc {
+    cursor: pointer;
+}
+
+/* Breadcrumb over the banner: set the "Overlay breadcrumb | true" config row (the JS
+   adds .breadcrumb-overlay), or author the block as "Image Carousel (breadcrumb-overlay)"
+   in a section that also holds the breadcrumb block. The breadcrumb wrapper
+   keeps its place in the flow but gives its height back, so the banner slides
+   up underneath it. The breadcrumb is hidden at <= 991px, so desktop only. */
+@media (width > 991px) {
+    main>.section:has(.image-carousel.breadcrumb-overlay) .breadcrumb-wrapper {
+        position: relative;
+        z-index: 3;
+        margin-bottom: -54px;
+    }
+}
+
+/* Fit viewport: set the "Fit viewport | true" config row, or author the block as
+   "Image Carousel (fit-viewport-variant)"; either puts .fit-viewport-variant on
+   the block, and its slides then skip .bannerWithGreybackground and
+   .prodBannerImage (see the JS). The banner image is capped at the viewport height
+   below the fixed header, so the whole block (image, CTA and dots) shows without
+   scrolling; a taller image is cropped around its centre. The body is zoomed on some desktop widths (styles.css), which
+   also shrinks svh, so dividing by the zoom keeps the true viewport height. */
+.image-carousel.fit-viewport-variant img {
+    max-height: calc(100svh / var(--body-zoom, 1) - var(--header-height));
+    object-fit: cover;
+}
+
+/* Accessibility focus */
+.image-carousel .prodBannerImage img:focus-visible {
+    outline: 2px solid var(--ap-link-border);
+    outline-offset: 2px;
+}
+
+/* =============================
+   Text variant: about-us page
+   DA block name: "Image Carousel (centered-text, text-large)"
+   ============================= */
+
+.image-carousel.centered-text .carousel__caption {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 24px;
+    box-sizing: border-box;
+    text-align: center;
+    color: var(--ap-white);
+}
+
+.image-carousel.centered-text .carousel__subtitle {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 22px;
+}
+
+.image-carousel.centered-text .carousel__title {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 30px;
+}
+
+@media (width <=991px) {
+    .image-carousel.centered-text .carousel__title {
+        font-size: 30px;
+    }
+}
+
+@media (width <=767px) {
+    .image-carousel.centered-text .carousel__caption {
+        padding: 0 20px;
+    }
+
+    .image-carousel.centered-text .carousel__subtitle {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .image-carousel.centered-text .carousel__title {
+        font-size: 24px;
+    }
+}
+
+
+/* =============================
+   Size variant: text-large
+   DA block name: "Image Carousel (centered-text, text-large)"
+   ============================= */
+
+.image-carousel.centered-text.text-large .carousel__caption {
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 24px;
+    box-sizing: border-box;
+    text-align: center;
+    color: var(--ap-white);
+}
+
+.image-carousel.centered-text.text-large .carousel__subtitle {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 0.8;
+    margin-bottom: 8px;
+    text-transform: capitalize;
+}
+
+.image-carousel.centered-text.text-large .carousel__title {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 25%;
+}
+
+.image-carousel.centered-text .carousel__cta-wrap {
+    bottom: 39%;
+}
+
+@media (width <=991px) {
+    .image-carousel.centered-text.text-large .carousel__caption {
+        top: 40%;
+    }
+
+    .image-carousel.centered-text.text-large .carousel__subtitle {
+        font-size: 32px;
+        line-height: 35.5px;
+    }
+
+    .image-carousel.centered-text.text-large .carousel__title {
+        font-size: 16px;
+        margin: 0 -10px;
+        letter-spacing: 0.5px;
+        font-weight: 500;
+        line-height: 25px;
+    }
+
+    .image-carousel.centered-text .carousel__cta-wrap {
+        bottom: 35%;
+        display: flex;
+    }
+
+    .image-carousel.centered-text .bannerWithGreybackground {
+        padding-bottom: 0;
+    }
+}
+
+
+/* ===== BUG FIX START: banner dots pill like live (wall coverings) ===== */
+
+/* mobile + tablet (up to 991px): small white pill, dots only, 16px above the image bottom */
+@media (width <=991px) {
+    /* banners with 2+ slides end with the image (no 20px white strip under it) */
+    .image-carousel:has(.carousel__dot + .carousel__dot) .bannerWithGreybackground {
+        padding-bottom: 0;
+    }
+
+    .image-carousel .carousel__controls {
+        bottom: 17px;
+        padding: 5px;
+    }
+
+    .image-carousel .carousel__nav {
+        display: none;
+    }
+
+    .image-carousel .carousel__controls .carousel__dots {
+        gap: 8px;
+    }
+
+    .image-carousel .carousel__dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 15px;
+        background: rgb(20 20 20 / 30%);
+    }
+
+    .image-carousel .carousel__dot.is-active {
+        width: 20px;
+        margin-right: -2px;
+        background: rgb(0 0 0 / 90%);
+    }
+}
+
+/* desktop (992px and up): arrows + dots pill, padding 9px 10px, 30px above the image bottom */
+@media (width >=992px) {
+    .image-carousel .carousel__controls {
+        bottom: 30px;
+        gap: 3px;
+        padding: 9px 10px;
+        border-radius: 30px;
+    }
+
+    /* WCAG 2.5.8: the arrows are the 24px "equivalent" control for the dots (see
+       the JS), so their hit area is 24px on screen: 24.1px / --body-zoom. The
+       icon stays 22x13 and the negative margins keep the pill's size; the extra
+       width goes on the outer side, away from the dots. */
+    .image-carousel .carousel__nav {
+        --nav-hit: calc(24.1px / var(--body-zoom, 1));
+
+        width: var(--nav-hit);
+        height: var(--nav-hit);
+        margin-block: calc((13px - var(--nav-hit)) / 2);
+    }
+
+    .image-carousel .carousel__prev {
+        justify-content: flex-end;
+        margin-left: calc(22px - var(--nav-hit));
+    }
+
+    .image-carousel .carousel__next {
+        justify-content: flex-start;
+        margin-right: calc(22px - var(--nav-hit));
+    }
+
+    /* 13x11 arrow (icons/carousel-arrow.svg). Its margins fill the old 22x13 slot, so the
+       pill keeps its size, and put it ~10px from the dots and ~12px from the
+       pill's end, as in the design. */
+    .image-carousel .carousel__nav .carousel__icon {
+        flex-shrink: 0;
+        width: 13px;
+        height: 11px;
+        margin: 1px 2px 1px 7px;
+    }
+
+    .image-carousel .carousel__prev .carousel__icon {
+        margin: 1px 7px 1px 2px;
+    }
+
+    .image-carousel .carousel__controls .carousel__dots {
+        gap: 7px;
+    }
+
+    .image-carousel .carousel__dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 15px;
+        background: #75787b;
+    }
+
+    .image-carousel .carousel__dot.is-active {
+        width: 30px;
+        height: 8px;
+        background: #232426;
+    }
+
+}
+
+/* ===== BUG FIX END ===== */
+
+/* =============================
+   Text variant: black-text (with centered-text; text-large is not needed, and is
+   overridden if present: these rules come after it)
+   DA block name: "Image Carousel (centered-text, black-text)"
+   The source's .bannerTextDesc on listing banners (e.g. undercoats): dark copy
+   centred on the image, a small subtitle over a 600-weight title.
+   ============================= */
+.image-carousel.centered-text.black-text .carousel__caption {
+    top: 50%;
+    width: 100%;
+    max-width: none;
+
+    /* 32px at the bottom: the source's empty paragraph under the title */
+    padding: 0 15px 32px 8%;
+    color: #222;
+}
+
+.image-carousel.centered-text.black-text .carousel__subtitle {
+    margin: 0 0 7px;
+    color: #222;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+/* the max width gives the source's line breaks (its title carries <br>s):
+   3 lines on phones, 2 from 768px */
+.image-carousel.centered-text.black-text .carousel__title {
+    max-width: 7.9em;
+    margin: 0 auto 10px;
+    color: #222;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: normal;
+}
+
+@media (width >=768px) {
+    .image-carousel.centered-text.black-text .carousel__caption {
+        padding: 0 60px 32px 8%;
+    }
+
+    .image-carousel.centered-text.black-text .carousel__title {
+        max-width: 9.7em;
+        margin: 0 auto 20px;
+        font-size: 22px;
+        line-height: 40px;
+    }
+}
+
+@media (width >=992px) {
+    .image-carousel.centered-text.black-text .carousel__caption {
+        width: 65%;
+        padding-left: 3%;
+    }
+
+    .image-carousel.centered-text.black-text .carousel__title {
+        font-size: 30px;
+    }
+}
+
+/* =============================
+   Text variant: waterproofing-pdp-variant (with centered-text)
+   DA block name: "Image Carousel (centered-text, waterproofing-pdp-variant)"
+   ============================= */
+@media (width <= 767px) {
+    .image-carousel.centered-text.waterproofing-pdp-variant .carousel__caption {
+        top: 43.4%;
+    }
+
+    .image-carousel.centered-text.waterproofing-pdp-variant .carousel__subtitle {
+        margin-bottom: 12px;
+        font-size: 12px;
+        line-height: 16.39px;
+        letter-spacing: 0.5px;
+    }
+
+    .image-carousel.centered-text.waterproofing-pdp-variant .carousel__title {
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 35.2px;
+        letter-spacing: 0.5px;
+    }
+}
+
+@media (width >=992px) {
+    .image-carousel.centered-text.waterproofing-pdp-variant .carousel__caption {
+        top: 44%;
+    }
+
+    .image-carousel.centered-text.waterproofing-pdp-variant .carousel__subtitle {
+        margin-bottom: 19px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 17px;
+        letter-spacing: 0.5px;
+    }
+
+    .image-carousel.centered-text.waterproofing-pdp-variant .carousel__title {
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+    }
+}
+
+
+
+/* enamel-paint page title */
+.image-carousel.centered-text.enamel-text .carousel__subtitle{
+    line-height: normal;
+    letter-spacing: normal;
+    margin-bottom: 7px;
+    margin-top: 0;
+}
+
+.image-carousel.centered-text.enamel-text .carousel__title{
+        font-weight: 700;
+    line-height: 40px;
+    letter-spacing: normal;
+}
+
+.image-carousel.centered-text.enamel-text .carousel__caption{
+        left: 49.8%;
+        top: 48%;
+    }
+
+@media (width >= 320px) and (width <= 767px) {
+    .image-carousel.centered-text.enamel-text .carousel__title{
+        font-size: 24px;
+        line-height: 30px;
+        margin-bottom: 10px;
+    }
+
+    .image-carousel.centered-text.enamel-text .carousel__caption{
+        top: 51%;
+        left: 51%;
+        padding-left: 8%;
+    }
+}
+
+/* enamel-paint page */
+
+@media (width <= 991px) {
+    .image-carousel .carousel__controls {
+        height: 20px;
+    }
+
+    .image-carousel .carousel__dot {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 41px;
+        margin: 0 -14px;
+        padding: 0;
+        border: 0;
+        background: none !important;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: none;
+    }
+
+    .image-carousel .carousel__dot::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 15px;
+        background: rgb(20 20 20 / 30%);
+    }
+
+    .image-carousel .carousel__dot.is-active::before {
+        width: 20px;
+        background: rgb(0 0 0 / 90%);
+    }
+
+    .image-carousel .carousel__dot.is-active {
+        margin-right: -11px;
+        margin-left: -11px;
+    }
+
+    .image-carousel .carousel__controls .carousel__dots {
+        gap: 5px;
+    }
+}

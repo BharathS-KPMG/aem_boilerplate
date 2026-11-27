@@ -1,0 +1,1265 @@
+/* Fandeck: the source's look (the "Fandeck View" of beta.asianpaints.com/colour-catalogue/
+   beige-wall-colours.html). Mobile first; its desktop layout starts at 768px, as the source's.
+   The colour family chips and the search are not scoped to the block (.fd-…): in the
+   Catalogue | Fandeck view they sit in catalogue-listing-v2's bar. */
+
+.fandeck {
+  display: block;
+  color: #2b2b2b;
+}
+
+.fandeck [hidden],
+.fd-families-nav [hidden],
+.fd-search [hidden] {
+  display: none !important;
+}
+
+.fandeck :focus-visible,
+.fd-families-nav :focus-visible,
+.fd-search :focus-visible {
+  outline: 2px solid #2b2b2b;
+  outline-offset: 2px;
+}
+
+.fandeck .fd-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fd-icon {
+  flex: none;
+}
+
+html.fd-no-scroll {
+  overflow: hidden;
+}
+
+@keyframes fd-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* --------------------------------------------------------- colour families */
+
+.fd-families-nav {
+  position: relative;
+  min-width: 0;
+}
+
+/* fades the chips out at the right edge */
+.fd-families-nav::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 48px;
+  background: linear-gradient(to left, #fff, rgb(255 255 255 / 80%) 50%, rgb(255 255 255 / 0%));
+  pointer-events: none;
+}
+
+.fd-families {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.fd-families::-webkit-scrollbar {
+  display: none;
+}
+
+.fd-families:active {
+  cursor: grabbing;
+}
+
+.fd-family {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border: 1px solid #ececec;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff, #fafafa);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 4%), 0 4px 12px rgb(0 0 0 / 8%);
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+/* a thin line between the chips */
+.fd-family:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -7px;
+  width: 1px;
+  height: 28px;
+  background: #e7e7e7;
+  transform: translateY(-50%);
+}
+
+.fd-family:hover {
+  box-shadow: 0 4px 8px rgb(0 0 0 / 8%), 0 8px 20px rgb(0 0 0 / 12%);
+  transform: translateY(-1px);
+}
+
+.fd-family[aria-pressed="true"] {
+  border-color: transparent;
+  background: linear-gradient(180deg, #3e3e3e, #222);
+  box-shadow: inset 0 1px rgb(255 255 255 / 15%), 0 4px 10px rgb(0 0 0 / 22%);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.fd-family-dot {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgb(0 0 0 / 8%);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 35%), 0 2px 6px rgb(0 0 0 / 18%);
+}
+
+.fd-family[aria-pressed="true"] .fd-family-dot {
+  border: 2px solid rgb(255 255 255 / 85%);
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 10%), 0 4px 10px rgb(0 0 0 / 25%);
+}
+
+.fd-family-name {
+  white-space: nowrap;
+}
+
+.fd-family-count {
+  margin-left: 2px;
+  padding: 2px 4px;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 18%);
+  font-size: 10px;
+  line-height: 12px;
+  backdrop-filter: blur(4px);
+}
+
+.fd-family-skeleton {
+  flex: none;
+  width: 80px;
+  height: 32px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  animation: fd-pulse 1.4s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ search */
+
+.fd-search {
+  position: relative;
+  flex: none;
+}
+
+/* exactly 36px: catalogue-listing-v2's breadcrumb row keeps this height in both views */
+.fd-search-box {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #9ca3af;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+/* the box shows the focus ring */
+.fd-search-box:focus-within {
+  border-color: #ee3124;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgb(238 49 36 / 30%);
+}
+
+.fd-search .fd-search-input {
+  width: 128px;
+  min-width: 0;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #2b2b2b;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  outline: none;
+  appearance: none;
+}
+
+.fd-search .fd-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.fd-search-results {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 50;
+  width: 288px;
+  max-width: calc(100vw - 32px);
+  max-height: 60vh;
+  margin: 8px 0 0;
+  padding: 0;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 8px 10px -6px rgb(0 0 0 / 10%), 0 0 0 1px rgb(0 0 0 / 5%);
+  list-style: none;
+  animation: fd-drop 0.15s ease-out;
+}
+
+@keyframes fd-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.fd-search-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.fd-search-result:hover,
+.fd-search-result[aria-selected="true"] {
+  background: #f9fafb;
+}
+
+.fd-search-swatch {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+}
+
+.fd-search-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fd-search-name {
+  overflow: hidden;
+  color: #2b2b2b;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fd-search-code {
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.fd-search-family {
+  flex: none;
+  color: #9ca3af;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+/* ------------------------------------------- own top part (no catalogue on the page) */
+
+.fandeck .fd-head {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.fandeck .fd-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.fandeck .fd-title {
+  margin: 0;
+  color: #2b2b2b;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+/* ----------------------------------------------------------------- the fan */
+
+.fandeck .fd-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+/* in the Catalogue | Fandeck view the fan sits right under the catalogue bar's chips: no gap
+   between the two sections (catalogue-listing-v2 drops its section's bottom margin too) */
+main > .section.fd-paired {
+  margin-top: 0;
+}
+
+/* leaves as tall as the source's (88% of 420px; from 768px 90% of 440px), with only the room a
+   lifted leaf needs above them */
+.fandeck .fd-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 390px;
+  overflow: hidden;
+}
+
+.fandeck .fd-leaves {
+  position: absolute;
+  inset: 0;
+}
+
+/* the pin the leaves turn on */
+.fandeck .fd-dot {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  z-index: 29;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #2b2b2b;
+  box-shadow: 0 0 0 4px #fff, 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+  transform: translate(-50%, 50%);
+  pointer-events: none;
+}
+
+.fandeck .fd-leaf,
+.fandeck .fd-leaf-skeleton {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: calc(100% - 20px);
+  transform-origin: bottom center;
+}
+
+.fandeck .fd-leaf {
+  display: block;
+  width: 90px;
+  margin: 0 0 0 -45px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: center;
+  transform: translateY(var(--fd-lift, 0)) rotate(var(--fd-angle, 0deg));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.fandeck .fd-leaf.is-lifted {
+  --fd-lift: -8px;
+}
+
+.fandeck .fd-leaf:focus-visible {
+  outline: none;
+}
+
+/* new leaves fan out from upright, one after another */
+.fandeck .fd-leaves.is-entering .fd-leaf {
+  opacity: 0;
+  transition: none;
+}
+
+.fandeck .fd-leaves.is-spreading .fd-leaf {
+  opacity: 1;
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--fd-i, 0) * 30ms),
+    opacity 0.3s calc(var(--fd-i, 0) * 30ms);
+}
+
+.fandeck .fd-leaf-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  background: var(--fd-leaf);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  transition: box-shadow 0.2s;
+}
+
+.fandeck .fd-leaf.is-lifted .fd-leaf-card {
+  box-shadow: 0 8px 30px rgb(0 0 0 / 25%);
+}
+
+.fandeck .fd-leaf:focus-visible .fd-leaf-card {
+  outline: 2px solid #2b2b2b;
+  outline-offset: 2px;
+}
+
+.fandeck .fd-leaf-head {
+  display: block;
+  padding: 12px 8px;
+}
+
+.fandeck .fd-leaf-name,
+.fandeck .fd-leaf-code {
+  display: block;
+  overflow: hidden;
+  color: var(--fd-ink);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fandeck .fd-leaf-name {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+}
+
+.fandeck .fd-leaf-code {
+  margin-top: 4px;
+  font-size: 10px;
+  line-height: 15px;
+  opacity: 0.75;
+}
+
+.fandeck .fd-leaf-swatches {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.fandeck .fd-leaf-swatch {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  transition: filter 0.15s;
+}
+
+.fandeck .fd-leaf-swatch:hover {
+  filter: brightness(0.95);
+}
+
+.fandeck .fd-leaf-foot {
+  display: block;
+  flex: none;
+  height: 40px;
+  background: rgb(0 0 0 / 10%);
+}
+
+.fandeck .fd-leaf-skeleton {
+  width: 110px;
+  margin-left: -55px;
+  border-radius: 12px 12px 0 0;
+  background: #e5e7eb;
+  transform: rotate(var(--fd-angle, 0deg));
+  animation: fd-pulse 1.4s ease-in-out infinite;
+}
+
+.fandeck .fd-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.fandeck .fd-empty-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.fandeck .fd-empty-hint {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.fandeck .fd-hint {
+  display: none;
+  margin: 8px 0 0;
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.fandeck .fd-pager {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  padding: 10px 0;
+}
+
+.fandeck .fd-page-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 10px 22px -9px rgb(0 0 0 / 10%), 0 11px 13px 4px rgb(0 0 0 / 10%);
+  color: #2b2b2b;
+  transition: box-shadow 0.15s, opacity 0.15s;
+}
+
+.fandeck .fd-page-button:disabled {
+  box-shadow: none;
+  opacity: 0.3;
+  cursor: default;
+}
+
+.fandeck .fd-page-status {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* ---------------------------------------------------- shortlist button */
+
+/* above the chat button (and the header's floating CTA) on phones, left of it from 768px */
+.fandeck .fd-shortlist-open {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  z-index: 1037;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ee3124;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 8px 10px -6px rgb(0 0 0 / 10%);
+  color: #fff;
+  transition: background-color 0.15s, transform 0.15s;
+}
+
+.fandeck .fd-shortlist-open:hover {
+  background: #b91c1c;
+  transform: scale(1.1);
+}
+
+.fandeck .fd-shortlist-open .fd-icon,
+.fandeck .fd-drawer-added .fd-icon,
+.fandeck .fd-drawer-shortlist.is-saved .fd-icon {
+  fill: currentcolor;
+}
+
+.fandeck .fd-shortlist-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 4px;
+  border-radius: 12px;
+  background: #2b2b2b;
+  box-shadow: 0 0 0 2px #fff;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ------------------------------------------------------------------ drawer */
+
+/* a sheet from the right under the site header; the page behind is dimmed and blurred */
+.fandeck .fd-drawer {
+  position: fixed;
+  inset: var(--fd-drawer-top, 0) 0 0 auto;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 25%);
+  color: #2b2b2b;
+  overflow: clip;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fandeck .fd-drawer[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.fandeck .fd-drawer.is-open {
+  transform: none;
+}
+
+.fandeck .fd-drawer::backdrop {
+  top: var(--fd-drawer-top, 0);
+  background: rgb(0 0 0 / 40%);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.fandeck .fd-drawer.is-open::backdrop {
+  opacity: 1;
+}
+
+.fandeck .fd-drawer:focus {
+  outline: none;
+}
+
+.fandeck .fd-drawer-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 20%);
+  color: #fff;
+  transition: background-color 0.15s;
+}
+
+.fandeck .fd-drawer-close:hover {
+  background: rgb(0 0 0 / 40%);
+}
+
+/* Everything shows without scrolling: on a shorter screen the colour block gives way first (its
+   padding follows the screen's height, then it shrinks to 104px); the body only scrolls on a
+   screen too short even for that. */
+.fandeck .fd-drawer-top {
+  position: relative;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 104px;
+  padding: clamp(20px, 6dvh, 56px) 56px;
+  overflow: hidden;
+  background-color: var(--fd-shade);
+  color: var(--fd-ink);
+  text-align: center;
+}
+
+/* the source's faint diagonal texture */
+.fandeck .fd-drawer-top::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000' fill-opacity='0.4'%3E%3Cpath d='M5 0h1L0 5V4zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.05;
+}
+
+.fandeck .fd-drawer-name {
+  position: relative;
+  margin: 0;
+  color: inherit;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.fandeck .fd-drawer-code {
+  position: relative;
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  opacity: 0.75;
+}
+
+.fandeck .fd-drawer-added {
+  position: absolute;
+  bottom: clamp(8px, 2.6dvh, 24px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 90%);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%);
+  color: #2b2b2b;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  backdrop-filter: blur(4px);
+  animation: fd-pop 0.25s ease-out;
+}
+
+@keyframes fd-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+}
+
+/* its own height; shrinks (and scrolls) only once the colour block is at its smallest */
+.fandeck .fd-drawer-body {
+  flex: 0 0.001 auto;
+  min-height: 0;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.fandeck .fd-drawer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fandeck .fd-drawer-tags li {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #4b5563;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.fandeck .fd-drawer-palette {
+  margin-top: clamp(12px, 2.6dvh, 24px);
+}
+
+.fandeck .fd-drawer-palette-title {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.fandeck .fd-drawer-palette-hint {
+  margin: 0 0 8px;
+  color: #9ca3af;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.fandeck .fd-drawer-palette-list {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.fandeck .fd-drawer-palette-list::-webkit-scrollbar {
+  display: none;
+}
+
+.fandeck .fd-drawer-tile {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fandeck .fd-drawer-tile-colour {
+  width: 56px;
+  height: 56px;
+  margin: 3px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 5%), 0 0 0 2px transparent;
+  transition: box-shadow 0.15s;
+}
+
+.fandeck .fd-drawer-tile:hover .fd-drawer-tile-colour,
+.fandeck .fd-drawer-tile:focus-visible .fd-drawer-tile-colour {
+  box-shadow: 0 1px 2px rgb(0 0 0 / 5%), 0 0 0 2px #ee3124;
+}
+
+.fandeck .fd-drawer-tile-name {
+  width: 56px;
+  margin-top: 4px;
+  overflow: hidden;
+  color: #6b7280;
+  font-size: 10px;
+  line-height: 14px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fandeck .fd-drawer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: clamp(16px, 3.5dvh, 32px);
+}
+
+.fandeck .fd-drawer-shortlist,
+.fandeck .fd-drawer-details,
+.fandeck .fd-drawer-share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  text-decoration: none;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.fandeck .fd-drawer-shortlist {
+  background: #ee3124;
+  color: #fff;
+}
+
+.fandeck .fd-drawer-shortlist:hover {
+  background: #b91c1c;
+}
+
+.fandeck .fd-drawer-shortlist.is-saved {
+  background: #2b2b2b;
+}
+
+.fandeck .fd-drawer-details,
+.fandeck .fd-drawer-details:hover {
+  background: #2b2b2b;
+  color: #fff;
+}
+
+.fandeck .fd-drawer-share {
+  border: 2px solid #e5e7eb;
+  background: #fff;
+  color: #2b2b2b;
+}
+
+.fandeck .fd-drawer-share:hover {
+  border-color: #111827;
+}
+
+.fandeck .fd-drawer-share.is-copied {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+/* -------------------------------------------------------- shortlist screen */
+
+.fandeck .fd-shortlist {
+  min-height: 60vh;
+  background: #faf7f2;
+}
+
+.fandeck .fd-shortlist-bar {
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.fandeck .fd-shortlist-bar-inner,
+.fandeck .fd-shortlist-inner {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 12px 16px;
+}
+
+.fandeck .fd-shortlist-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fandeck .fd-shortlist-inner {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.fandeck .fd-shortlist-back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.fandeck .fd-shortlist-back:hover {
+  color: #2b2b2b;
+}
+
+.fandeck .fd-shortlist-share {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #2b2b2b;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: background-color 0.2s;
+}
+
+.fandeck .fd-shortlist-share:hover {
+  background: #374151;
+}
+
+.fandeck .fd-shortlist-share.is-copied {
+  background: #16a34a;
+}
+
+.fandeck .fd-shortlist-title {
+  margin: 0;
+  color: #2b2b2b;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+.fandeck .fd-shortlist-title:focus {
+  outline: none;
+}
+
+.fandeck .fd-shortlist-total {
+  margin-left: 4px;
+  color: #9ca3af;
+  font-size: 20px;
+}
+
+.fandeck .fd-shortlist-subtitle {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.fandeck .fd-shortlist-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80px;
+  text-align: center;
+}
+
+.fandeck .fd-shortlist-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: #d1d5db;
+}
+
+.fandeck .fd-shortlist-empty-title {
+  margin: 24px 0 0;
+  color: #4b5563;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.fandeck .fd-shortlist-empty-hint {
+  max-width: 384px;
+  margin: 8px 0 0;
+  color: #9ca3af;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.fandeck .fd-shortlist-explore {
+  margin-top: 32px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: #ee3124;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  transition: background-color 0.2s;
+}
+
+.fandeck .fd-shortlist-explore:hover {
+  background: #b91c1c;
+}
+
+.fandeck .fd-shortlist-strip {
+  display: flex;
+  gap: 4px;
+  margin-top: 32px;
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+}
+
+.fandeck .fd-shortlist-strip span {
+  flex: 1;
+  min-width: 60px;
+  min-height: 120px;
+}
+
+.fandeck .fd-shortlist-grid {
+  display: grid;
+  gap: 16px;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fandeck .fd-shortlist-card {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
+  animation: fd-card 0.25s ease-out;
+}
+
+@keyframes fd-card {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.fandeck .fd-shortlist-colour,
+.fandeck .fd-shortlist-colour:hover {
+  display: flex;
+  align-items: flex-end;
+  height: 144px;
+  padding: 16px;
+  background: var(--fd-shade);
+  color: var(--fd-ink);
+  text-decoration: none;
+}
+
+.fandeck .fd-shortlist-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.fandeck .fd-shortlist-name {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.fandeck .fd-shortlist-code {
+  font-size: 14px;
+  line-height: 20px;
+  opacity: 0.75;
+}
+
+.fandeck .fd-shortlist-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+}
+
+.fandeck .fd-shortlist-values {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.fandeck .fd-shortlist-remove {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #ef4444;
+  font-size: 12px;
+  line-height: 16px;
+  transition: color 0.15s;
+}
+
+.fandeck .fd-shortlist-remove:hover {
+  color: #b91c1c;
+}
+
+/* ================================================================== 600px+ */
+
+@media (width >= 600px) {
+  .fandeck .fd-shortlist-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ================================================================== 768px+ */
+
+@media (width >= 768px) {
+  .fd-families {
+    padding: 12px 16px;
+  }
+
+  .fd-family {
+    padding: 8px 16px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .fd-family-dot {
+    width: 20px;
+    height: 20px;
+  }
+
+  .fd-family-count {
+    margin-left: 4px;
+    padding: 2px 6px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .fd-family-skeleton {
+    width: 112px;
+    height: 48px;
+  }
+
+  .fd-search .fd-search-input {
+    width: 192px;
+  }
+
+  .fd-search-results {
+    width: 368px;
+  }
+
+  .fandeck .fd-head-row {
+    padding: 25px 5%;
+  }
+
+  .fandeck .fd-head .fd-families {
+    padding-right: 5%;
+    padding-left: 5%;
+  }
+
+  .fandeck .fd-title {
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .fandeck .fd-main {
+    padding: 8px 16px;
+  }
+
+  .fandeck .fd-stage {
+    height: 416px;
+  }
+
+  .fandeck .fd-dot {
+    bottom: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .fandeck .fd-leaf-head {
+    padding: 16px 12px 12px;
+  }
+
+  .fandeck .fd-leaf-name {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .fandeck .fd-leaf-code {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .fandeck .fd-leaf-foot {
+    height: 56px;
+  }
+
+  .fandeck .fd-hint {
+    display: block;
+  }
+
+  .fandeck .fd-pager {
+    gap: 16px;
+    padding: 0 0 10px;
+  }
+
+  /* left of the chat button, as the source */
+  .fandeck .fd-shortlist-open {
+    right: 106px;
+    bottom: 24px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .fandeck .fd-drawer {
+    width: 440px;
+  }
+
+  .fandeck .fd-drawer-name {
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+
+/* ================================================================== 900px+ */
+
+@media (width >= 900px) {
+  .fandeck .fd-shortlist-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fandeck *,
+  .fandeck *::before,
+  .fandeck *::after,
+  .fandeck .fd-drawer::backdrop,
+  .fd-families-nav *,
+  .fd-search * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

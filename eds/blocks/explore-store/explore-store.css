@@ -1,0 +1,267 @@
+/*
+ * explore-store — "Explore Our Stores": title and text beside the store-format
+ * cards. Source: asianpaints.com/store-locator (whychooseus ".explore-store").
+ * Authoring and behaviour: README.md.
+ *
+ * Every value is the source's computed value at 1440px, 1024px (desktop, from
+ * 992px) or 390px (mobile, up to 991px; the source's breakpoints). Between
+ * 992px and 1439px the source zooms the whole page (0.7 / 0.75 / 0.8 / 0.85 /
+ * 0.9); that zoom is applied to this block only.
+ *
+ * Fonts: the source sets everything in "Manrope". This repo does not load
+ * Manrope (the main site does); see README.
+ */
+
+/* the band is full-bleed; the block pads itself like the source */
+main > .section.explore-store-container {
+  margin: 0;
+}
+
+main > .section.explore-store-container > .explore-store-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.explore-store {
+  /* source values */
+  --explore-store-font: "Manrope", sans-serif;
+  --explore-store-text: #222;
+  --explore-store-heading: #232426;
+  --explore-store-name: #2e2f32;
+  --explore-store-desc: #53565a;
+  --explore-store-focus: #232426;
+
+  /* each card's rule colour is authored (Accent colour); the source falls back
+     to the text colour when a card has none */
+  --explore-store-accent: currentcolor;
+
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  column-gap: 45px;
+  padding: 50px 16px;
+  color: var(--explore-store-text);
+  font-family: var(--explore-store-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.explore-store *,
+.explore-store *::before,
+.explore-store *::after {
+  box-sizing: border-box;
+}
+
+.explore-store .explore-store-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* intro */
+.explore-store .explore-store-intro {
+  width: 100%;
+}
+
+.explore-store .explore-store-title {
+  margin: 0 0 12px;
+  color: var(--explore-store-heading);
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 33.6px;
+  letter-spacing: -2px;
+}
+
+.explore-store .explore-store-text {
+  margin: 0;
+  color: var(--explore-store-heading);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+/* cards */
+.explore-store .explore-store-list {
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.explore-store .explore-store-card {
+  position: relative;
+  margin: 0 0 20px;
+  padding: 0 0 16px;
+  border-bottom: 2px solid var(--explore-store-accent);
+}
+
+.explore-store .explore-store-icon {
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.explore-store .explore-store-icon img {
+  display: block;
+  width: 36px;
+  max-width: none;
+  height: 36px;
+}
+
+.explore-store .explore-store-name {
+  margin: 0 0 3px;
+  color: var(--explore-store-name);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.explore-store .explore-store-desc {
+  margin: 0;
+  color: var(--explore-store-desc);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.8px;
+  letter-spacing: 0.5px;
+}
+
+/* optional link (none on the source): the name links, the whole card is the target */
+.explore-store .explore-store-name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.explore-store .explore-store-name a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.explore-store .explore-store-name a:hover {
+  text-decoration: underline;
+}
+
+.explore-store .explore-store-name a:focus-visible {
+  outline: none;
+}
+
+.explore-store .explore-store-name a:focus-visible::after {
+  outline: 2px solid var(--explore-store-focus);
+  outline-offset: 4px;
+}
+
+@media (width >= 992px) {
+  .explore-store {
+    flex-direction: row;
+    align-items: center;
+    padding: 50px 40px 40px;
+  }
+
+  .explore-store .explore-store-intro {
+    width: 25%;
+  }
+
+  .explore-store .explore-store-title {
+    margin-bottom: 30px;
+  }
+
+  .explore-store .explore-store-text {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .explore-store .explore-store-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px 40px;
+    width: 75%;
+    margin: 0;
+  }
+
+  .explore-store .explore-store-card {
+    flex: 0 0 30%;
+    margin: 0;
+    text-align: left;
+  }
+
+  .explore-store .explore-store-icon {
+    margin-bottom: 10px;
+  }
+
+  .explore-store .explore-store-name {
+    margin-bottom: 8px;
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+@media (width >= 1440px) {
+  .explore-store .explore-store-title {
+    width: 100%;
+    max-width: 330px;
+    font-size: 54px;
+    line-height: 60px;
+  }
+
+  .explore-store .explore-store-text {
+    width: 100%;
+    max-width: 330px;
+    font-size: 24px;
+    line-height: 33.6px;
+  }
+}
+
+/* the source's iPad / iPad Pro rules (device size, not viewport) */
+@media (device-width = 1024px) and (device-height = 1366px) and (orientation: portrait),
+  (device-width = 1024px) and (device-height = 768px) and (orientation: landscape) {
+  .explore-store {
+    column-gap: 25px;
+  }
+}
+
+/* the source's desktop zoom ladder, applied to this block only */
+@media (width >= 992px) and (width <= 1099px) {
+  .explore-store {
+    zoom: 0.7;
+  }
+}
+
+@media (width >= 1100px) and (width <= 1199px) {
+  .explore-store {
+    zoom: 0.75;
+  }
+}
+
+@media (width >= 1200px) and (width <= 1279px) {
+  .explore-store {
+    zoom: 0.8;
+  }
+}
+
+@media (width >= 1280px) and (width <= 1365px) {
+  .explore-store {
+    zoom: 0.85;
+  }
+}
+
+@media (width >= 1366px) and (width <= 1439px) {
+  .explore-store {
+    zoom: 0.9;
+  }
+}
+
+@media (forced-colors: active) {
+  .explore-store .explore-store-card {
+    border-bottom-color: CanvasText;
+  }
+
+  .explore-store .explore-store-name a:focus-visible::after {
+    outline-color: Highlight;
+  }
+}

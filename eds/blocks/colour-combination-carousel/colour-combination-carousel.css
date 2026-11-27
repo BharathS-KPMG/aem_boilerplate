@@ -1,0 +1,436 @@
+/* Colour Combination Carousel: title + subtitle + arrows, then a Swiper carousel of room cards */
+
+/*
+ * Self-contained: every size, gap and colour is defined here (from the Figma design)
+ * and every var() has a fallback, so the block renders the same on any site,
+ * whatever global tokens that site has (or if these properties are removed).
+ */
+.colour-combination-carousel {
+  --colour-combination-carousel-title-color: #000;
+  --colour-combination-carousel-subtitle-color: #4c4e52;
+  --colour-combination-carousel-text-dark: #1f1f1f;
+  --colour-combination-carousel-text-light: #fff;
+  --colour-combination-carousel-arrow-color: #000;
+  --colour-combination-carousel-radius: 8px;
+  --colour-combination-carousel-gap: 12px;
+  --colour-combination-carousel-swatch-size: 60px;
+  --colour-combination-carousel-swatch-radius: 20px;
+  --colour-combination-carousel-arrow-size: 48px;
+
+  /* cards in view (the rest of the last one peeks); must match the Swiper
+     slidesPerView / spaceBetween in the JS */
+  --colour-combination-carousel-visible: 1.12;
+
+  /* left page gutter; the cards run to the right edge of the screen */
+  --colour-combination-carousel-gutter: 16px;
+
+  /* the section is full width, so the block is too */
+  display: block;
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  color: var(--colour-combination-carousel-title-color, #000);
+  text-align: left;
+}
+
+/* first section of a page has no top padding (made for full-bleed heroes): keep clear of the header */
+main > .section:first-of-type .colour-combination-carousel {
+  padding-top: 24px;
+}
+
+.colour-combination-carousel *,
+.colour-combination-carousel *::before,
+.colour-combination-carousel *::after {
+  box-sizing: border-box;
+}
+
+/* --- Header: title, subtitle, arrows (gutter on both sides) --- */
+.colour-combination-carousel .colour-combination-carousel-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 24px;
+  margin: 0 0 20px;
+  padding: 0 var(--colour-combination-carousel-gutter, 16px);
+}
+
+.colour-combination-carousel .colour-combination-carousel-title {
+  grid-column: 1 / -1;
+  margin: 0 0 4px;
+  padding: 0;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 32px;
+  letter-spacing: normal;
+  color: var(--colour-combination-carousel-title-color, #232426);
+  text-align: left;
+  text-transform: none;
+  margin-bottom: 5px;
+}
+
+.colour-combination-carousel .colour-combination-carousel-subtitle {
+  grid-column: 1;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--colour-combination-carousel-subtitle-color, #8C8E90);
+}
+
+/* arrows are for desktop; mobile users swipe */
+.colour-combination-carousel .colour-combination-carousel-controls {
+  display: none;
+  grid-column: 2;
+  grid-row: 2;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.colour-combination-carousel .colour-combination-carousel-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--colour-combination-carousel-arrow-size, 48px);
+  height: var(--colour-combination-carousel-arrow-size, 48px);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  color: var(--colour-combination-carousel-arrow-color, #000);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.colour-combination-carousel .colour-combination-carousel-arrow-previous svg {
+  transform: rotate(180deg);
+}
+
+.colour-combination-carousel .colour-combination-carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* all cards fit (Swiper watchOverflow): hide the arrows without changing the header height */
+.colour-combination-carousel .colour-combination-carousel-arrow.swiper-button-lock {
+  visibility: hidden;
+}
+
+/* --- Swiper: starts at the left gutter and runs to the right screen edge.
+   The gutter is a margin outside the container (as in multi-carousel), so
+   the cards are clipped there and the left gap stays while swiping.
+   overflow/padding are set here as well, so the layout is the same before
+   swiper.css and Swiper load. --- */
+.colour-combination-carousel .colour-combination-carousel-swiper {
+  overflow: hidden;
+  margin: 0 0 0 var(--colour-combination-carousel-gutter, 16px);
+  padding: 0;
+}
+
+.colour-combination-carousel .colour-combination-carousel-track {
+  display: flex;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Card: sized like Swiper sizes its slides (inline width + margin-right
+   replace these once it runs, with the same values) --- */
+.colour-combination-carousel .colour-combination-carousel-card {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  width: calc((100% - (var(--colour-combination-carousel-visible, 1.12) - 1) * var(--colour-combination-carousel-gap, 12px)) / var(--colour-combination-carousel-visible, 1.12));
+  height: auto;
+  overflow: hidden;
+  margin: 0 var(--colour-combination-carousel-gap, 12px) 0 0;
+  padding: 0;
+  border-radius: var(--colour-combination-carousel-radius, 8px);
+}
+
+.colour-combination-carousel .colour-combination-carousel-card-media {
+  margin: 0;
+  padding: 0;
+  aspect-ratio: 325 / 320;
+  background: #e6e6e6;
+}
+
+.colour-combination-carousel .colour-combination-carousel-card-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.colour-combination-carousel .colour-combination-carousel-card-media img {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* --- Coloured panel (background = selected shade; text colour picked by JS) --- */
+.colour-combination-carousel .colour-combination-carousel-card-panel {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  background: var(--colour-combination-carousel-panel-bg, #dcddd7);
+  color: var(--colour-combination-carousel-text-dark, #1f1f1f);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.colour-combination-carousel .colour-combination-carousel-card-panel.is-dark {
+  color: var(--colour-combination-carousel-text-light, #fff);
+}
+
+.colour-combination-carousel .colour-combination-carousel-card-panel.is-light {
+  color: var(--colour-combination-carousel-text-dark, #1f1f1f);
+}
+
+.colour-combination-carousel .colour-combination-carousel-shades-label {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.8px;
+  color: inherit;
+  letter-spacing: 1%;
+}
+
+.colour-combination-carousel .colour-combination-carousel-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.colour-combination-carousel .colour-combination-carousel-swatch {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: var(--colour-combination-carousel-swatch-size, 60px);
+  height: var(--colour-combination-carousel-swatch-size, 60px);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 2px var(--colour-combination-carousel-swatch-radius, 20px) 2px 2px;
+  background: var(--colour-combination-carousel-swatch-bg, #fff);
+  box-shadow: none;
+  color: var(--colour-combination-carousel-text-dark, #1f1f1f);
+  font: inherit;
+  line-height: 1;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.colour-combination-carousel .colour-combination-carousel-swatch.is-dark {
+  color: var(--colour-combination-carousel-text-light, #fff);
+}
+
+.colour-combination-carousel .colour-combination-carousel-swatch:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* selected: outlined in the panel's text colour, check mark instead of the code */
+.colour-combination-carousel .colour-combination-carousel-swatch.is-selected {
+  box-shadow: inset 0 0 0 2px var(--colour-combination-carousel-swatch-ring, currentcolor);
+}
+
+.colour-combination-carousel .colour-combination-carousel-card-panel .colour-combination-carousel-swatch.is-selected {
+  --colour-combination-carousel-swatch-ring: var(--colour-combination-carousel-text-dark, #1f1f1f);
+}
+
+.colour-combination-carousel .colour-combination-carousel-card-panel.is-dark .colour-combination-carousel-swatch.is-selected {
+  --colour-combination-carousel-swatch-ring: var(--colour-combination-carousel-text-light, #fff);
+}
+
+.colour-combination-carousel .colour-combination-carousel-swatch:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 3px;
+}
+
+.colour-combination-carousel .colour-combination-carousel-swatch-check {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.colour-combination-carousel .colour-combination-carousel-swatch.is-selected .colour-combination-carousel-swatch-check {
+  display: flex;
+}
+
+.colour-combination-carousel .colour-combination-carousel-swatch-code {
+  position: absolute;
+    right: 18px;
+    bottom: 4px;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 16.8px;
+}
+
+.colour-combination-carousel .colour-combination-carousel-swatch.is-selected .colour-combination-carousel-swatch-code {
+  display: none;
+}
+
+.colour-combination-carousel .colour-combination-carousel-card-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.colour-combination-carousel .colour-combination-carousel-shade {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  color: inherit;
+}
+
+.colour-combination-carousel .colour-combination-carousel-link,
+.colour-combination-carousel .colour-combination-carousel-link:any-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16.8px;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.colour-combination-carousel .colour-combination-carousel-link:hover {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.colour-combination-carousel .colour-combination-carousel-link-icon {
+  display: inline-flex;
+}
+
+/* focus rings (after the base rules so specificity ascends) */
+.colour-combination-carousel .colour-combination-carousel-arrow:focus-visible {
+  outline: 2px solid var(--colour-combination-carousel-arrow-color, #000);
+  outline-offset: 2px;
+}
+
+.colour-combination-carousel .colour-combination-carousel-link:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
+}
+
+.colour-combination-carousel .colour-combination-carousel-arrow:hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+}
+
+.colour-combination-carousel [hidden] {
+  display: none;
+}
+
+/* screen-reader-only "opens in a new tab" hint (shown to assistive tech only when used) */
+.colour-combination-carousel .colour-combination-carousel-link-hint {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.colour-combination-carousel .colour-combination-carousel-link-hint[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .colour-combination-carousel .colour-combination-carousel-card-panel,
+  .colour-combination-carousel .colour-combination-carousel-arrow {
+    transition: none;
+  }
+}
+
+@media (width >= 600px) {
+  .colour-combination-carousel {
+    --colour-combination-carousel-visible: 2.15;
+    --colour-combination-carousel-gap: 16px;
+  }
+}
+
+@media (width >= 900px) {
+  .colour-combination-carousel {
+    --colour-combination-carousel-visible: 3.15;
+    --colour-combination-carousel-gap: 20px;
+  }
+
+  .colour-combination-carousel .colour-combination-carousel-header {
+    margin-bottom: 24px;
+  }
+
+  .colour-combination-carousel .colour-combination-carousel-title {
+    font-size: 40px;
+    line-height: 42px;
+    letter-spacing: -2%;
+    color: #000;
+    margin-bottom: 0;
+  }
+
+  .colour-combination-carousel .colour-combination-carousel-subtitle {
+    font-size: 20px;
+    line-height: 28px;
+    color: #75787B;
+    font-weight: 400;
+  }
+
+  .colour-combination-carousel .colour-combination-carousel-controls {
+    display: flex;
+  }
+}
+
+/* desktop gutter: 40px, switching at 992px like the desktop-side-padding-40 /
+   mobile-side-padding-16 sections around this block */
+@media (width >= 992px) {
+  .colour-combination-carousel {
+    --colour-combination-carousel-gutter: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  .colour-combination-carousel {
+    --colour-combination-carousel-visible: 4.15;
+  }
+}

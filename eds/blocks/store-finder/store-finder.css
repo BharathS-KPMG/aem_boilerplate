@@ -1,0 +1,1437 @@
+/*
+ * store-finder — the store locator's results (map + store list). Source:
+ * asianpaints.com/store-locator (storelocatorlepton ".storedetails-revamp").
+ * Authoring and behaviour: README.md.
+ *
+ * Every value is the source's computed value at 1440px (desktop, from 992px)
+ * or 390px (mobile, up to 991px; the source's breakpoints). Between 992px and
+ * 1439px the source zooms the whole page (0.7 / 0.75 / 0.8 / 0.85 / 0.9); the
+ * site's styles.css already does that on the body, so this block must not zoom
+ * again (it would shrink twice). Icons are the source's (icons/).
+ *
+ * Fonts: the source sets everything in "Manrope". This repo does not load
+ * Manrope (the main site does); see README.
+ */
+
+/* rules follow the source's cascade (base, then state overrides per
+   component), which this lint rule cannot express without reordering */
+/* stylelint-disable no-descending-specificity */
+
+main > .section.store-finder-container {
+  margin: 0;
+}
+
+main > .section.store-finder-container > .store-finder-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.store-finder {
+  /* source values */
+  --store-finder-font: "Manrope", sans-serif;
+  --store-finder-text: #222;
+  --store-finder-heading: #232426;
+  --store-finder-grey: #75787b;
+  --store-finder-ink: #2e2f32;
+  --store-finder-ink-2: #3b3d40;
+  --store-finder-rule: #eeeeef;
+  --store-finder-white: #fff;
+  --store-finder-open: #2ba45b;
+  --store-finder-details-bg: #fef9f2;
+  --store-finder-hover: #feeecf;
+  --store-finder-handle: #cacbcc;
+  --store-finder-map-bg: #193b70;
+  --store-finder-badge: #fbd0d1;
+  --store-finder-badge-beautifulhomes: #bfe8cf;
+  --store-finder-badge-colourideas: #c4cddc;
+  --store-finder-badge-crnxt: #fcd5c1;
+  --store-finder-badge-colourworld: #dbd3e7;
+  --store-finder-badge-noncw: #f0f0f0;
+  --store-finder-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+  --store-finder-menu-shadow: 0 4px 16px -2px rgb(16 24 40 / 10%);
+  --store-finder-focus: #232426;
+
+  /* Contrast: the source's values are kept (failures flagged). Swap in the
+     compliant alternative to fix; full table in README.
+     --store-finder-grey: #6e7174;  address, hours, phone, list titles (12-14px):
+                                    4.44:1 on #fff / 4.24:1 on #fef9f2 -> 4.91 / 4.69:1
+     --store-finder-open: #1f7d45;  "Open-" while open (12-14px): 3.20:1 -> 5.15:1 */
+
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  color: var(--store-finder-text);
+  font-family: var(--store-finder-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+/* nothing to show until a search (the source's d-none) */
+.store-finder.is-idle {
+  display: none;
+}
+
+.store-finder *,
+.store-finder *::before,
+.store-finder *::after {
+  box-sizing: border-box;
+}
+
+.store-finder .store-finder-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.store-finder p,
+.store-finder ul,
+.store-finder h2,
+.store-finder h3 {
+  margin: 0;
+}
+
+.store-finder button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.store-finder a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.store-finder :is(a, button):focus-visible {
+  outline: 2px solid var(--store-finder-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- heading (mobile: the top of the sheet over the map) ---------- */
+.store-finder .store-finder-head {
+  position: relative;
+  z-index: 1;
+  order: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 30px;
+  top: -42px;
+  padding: 30px 18px 20px;
+  border-radius: 8px 8px 0 0;
+  background: var(--store-finder-white);
+}
+
+.store-finder .store-finder-head::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  margin: auto;
+  border-radius: 5px;
+  background: var(--store-finder-handle);
+}
+
+.store-finder .store-finder-heading {
+  width: 211px;
+  color: var(--store-finder-heading);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+.store-finder .store-finder-heading strong {
+  font-weight: 700;
+}
+
+/* focus is moved here after a search; the heading is not a control */
+.store-finder .store-finder-heading:focus {
+  outline: none;
+}
+
+.store-finder .store-finder-not-found {
+  width: 100%;
+  color: var(--store-finder-heading);
+}
+
+/* ---------- map ---------- */
+.store-finder .store-finder-map {
+  order: 0;
+  width: 100%;
+  height: 318px;
+  background: var(--store-finder-map-bg);
+}
+
+/* ---------- list ---------- */
+.store-finder .store-finder-panel {
+  position: relative;
+  top: -42px;
+  order: 2;
+  padding: 0 18px 30px;
+  border-radius: 0 0 8px 8px;
+  background: var(--store-finder-white);
+}
+
+.store-finder.is-empty .store-finder-panel {
+  display: none;
+}
+
+.store-finder .store-finder-list {
+  padding: 0;
+  list-style: none;
+}
+
+.store-finder .store-finder-card {
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--store-finder-rule);
+}
+
+.store-finder .store-finder-card[hidden] {
+  display: none;
+}
+
+.store-finder .store-finder-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.store-finder .store-finder-name {
+  flex-basis: 60%;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+.store-finder .store-finder-name-btn {
+  display: block;
+  width: 100%;
+}
+
+.store-finder .store-finder-badge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background-color: var(--store-finder-badge);
+  color: var(--store-finder-heading);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.8px;
+}
+
+.store-finder .store-finder-badge[data-type="beautifulhomes"] {
+  background-color: var(--store-finder-badge-beautifulhomes);
+}
+
+.store-finder .store-finder-badge:is([data-type="colouridea"], [data-type="colourideas"]) {
+  background-color: var(--store-finder-badge-colourideas);
+}
+
+.store-finder .store-finder-badge:is([data-type="colournxt"], [data-type="crnxt"]) {
+  background-color: var(--store-finder-badge-crnxt);
+}
+
+.store-finder .store-finder-badge[data-type="colourworld"] {
+  background-color: var(--store-finder-badge-colourworld);
+}
+
+.store-finder .store-finder-badge:is([data-type="non-colourworld"], [data-type="non-cw"]) {
+  background-color: var(--store-finder-badge-noncw);
+}
+
+.store-finder .store-finder-close {
+  display: none;
+}
+
+.store-finder .store-finder-close img {
+  display: block;
+  margin-left: auto;
+}
+
+.store-finder .store-finder-info-block {
+  color: var(--store-finder-grey);
+}
+
+.store-finder .store-finder-address {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.8px;
+  letter-spacing: 0.5px;
+}
+
+.store-finder .store-finder-icon {
+  flex: none;
+  width: 22px;
+  height: 22px;
+}
+
+.store-finder .store-finder-meta {
+  display: flex;
+  column-gap: 8%;
+  margin-bottom: 20px;
+}
+
+.store-finder .store-finder-meta p {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.8px;
+  letter-spacing: 0.5px;
+}
+
+.store-finder .store-finder-time {
+  display: flex;
+  gap: 6px;
+}
+
+.store-finder .store-finder-open.is-open {
+  color: var(--store-finder-open);
+}
+
+.store-finder .store-finder-phone .store-finder-icon {
+  display: inline;
+  margin-right: 2px;
+  vertical-align: middle;
+}
+
+.store-finder .store-finder-actions {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* "Store details" sits on the links' line (the source's order + -22px shift) */
+.store-finder .store-finder-details {
+  order: 2;
+  transform: translateY(-22px);
+}
+
+.store-finder .store-finder-details[hidden] {
+  display: none;
+}
+
+.store-finder .store-finder-details-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  color: var(--store-finder-ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0.5px;
+  transition: 0.5s;
+}
+
+.store-finder .store-finder-store-icon {
+  display: none;
+}
+
+.store-finder .store-finder-chevron::after {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 7px;
+  margin-left: 8px;
+  background: url("icons/down-icon.svg") no-repeat;
+  transform: translateY(1px) rotate(0deg);
+}
+
+.store-finder .store-finder-details-toggle.is-open .store-finder-chevron::after {
+  margin-bottom: 3px;
+  transform: translateY(1px) rotate(180deg);
+}
+
+.store-finder .store-finder-details-toggle:hover::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  bottom: 0;
+  display: block;
+  width: 79%;
+  border-bottom: 1px solid currentcolor;
+}
+
+.store-finder .store-finder-more-info {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  height: 0;
+  margin-top: 0;
+  padding: 0 12px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--store-finder-details-bg);
+  visibility: hidden;
+  opacity: 0;
+  transition: height 0.4s, opacity 0.4s, padding 0.3s, visibility 0s 0.4s;
+}
+
+.store-finder .store-finder-more-info.is-open {
+  margin-top: 6px;
+  padding: 12px;
+  visibility: visible;
+  opacity: 1;
+  transition: height 0.4s, opacity 0.4s, padding 0.3s;
+}
+
+.store-finder .store-finder-more-col {
+  width: 50%;
+  color: var(--store-finder-ink);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.8px;
+}
+
+.store-finder .store-finder-more-title {
+  margin-bottom: 4px;
+  color: var(--store-finder-grey);
+
+  /* the source's titles are paragraphs and take the site's paragraph style, not the list's */
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+.store-finder .store-finder-more-col ul {
+  padding: 0;
+}
+
+.store-finder .store-finder-more-col li {
+  margin: 0 0 6px 20px;
+  list-style: disc;
+}
+
+.store-finder .store-finder-links {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 25px;
+}
+
+.store-finder .store-finder-directions,
+.store-finder .store-finder-share {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+.store-finder .store-finder-link-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  margin-right: 4px;
+  background: no-repeat center / 16px 16px;
+}
+
+.store-finder .store-finder-directions .store-finder-link-icon {
+  background-image: url("icons/direction.svg");
+}
+
+.store-finder .store-finder-share .store-finder-link-icon {
+  background-image: url("icons/share.svg");
+}
+
+.store-finder .store-finder-directions:hover::after,
+.store-finder .store-finder-share:hover::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: block;
+  width: 76%;
+  border-bottom: 1px solid currentcolor;
+}
+
+.store-finder .store-finder-share:hover::after {
+  width: 62%;
+}
+
+.store-finder .store-finder-share-menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 6px;
+  background: var(--store-finder-white);
+  box-shadow: var(--store-finder-menu-shadow);
+  list-style: none;
+}
+
+.store-finder .store-finder-share-menu[hidden] {
+  display: none;
+}
+
+.store-finder .store-finder-share-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--store-finder-ink-2);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0;
+}
+
+.store-finder .store-finder-share-item::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  background: no-repeat center;
+}
+
+.store-finder .store-finder-share-item.is-msg::before {
+  background-image: url("icons/message-icon.svg");
+}
+
+.store-finder .store-finder-share-item.is-mail::before {
+  background-image: url("icons/mail-icon.svg");
+}
+
+.store-finder .store-finder-more {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  margin: 0 auto;
+  padding: 6px 16px;
+  border: 1px solid var(--store-finder-heading);
+  border-radius: 45px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.store-finder .store-finder-more[hidden] {
+  display: none;
+}
+
+.store-finder .store-finder-more:hover {
+  background: var(--store-finder-hover);
+}
+
+.store-finder .store-finder-more-arrow::after {
+  content: "";
+  display: block;
+  width: 17px;
+  height: 18px;
+  background: url("icons/arrow-down-icon.svg") no-repeat;
+}
+
+/* ---------- mobile single-store view (the source's "active" card) ---------- */
+.store-finder.is-focus-view .store-finder-heading,
+.store-finder.is-focus-view .store-finder-more,
+.store-finder.is-focus-view .store-finder-card:not(.is-active) {
+  display: none;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-card-head {
+  position: relative;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-name {
+  flex-basis: 50%;
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-badge {
+  order: 1;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-close {
+  display: block;
+  flex-basis: 50%;
+  text-align: end;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-address {
+  margin-bottom: 12px;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-meta {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-meta p {
+  width: 100%;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-details {
+  order: 1;
+  transform: none;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-details-toggle {
+  border-bottom: 1px solid #000;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-chevron {
+  display: none;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-more-info {
+  margin-top: 0;
+  padding: 12px 0;
+  background: transparent;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-more-col li {
+  margin-left: 24px;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-links {
+  order: 0;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.store-finder .store-finder-card.is-active :is(.store-finder-directions, .store-finder-share) {
+  padding: 5.5px 16px;
+  border: 1px solid var(--store-finder-heading);
+  border-radius: 50px;
+}
+
+.store-finder .store-finder-card.is-active .store-finder-link-icon {
+  margin-right: 5px;
+}
+
+/* ---------- map info window (the source's infoWindowCard) ---------- */
+
+/* these are for the store window; Google's own place popups (.gm-style-iw-poi) keep their layout */
+.store-finder .gm-style-iw.gm-style-iw-c:not(.gm-style-iw-poi) {
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.store-finder .gm-style-iw-c:not(.gm-style-iw-poi) .gm-style-iw-d {
+  transform: translateY(-14px);
+
+  /* the source's window reserves Google's 18px scrollbar gutter (overflow: scroll); this site's
+     body scrollbar-color is inherited and would switch it to an overlay bar */
+  scrollbar-color: auto;
+  scrollbar-width: auto;
+}
+
+.store-finder .gm-style-iw-c:not(.gm-style-iw-poi) .gm-style-iw-chr .gm-ui-hover-effect {
+  width: 42px !important;
+  height: 46px !important;
+}
+
+.store-finder .gm-style-iw-c:not(.gm-style-iw-poi) .gm-style-iw-chr .gm-ui-hover-effect span {
+  width: 20px !important;
+  height: 20px !important;
+  background-repeat: no-repeat;
+}
+
+/* the source's 16px icons (the block's generic icon size would make them 22px) */
+.store-finder .store-finder-info-line img,
+.store-finder .store-finder-info-directions img {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+/* the source hides Google's attribution strip (keyboard shortcuts, map data, terms) and logo */
+.store-finder .gm-style-cc,
+.store-finder .gm-style a[href^="https://maps.google.com/maps"],
+.store-finder .gm-style a[href^="https://www.google.com/maps/@"],
+.store-finder .gm-style a[href*="google.com/maps/@"],
+.store-finder .gmnoprint a[href^="https://maps.google.com/maps"] {
+  display: none !important;
+}
+
+.store-finder .store-finder-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 220px;
+  font-family: var(--store-finder-font);
+}
+
+.store-finder .store-finder-info-name {
+  color: var(--store-finder-heading);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+.store-finder .store-finder-info-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  color: var(--store-finder-grey);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.8px;
+  letter-spacing: 0;
+}
+
+.store-finder .store-finder-info-directions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  color: var(--store-finder-ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+/* ---------- filter (the source's "Filter" button, Products / Services panel, chips) ---------- */
+/* stylelint-disable-next-line no-duplicate-selectors -- adds to the earlier rule, kept with this section */
+.store-finder {
+  position: relative;
+}
+
+.store-finder .store-finder-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  height: 38px;
+  padding: 12px 18px;
+  border: 1px solid var(--store-finder-heading);
+  border-radius: 45px;
+  background: transparent;
+  color: var(--store-finder-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.store-finder .store-finder-filter-btn[hidden] {
+  display: none;
+}
+
+.store-finder .store-finder-filter-btn:hover {
+  background: #fff7e8;
+}
+
+/* open or focused: cream fill; the border stays black, as on the source */
+.store-finder .store-finder-filter-btn.is-open,
+.store-finder .store-finder-filter-btn:focus-visible {
+  background: var(--store-finder-hover);
+}
+
+.store-finder .store-finder-filter-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: url("icons/filter-icon.svg") no-repeat;
+}
+
+/* chosen filters: tap one to drop it */
+.store-finder .store-finder-chips {
+  display: flex;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.store-finder .store-finder-chips[hidden] {
+  display: none;
+}
+
+.store-finder .store-finder-chip {
+  display: flex;
+  align-items: center;
+  padding: 7.5px 10px;
+  border: 0.5px solid #5d4f43;
+  border-radius: 6px;
+  background-color: #fffdfb;
+  color: var(--store-finder-heading);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.8px;
+  cursor: pointer;
+}
+
+.store-finder .store-finder-chip::after {
+  content: "";
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  background: url("icons/filter-close.svg") no-repeat;
+}
+
+/* mobile: a full-screen sheet */
+.store-finder .store-finder-filter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1052;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  height: 100dvh;
+  padding: 17px 17px 32px;
+  overflow: hidden;
+  background: var(--store-finder-white);
+}
+
+.store-finder .store-finder-filter[hidden] {
+  display: none;
+}
+
+body:has(.store-finder.is-filter-open) {
+  overflow: hidden;
+}
+
+.store-finder .store-finder-filter-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 0.5px solid #b0b1b3;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.store-finder .store-finder-filter-close {
+  width: 24px;
+  height: 24px;
+  background: url("icons/filter-close.svg") no-repeat;
+  cursor: pointer;
+}
+
+.store-finder .store-finder-filter-types {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.store-finder .store-finder-filter-type {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.store-finder .store-finder-filter-type[hidden] {
+  display: none;
+}
+
+.store-finder .store-finder-filter-title {
+  color: #8c8e90;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+.store-finder .store-finder-filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.store-finder .store-finder-filter-option {
+  position: relative;
+  display: flex;
+}
+
+/* the box is the source's drawn one; the real checkbox stays for keyboards and readers */
+.store-finder .store-finder-filter-input {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  opacity: 0;
+}
+
+.store-finder .store-finder-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.store-finder .store-finder-filter-check {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--store-finder-ink);
+  border-radius: 4px;
+}
+
+.store-finder .store-finder-filter-label-text {
+  color: var(--store-finder-ink);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  text-align: left;
+}
+
+.store-finder .store-finder-filter-input:checked + .store-finder-filter-label .store-finder-filter-check {
+  background: var(--store-finder-heading);
+}
+
+/* as the source: the tick is the box's ::before image, placed by the flex box */
+.store-finder .store-finder-filter-input:checked + .store-finder-filter-label .store-finder-filter-check::before {
+  content: url("icons/check-white.svg");
+}
+
+.store-finder .store-finder-filter-input:checked + .store-finder-filter-label .store-finder-filter-label-text {
+  color: var(--store-finder-heading);
+}
+
+.store-finder .store-finder-filter-input:focus-visible + .store-finder-filter-label .store-finder-filter-check {
+  outline: 2px solid var(--store-finder-focus);
+  outline-offset: 2px;
+}
+
+.store-finder .store-finder-filter-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 8px;
+  margin: auto 0 30px;
+}
+
+.store-finder .store-finder-filter-apply,
+.store-finder .store-finder-filter-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45%;
+  height: 38px;
+  padding: 12px 18px;
+  border-radius: 45px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.store-finder .store-finder-filter-apply {
+  background-image: linear-gradient(#fec940, #f90);
+  color: #1e1e1e;
+}
+
+.store-finder .store-finder-filter-apply:hover {
+  background: #fdbf45;
+}
+
+.store-finder .store-finder-filter-clear {
+  border: 1px solid var(--store-finder-heading);
+  color: var(--store-finder-heading);
+}
+
+.store-finder .store-finder-filter-clear:hover {
+  background-color: #fff7e8;
+}
+
+@media (width >= 992px) {
+  .store-finder {
+    display: grid;
+    grid-template: "head" auto "stage" 848px / 100%;
+    row-gap: 36px;
+    margin: 60px 40px 0;
+  }
+
+  .store-finder .store-finder-head {
+    top: 0;
+    grid-area: head;
+    min-height: 38px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .store-finder .store-finder-head::before {
+    content: none;
+  }
+
+  .store-finder .store-finder-heading {
+    width: auto;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 33.6px;
+  }
+
+  .store-finder .store-finder-heading strong {
+    font-weight: 800;
+  }
+
+  .store-finder .store-finder-map {
+    grid-area: stage;
+    height: 848px;
+  }
+
+  /* the list floats over the map's left side */
+  .store-finder .store-finder-panel {
+    top: 0;
+    z-index: 1;
+    grid-area: stage;
+    place-self: stretch start;
+    width: 39%;
+    margin: 20px;
+    padding: 20px 16px 20px 20px;
+    overflow-y: hidden;
+    border-radius: 8px;
+    box-shadow: var(--store-finder-shadow);
+  }
+
+  .store-finder.is-empty {
+    grid-template-rows: auto 0;
+  }
+
+  .store-finder.is-empty .store-finder-map {
+    height: 0;
+  }
+
+  .store-finder .store-finder-scroller {
+    height: 100%;
+    padding-right: 9px;
+    overflow-y: auto;
+
+    /* the source styles this bar with the -webkit pseudo-elements below only. Any scrollbar-color
+       or scrollbar-width other than auto makes Chrome ignore them and draw its own bar (an overlay
+       that stays hidden on Mac until you scroll). This site's styles.css sets scrollbar-color on
+       body and it is inherited, so reset it here. */
+    scrollbar-color: auto;
+    scrollbar-width: auto;
+  }
+
+  .store-finder .store-finder-scroller::-webkit-scrollbar {
+    width: 4px;
+    border-radius: 100px;
+    background-color: var(--store-finder-rule);
+  }
+
+  .store-finder .store-finder-scroller::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: var(--store-finder-grey);
+  }
+
+  .store-finder .store-finder-scroller::-webkit-scrollbar-track {
+    border-radius: 100px;
+    box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  }
+
+  .store-finder .store-finder-card-head {
+    margin-bottom: 16px;
+  }
+
+  .store-finder .store-finder-name {
+    flex-basis: 52%;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .store-finder .store-finder-badge {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    transform: translate(-32px);
+  }
+
+  .store-finder .store-finder-address {
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+  }
+
+  .store-finder .store-finder-meta {
+    column-gap: 10%;
+  }
+
+  .store-finder .store-finder-meta p {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+  }
+
+  .store-finder .store-finder-store-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    background: url("icons/store.svg") no-repeat center / 16px 16px;
+  }
+
+  .store-finder .store-finder-details-toggle:hover::after {
+    width: 68%;
+  }
+
+  .store-finder .store-finder-more-info {
+    padding: 0 20px;
+  }
+
+  .store-finder .store-finder-more-info.is-open {
+    margin-top: 10px;
+    padding: 20px;
+  }
+
+  .store-finder .store-finder-more-col {
+    width: auto;
+  }
+
+  .store-finder .store-finder-link-icon {
+    margin-top: 0;
+    margin-right: 6px;
+  }
+
+  .store-finder .gm-style-iw.gm-style-iw-c:not(.gm-style-iw-poi) {
+    transform: translate3d(-8%, -100%, 0);
+  }
+
+  .store-finder .gm-style-iw-t:has(> .gm-style-iw-c:not(.gm-style-iw-poi)) .gm-style-iw-tc {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-finder .store-finder-more-info,
+  .store-finder .store-finder-more-info.is-open,
+  .store-finder .store-finder-details-toggle {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .store-finder .store-finder-badge,
+  .store-finder .store-finder-more,
+  .store-finder .store-finder-share-menu,
+  .store-finder .store-finder-panel {
+    border: 1px solid CanvasText;
+  }
+
+  .store-finder .store-finder-open.is-open {
+    color: Highlight;
+  }
+}
+
+/* ---------- filter, desktop: a popover under the button ---------- */
+@media (width >= 992px) {
+  .store-finder .store-finder-filter-btn {
+    padding: 14px 20px;
+  }
+
+  .store-finder .store-finder-chips {
+    gap: 16px;
+    margin-top: 0;
+  }
+
+  .store-finder .store-finder-chip {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+  }
+
+  .store-finder .store-finder-filter {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    left: auto;
+    z-index: 2;
+    width: max-content;
+    height: auto;
+    padding: 20px 20px 25px;
+    overflow: visible;
+    border-radius: 10px;
+    box-shadow: 1px 6px 25px -4px rgb(16 24 40 / 16%);
+  }
+
+  .store-finder .store-finder-filter-top {
+    display: none;
+  }
+
+  .store-finder .store-finder-filter-types {
+    gap: 20px;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .store-finder .store-finder-filter-type {
+    gap: 12px;
+  }
+
+  .store-finder .store-finder-filter-title {
+    color: var(--store-finder-heading);
+  }
+
+  .store-finder .store-finder-filter-options {
+    gap: 10px;
+  }
+
+  .store-finder .store-finder-filter-actions {
+    justify-content: flex-start;
+    margin: 0;
+  }
+
+  .store-finder .store-finder-filter-apply,
+  .store-finder .store-finder-filter-clear {
+    width: auto;
+  }
+
+  .store-finder .store-finder-filter-clear {
+    height: auto;
+    padding: 6px 16px;
+    border: 0;
+    background: transparent;
+    font-size: 14px;
+  }
+
+  .store-finder .store-finder-filter-clear:hover {
+    background: transparent;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  body:has(.store-finder.is-filter-open) {
+    overflow: visible;
+  }
+}
+
+/* ---------- Share > Message: the source's mobile-number dialog (#ShareStoreWithNumberModal) ---------- */
+.store-finder .store-finder-sms {
+  position: fixed;
+  inset: 49px 0 0;
+  width: 440px;
+  max-width: calc(100% - 37.5px);
+  height: fit-content;
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: #222;
+  font-family: var(--store-finder-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.store-finder .store-finder-sms::backdrop {
+  background: rgb(0 0 0 / 50%);
+}
+
+.store-finder .store-finder-sms-content {
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+  background: var(--store-finder-white);
+}
+
+.store-finder .store-finder-sms-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  border-radius: 4.2px 4.2px 0 0;
+}
+
+.store-finder .store-finder-sms-close {
+  width: 17px;
+  height: 22px;
+  margin: 10px 15px;
+  background: url("icons/sms-close.svg") no-repeat 0 2px;
+  cursor: pointer;
+}
+
+.store-finder .store-finder-sms-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0 40px 14px;
+}
+
+.store-finder .store-finder-sms-title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.store-finder .store-finder-sms-text {
+  margin: 10px 0 15px;
+}
+
+.store-finder .store-finder-sms-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.store-finder .store-finder-sms-label {
+  display: block;
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.store-finder .store-finder-sms-input {
+  display: block;
+  width: 100%;
+  height: 48px;
+  margin: 0;
+  padding: 20px 0 4px;
+  border: 0;
+  border-bottom: 2px solid #000;
+  border-radius: 0;
+  background: transparent;
+  color: #000;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 22px;
+  appearance: none;
+}
+
+.store-finder .store-finder-sms-input:focus,
+.store-finder .store-finder-sms-input:focus-visible {
+  outline: 0;
+  box-shadow: none;
+}
+
+
+.store-finder .store-finder-sms-message {
+  display: flex;
+  min-height: 25px;
+  padding: 5px 0;
+  color: #ed1c24;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.store-finder .store-finder-sms-submit {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 16px 20px;
+  border: 1px solid #431a80;
+  border-radius: 2px;
+  background: #431a80;
+  color: var(--store-finder-white);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* stylelint-disable-next-line no-duplicate-selectors -- adds to the earlier rule, kept with this section */
+.store-finder .store-finder-sms-submit {
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.store-finder .store-finder-sms-submit:hover,
+.store-finder .store-finder-sms-submit:focus,
+.store-finder .store-finder-sms-submit:focus-visible,
+.store-finder .store-finder-sms-submit:active {
+  outline: 0;
+  border-color: #5e25b2;
+  background: #5e25b2;
+  color: var(--store-finder-white);
+}
+
+.store-finder .store-finder-sms-submit:hover,
+.store-finder .store-finder-sms-submit:focus-visible {
+  box-shadow: rgb(0 0 0 / 20%) 0 10px 16px 0, rgb(0 0 0 / 19%) 0 6px 20px 0;
+}
+
+@media (width < 992px) {
+  .store-finder .store-finder-sms {
+    inset: 0;
+  }
+
+  .store-finder .store-finder-sms-body {
+    padding: 0 15px 14px;
+  }
+
+  .store-finder .store-finder-sms-submit {
+    padding: 9px 20px;
+    font-size: 12px;
+  }
+}
+
+/* the source's modal motion: scale(0) + fade to full size, 0.25s linear (.fade-scale) */
+/* stylelint-disable-next-line no-duplicate-selectors -- adds to the earlier rule, kept with this section */
+.store-finder .store-finder-sms {
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.25s linear, transform 0.25s linear, overlay 0.25s allow-discrete, display 0.25s allow-discrete;
+}
+
+.store-finder .store-finder-sms[open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@starting-style {
+  .store-finder .store-finder-sms[open] {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+/* stylelint-disable-next-line no-duplicate-selectors -- adds to the earlier rule, kept with this section */
+.store-finder .store-finder-sms::backdrop {
+  opacity: 0;
+  transition: opacity 0.25s linear, overlay 0.25s allow-discrete, display 0.25s allow-discrete;
+}
+
+.store-finder .store-finder-sms[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .store-finder .store-finder-sms[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-finder .store-finder-sms,
+  .store-finder .store-finder-sms::backdrop {
+    transition: none;
+  }
+}

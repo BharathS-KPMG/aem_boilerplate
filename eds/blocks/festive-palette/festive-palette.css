@@ -1,0 +1,1257 @@
+/*
+ * festive-palette — "Find the Diwali look for your walls" (start screen, two
+ * picture questions, lead form). Mobile first;
+ * desktop from 900px. Colours are scoped custom properties.
+ * Without an authored background image the block paints a festive red/orange
+ * glow of its own.
+ */
+
+/* rules follow each component's base -> state order */
+/* stylelint-disable no-descending-specificity */
+
+/* the tool is full-bleed */
+main > .section.festive-palette-container {
+  margin: 0;
+}
+
+main > .section.festive-palette-container > .festive-palette-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+/* Manrope, as in the design; under its own family name so it never replaces
+   a host site's "Manrope" @font-face (the site's Manrope is used first) */
+
+/* @font-face {
+  font-family: festive-palette-manrope;
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: local('Manrope'), url('../../fonts/manrope-v15-latin.woff2') format('woff2');
+} */
+
+.festive-palette {
+  --festive-palette-text: #fff;
+  --festive-palette-title: #fff980;
+  --festive-palette-yellow: #fec940;
+  --festive-palette-dark: #1d1d1f;
+  --festive-palette-ink: #222;
+  --festive-palette-muted: #6b6b6b;
+  --festive-palette-cta-gradient: linear-gradient(180deg, #fec940, #f90);
+  --festive-palette-input-bg: #f9f9f9;
+  --festive-palette-input-border: #bdbdbd;
+  --festive-palette-error: #c41a21;
+  --festive-palette-choice-bg: #eef4ff;
+  --festive-palette-choice-border: #cfdcf5;
+  --festive-palette-yes: #6ccb6f;
+  --festive-palette-glow: radial-gradient(circle at 50% 40%, #d8340f 0%, #a8140b 45%, #5e0507 100%);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 600px;
+  padding: 40px 20px;
+  background: var(--festive-palette-glow);
+  color: var(--festive-palette-text);
+  font-family: Manrope, festive-palette-manrope, var(--body-font-family);
+  box-sizing: border-box;
+}
+
+.festive-palette *,
+.festive-palette *::before,
+.festive-palette *::after {
+  box-sizing: border-box;
+}
+
+/* the headings use the block's Manrope, not the site's heading font */
+.festive-palette h2,
+.festive-palette h3 {
+  font-family: inherit;
+}
+
+/* links: no underline on hover (the site's a:hover adds one) */
+.festive-palette a:not(.festive-palette-similar):hover,
+.festive-palette-wrapper > a.festive-palette-services:hover {
+  text-decoration: none;
+}
+
+/* soft "diya" bokeh over the glow (hidden by an authored background image) */
+.festive-palette::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 12% 22%, rgb(255 190 80 / 35%) 0 40px, transparent 41px),
+    radial-gradient(circle at 85% 18%, rgb(255 170 60 / 30%) 0 60px, transparent 61px),
+    radial-gradient(circle at 70% 80%, rgb(255 200 90 / 25%) 0 50px, transparent 51px),
+    radial-gradient(circle at 25% 85%, rgb(255 150 50 / 25%) 0 70px, transparent 71px);
+  filter: blur(6px);
+}
+
+.festive-palette-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* the screen's authored tint over the background ("… screen tint" rows) */
+.festive-palette-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--festive-palette-tint, none);
+  pointer-events: none;
+}
+
+.festive-palette-bg picture,
+.festive-palette-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.festive-palette [hidden] {
+  display: none !important;
+}
+
+.festive-palette .festive-palette-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.festive-palette :focus-visible {
+  outline: 2px solid var(--festive-palette-text);
+  outline-offset: 2px;
+}
+
+.festive-palette h2:focus,
+.festive-palette p:focus {
+  outline: none;
+}
+
+/* ---------- CTAs ---------- */
+.festive-palette .festive-palette-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  margin: 0;
+  padding: 8px 20px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.festive-palette .festive-palette-cta-icon {
+  display: inline-flex;
+}
+
+.festive-palette .festive-palette-cta-icon.is-back {
+  transform: rotate(180deg);
+}
+
+.festive-palette .festive-palette-cta-white {
+  background: #fff;
+  color: var(--festive-palette-dark);
+}
+
+.festive-palette .festive-palette-cta-white:hover {
+  background: #fff7e8;
+}
+
+.festive-palette .festive-palette-cta[aria-disabled='true'] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.festive-palette .festive-palette-cta-gradient {
+  width: 100%;
+  background-image: var(--festive-palette-cta-gradient);
+  color: var(--festive-palette-dark);
+}
+
+.festive-palette .festive-palette-spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentcolor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: festive-palette-spin 0.8s linear infinite;
+}
+
+.festive-palette .festive-palette-cta[aria-busy='true'] {
+  cursor: progress;
+}
+
+.festive-palette .is-busy .festive-palette-spinner {
+  display: inline-block;
+}
+
+.festive-palette .is-busy .festive-palette-cta-icon {
+  display: none;
+}
+
+@keyframes festive-palette-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- start screen ---------- */
+.festive-palette .festive-palette-home {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 520px;
+}
+
+.festive-palette .festive-palette-title {
+  margin: 0;
+  font-size: 50px;
+  font-weight: 800;
+  line-height: 54px;
+  letter-spacing: -2px;
+  color: var(--festive-palette-title);
+}
+
+.festive-palette .festive-palette-text {
+  max-width: 340px;
+  margin: 12px 0 24px;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0;
+  color: var(--festive-palette-title);
+}
+
+.festive-palette .festive-palette-start {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #000;
+}
+
+/* ---------- question steps ---------- */
+.festive-palette .festive-palette-question {
+  margin: 0 0 20px;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 41.6px;
+  letter-spacing: 0;
+  color: var(--festive-palette-title);
+}
+
+.festive-palette .festive-palette-number {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--festive-palette-title);
+}
+
+.festive-palette .festive-palette-cards {
+  display: flex;
+  gap: 12px;
+  margin: 0 -20px;
+  padding: 0 20px;
+  list-style: none;
+  overflow: auto hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 20px;
+  scrollbar-width: none;
+}
+
+.festive-palette .festive-palette-cards::-webkit-scrollbar {
+  display: none;
+}
+
+.festive-palette .festive-palette-card {
+  flex: 0 0 78%;
+  scroll-snap-align: start;
+}
+
+.festive-palette .festive-palette-card-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.festive-palette .festive-palette-card-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 10px;
+
+  /* background: rgb(0 0 0 / 20%); */
+}
+
+.festive-palette .festive-palette-card-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 55%, rgb(0 0 0 / 55%));
+}
+
+.festive-palette .festive-palette-card-media picture,
+.festive-palette .festive-palette-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.festive-palette .festive-palette-card-button:hover img {
+  transform: scale(1.04);
+}
+
+.festive-palette .festive-palette-card-name {
+  position: absolute;
+  inset: auto 12px 12px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.festive-palette .festive-palette-card-check {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  display: none;
+  transform: translate(-50%, -50%);
+}
+
+.festive-palette .is-selected .festive-palette-card-media {
+  border-color: #fff;
+}
+
+.festive-palette .is-selected .festive-palette-card-media::after {
+  background: rgb(0 0 0 / 45%);
+}
+
+/* selected: the tick and the name below it are centred on the picture as
+   one group (28px tick + 8px gap + 20px name) */
+.festive-palette .is-selected .festive-palette-card-check {
+  display: flex;
+  top: calc(50% - 28px);
+  transform: translateX(-50%);
+}
+
+.festive-palette .is-selected .festive-palette-card-name {
+  inset: calc(50% + 8px) 12px auto;
+  text-align: center;
+}
+
+.festive-palette .festive-palette-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.festive-palette .festive-palette-dot {
+  width: 8px;
+  height: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 45%);
+  cursor: pointer;
+  transition: width 0.2s ease;
+}
+
+.festive-palette .festive-palette-dot[aria-current='true'] {
+  width: 20px;
+  background: var(--festive-palette-yellow);
+}
+
+.festive-palette .festive-palette-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* ---------- form ---------- */
+.festive-palette .festive-palette-form-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.festive-palette .festive-palette-form-title {
+  max-width: 560px;
+  margin: 0 0 20px;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 36.6px;
+  letter-spacing: 0;
+  text-align: left;
+  color: var(--festive-palette-title);
+}
+
+.festive-palette .festive-palette-form-box,
+.festive-palette .festive-palette-form-error {
+  width: 100%;
+  max-width: 520px;
+  padding: 20px 16px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--festive-palette-ink);
+}
+
+.festive-palette .festive-palette-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.festive-palette .festive-palette-row {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.festive-palette .festive-palette-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.festive-palette .festive-palette-required {
+  margin-left: 2px;
+  color: var(--festive-palette-error);
+}
+
+.festive-palette .festive-palette-input {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--festive-palette-input-border);
+  border-radius: 6px;
+  background: var(--festive-palette-input-bg);
+  color: var(--festive-palette-ink);
+  font: inherit;
+  font-size: 14px;
+}
+
+.festive-palette .festive-palette-input::placeholder {
+  color: var(--festive-palette-muted);
+}
+
+.festive-palette .festive-palette-input:focus {
+  border-color: var(--festive-palette-dark);
+  outline: none;
+}
+
+.festive-palette .festive-palette-phone {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--festive-palette-input-border);
+  border-radius: 6px;
+  background: var(--festive-palette-input-bg);
+}
+
+.festive-palette .festive-palette-phone:focus-within {
+  border-color: var(--festive-palette-dark);
+}
+
+.festive-palette .festive-palette-phone .festive-palette-input {
+  border: 0;
+  background: transparent;
+}
+
+.festive-palette .festive-palette-phone-prefix {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border-right: 1px solid var(--festive-palette-input-border);
+  font-size: 14px;
+}
+
+/* India flag */
+.festive-palette .festive-palette-flag {
+  width: 20px;
+  height: 14px;
+  border-radius: 2px;
+  background: linear-gradient(#f93 0 33.3%, #fff 33.3% 66.6%, #128807 66.6%);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 10%);
+}
+
+.festive-palette .is-invalid .festive-palette-input,
+.festive-palette .is-invalid .festive-palette-phone {
+  border-color: var(--festive-palette-error);
+}
+
+.festive-palette .festive-palette-error {
+  min-height: 0;
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--festive-palette-error);
+}
+
+.festive-palette .festive-palette-error:empty {
+  display: none;
+}
+
+.festive-palette .festive-palette-choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 10px;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid var(--festive-palette-choice-border);
+  border-radius: 8px;
+  background: var(--festive-palette-choice-bg);
+}
+
+.festive-palette .festive-palette-choice-legend {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  color: var(--festive-palette-dark);
+}
+
+.festive-palette .festive-palette-choice-options {
+  display: flex;
+  flex: none;
+  gap: 8px;
+}
+
+.festive-palette .festive-palette-choice .festive-palette-error {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.festive-palette .festive-palette-pill {
+  position: relative;
+  cursor: pointer;
+}
+
+.festive-palette .festive-palette-pill-input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.festive-palette .festive-palette-pill-text {
+  display: inline-block;
+  min-width: 70px;
+  padding: 6px 12px;
+  border: 1px solid #9e9e9e;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.festive-palette .festive-palette-pill-input:checked + .festive-palette-pill-text {
+  border-color: var(--festive-palette-yes);
+  background: var(--festive-palette-yes);
+  color: #fff;
+}
+
+.festive-palette .festive-palette-pill-input:focus-visible + .festive-palette-pill-text {
+  outline: 2px solid var(--festive-palette-dark);
+  outline-offset: 2px;
+}
+
+.festive-palette .festive-palette-terms {
+  max-width: 520px;
+  margin-top: 14px;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.festive-palette .festive-palette-terms p {
+  margin: 0;
+}
+
+.festive-palette .festive-palette-terms a,
+.festive-palette .festive-palette-terms a:hover {
+  color: #00e;
+  text-decoration: underline;
+}
+
+.festive-palette .festive-palette-error-title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.festive-palette .festive-palette-error-text {
+  margin: 0 0 16px;
+  font-size: 14px;
+}
+
+.festive-palette .festive-palette-error-back {
+  border-color: var(--festive-palette-dark);
+}
+
+/* ---------- result ---------- */
+
+/* mobile: title, combinations, PDF, restart (the services card goes below the block) */
+.festive-palette .festive-palette-result {
+  display: grid;
+  grid-template-areas: 'title' 'combos' 'pdf' 'restart';
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+.festive-palette .festive-palette-restart {
+  display: inline-flex;
+  grid-area: restart;
+  align-items: center;
+  justify-self: center;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 4px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.festive-palette .festive-palette-restart-icon {
+  display: inline-flex;
+}
+
+.festive-palette .festive-palette-result-title {
+  grid-area: title;
+  max-width: 300px;
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 36.6px;
+  letter-spacing: 0;
+  color: var(--festive-palette-title);
+}
+
+.festive-palette .festive-palette-combos {
+  display: flex;
+  grid-area: combos;
+  gap: 16px;
+  margin: 0 -20px;
+  padding: 0 20px;
+  list-style: none;
+  overflow: auto hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 20px;
+  scrollbar-width: none;
+}
+
+.festive-palette .festive-palette-combos::-webkit-scrollbar {
+  display: none;
+}
+
+.festive-palette .festive-palette-combo {
+  display: flex;
+  flex: 0 0 238px;
+  flex-direction: column;
+  scroll-snap-align: start;
+}
+
+.festive-palette .festive-palette-combo-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: #fff;
+}
+
+.festive-palette .festive-palette-combo-card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f1f1f1;
+  color: var(--festive-palette-ink);
+}
+
+.festive-palette .festive-palette-shade {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 108px;
+  padding: 10px;
+  background: var(--festive-palette-shade, #ddd);
+  color: var(--festive-palette-dark);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.festive-palette .festive-palette-shade.is-dark {
+  color: #fff;
+}
+
+.festive-palette .festive-palette-shade-name {
+  text-transform: capitalize;
+}
+
+.festive-palette .festive-palette-goes {
+  padding: 16px 10px 0;
+}
+
+.festive-palette .festive-palette-goes-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #2f2f2f;
+}
+
+.festive-palette .festive-palette-goes-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.festive-palette .festive-palette-goes-label {
+  margin: 0 0 4px;
+  font-size: 12px;
+  color: var(--festive-palette-muted);
+}
+
+.festive-palette .festive-palette-goes-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.festive-palette .festive-palette-goes-media {
+  display: block;
+  aspect-ratio: 106 / 62;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #d9d9d9;
+}
+
+.festive-palette .festive-palette-goes-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.festive-palette .festive-palette-goes-caption {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 10px;
+  line-height: 13px;
+}
+
+/* two lines, then … */
+.festive-palette .festive-palette-goes-name {
+  /* stylelint-disable-next-line value-no-vendor-prefix */
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.festive-palette .festive-palette-goes-arrow {
+  display: inline-flex;
+  flex: none;
+}
+
+.festive-palette .festive-palette-similar {
+  align-self: flex-start;
+  margin: auto 10px 0;
+  padding: 20px 0 16px;
+  color: #f47838;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  text-decoration: underline;
+}
+
+/* the card ends with the tiles when there is no "View similar shades" */
+.festive-palette .festive-palette-goes:last-child {
+  padding-bottom: 16px;
+}
+
+.festive-palette .festive-palette-pdf {
+  display: flex;
+  grid-area: pdf;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  background: rgb(0 0 0 / 30%);
+}
+
+.festive-palette .festive-palette-pdf-text {
+  flex: 1;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.festive-palette .festive-palette-pdf-text p {
+  margin: 0;
+}
+
+.festive-palette .festive-palette-pdf-text strong {
+  color: #ffb03a;
+}
+
+.festive-palette .festive-palette-cta-outline {
+  flex: none;
+  border-color: #fff;
+  background: transparent;
+  color: #fff;
+}
+
+.festive-palette .festive-palette-cta-outline:hover {
+  background: #fff;
+  color: var(--festive-palette-dark);
+}
+
+/* Get started, Previous, Next (when it can be used) and Download PDF */
+.festive-palette .festive-palette-start:hover,
+.festive-palette .festive-palette-prev:hover,
+.festive-palette .festive-palette-next:not([aria-disabled='true']):hover,
+.festive-palette .festive-palette-pdf-link:hover {
+  border-color: #fcaf17;
+  background: #fcaf17;
+  color: var(--festive-palette-dark);
+}
+
+/* painting services card: the authored picture (with its own text) as one
+   link; in the result grid on desktop, below the block on mobile */
+.festive-palette .festive-palette-services,
+.festive-palette-wrapper > .festive-palette-services {
+  display: block;
+  grid-area: services;
+  width: 100%;
+  max-width: 445px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+}
+
+.festive-palette-wrapper > .festive-palette-services[hidden] {
+  display: none;
+}
+
+.festive-palette .festive-palette-services img,
+.festive-palette-wrapper > .festive-palette-services img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.festive-palette .festive-palette-services:focus-visible,
+.festive-palette-wrapper > .festive-palette-services:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* mobile: below the tool, on the page */
+.festive-palette-wrapper > .festive-palette-services {
+  width: auto;
+  max-width: 520px;
+  margin: 24px 16px 0;
+}
+
+.festive-palette-wrapper > .festive-palette-services:focus-visible {
+  outline-color: var(--festive-palette-dark, #1d1d1f);
+}
+
+/* =============================================
+   MOBILE (as the texture finder): bigger type, a
+   carousel whose current card is the tall one with
+   the names under the pictures, dots on the right
+   ============================================= */
+@media (width < 900px) {
+  .festive-palette {
+    padding: 30px 16px;
+  }
+
+  /* mobile: the start title wraps by width (three lines, as in the design),
+     not at the authored line break, which is for desktop */
+  .festive-palette .festive-palette-title br {
+    display: none;
+  }
+
+  /* max-width: the width that wraps "Find the / Diwali look / for your walls" */
+  .festive-palette .festive-palette-title {
+    max-width: 305px;
+    margin-bottom: 16px;
+  }
+
+  .festive-palette .festive-palette-text {
+    max-width: 312px;
+    margin: 0 0 20px;
+  }
+
+  .festive-palette .festive-palette-number {
+    margin-bottom: 20px;
+  }
+
+  /* the bottom padding holds the card names' descenders (line-height 100%),
+     so the list never scrolls up and down */
+  .festive-palette .festive-palette-cards {
+    align-items: center;
+    gap: 16px;
+    margin: 0 -16px;
+    padding: 0 16px 4px;
+    scroll-padding-inline: 16px;
+  }
+
+  /* room after the last card, so it can scroll to the start too */
+  .festive-palette .festive-palette-cards::after {
+    content: '';
+    flex: 0 0 calc(100% - 276px);
+    height: 1px;
+  }
+
+  .festive-palette .festive-palette-card {
+    flex: 0 0 260px;
+  }
+
+  .festive-palette .festive-palette-card-media {
+    height: 236px;
+    aspect-ratio: auto;
+    border-radius: 8px;
+  }
+
+  .festive-palette .is-current .festive-palette-card-media {
+    height: 330px;
+  }
+
+  .festive-palette .festive-palette-card-media::after {
+    background: none;
+  }
+
+  .festive-palette .festive-palette-card-name {
+    position: static;
+    display: block;
+    margin-top: 10px;
+  }
+
+  /* selected: the name sits under the tick, on the picture */
+  .festive-palette .is-selected .festive-palette-card-media::after {
+    background: rgb(0 0 0 / 45%);
+  }
+
+  /* the space under the picture is kept (name margin + line), so the card
+     and the buttons below don't jump when it is selected */
+  .festive-palette .is-selected .festive-palette-card-button {
+    padding-bottom: 30px;
+  }
+
+  .festive-palette .is-selected .festive-palette-card-name {
+    position: absolute;
+    inset: calc((100% - 30px) / 2 + 8px) 12px auto;
+    margin: 0;
+    text-align: center;
+  }
+
+  .festive-palette .festive-palette-dots {
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .festive-palette .festive-palette-dot {
+    width: 10px;
+    height: 10px;
+    background: #fff;
+  }
+
+  .festive-palette .festive-palette-dot[aria-current='true'] {
+    width: 10px;
+    background: var(--festive-palette-yellow);
+  }
+
+  .festive-palette .festive-palette-nav {
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .festive-palette .festive-palette-cta {
+    min-height: 38px;
+    padding: 8px 18px;
+    border-radius: 45px;
+  }
+
+  .festive-palette .festive-palette-form-title {
+    margin-bottom: 15px;
+  }
+
+  .festive-palette .festive-palette-form-box,
+  .festive-palette .festive-palette-form-error {
+    padding: 20px 15px;
+    border-radius: 5px;
+  }
+
+  .festive-palette .festive-palette-combos {
+    margin: 0 -16px;
+    padding: 0 16px;
+    scroll-padding-inline: 16px;
+  }
+}
+
+/* narrow phones (360px): slimmer pills keep the question on two lines */
+@media (width < 380px) {
+  .festive-palette .festive-palette-pill-text {
+    min-width: 54px;
+    padding-inline: 10px;
+  }
+}
+
+/* =============================================
+   DESKTOP
+   ============================================= */
+@media (width >= 900px) {
+  /* Fits the screen: the block fills the viewport below the fixed header and
+     the open screen is centred in it. styles.css zooms the body 0.7–0.9 on
+     992–1439px, which also shrinks viewport units, so svh is divided by the
+     zoom. Padding gives up room on short windows (down to 24px). */
+  .festive-palette {
+    --festive-palette-fit: calc(100svh / var(--body-zoom, 1) - var(--header-height, 0px));
+    --festive-palette-pad: clamp(24px, (var(--festive-palette-fit) - 480px) / 4, 56px);
+
+    display: flex;
+    flex-direction: column;
+    min-height: max(480px, var(--festive-palette-fit));
+    padding: var(--festive-palette-pad) max(48px, calc((100% - 1200px) / 2));
+    scroll-margin-top: var(--header-height, 0);
+  }
+
+  .festive-palette > section {
+    margin-block: auto;
+  }
+
+  .festive-palette .festive-palette-home {
+    align-items: center;
+    min-height: 0;
+    text-align: center;
+  }
+
+  .festive-palette .festive-palette-title {
+    font-size: 85px;
+    line-height: 1;
+    letter-spacing: -4px;
+    text-align: center;
+  }
+
+  .festive-palette .festive-palette-text {
+    max-width: 465px;
+    margin: 16px auto 28px;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .festive-palette .festive-palette-step {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 2.6fr;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .festive-palette .festive-palette-question {
+    margin: 0;
+    font-size: 40px;
+    line-height: 1.1;
+  }
+
+  .festive-palette .festive-palette-number {
+    margin-bottom: 16px;
+  }
+
+  .festive-palette .festive-palette-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .festive-palette .festive-palette-card {
+    flex: none;
+  }
+
+  /* on very short windows the pictures crop rather than push the buttons
+     off screen (room left after the padding, name and buttons) */
+  .festive-palette .festive-palette-card-media {
+    /* aspect-ratio: 1 / 1.05; */
+    max-height: max(200px, var(--festive-palette-fit) - 2 * var(--festive-palette-pad) - 110px);
+  }
+
+  .festive-palette .festive-palette-card-media::after {
+    background: none;
+  }
+
+  /* desktop: the name sits under the picture */
+  .festive-palette .festive-palette-card-name {
+    position: static;
+    display: block;
+    margin-top: 10px;
+  }
+
+  /* selected: the name moves onto the picture, centred under the tick; the
+     space under the picture is kept (name margin + line), so nothing moves */
+  .festive-palette .is-selected .festive-palette-card-button {
+    padding-bottom: 30px;
+  }
+
+  .festive-palette .is-selected .festive-palette-card-name {
+    position: absolute;
+    top: calc((100% - 30px) / 2 + 8px);
+    right: 12px;
+    left: 12px;
+    margin: 0;
+    text-align: center;
+  }
+
+  .festive-palette .festive-palette-dots {
+    display: none;
+  }
+
+  .festive-palette .festive-palette-nav {
+    margin-top: 24px;
+  }
+
+  /* the form as in Figma: one narrow column under the centred title (Mobile
+     and PIN side by side), the disclaimer as wide as the form */
+  .festive-palette .festive-palette-form-title {
+    max-width: 400px;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .festive-palette .festive-palette-form-box,
+  .festive-palette .festive-palette-form-error {
+    max-width: 440px;
+    padding: 24px;
+  }
+
+  .festive-palette .festive-palette-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .festive-palette .festive-palette-terms {
+    max-width: 440px;
+  }
+
+  /* result: restart, title, PDF and services on the left, the
+     combinations on the right (scrolling when there are more) */
+  .festive-palette .festive-palette-result {
+    grid-template:
+      'restart combos' auto
+      'title combos' auto
+      'pdf combos' auto
+      'services combos' 1fr
+      / minmax(280px, 445px) minmax(0, 1fr);
+    align-items: start;
+    gap: 0 clamp(48px, 12vw, 236px);
+  }
+
+  .festive-palette .festive-palette-restart {
+    justify-self: start;
+    margin-bottom: 16px;
+    padding: 0;
+  }
+
+  .festive-palette .festive-palette-result-title {
+    max-width: 340px;
+    margin-bottom: 64px;
+    font-size: 40px;
+    line-height: 1.1;
+  }
+
+  .festive-palette .festive-palette-combos {
+    margin: 0;
+    padding: 0;
+    scroll-padding-inline: 0;
+  }
+
+  .festive-palette .festive-palette-combo {
+    flex-basis: 261px;
+  }
+
+  .festive-palette .festive-palette-shade {
+    min-height: 118px;
+  }
+
+  .festive-palette .festive-palette-pdf {
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 12px 14px 12px 16px;
+  }
+
+  .festive-palette .festive-palette-pdf-link {
+    min-width: 194px;
+  }
+
+  .festive-palette .festive-palette-start{
+       padding: 14px 60px;
+       height: 52px;
+  }
+
+}

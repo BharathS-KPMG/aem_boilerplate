@@ -1,0 +1,543 @@
+/* Title */
+.section.get-inspired-container:has(.get-inspired)>.default-content-wrapper {
+    margin: 0;
+    padding-left: 40px;
+}
+
+.section.get-inspired-container:has(.get-inspired)>.default-content-wrapper h2 {
+    font-size: 40px;
+    font-weight: 800;
+}
+
+@media (width >= 991px) {
+    .section.get-inspired-container:has(.get-inspired)>.default-content-wrapper h2 {
+        margin-bottom: 30px;
+    }
+}
+
+@media (width <= 990px) {
+    .section.get-inspired-container {
+        margin-top: 0;
+    }
+
+    .section.get-inspired-container:has(.get-inspired)>.default-content-wrapper h2#get-inspired {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .section.get-inspired-container:has(.get-inspired)>.default-content-wrapper {
+        padding-left: 15px;
+    }
+
+    .section.get-inspired-container:has(.get-inspired)>.default-content-wrapper h2 {
+        font-size: 32px;
+    }
+}
+
+.get-inspired p {
+    margin: 0;
+}
+
+.get-inspired {
+    padding: 32px;
+    padding-top: 0;
+    padding-right: 0;
+}
+
+@media (width >= 990px) {
+    .get-inspired {
+        padding-left: 40px;
+    }
+}
+
+@media (width <= 990px) {
+    .get-inspired {
+        padding-left: 16px;
+        padding-top: 0;
+        min-height: unset;
+    }
+}
+
+.get-inspired a {
+    position: relative;
+    display: inline-block;
+}
+
+.get-inspired>div {
+    display: flex;
+}
+
+@media (width <= 990px) {
+    .get-inspired>div {
+        flex-direction: column;
+    }
+}
+
+/* Reserve space before JS hydrates the block to avoid CLS.
+   Raw authored markup stacks images vertically (very tall);
+   decorate() collapses it into a single-row swiper (~510px).
+   Hide raw children only while status is "loading" — if decorate
+   ever fails, the block falls back to visible raw content. */
+.get-inspired[data-block-status="loading"] > div {
+    visibility: hidden;
+}
+
+.get-inspired .tab-panel {
+    display: none;
+}
+
+.get-inspired .tab-panel.active {
+    display: block;
+}
+
+.get-inspired .tabs-content,
+.get-inspired .swiper-container-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.get-inspired .swiper {
+    overflow: hidden;
+}
+
+.get-inspired .swiper-wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+.get-inspired .tabs-nav {
+    min-width: 200px;
+    width: 200px;
+}
+
+@media (width <= 990px) {
+    .get-inspired .tabs-nav {
+        width: auto;
+        display: flex;
+        gap: 24px;
+    }
+}
+
+.get-inspired .tab-btn {
+    background: none;
+    border: none;
+    width: auto;
+    display: block;
+    text-align: left;
+    position: relative;
+    font-weight: 400;
+    cursor: pointer;
+    color: #53565a;
+    margin-bottom: 32px;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 5px 0;
+    transition: none;
+}
+
+@media (width >= 990px) {
+    .get-inspired .tab-btn {
+        width: 100%;
+        font-size: 24px;
+        line-height: 36px;
+        padding: 10px 0;
+        transition: all 0.3s ease-in-out;
+        margin-bottom: 10px;
+    }
+}
+
+.get-inspired .tab-btn.active {
+    color: #232426;
+    font-weight: 700;
+}
+
+@media (width >= 990px) {
+    .get-inspired .tab-btn.active {
+        font-weight: 800;
+    }
+}
+
+.get-inspired .tab-btn::after {
+    content: "";
+    background-color: transparent;
+    transition: background-color 0.5s ease;
+    height: 2px;
+    display: block;
+    width: 30%;
+}
+
+.get-inspired .tab-btn:hover::after {
+    border-radius: 7px;
+    bottom: 6px;
+    background-color: #232426;
+}
+
+.get-inspired .tab-btn.active::after {
+    content: "";
+    display: block;
+    border-radius: 10px;
+    width: 70%;
+    border-bottom: 2px solid #fcaf17;
+}
+
+@media (width >= 990px) {
+    .get-inspired .tab-btn.active::after {
+        width: 30%;
+        border-bottom: 4px solid #232426;
+    }
+}
+
+.get-inspired .swiper-container-wrapper p {
+    display: inline-block;
+}
+
+.get-inspired .swiper-nav-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    position: absolute;
+    right: 32px;
+    top: -64px;
+}
+
+.get-inspired .swiper-button-prev,
+.get-inspired .swiper-button-next {
+    position: static;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    background-position: center;
+    background-size: contain;
+    appearance: none;
+}
+
+@media (width <= 990px) {
+    .get-inspired .swiper-button-prev,
+    .get-inspired .swiper-button-next {
+        display: none;
+    }
+}
+
+.get-inspired .swiper-navigation-icon {
+    display: none;
+}
+
+.get-inspired .swiper-button-prev {
+    background-image: url("/eds/icons/round-black-prev-icon.svg");
+    background-repeat: no-repeat;
+    width: 44px;
+    height: 44px;
+}
+
+.get-inspired .swiper-button-next {
+    background-image: url("/eds/icons/round-black-next-icon.svg");
+    background-repeat: no-repeat;
+    width: 44px;
+    height: 44px;
+}
+
+.get-inspired .swiper-pagination.swiper-pagination-horizontal {
+    inset: auto auto -32px 0;
+    width: auto;
+}
+
+.get-inspired .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+    background: #d9d9d9;
+    opacity: 1;
+}
+
+.get-inspired .swiper-pagination-bullet-active {
+    width: 20px;
+    border-radius: 8px;
+    background: #4d4d4d;
+}
+
+.get-inspired .link-fwd {
+    position: absolute;
+    bottom: 30px;
+    color: #fff;
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.get-inspired .link-fwd span {
+    display: inline-block;
+    border: 1px solid transparent;
+}
+
+.get-inspired .link-fwd:hover span {
+    border-bottom: 1px solid currentcolor;
+}
+
+.get-inspired img {
+    transition: transform 1.5s ease;
+}
+
+.get-inspired img:hover {
+    transform: scale(1.075);
+}
+
+.get-inspired .swiper-slide {
+    overflow: hidden;
+    border-radius: 8px;
+    flex-shrink: 0;
+    width: calc((100% - 16px) / 1.5);
+    max-width: 324px;
+}
+
+.get-inspired .swiper-slide a {
+    display: block;
+    width: 100%;
+}
+
+.get-inspired .swiper-slide picture {
+    display: block;
+    width: 100%;
+    aspect-ratio: 324 / 470;
+}
+
+.get-inspired .swiper-slide picture img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Desktop fixed card width */
+@media (width >= 1024px) {
+    .get-inspired .swiper-slide {
+        width: 324px !important;
+        flex-shrink: 0;
+    }
+
+    .get-inspired .tabs-content {
+        min-width: 0;
+    }
+}
+
+.swiper-pagination-wrapper {
+    display: block;
+}
+
+@media (width >= 991px) {
+    .swiper-pagination-wrapper {
+        display: none;
+    }
+}
+
+/* ---------------------------------------------------------------------
+   Waterproofing variant: .get-inspired.waterproofing-variant
+   Values are beta's computed values for ".wp-service-page-style
+   .tabswithimagecarousel .getinspired" (tabswithimagecarousel clientlib):
+   desktop from 992px, mobile up to 991px. Same layout as the default
+   block on a #e7f5fc band, plus a "View all ..." button under the cards
+   (authored as an extra row: label | link).
+   --------------------------------------------------------------------- */
+main .section.get-inspired-container:has(.get-inspired.waterproofing-variant) {
+    background-color: #e7f5fc;
+    margin: 0;
+    padding: 35px 0 0;
+}
+
+main .section.get-inspired-container:has(.get-inspired.waterproofing-variant)>.default-content-wrapper h2 {
+    margin: 0 0 5px;
+    width: 85%;
+    color: #000;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 27px;
+}
+
+/* tabs: horizontal scroller on mobile */
+.get-inspired.waterproofing-variant .tabs-nav {
+    overflow: auto;
+    gap: 20px;
+    margin-top: 5px;
+    scrollbar-width: none;
+}
+
+.get-inspired.waterproofing-variant .tabs-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.get-inspired.waterproofing-variant .tab-btn {
+    min-width: max-content;
+    color: #3b3d40;
+    font-size: 16px;
+    line-height: 24px;
+    white-space: nowrap;
+}
+
+.get-inspired.waterproofing-variant .tab-btn.active {
+    color: #232426;
+}
+
+.get-inspired.waterproofing-variant .tab-btn.active::after {
+    width: 100%;
+    border-bottom: 2px solid #232426;
+}
+
+/* card link: centred like beta (left 50%, shifted for the arrow), 14/21 bold.
+   Mobile: the packshots end ~88% down the card, so the 21px line is centred in
+   that bottom 12% strip (6% of the card height minus half the line) instead of
+   a fixed 30px, which put it over the pack on the 1.5-up mobile cards */
+.get-inspired.waterproofing-variant .link-fwd {
+    left: 50%;
+    bottom: calc(6% - 10.5px);
+    margin-left: 0;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+/* mobile: no hover effects (a tap leaves :hover stuck) - cancel the default
+   block's image zoom, link underline and tab underline bar */
+@media (width < 991px) {
+    .get-inspired.waterproofing-variant img:hover {
+        transform: none;
+    }
+
+    .get-inspired.waterproofing-variant .link-fwd:hover span {
+        border-bottom-color: transparent;
+    }
+
+    .get-inspired.waterproofing-variant .tab-btn:hover::after {
+        background-color: transparent;
+    }
+}
+
+/* dots (mobile): 6px, active 24px #232426. In flow, so the gaps are exact: 15px above the dots (beta: bottom -21px
+   of a 6px dot) and 27px below, which puts the button 48px under the cards as on beta */
+.get-inspired.waterproofing-variant .swiper-pagination-wrapper {
+    height: 6px;
+    margin: 15px 0 27px;
+}
+
+.get-inspired.waterproofing-variant .swiper-pagination.swiper-pagination-horizontal {
+    position: static;
+    inset: auto;
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 6px;
+}
+
+.get-inspired.waterproofing-variant .swiper-pagination-bullet {
+    width: 6px;
+    height: 6px;
+    margin: 0 4px 0 0;
+    background: #cacbcc;
+}
+
+.get-inspired.waterproofing-variant .swiper-pagination-bullet-active {
+    width: 24px;
+    background: #232426;
+}
+
+/* the default block's 32px bottom padding would add to the button's own margin; beta has none */
+.get-inspired.waterproofing-variant {
+    padding-bottom: 0;
+}
+
+/* "View all ..." button, mobile: plain 12/16.8 semibold link with arrow, centred */
+.get-inspired.waterproofing-variant .get-inspired-cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 25px;
+    padding-right: 16px;
+}
+
+.get-inspired.waterproofing-variant a.get-inspired-cta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: max-content;
+    color: #232426;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16.8px;
+    text-decoration: none;
+}
+
+.get-inspired.waterproofing-variant a.get-inspired-cta::after {
+    content: "";
+    width: 13px;
+    height: 13px;
+    background-color: currentcolor;
+    mask: url("/eds/icons/arrow-line.svg") center / contain no-repeat;
+}
+
+@media (width >= 991px) {
+    main .section.get-inspired-container:has(.get-inspired.waterproofing-variant) {
+        margin-top: 100px;
+        padding-top: 48px;
+    }
+
+    main .section.get-inspired-container:has(.get-inspired.waterproofing-variant)>.default-content-wrapper h2 {
+        width: auto;
+        margin-bottom: 30px;
+        font-size: 40px;
+        line-height: 42px;
+    }
+
+    .get-inspired.waterproofing-variant .tabs-nav {
+        margin-top: 0;
+    }
+
+    .get-inspired.waterproofing-variant .tab-btn {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .get-inspired.waterproofing-variant .tab-btn.active::after {
+        width: 30%;
+        border-bottom: 4px solid #232426;
+    }
+
+    .get-inspired.waterproofing-variant .tab-btn:hover {
+        color: #232426;
+    }
+
+    /* prev/next arrows on the heading line */
+    .get-inspired.waterproofing-variant .swiper-nav-wrapper {
+        top: -72px;
+    }
+
+    .get-inspired.waterproofing-variant .link-fwd {
+        bottom: 15px;
+    }
+
+    .get-inspired.waterproofing-variant .get-inspired-cta-wrap {
+        justify-content: flex-end;
+        margin: 48px 30px 30px 0;
+        padding-right: 0;
+    }
+
+    .get-inspired.waterproofing-variant a.get-inspired-cta {
+        padding: 12px 24px;
+        border: 1px solid #232426;
+        border-radius: 99px;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        transition: background-color 0.3s ease;
+    }
+
+    .get-inspired.waterproofing-variant a.get-inspired-cta::after {
+        width: 20px;
+        height: 20px;
+    }
+
+    .get-inspired.waterproofing-variant a.get-inspired-cta:hover,
+    .get-inspired.waterproofing-variant a.get-inspired-cta:focus-visible {
+        background: #fff7e8;
+        border-color: #232426;
+        color: #232426;
+    }
+}

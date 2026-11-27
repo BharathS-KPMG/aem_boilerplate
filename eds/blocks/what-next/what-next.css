@@ -1,0 +1,346 @@
+/*
+ * what-next — text column beside a promo image, with promo copy and app-store
+ * badges overlaid on the image.
+ *
+ * AUTHORING (Google Doc / Word / DA table):
+ *
+ *   +--------------------------------------------------------------------+
+ *   | what-next                                                          |
+ *   +-------------------------------------+------------------------------+
+ *   | ## What next                        | <mobile image>               |
+ *   | ### with these recommendations!     | <desktop image>              |
+ *   | #### You will be receiving a call…  |                              |
+ *   | You can refer these shade-codes…    |                              |
+ *   | [Download (PDF)](/file.pdf)         |                              |
+ *   | **Buy these colours from a store…** |                              |
+ *   | [Locate Stores Near You](/stores)   |                              |
+ *   +-------------------------------------+------------------------------+
+ *   | ### Colour with Asian Paints        | [<Google Play badge>](url)   |
+ *   | Visualize Colours, Textures, and …  | [<App Store badge>](url)     |
+ *   +-------------------------------------+------------------------------+
+ *
+ * - Row 1, left : free rich text. A link alone in its paragraph = outline CTA.
+ *   A paragraph that is all bold is the 14px/22px note line; other paragraphs
+ *   and the h4 are 13px text in a 14px line, as on the source.
+ * - Row 1, right: one image (all sizes) or two — first mobile, second desktop.
+ * - Row 2 (optional): promo title + text, and badge links (linked images, or
+ *   images followed by links). Both overlay the image.
+ *
+ * Every value is the source's computed CSS (www.asianpaints.com
+ * .downloadimagewithcta, at 1x). As on the source:
+ * - the image keeps a fixed height (501px below 992px, 398px from 992px;
+ *   100% of the row at 992-1024px) and stretches to the column width
+ *   (object-fit: fill), so the overlay copy, placed in % of the image with
+ *   fixed px type, lands where it does on the live page;
+ * - the 992-1439px page scaling is the site-wide `body { zoom }`, which is
+ *   not part of this block.
+ *
+ * VARIANTS: none — stacks below 992px, side by side (45/55) from 992px.
+ */
+
+/* the block's own page spacing (source .padding45 / .topGap50-10 wrappers) */
+.what-next-container .what-next-wrapper {
+  max-width: none;
+  margin: 0 0 25px;
+  padding: 10px 4.5% 0;
+}
+
+.what-next {
+  --what-next-text: #222;
+  --what-next-cta-border: #979797;
+  --what-next-cta-hover-bg: #fed440;
+
+  color: var(--what-next-text);
+  font-size: 14px;
+  line-height: 22px;
+  text-align: left;
+}
+
+/* --- text column --- */
+.what-next .what-next-content {
+  box-sizing: border-box;
+  margin: 0 14px;
+}
+
+.what-next .what-next-content > :first-child {
+  margin-top: 0;
+}
+
+.what-next .what-next-content h2,
+.what-next .what-next-content h3,
+.what-next .what-next-content h4 {
+  margin: 0 0 7px;
+  color: inherit;
+  font-weight: 700;
+}
+
+/* headings and body copy: the line box comes from the parent's font, the
+   text from the inner span (source .d40px-m20px, .d20px-m18px, .d13px) */
+.what-next .what-next-content h2 {
+  font-size: 22px;
+  line-height: 24px;
+}
+
+.what-next .what-next-content h2 .what-next-text {
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.what-next .what-next-content h3 {
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.what-next .what-next-content h3 .what-next-text {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 20px;
+}
+
+.what-next .what-next-content h4 {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.what-next .what-next-content h4 .what-next-text {
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 15px;
+}
+
+.what-next .what-next-content p {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: normal;
+  letter-spacing: 0.5px;
+}
+
+.what-next .what-next-content p .what-next-text {
+  font-size: 13px;
+  line-height: 15px;
+}
+
+/* all-bold note line ("Buy these colours…") */
+.what-next .what-next-content p.what-next-note {
+  line-height: 22px;
+}
+
+/* outline CTA buttons */
+.what-next .what-next-content p.what-next-cta-wrapper {
+  margin: 0 0 25px;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: normal;
+}
+
+.what-next .what-next-content p.what-next-cta-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+.what-next a.what-next-cta:any-link {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid var(--what-next-cta-border);
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--what-next-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+}
+
+/* source hover/focus: yellow fill, no outline border. The border turns the
+   fill colour instead of 0 so the button keeps its size. */
+.what-next a.what-next-cta:hover,
+.what-next a.what-next-cta:focus-visible {
+  border-color: var(--what-next-cta-hover-bg);
+  background-color: var(--what-next-cta-hover-bg);
+  color: var(--what-next-text);
+  text-decoration: none;
+}
+
+.what-next a.what-next-cta:focus-visible {
+  outline: 2px solid var(--what-next-text);
+  outline-offset: 2px;
+}
+
+/* --- media + overlay --- */
+.what-next .what-next-media {
+  position: relative;
+  margin-top: 20px;
+  line-height: 0;
+}
+
+.what-next .what-next-image {
+  display: block;
+}
+
+.what-next .what-next-image img {
+  display: block;
+  width: 100%;
+  height: 501px;
+  object-fit: fill;
+}
+
+.what-next .what-next-promo {
+  position: absolute;
+  inset: 0;
+  line-height: 22px;
+  pointer-events: none;
+}
+
+/* left set, width auto: shrink-to-fit like the source's absolute divs */
+.what-next .what-next-promo-title {
+  position: absolute;
+  top: 49%;
+  left: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 30px 0 130px;
+  color: inherit;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.what-next .what-next-promo-text {
+  position: absolute;
+  top: 64%;
+  left: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 22%;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.what-next .what-next-badges {
+  position: absolute;
+  top: 77%;
+  right: 34%;
+  left: 33%;
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: auto;
+}
+
+/* each badge row is 49px on the source (43px badge + line-box descent) */
+.what-next .what-next-badges li {
+  height: 49px;
+}
+
+.what-next .what-next-badges a {
+  display: block;
+  width: 143px;
+  line-height: 0;
+}
+
+.what-next .what-next-badges a:focus-visible {
+  outline: 2px solid var(--what-next-text);
+  outline-offset: 2px;
+}
+
+.what-next .what-next-badges img {
+  display: block;
+  width: 143px;
+  height: 43px;
+}
+
+/* --- desktop: text left (45%), image right (55%) --- */
+@media (width >= 992px) {
+  .what-next-container .what-next-wrapper {
+    margin-bottom: 90px;
+    padding: 50px 4% 0;
+  }
+
+  .what-next {
+    display: flex;
+  }
+
+  .what-next .what-next-content {
+    flex: 0 0 45%;
+    margin: 0;
+    padding: 0 70px 0 25px;
+  }
+
+  .what-next .what-next-media {
+    flex: 0 0 55%;
+    margin-top: 0;
+  }
+
+  .what-next .what-next-content h2 {
+    font-size: 30px;
+    line-height: 34px;
+  }
+
+  .what-next .what-next-content h2 .what-next-text {
+    font-size: 40px;
+    line-height: 45px;
+  }
+
+  .what-next .what-next-content h3 {
+    font-size: 20px;
+  }
+
+  .what-next .what-next-content h3 .what-next-text {
+    font-size: 20px;
+    line-height: 40px;
+  }
+
+  .what-next .what-next-content p.what-next-cta-wrapper:not(:last-child) {
+    margin-bottom: 50px;
+  }
+
+  .what-next a.what-next-cta:any-link {
+    width: 270px;
+  }
+
+  .what-next .what-next-image img {
+    height: 398px;
+  }
+
+  .what-next .what-next-promo-title {
+    top: 16%;
+    right: 0;
+    left: auto;
+    width: 45%;
+    padding: 0 40px;
+    font-size: 32px;
+    line-height: 35px;
+  }
+
+  .what-next .what-next-promo-text {
+    top: 44%;
+    right: 0;
+    left: auto;
+    width: 62%;
+    padding: 0 40px;
+    font-size: 20px;
+  }
+
+  .what-next .what-next-badges {
+    right: 0;
+    left: auto;
+    display: flex;
+    gap: 20px;
+    width: 56%;
+  }
+}
+
+/* source: the desktop image fills the row height at 992-1024px */
+@media (width >= 992px) and (width <= 1024px) {
+  .what-next .what-next-image,
+  .what-next .what-next-image img {
+    height: 100%;
+  }
+}

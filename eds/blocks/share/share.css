@@ -1,0 +1,198 @@
+/*
+ * Share: the round share button and menu of the live Asian Paints pages (sharetool), usable on
+ * any page, on its own line or attached to an image / block above it ("Attach To"). Icons from
+ * the live sprites, in the site's common icons folder (/icons/share-*.png; /eds/icons on stg).
+ * Menu like live .shareWithWrap: 130px, #f8f8f8, a 35px icon left of each label. The button styles are on .share-wrap, so they also apply when it is attached.
+ */
+.share {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.share.left {
+  justify-content: flex-start;
+}
+
+.share.center {
+  justify-content: center;
+}
+
+/* the block's own place is empty when its button is attached to an image / block */
+.share-wrapper.share-wrapper-attached {
+  display: none;
+}
+
+.share-wrap {
+  position: relative;
+  line-height: normal;
+}
+
+.share-wrap .share-button {
+  display: block;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent url('../../icons/share-button.png') no-repeat 0 0 / 40px 40px;
+  cursor: pointer;
+}
+
+.share-wrap .share-button:focus-visible {
+  outline: 2px solid #5e25b2;
+  outline-offset: 2px;
+}
+
+.share-wrap .share-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  z-index: 10;
+  box-sizing: border-box;
+  width: 130px;
+  margin: 0;
+  padding: 12px 20px 10px;
+  list-style: none;
+  background: #f8f8f8;
+  box-shadow: 0 4px 11px 1px #d8d8d8;
+  text-align: left;
+}
+
+/* attached on the left of an image / block: the menu opens to the right; at the bottom it opens
+   upwards */
+.share-wrap.share-top-left .share-menu,
+.share-wrap.share-bottom-left .share-menu {
+  right: auto;
+  left: 0;
+}
+
+.share-wrap.share-bottom-right .share-menu,
+.share-wrap.share-bottom-left .share-menu {
+  top: auto;
+  bottom: calc(100% + 5px);
+}
+
+.share.left .share-wrap .share-menu {
+  right: auto;
+  left: 0;
+}
+
+.share.center .share-wrap .share-menu {
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.share-wrap .share-menu[hidden] {
+  display: none;
+}
+
+.share-wrap .share-menu li {
+  min-height: 33px;
+  margin: 0 0 4px;
+  padding: 0 0 0 12px;
+}
+
+.share-wrap .share-menu li:has(.share-sms) {
+  min-height: 26px;
+}
+
+.share-wrap .share-menu a.share-link:any-link {
+  position: relative;
+  display: inline-block;
+  height: 32px;
+  margin: 0 10px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 22px;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.share-wrap .share-menu a.share-link:focus-visible {
+  outline: 2px solid #5e25b2;
+  outline-offset: 2px;
+}
+
+.share-wrap .share-menu a.share-link::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -36px;
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: no-repeat 0 0 / 35px 35px;
+}
+
+.share-wrap .share-menu a.share-facebook::before { background-image: url('../../icons/share-facebook.png'); }
+.share-wrap .share-menu a.share-whatsapp::before { background-image: url('../../icons/share-whatsapp.png'); }
+.share-wrap .share-menu a.share-twitter::before { background-image: url('../../icons/share-twitter.png'); }
+.share-wrap .share-menu a.share-pinterest::before { background-image: url('../../icons/share-pinterest.png'); }
+.share-wrap .share-menu a.share-mail::before { background-image: url('../../icons/share-mail.png'); }
+.share-wrap .share-menu a.share-sms::before { background-image: url('../../icons/share-sms.png'); }
+
+.share-wrap .share-menu a.share-sms:any-link {
+  height: 22px;
+  margin: 4px 10px 0 15px;
+  line-height: 15px;
+}
+
+/* attached to an image (framed) or a block: in its corner, 12px in */
+.share-target {
+  position: relative;
+}
+
+.share-frame {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.share-frame > :is(picture, a) {
+  display: block;
+}
+
+.share-wrap.share-attached {
+  position: absolute;
+  z-index: 5;
+}
+
+.share-wrap.share-top-right {
+  top: 12px;
+  right: 12px;
+}
+
+.share-wrap.share-top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.share-wrap.share-bottom-right {
+  right: 12px;
+  bottom: 12px;
+}
+
+.share-wrap.share-bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+
+/* like live, Whatsapp is offered on mobile only */
+@media (width >= 992px) {
+  .share-wrap .share-menu {
+    top: calc(100% + 1px);
+    right: -5px;
+  }
+
+  .share.left .share-wrap .share-menu {
+    left: -5px;
+  }
+
+  .share-wrap .share-menu .share-mobile-only {
+    display: none;
+  }
+}

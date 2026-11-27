@@ -1,0 +1,208 @@
+/* Title */
+.section.designer-collection-inspiration-container:has(.designer-collection-inspiration)>.default-content-wrapper {
+  text-align: center;
+}
+
+.section.designer-collection-inspiration-container:has(.designer-collection-inspiration)>.default-content-wrapper h2 {
+    font-size: 40px;
+    font-weight: 800;
+    margin: 0 0 40px;
+    text-align: center;
+    color: #222;
+    letter-spacing: 0.5px;
+
+    @media (width >= 320px) and (width <= 991px) {
+        font-size: 20px;
+        line-height: 27.32px;
+    }
+}
+
+.designer-collection-inspiration {
+    display: flex;
+    gap: 25px;
+    padding: 0 16px;
+    flex-direction: column;
+
+    @media (width >= 1024px) {
+        flex-direction: row;
+        gap: 40px;
+        padding: 0 40px;
+    }
+}
+
+.designer-collection-inspiration > div {
+    width: 100%;
+    position: relative;
+    height: 222px;
+    transition: width 0.35s ease-in-out;
+
+    @media (width >= 1024px) {
+        height: 407px;
+        width: 50%;
+    }
+}
+
+@media (width >= 991px) {
+  /* default state */
+  .designer-collection-inspiration > div a {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    top: 100px !important;
+    bottom: unset !important;
+    left: unset !important;
+    right: 40px !important;
+}
+
+  /* when container is hovered, hide all CTAs first
+     ===== BUG FIX: only while a card is hovered (was: any hover on the block), so with the
+     mouse in the gap between the two cards both Download PDF buttons stay visible, like live ===== */
+  .designer-collection-inspiration:has(> div:hover) > div a {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* then show CTA only for the hovered card */
+  .designer-collection-inspiration:hover > div:hover a {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.designer-collection-inspiration > div:hover {
+    @media (width >= 1024px) {
+        width: 75%;
+    }
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- different elements, order kept as on the stage site */
+.designer-collection-inspiration > div > div {
+    height: 222px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    transition: opacity 0.35s ease-in-out;
+    opacity: 0;
+    border-radius: 12px;
+    overflow: hidden;
+
+    @media (width >= 1024px) {
+        height: 407px;
+    }
+}
+
+.designer-collection-inspiration > div > div:first-child {
+    opacity: 1;
+}
+
+.designer-collection-inspiration > div > div:hover {
+    @media (width >= 1024px) {
+        opacity: 1;
+    }
+}
+
+/* the hover image only shows from 1024px; hidden below so its lazy <img> is not fetched on phones */
+.designer-collection-inspiration > div > .designer-collection-inspiration-hover {
+    display: none;
+
+    @media (width >= 1024px) {
+        display: block;
+    }
+}
+
+/* hover image stays while the card is hovered, also when the pointer is on the Download button */
+.designer-collection-inspiration > div:hover > .designer-collection-inspiration-hover {
+    @media (width >= 1024px) {
+        opacity: 1;
+    }
+}
+
+.designer-collection-inspiration > div a {
+    border: none;
+    color: #000;
+    background: #fcaf17;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 21px;
+    position: absolute;
+    border-radius: 45px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    height: 38px;
+    padding: 12px 18px;
+    top: unset;
+    bottom: 18px;
+    left: 10px;
+    right: unset;
+    text-decoration: none;
+
+    @media (width >= 1024px) {
+        font-size: 16px;
+        line-height: 24px;
+        padding: 14px 20px;
+    }
+}
+
+/* no colour change on hover, like live */
+.designer-collection-inspiration > div a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.designer-collection-inspiration .link-icon {
+    filter: invert(1);
+}
+
+.designer-collection-inspiration > div a img {
+    vertical-align: middle;
+    width: 17px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* card images fill the card like the former cover background (anchored top left) */
+.designer-collection-inspiration > div > div picture,
+.designer-collection-inspiration > div > div picture img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.designer-collection-inspiration > div > div picture img {
+    object-fit: cover;
+    object-position: 0 0;
+}
+
+.designer-collection-inspiration .link-icon.link-icon-download {
+    filter: none;
+}
+
+/* full width wrapper like live; the block's own padding (16px / 40px) gives the side spacing.
+   Manrope as on the AP site */
+main > .section.designer-collection-inspiration-container > div {
+  max-width: none;
+  padding: 0;
+}
+
+/* ===== BUG FIXES START: designer-collection-inspiration (compared with the live twocolumndownload) ===== */
+
+/* Download PDF position 992px to 1280px: top 50px, right 20px like live
+   (top 100px, right 40px from 1281px, set above) */
+@media (width >= 992px) and (width <= 1280px) {
+  .designer-collection-inspiration > div a {
+    top: 50px !important;
+    right: 20px !important;
+  }
+}
+
+/* narrow phones (320px to 360px): 10px side padding on the Download PDF button, like live */
+@media (width >= 320px) and (width <= 360px) {
+  .designer-collection-inspiration > div a {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+
+/* ===== BUG FIXES END: designer-collection-inspiration ===== */

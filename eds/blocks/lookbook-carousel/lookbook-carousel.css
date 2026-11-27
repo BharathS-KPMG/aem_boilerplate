@@ -1,0 +1,241 @@
+.lookbook-carousel {
+  --lookbook-carousel-heading: #3b3b3b;
+  --lookbook-carousel-text: #222;
+  --lookbook-carousel-inset: 0;
+
+  /* self-contained container (original: 1440px, centered) */
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1444px;
+  margin-left: auto;
+  position: relative;
+  margin-right: auto;
+  padding-left: 4%;
+  margin-inline: auto;
+  color: var(--lookbook-carousel-text);
+}
+
+/* header: title + description */
+.lookbook-carousel .lookbook-carousel-header {
+  /* padding-left: var(--lookbook-carousel-inset); */
+  padding-left: 5px;
+}
+
+.lookbook-carousel .lookbook-carousel-title {
+  margin: 0 0 24px;
+  color: var(--lookbook-carousel-heading);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.lookbook-carousel .lookbook-carousel-desc {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+/* carousel – on mobile the track bleeds past the section padding to the right screen edge.
+   The inset sits outside the scroll area so no neighbouring slide peeks in on the left. */
+.lookbook-carousel .lookbook-carousel-viewport {
+  position: relative;
+  margin-top: 24px;
+}
+
+/* Swiper container; clips the track before swiper.css has loaded */
+.lookbook-carousel .lookbook-carousel-swiper {
+  overflow: hidden;
+}
+
+.lookbook-carousel .lookbook-carousel-track {
+  display: flex;
+  margin: 3px;
+  padding: 0;
+  list-style: none;
+}
+
+/* width and margin match Swiper's layout so nothing shifts when it starts;
+   Swiper then sets them inline */
+.lookbook-carousel .lookbook-carousel-slide {
+  flex-shrink: 0;
+  width: 300px;
+  max-width: 100%;
+  margin-right: 10px;
+}
+
+.lookbook-carousel .lookbook-carousel-media {
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.lookbook-carousel .lookbook-carousel-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 521 / 351;
+  object-fit: cover;
+}
+
+.lookbook-carousel .lookbook-carousel-slide-desc {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+/* colours applied */
+.lookbook-carousel .lookbook-carousel-colours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 17px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lookbook-carousel .lookbook-carousel-colour {
+  width: 60px;
+  margin-top: 10px;
+}
+
+.lookbook-carousel .lookbook-carousel-colour-link {
+  display: block;
+  color: var(--lookbook-carousel-text);
+  text-decoration: none;
+}
+
+.lookbook-carousel .lookbook-carousel-colour-link:hover {
+  color: var(--lookbook-carousel-text);
+  text-decoration: none;
+}
+
+.lookbook-carousel .lookbook-carousel-colour-link:focus-visible {
+  outline: 1px solid currentcolor;
+  outline-offset: 2px;
+}
+
+.lookbook-carousel .lookbook-carousel-chip {
+  display: block;
+  height: 60px;
+  border-top-right-radius: 12px;
+  background: #eee center / cover no-repeat;
+}
+
+.lookbook-carousel .lookbook-carousel-colour-name {
+  display: block;
+  margin-top: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: capitalize;
+  overflow-wrap: anywhere;
+}
+
+.lookbook-carousel .lookbook-carousel-colour-code {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+/* arrows – desktop only */
+.lookbook-carousel .lookbook-carousel-nav {
+  display: none;
+}
+
+.lookbook-carousel .lookbook-carousel-nav button {
+  position: absolute;
+  top: -55px;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--lookbook-carousel-heading);
+  cursor: pointer;
+  transform: translateY(-14px);
+}
+
+.lookbook-carousel .lookbook-carousel-nav button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: currentcolor;
+  mask: url('../../icons/thin-arrow.svg') center / 22px 13px no-repeat;
+}
+
+.lookbook-carousel .lookbook-carousel-nav .lookbook-carousel-prev {
+  right: 90px;
+}
+
+.lookbook-carousel .lookbook-carousel-nav .lookbook-carousel-prev::before {
+  transform: scaleX(-1);
+}
+
+.lookbook-carousel .lookbook-carousel-nav .lookbook-carousel-next {
+  right: 26px;
+}
+
+.lookbook-carousel .lookbook-carousel-nav button:hover {
+  background: transparent;
+}
+
+.lookbook-carousel .lookbook-carousel-nav button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.lookbook-carousel .lookbook-carousel-nav button:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: -4px;
+}
+
+@media (width >=992px) {
+  .lookbook-carousel .lookbook-carousel-title {
+    margin-bottom: 15px;
+    font-size: 30px;
+    line-height: 34px;
+  }
+
+  .lookbook-carousel .lookbook-carousel-desc {
+    padding-right: 180px;
+  }
+
+  .lookbook-carousel .lookbook-carousel-viewport {
+    margin-right: 0;
+  }
+
+  /* 2.59 slides in view: (width - 1.59 gaps) / 2.59, like Swiper */
+  .lookbook-carousel .lookbook-carousel-slide {
+    width: calc((100% - 31.8px) / 2.59);
+    margin-right: 20px;
+  }
+
+  .lookbook-carousel .lookbook-carousel-colour {
+    width: 90px;
+  }
+
+  .lookbook-carousel .lookbook-carousel-chip {
+    height: 90px;
+    border-top-right-radius: 20px;
+  }
+
+  .lookbook-carousel .lookbook-carousel-colour-name,
+  .lookbook-carousel .lookbook-carousel-colour-code {
+    font-size: 13px;
+  }
+
+  .lookbook-carousel .lookbook-carousel-colour-code {
+    margin-top: 7px;
+  }
+
+  .lookbook-carousel.is-scrollable .lookbook-carousel-nav {
+    display: block;
+    margin-bottom: 10px;
+  }
+}

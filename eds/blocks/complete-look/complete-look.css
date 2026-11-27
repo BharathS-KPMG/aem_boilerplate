@@ -1,0 +1,776 @@
+/*
+ * complete-look: heading and subtitle with a linked banner image, in a cream
+ * box. Mobile first: stacked on a full-width band; from 600px the box sits in
+ * the page gutters and shows the desktop image; side by side from 900px.
+ */
+
+/* only the active variant is shown (the JS sets [hidden] on the others' wrapper);
+   a section that holds nothing but hidden variants takes no space */
+main > .section > .complete-look-wrapper[hidden],
+main > .section.complete-look-container:not(:has(> :not([hidden]))) {
+  display: none;
+}
+
+.complete-look {
+  --complete-look-bg: #f5f2eb;
+  --complete-look-title: #000;
+  --complete-look-text: #8C8E90;
+
+  /* sizes below scale with the block (cqw), so the body zoom is followed */
+  container-type: inline-size;
+  box-sizing: border-box;
+}
+
+.complete-look *,
+.complete-look *::before,
+.complete-look *::after {
+  box-sizing: border-box;
+}
+
+.complete-look .complete-look-inner {
+  display: grid;
+  gap: 24px;
+  padding: 50px 16px 32px;
+  background: var(--complete-look-bg);
+}
+
+/* the text is a little narrower than the banner (as the design wraps it) */
+.complete-look .complete-look-text {
+  padding-inline-end: 24px;
+}
+
+.complete-look .complete-look-title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--complete-look-title);
+}
+
+.complete-look .complete-look-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--complete-look-text);
+}
+
+.complete-look .complete-look-subtitle p,
+.complete-look .complete-look-subtitle ul,
+.complete-look .complete-look-subtitle ol {
+  margin: 0;
+}
+
+.complete-look .complete-look-subtitle > * + * {
+  margin-top: 4px;
+}
+
+.complete-look .complete-look-subtitle a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.complete-look .complete-look-banner {
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.complete-look .complete-look-banner:focus-visible {
+  outline: 2px solid var(--complete-look-title);
+  outline-offset: 3px;
+}
+
+.complete-look .complete-look-banner picture,
+.complete-look .complete-look-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.complete-look .complete-look-banner img {
+  aspect-ratio: var(--complete-look-ratio-mobile, auto);
+  object-fit: cover;
+}
+
+/* ---------- cards under the banner ---------- */
+.complete-look .complete-look-cards {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 16px;
+}
+
+.complete-look .complete-look-trending,
+.complete-look .complete-look-featured,
+.complete-look .complete-look-ideas,
+.complete-look .complete-look-pqc-card {
+  padding: 16px 12px;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.complete-look .complete-look-trending-title,
+.complete-look .complete-look-featured-title,
+.complete-look .complete-look-ideas-title,
+.complete-look .complete-look-pqc-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--complete-look-title);
+}
+
+.complete-look .complete-look-trending-subtitle,
+.complete-look .complete-look-featured-subtitle,
+.complete-look .complete-look-ideas-subtitle {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--complete-look-text);
+}
+
+.complete-look .complete-look-ideas-subtitle {
+  color: #8c8e90;
+}
+
+.complete-look .complete-look-swatches {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.complete-look .complete-look-swatch {
+  display: flex;
+  margin: 0;
+}
+
+/* names can wrap; the numbers stay on one line across the row */
+.complete-look .complete-look-swatch-link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  color: var(--complete-look-text);
+  text-decoration: none;
+}
+
+.complete-look .complete-look-swatch-chip {
+  display: block;
+  aspect-ratio: 1;
+  border-top-right-radius: 13%;
+}
+
+.complete-look .complete-look-swatch-name {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.complete-look .complete-look-swatch-number {
+  margin-top: auto;
+  padding-top: 4px;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+/* featured products: 4 in view on mobile (5 from 600px), more scroll sideways;
+   the 4px padding keeps the focus outlines from being cut off */
+.complete-look .complete-look-products {
+  display: grid;
+  grid-auto-columns: calc((100% - 3 * 8px) / 4);
+  grid-auto-flow: column;
+  gap: 8px;
+  margin: 12px -4px -4px;
+  padding: 4px;
+  overflow: auto hidden;
+  overscroll-behavior-x: contain;
+  list-style: none;
+  scroll-padding-inline: 4px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.complete-look .complete-look-products::-webkit-scrollbar {
+  display: none;
+}
+
+.complete-look .complete-look-product {
+  display: flex;
+  min-width: 0;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.complete-look .complete-look-product-link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  color: var(--complete-look-text);
+  text-align: center;
+  text-decoration: none;
+}
+
+/* every packshot fills the same box (the Figma 99 x 108, image "Fill"), so
+   they all show at one size; an empty box without one keeps the names in line */
+.complete-look .complete-look-product-image {
+  display: block;
+  width: 68%;
+  margin-inline: auto;
+}
+
+.complete-look span.complete-look-product-image,
+.complete-look .complete-look-product-image img {
+  aspect-ratio: 99 / 108;
+}
+
+.complete-look .complete-look-product-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.complete-look .complete-look-product-name {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+/* the category shows from 600px */
+.complete-look .complete-look-product-category {
+  display: none;
+}
+
+/* ideas: image tiles (the label is part of the image), three to a row; they
+   all take the first tile's shape (complete-look.js) */
+.complete-look .complete-look-idea-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.complete-look .complete-look-idea {
+  margin: 0;
+}
+
+.complete-look .complete-look-idea-link,
+.complete-look .complete-look-idea-link picture,
+.complete-look .complete-look-idea-link img {
+  display: block;
+  width: 100%;
+}
+
+.complete-look .complete-look-idea-link img {
+  height: auto;
+  aspect-ratio: var(--complete-look-idea-ratio-mobile, auto);
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.complete-look .complete-look-trending-cta,
+.complete-look .complete-look-featured-cta,
+.complete-look .complete-look-ideas-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--complete-look-title);
+}
+
+.complete-look .complete-look-trending-cta svg,
+.complete-look .complete-look-featured-cta svg,
+.complete-look .complete-look-ideas-cta svg {
+  flex: none;
+  width: 1em;
+  height: 1em;
+}
+
+.complete-look .complete-look-trending-cta svg {
+  width: 20px;
+  height: 20px;
+}
+
+.complete-look a.complete-look-trending-cta:hover .complete-look-trending-cta-label,
+.complete-look a.complete-look-featured-cta:hover .complete-look-featured-cta-label,
+.complete-look a.complete-look-ideas-cta:hover .complete-look-ideas-cta-label {
+  text-decoration: underline;
+}
+
+/* "Image left section" / "Image right section": one linked image card (the
+   art carries its CTA); next to a taller card it fills that height, cropped
+   to fit */
+.complete-look .complete-look-image-card {
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* "Popup" card: a button that opens the form pop-up, looking like the link */
+.complete-look button.complete-look-image-card {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.complete-look .complete-look-image-card picture,
+.complete-look .complete-look-image-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.complete-look .complete-look-image-card img {
+  aspect-ratio: var(--complete-look-image-ratio-mobile, auto);
+  object-fit: cover;
+}
+
+/* "PQC section": the painting estimate card, in the banner's place. With a
+   background image, the card sits on it, at the top; the box keeps the
+   image's shape and grows when the card is taller (the image is cropped) */
+.complete-look .complete-look-pqc-with-bg {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.complete-look .complete-look-pqc-with-bg[hidden] {
+  display: none;
+}
+
+/* the image's shape: the box is at least this tall */
+.complete-look .complete-look-pqc-with-bg::before {
+  content: '';
+  grid-area: 1 / 1;
+  width: 100%;
+  aspect-ratio: var(--complete-look-pqc-ratio-mobile, auto);
+}
+
+.complete-look .complete-look-pqc-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.complete-look .complete-look-pqc-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.complete-look .complete-look-pqc-with-bg .complete-look-pqc-card {
+  position: relative;
+  grid-area: 1 / 1;
+  align-self: start;
+  margin: 8px;
+}
+
+.complete-look .complete-look-pqc-subtitle {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.35;
+  color: #8c8e90;
+}
+
+/* the label: a green pill */
+.complete-look .complete-look-pqc-label {
+  width: fit-content;
+  margin: 8px 0 0;
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: #2fb464;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* the packshot, with the product name and figures next to it */
+.complete-look .complete-look-pqc-product {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.complete-look .complete-look-pqc-packshot {
+  flex: none;
+  width: 64px;
+  height: auto;
+  object-fit: contain;
+}
+
+.complete-look .complete-look-pqc-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.complete-look .complete-look-pqc-name {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--complete-look-title);
+}
+
+/* label | value rows; the values line up on the right, and a long label
+   wraps when the card is narrow */
+.complete-look .complete-look-pqc-figures {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) max-content;
+  gap: 6px 16px;
+  margin: 10px 0 0;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.complete-look .complete-look-pqc-figures dt {
+  color: var(--complete-look-text);
+}
+
+.complete-look .complete-look-pqc-figures dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--complete-look-title);
+  text-align: end;
+  white-space: nowrap;
+}
+
+.complete-look .complete-look-pqc-mark {
+  color: #e0262f;
+}
+
+.complete-look .complete-look-pqc-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  margin-top: 20px;
+}
+
+.complete-look .complete-look-pqc-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--complete-look-title);
+}
+
+.complete-look button.complete-look-pqc-cta {
+  cursor: pointer;
+}
+
+.complete-look button.complete-look-pqc-cta:hover .complete-look-pqc-cta-label {
+  text-decoration: underline;
+}
+
+.complete-look button.complete-look-pqc-cta.is-loading {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.complete-look .complete-look-pqc-pdf-error {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: #e0262f;
+}
+
+.complete-look .complete-look-pqc-pdf-error:empty {
+  display: none;
+}
+
+.complete-look .complete-look-pqc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.complete-look .complete-look-pqc-cta svg {
+  flex: none;
+  width: 1em;
+  height: 1em;
+}
+
+.complete-look a.complete-look-pqc-cta:hover .complete-look-pqc-cta-label {
+  text-decoration: underline;
+}
+
+.complete-look .complete-look-pqc-cta:focus-visible,
+.complete-look .complete-look-image-card:focus-visible,
+.complete-look .complete-look-swatch-link:focus-visible,
+.complete-look .complete-look-product-link:focus-visible,
+.complete-look .complete-look-idea-link:focus-visible,
+.complete-look .complete-look-trending-cta:focus-visible,
+.complete-look .complete-look-featured-cta:focus-visible,
+.complete-look .complete-look-ideas-cta:focus-visible {
+  outline: 2px solid var(--complete-look-title);
+  outline-offset: 2px;
+}
+
+/* the desktop image from here (WIDE in complete-look.js) */
+@media (width >= 600px) {
+  .complete-look {
+    padding: 0 40px;
+  }
+
+  .complete-look .complete-look-inner {
+    padding: 32px;
+    border-radius: 16px;
+  }
+
+  .complete-look .complete-look-text {
+    padding-inline-end: 0;
+  }
+
+  /* 56px / 16px in the 1325px wide box of a 1440px page */
+  .complete-look .complete-look-title {
+    font-size: clamp(30px, 4.23cqw, 60px);
+    line-height: 0.93;
+  }
+
+  .complete-look .complete-look-subtitle {
+    margin-top: 12px;
+    font-size: clamp(13px, 1.21cqw, 16px);
+    line-height: 1.35;
+  }
+
+  .complete-look .complete-look-banner img {
+    aspect-ratio: var(--complete-look-ratio-desktop, auto);
+  }
+
+  /* cards: 26px title / 18px subtitle in a 614px card at 1440px */
+  .complete-look .complete-look-trending,
+  .complete-look .complete-look-featured,
+  .complete-look .complete-look-ideas,
+  .complete-look .complete-look-pqc-card {
+    padding: clamp(16px, 2.42cqw, 32px) clamp(12px, 3.02cqw, 40px);
+  }
+
+  .complete-look .complete-look-trending-title,
+  .complete-look .complete-look-featured-title,
+  .complete-look .complete-look-ideas-title,
+  .complete-look .complete-look-pqc-title {
+    font-size: clamp(18px, 1.96cqw, 26px);
+  }
+
+  /* the estimate card, sized like the mockup at 1440px */
+  .complete-look .complete-look-pqc-subtitle {
+    margin-top: 8px;
+    font-size: clamp(11px, 1.06cqw, 14px);
+  }
+
+  .complete-look .complete-look-pqc-label {
+    margin-top: clamp(8px, 0.91cqw, 12px);
+    padding: 3px 6px;
+    font-size: clamp(10px, 0.91cqw, 12px);
+  }
+
+  .complete-look .complete-look-pqc-product {
+    gap: clamp(12px, 1.81cqw, 24px);
+    margin-top: clamp(8px, 0.91cqw, 12px);
+  }
+
+  .complete-look .complete-look-pqc-packshot {
+    width: clamp(64px, 7.25cqw, 96px);
+  }
+
+  .complete-look .complete-look-pqc-name {
+    font-size: clamp(14px, 1.51cqw, 20px);
+  }
+
+  .complete-look .complete-look-pqc-figures {
+    gap: clamp(6px, 0.6cqw, 8px) clamp(16px, 3.62cqw, 48px);
+    margin-top: clamp(10px, 1.21cqw, 16px);
+    font-size: clamp(11px, 0.98cqw, 13px);
+  }
+
+  .complete-look .complete-look-pqc-ctas {
+    gap: 12px clamp(32px, 4.53cqw, 60px);
+    margin-top: clamp(20px, 2.42cqw, 32px);
+  }
+
+  .complete-look .complete-look-pqc-cta {
+    gap: 10px;
+    font-size: clamp(12px, 1.21cqw, 16px);
+  }
+
+  /* on the background image: the card on the left, as tall as the box, with
+     the CTAs at its bottom */
+  .complete-look .complete-look-pqc-with-bg::before {
+    aspect-ratio: var(--complete-look-pqc-ratio-desktop, auto);
+  }
+
+  .complete-look .complete-look-pqc-with-bg .complete-look-pqc-card {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    width: min(100% - 2 * clamp(8px, 1.21cqw, 16px), max(62%, 320px));
+    margin: clamp(8px, 1.21cqw, 16px);
+
+    /* narrower than the card without an image: less padding, so the
+       figures stay on one line */
+    padding: clamp(12px, 1.51cqw, 20px) clamp(12px, 1.81cqw, 24px);
+  }
+
+  .complete-look .complete-look-pqc-with-bg .complete-look-pqc-product {
+    margin-bottom: auto;
+  }
+
+  .complete-look .complete-look-pqc-with-bg .complete-look-pqc-figures {
+    column-gap: clamp(12px, 1.81cqw, 24px);
+  }
+
+  .complete-look .complete-look-trending-subtitle,
+  .complete-look .complete-look-featured-subtitle,
+  .complete-look .complete-look-ideas-subtitle {
+    margin-top: 8px;
+    font-size: clamp(11px, 1.36cqw, 18px);
+  }
+
+  .complete-look .complete-look-swatches {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .complete-look .complete-look-swatch-name {
+    font-size: 12px;
+    color: #8c8e90;
+  }
+
+  .complete-look .complete-look-swatch-number {
+    color: #75787b;
+  }
+
+  /* packshots of 99 x 108 (smaller when the card is narrow); the first and
+     the last sit on the card's padding, so the space at both ends is the
+     same, and any spare width goes between them */
+  .complete-look .complete-look-products {
+    grid-auto-columns: min(99px, calc((100% - 4 * 12px) / 5));
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  /* name and category on one line each, cut short with an ellipsis */
+  .complete-look .complete-look-product-link {
+    text-align: start;
+  }
+
+  .complete-look .complete-look-product-image {
+    width: 100%;
+    margin-inline: 0;
+  }
+
+  .complete-look .complete-look-product-name,
+  .complete-look .complete-look-product-category {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .complete-look .complete-look-product-name {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #8c8e90;
+  }
+
+  .complete-look .complete-look-product-category {
+    display: block;
+    margin-top: 2px;
+    font-size: 10px;
+    line-height: 1.2;
+    color: #75787b;
+  }
+
+  /* when the card is stretched to the height of the card next to it, the
+     tiles grow taller (cropped to fit), so the gap above them stays the
+     margin and they still end 22px from the bottom */
+  .complete-look .complete-look-ideas {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 34px;
+    padding-bottom: 22px;
+  }
+
+  .complete-look .complete-look-idea-tiles {
+    flex: 1;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .complete-look .complete-look-idea-link,
+  .complete-look .complete-look-idea-link picture,
+  .complete-look .complete-look-idea-link img {
+    height: 100%;
+  }
+
+  .complete-look .complete-look-idea-link img {
+    aspect-ratio: var(--complete-look-idea-ratio-desktop, auto);
+  }
+
+  .complete-look .complete-look-image-card img {
+    aspect-ratio: var(--complete-look-image-ratio-desktop, auto);
+  }
+
+  .complete-look .complete-look-trending-cta,
+  .complete-look .complete-look-featured-cta,
+  .complete-look .complete-look-ideas-cta {
+    gap: 10px;
+    margin-top: 32px;
+    font-size: clamp(12px, 1.21cqw, 16px);
+  }
+}
+
+@media (width >= 900px) {
+  .complete-look .complete-look-inner {
+    grid-template-columns: minmax(0, 1fr) 61.7%;
+    align-items: center;
+    column-gap: clamp(32px, 5.4cqw, 72px);
+    padding: 40px;
+  }
+
+  /* the text sits a little further in than the banner and cards */
+  .complete-look .complete-look-text {
+    padding-inline-start: 12px;
+  }
+
+  /* without the heading or the banner (or PQC card), the other one takes the
+     full width */
+  .complete-look .complete-look-inner > :is(.complete-look-banner, .complete-look-pqc):first-child,
+  .complete-look .complete-look-text:not(:has(+ :is(.complete-look-banner, .complete-look-pqc))) {
+    grid-column: 1 / -1;
+  }
+
+  /* the cards, two to a row in authored order */
+  .complete-look .complete-look-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

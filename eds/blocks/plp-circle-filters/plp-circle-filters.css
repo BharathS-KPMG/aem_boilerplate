@@ -1,0 +1,774 @@
+/* PLP Circle Filters (the source's apPlpListing), from a DA spreadsheet. Mobile first; desktop card hover from 768px as
+   on the source (one column up to 991px, three from 992px). Sizes are the source's at 1440px;
+   the body zoom of styles.css scales them between 992px and 1439px, as on the source. */
+.plp-circle-filters {
+  /* the block's palette: the site tokens, plus the source's greys for this listing */
+  --pl-bg: var(--light-color);
+  --pl-card-bg: var(--background-color);
+  --pl-accent: var(--primary-color);
+  --pl-text: var(--text-color);
+  --pl-text-strong: #3b3b3b;
+
+  /* the source's greys (circle labels, key features), as on asianpaints.com; note they are
+     below WCAG AA contrast (3.6:1), use var(--dark-grey) to meet it */
+  --pl-text-muted: #838383;
+  --pl-features: #848080;
+  --pl-price: #161515;
+  --pl-note: #4d4d4d;
+  --pl-star: #ee4137;
+  --pl-cta-hover: #5e25b2;
+  --pl-disclaimer: #2f2f2f;
+  --pl-gutter: 4.5%;
+
+  background: var(--pl-bg);
+  color: var(--pl-text);
+}
+
+/* mobile: overlaps the bottom of the image carousel above it */
+@media (width < 768px) {
+  .plp-circle-filters {
+    position: relative;
+    z-index: 2;
+    margin-top: -12px;
+  }
+}
+
+/* desktop: overlaps the bottom of the image carousel above it */
+@media (width >= 768px) {
+  .plp-circle-filters {
+    position: relative;
+    z-index: 2;
+    margin-top: -28px;
+  }
+}
+
+.plp-circle-filters [hidden] {
+  display: none !important;
+}
+
+.plp-circle-filters button {
+  cursor: pointer;
+}
+
+.plp-circle-filters ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plp-circle-filters :focus-visible {
+  outline: 2px solid var(--pl-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- category circles ---------- */
+.plp-circle-filters .plp-circle-filters-categories-wrap {
+  padding: 30px 0;
+  background: var(--pl-bg);
+  overflow-x: auto;
+  scroll-padding-inline: 10px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.plp-circle-filters .plp-circle-filters-categories-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.plp-circle-filters .plp-circle-filters-categories {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  min-height: 160px;
+  padding: 0 10px;
+}
+
+.plp-circle-filters .plp-circle-filters-categories li {
+  scroll-snap-align: start;
+}
+
+.plp-circle-filters .plp-circle-filters-category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 115px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: center;
+}
+
+.plp-circle-filters .plp-circle-filters-circle {
+  display: block;
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+  padding: 0;
+  border: 0 solid transparent;
+  border-radius: 100px;
+  transition: padding 0.2s ease;
+}
+
+.plp-circle-filters .plp-circle-filters-circle picture,
+.plp-circle-filters .plp-circle-filters-circle img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+.plp-circle-filters .plp-circle-filters-circle.is-text {
+  display: grid;
+  place-items: center;
+  background: var(--pl-card-bg) content-box;
+}
+
+/* the source sets 600 but loads no 600 Manrope, so it draws 700: 700 here renders the same */
+.plp-circle-filters .plp-circle-filters-circle-text {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.91px;
+  text-transform: uppercase;
+}
+
+/* the chosen circle gets a ring, its picture sitting inside with a gap, as on the source
+   (the others' pictures fill the whole circle) */
+.plp-circle-filters .plp-circle-filters-category[aria-pressed="true"] .plp-circle-filters-circle {
+  padding: 6px;
+  border-width: 1px;
+  border-color: var(--pl-accent);
+}
+
+.plp-circle-filters .plp-circle-filters-category-label {
+  display: block;
+  width: 100%;
+  margin-top: 22px;
+  color: var(--pl-text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+  letter-spacing: 0.92px;
+  text-transform: uppercase;
+}
+
+/* All has its label inside the circle */
+.plp-circle-filters .plp-circle-filters-category.is-text .plp-circle-filters-category-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.plp-circle-filters .plp-circle-filters-category[aria-pressed="true"] .plp-circle-filters-category-label {
+  color: var(--pl-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 1.27px;
+}
+
+.plp-circle-filters .plp-circle-filters-category:focus-visible {
+  outline: 0;
+}
+
+.plp-circle-filters .plp-circle-filters-category:focus-visible .plp-circle-filters-circle {
+  outline: 2px solid var(--pl-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- the source's (empty) strip between the circles and the grid ---------- */
+.plp-circle-filters .plp-circle-filters-toolbar {
+  min-height: 40px;
+}
+
+/* ---------- product grid ---------- */
+.plp-circle-filters .plp-circle-filters-status,
+.plp-circle-filters .plp-circle-filters-heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.plp-circle-filters .plp-circle-filters-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  padding: 0 var(--pl-gutter) 40px;
+}
+
+/* room for the first card while the feed loads (no layout shift) */
+.plp-circle-filters .plp-circle-filters-grid[aria-busy="true"] {
+  min-height: 507px;
+}
+
+/* phones: the pack shot and the key features (half the card wide) side by side, centred
+   together, as on the source */
+.plp-circle-filters .plp-circle-filters-card article {
+  display: grid;
+  grid-template:
+    "name name name name" auto
+    "title title title title" auto
+    ". media features ." auto
+    "description description description description" auto
+    "price price price price" auto
+    "cta cta cta cta" auto / minmax(0, 1fr) 128px 50% minmax(0, 1fr);
+  height: 100%;
+  min-height: 410px;
+  box-sizing: border-box;
+  padding: 30px 25px 15px;
+  background: var(--pl-card-bg);
+  color: var(--pl-text-strong);
+}
+
+.plp-circle-filters .plp-circle-filters-card-details {
+  display: contents;
+}
+
+.plp-circle-filters .plp-circle-filters-card-overlay-name {
+  display: none;
+}
+
+.plp-circle-filters .plp-circle-filters-card-name {
+  grid-area: name;
+
+  /* the source keeps 60px free at the right of the name, so long names wrap as there */
+  margin: 0 30px 5px 0;
+  padding-right: 30px;
+  color: var(--pl-text-strong);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.plp-circle-filters .plp-circle-filters-card-title {
+  grid-area: title;
+  margin: 0;
+  padding-bottom: 10px;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0.58px;
+}
+
+.plp-circle-filters .plp-circle-filters-card-media {
+  grid-area: media;
+  display: flex;
+  justify-content: center;
+  width: 124px;
+  height: 147px;
+  margin: 5px 0 0;
+}
+
+/* pack shots from the page come as a <picture>; its img sizes like a bare one */
+.plp-circle-filters .plp-circle-filters-card-media picture {
+  display: contents;
+}
+
+/* phones: as wide as the column, a wide pack shot sitting at the top, as on the source */
+.plp-circle-filters .plp-circle-filters-card-media img {
+  align-self: flex-start;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.plp-circle-filters .plp-circle-filters-card-features {
+  grid-area: features;
+  padding: 6px 0 0 20px;
+  color: var(--pl-features);
+  letter-spacing: 0.5px;
+}
+
+.plp-circle-filters .plp-circle-filters-card-features ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.plp-circle-filters .plp-circle-filters-card-features p {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 22px;
+}
+
+/* "-" and the text side by side, so a wrapped feature keeps its indent, as on the source */
+.plp-circle-filters .plp-circle-filters-card-features li {
+  display: flex;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 15px;
+  letter-spacing: 0.5px;
+}
+
+.plp-circle-filters .plp-circle-filters-card-features li::before {
+  content: "-";
+  flex: none;
+  margin-right: 2px;
+}
+
+.plp-circle-filters .plp-circle-filters-card-description {
+  grid-area: description;
+  margin: 15px 0 14px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+.plp-circle-filters .plp-circle-filters-card-price {
+  grid-area: price;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: -17px 0 17px;
+  text-align: center;
+}
+
+.plp-circle-filters .plp-circle-filters-card-amount {
+  margin-bottom: 5px;
+  color: var(--pl-price);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 21.86px;
+}
+
+.plp-circle-filters .plp-circle-filters-card-note {
+  color: var(--pl-note);
+  font-size: 11px;
+  line-height: 15.03px;
+}
+
+.plp-circle-filters .plp-circle-filters-card-star {
+  color: var(--pl-star);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.39px;
+}
+
+.plp-circle-filters .plp-circle-filters-card-cta {
+  grid-area: cta;
+  justify-self: center;
+  padding: 9px 20px;
+  border: 1px solid var(--pl-accent);
+  border-radius: 2px;
+  color: var(--pl-accent);
+  font-size: 12px;
+  font-weight: 700; /* the source's 600, drawn with its 700 face */
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: min-content;
+  min-width: 0;
+}
+
+/* price + button (the source's show-mrp): only a box on small phones, see below */
+.plp-circle-filters .plp-circle-filters-card-buy {
+  display: contents;
+}
+
+/* small phones: as on the source, the box is as wide as the price note and the button sits 20px in
+   on both sides (so it can be narrower than its own text); the button adds nothing to the box's
+   width */
+@media (width < 576px) {
+  .plp-circle-filters .plp-circle-filters-card-buy {
+    display: block;
+    grid-area: price;
+    justify-self: center;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-cta {
+    display: block;
+    width: calc(100% - 40px);
+    margin: 0 20px;
+    contain: inline-size;
+  }
+}
+
+/* the source's hover: a lighter purple fill, at once (no transition) */
+.plp-circle-filters .plp-circle-filters-card-cta:hover {
+  background: var(--pl-cta-hover);
+  color: var(--pl-card-bg);
+}
+
+/* ---------- price disclaimer (the source's .disclaimer) ---------- */
+.plp-circle-filters .plp-circle-filters-disclaimer {
+  margin: 0;
+
+  /* the listing ends right below it (mobile) / 40px below it (desktop), as on the source */
+  padding: 0 var(--pl-gutter);
+  color: var(--pl-disclaimer);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17.76px;
+}
+
+.plp-circle-filters .plp-circle-filters-disclaimer-star {
+  color: var(--pl-star);
+}
+
+/* ---------- empty state ---------- */
+.plp-circle-filters .plp-circle-filters-empty {
+  padding: 40px var(--pl-gutter) 60px;
+  text-align: center;
+}
+
+.plp-circle-filters .plp-circle-filters-empty p {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.plp-circle-filters .plp-circle-filters-clear {
+  padding: 12px 24px;
+  border: 1px solid var(--pl-accent);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--pl-accent);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.86px;
+  text-transform: uppercase;
+}
+
+/* the source's circles take their full size from 576px (its own breakpoint) */
+@media (width >= 576px) {
+  .plp-circle-filters .plp-circle-filters-categories-wrap {
+    padding: 50px 0 16px;
+    scroll-padding-inline: 30px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-categories {
+    gap: 38px;
+    min-height: 222px;
+    margin: 0 auto;
+    padding: 0 30px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-category {
+    width: 150px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-category[aria-pressed="true"] .plp-circle-filters-circle {
+    padding: 10px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-category-label {
+    font-size: 13px;
+    line-height: normal;
+    letter-spacing: 1px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-category[aria-pressed="true"] .plp-circle-filters-category-label {
+    line-height: 12px;
+    letter-spacing: 1.08px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-toolbar {
+    min-height: 60px;
+    padding-top: 20px;
+    box-sizing: border-box;
+  }
+}
+
+/* large phones (from the source's 576px): its list is at most 600px wide, its cards inset 20px
+   with 30px inside */
+@media (width >= 576px) and (width < 768px) {
+  .plp-circle-filters .plp-circle-filters-grid {
+    padding-inline: max(var(--pl-gutter), (100% - 600px) / 2);
+  }
+
+  .plp-circle-filters .plp-circle-filters-card article {
+    margin-inline: 20px;
+    padding: 35px 30px 15px;
+  }
+
+  /* the features run centred, line under line, as on the source */
+  .plp-circle-filters .plp-circle-filters-card-features ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-features li {
+    margin: 0 5px -14px 0;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-cta {
+    justify-self: stretch;
+    width: auto;
+  }
+}
+
+/* ---------- tablet and desktop ---------- */
+@media (width >= 768px) {
+  .plp-circle-filters .plp-circle-filters-grid {
+    padding-bottom: 50px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-grid[aria-busy="true"] {
+    min-height: 459px;
+  }
+}
+
+/* desktop cards: picture and name, the details slide up over them on hover or focus
+   (touch screens keep the open card above) */
+@media (width >= 768px) and (hover: hover) {
+  .plp-circle-filters .plp-circle-filters-card article {
+    position: relative;
+    display: block;
+    height: 439px;
+    min-height: 0;
+    padding: 70px 0 55px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-media {
+    width: auto;
+    height: 277px;
+    margin: 0;
+  }
+
+  /* desktop pack shots keep the card's picture height */
+  .plp-circle-filters .plp-circle-filters-card-media img {
+    align-self: auto;
+    width: auto;
+    height: 100%;
+    max-height: none;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-name {
+    margin: 36px 0 7px;
+    padding: 0 20px;
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-details {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 35px 30px 17px;
+    background: var(--pl-card-bg);
+    translate: 0 100%;
+    transition: translate 0.6s ease;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card article:hover .plp-circle-filters-card-details,
+  .plp-circle-filters .plp-circle-filters-card article:focus-within .plp-circle-filters-card-details {
+    translate: 0 0;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-overlay-name,
+  .plp-circle-filters .plp-circle-filters-card-description,
+  .plp-circle-filters .plp-circle-filters-card-features {
+    align-self: stretch;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-overlay-name {
+    display: block;
+    margin: 0 0 16px;
+    padding: 0 20px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-title {
+    display: none;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-description {
+    margin: 0 0 15px;
+    padding: 0;
+  }
+
+  /* the source keeps a 22px (empty) image row between the description and the features */
+  .plp-circle-filters .plp-circle-filters-card-features {
+    padding: 22px 0 0;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-features p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 0;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-features ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  /* chips as wide as their text, wrapping like the source's (40px tall, rows 28px apart) */
+  .plp-circle-filters .plp-circle-filters-card-features li {
+    min-width: 110px;
+    margin: 0 5px -12px 0;
+    font-size: 14px;
+    line-height: 30px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-price {
+    margin: 20px 0 0;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-cta {
+    width: 270px;
+    margin-top: auto;
+    padding: 16px 20px;
+    box-sizing: border-box;
+    font-size: 13px;
+  }
+}
+
+/* tablet: as on the source, the card starts 20px in and its name is uppercase, edge to edge */
+@media (width >= 768px) and (width < 992px) and (hover: hover) {
+  /* tablet: the source's button fits its text, 12px, at the top of the details, centred (over
+     the name, as on the source) */
+  .plp-circle-filters .plp-circle-filters-card-cta {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: auto;
+    margin: 0;
+    font-size: 12px;
+    translate: -50% 0;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card article {
+    margin-left: 20px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-name {
+    padding: 0;
+    line-height: 24px;
+    text-transform: uppercase;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-media {
+    height: 155px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-overlay-name {
+    padding: 0 30px 0 0;
+    font-size: 12px;
+    line-height: 24px;
+  }
+
+  /* the details as the source's tablet card: title, key features (half wide), description */
+  .plp-circle-filters .plp-circle-filters-card-title {
+    display: block;
+    align-self: stretch;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-align: left;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-features {
+    order: 1;
+    align-self: flex-start;
+    width: 50%;
+    padding-top: 23px;
+    text-align: left;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-features p {
+    font-size: 12px;
+    line-height: 22px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-features li {
+    margin-bottom: -14px;
+    font-size: 12px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-description {
+    order: 2;
+    margin: 15px 0 14px;
+    padding-bottom: 10px;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-price,
+  .plp-circle-filters .plp-circle-filters-card-cta {
+    order: 3;
+  }
+
+  .plp-circle-filters .plp-circle-filters-card-price {
+    margin-top: 3px;
+  }
+}
+
+/* 35px (mobile) / 30px (desktop) between the last cards and the disclaimer, as on the source */
+.plp-circle-filters.has-disclaimer .plp-circle-filters-grid {
+  padding-bottom: 35px;
+}
+
+/* tablet: the source's list keeps 50px below its last card (+20px card margin) */
+@media (width >= 768px) and (width < 992px) {
+  .plp-circle-filters.has-disclaimer .plp-circle-filters-grid {
+    padding-bottom: 64px;
+  }
+}
+
+@media (width >= 992px) {
+  .plp-circle-filters {
+    --pl-gutter: 4%;
+  }
+
+  .plp-circle-filters .plp-circle-filters-circle-text {
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 1.37px;
+  }
+
+  /* the source's cards stop growing at 460px (three columns, 1420px with the gaps) */
+  .plp-circle-filters .plp-circle-filters-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-inline: max(var(--pl-gutter), (100% - 1420px) / 2);
+  }
+
+  .plp-circle-filters.has-disclaimer .plp-circle-filters-grid {
+    padding-bottom: 30px;
+  }
+
+  .plp-circle-filters .plp-circle-filters-disclaimer {
+    padding-bottom: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plp-circle-filters .plp-circle-filters-card-details,
+  .plp-circle-filters .plp-circle-filters-circle {
+    transition: none;
+  }
+}

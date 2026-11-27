@@ -1,0 +1,612 @@
+:root {
+  --gold: #ffb900;
+  --gold-hover: #ffca3b;
+  --dark: #343848;
+  --dark-2: #2f3342;
+  --text-light: #fff;
+  --text-muted: rgb(255 255 255 / 80%);
+  --text-dark: #222;
+  --text-secondary: #666;
+  --border-light: #aaa;
+  --border-focus: rgb(255 255 255 / 45%);
+  --bg-hover: #f8f8f8;
+  --bg-light: #f7f5f1;
+  --shadow-sm: 0 0 0 1px #ccc;
+  --shadow-md: 0 5px 18px rgb(0 0 0 / 12%);
+}
+
+.texture-finder-tool-test-wrapper {
+  min-height: 610px;
+  background-color: var(--dark);
+  background-image: radial-gradient(ellipse at 10% 40%, #79809850, transparent 42%), repeating-radial-gradient(ellipse at 65% 35%, #ffffff14 0, #ffffff14 2px, #10152618 4px, #10152618 12px);
+  color: white;
+  padding: 35px 18px !important;
+}
+
+.texture-finder-tool-test-wrapper.texture-finder-tool-test-wrapper-result {
+  background: var(--bg-light);
+}
+
+.texture-finder-tool-test [hidden] {
+  display: none !important;
+}
+
+/* =============== HOME SCREEN =============== */
+
+.texture-finder-tool-test .festive-palette-home {
+  text-align: center;
+  max-width: 800px;
+  margin: auto;
+}
+
+.texture-finder-tool-test-eyebrow {
+  margin: 0 0 16px;
+  color: #ffcc48;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.texture-finder-tool-test .festive-palette-title {
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: clamp(32px, 5vw, 78px);
+  line-height: 1.05;
+  color: var(--text-light);
+}
+
+.texture-finder-tool-test .festive-palette-text {
+  max-width: 750px;
+  margin: 24px auto 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.texture-finder-tool-test .festive-palette-start {
+  margin: 32px auto 0;
+}
+
+/* =============== STEP LAYOUT =============== */
+
+.festive-palette-step {
+  max-width: 1220px;
+  margin: auto;
+  width: 100%;
+}
+
+.texture-finder-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.texture-finder-left {
+  width: 100%;
+}
+
+.texture-finder-left .festive-palette-question {
+  margin: 0;
+  text-align: left;
+}
+
+.texture-finder-left .festive-palette-number {
+  display: block;
+  color: var(--gold);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.texture-finder-left .festive-palette-question-text {
+  display: block;
+  font-size: 36px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+.texture-finder-left .festive-palette-question-label {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.texture-finder-right {
+  width: 100%;
+}
+
+@media (width >= 900px) {
+  .texture-finder-layout {
+    display: grid;
+    grid-template-columns: 290px 1fr;
+    gap: 42px;
+    align-items: center;
+  }
+
+  .texture-finder-left .festive-palette-question-text {
+    font-size: 46px;
+  }
+
+  .texture-finder-tool-test-wrapper {
+    padding: 60px 30px !important;
+  }
+
+  .texture-finder-tool-test .festive-palette-title {
+    font-size: clamp(44px, 6vw, 78px);
+  }
+
+  .texture-finder-tool-test .festive-palette-text {
+    font-size: 20px;
+  }
+}
+
+/* =============== CARDS GRID =============== */
+
+.texture-finder-tool-test .festive-palette-step-media {
+  width: 100%;
+}
+
+.texture-finder-tool-test .festive-palette-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.texture-finder-tool-test .festive-palette-card {
+  margin: 0;
+}
+
+.texture-finder-tool-test .festive-palette-card-button {
+  width: 100%;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgb(255 255 255 / 8%);
+  transition: all 0.25s ease;
+}
+
+.texture-finder-tool-test .festive-palette-card-button:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-focus);
+}
+
+.texture-finder-tool-test .festive-palette-card.is-selected .festive-palette-card-button {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgb(255 185 0 / 30%);
+}
+
+.texture-finder-tool-test .festive-palette-card-media {
+  height: 120px;
+  overflow: hidden;
+  position: relative;
+  display: block;
+  background: gray;
+}
+
+.texture-finder-tool-test .festive-palette-card-media picture,
+.texture-finder-tool-test .festive-palette-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.texture-finder-tool-test .festive-palette-card-name {
+  display: block;
+  padding: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.texture-finder-tool-test .festive-palette-card-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  opacity: 0;
+}
+
+.texture-finder-tool-test .festive-palette-card.is-selected .festive-palette-card-check {
+  opacity: 1;
+}
+
+.texture-finder-tool-test .festive-palette-dots {
+  display: none;
+}
+
+@media (width >= 540px) {
+  .texture-finder-tool-test .festive-palette-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .texture-finder-tool-test .festive-palette-card-media {
+    height: 130px;
+  }
+
+  .texture-finder-tool-test .festive-palette-card-name {
+    padding: 14px;
+    font-size: 15px;
+  }
+}
+
+@media (width >= 900px) {
+  .texture-finder-tool-test .festive-palette-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .texture-finder-tool-test .festive-palette-card-media {
+    height: 180px;
+  }
+}
+
+/* =============== QUESTION SECTION =============== */
+
+.texture-finder-tool-test .festive-palette-question {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+}
+
+.texture-finder-tool-test .festive-palette-number {
+  color: #ffcc48;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.texture-finder-tool-test .festive-palette-question-text {
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+@media (width >= 540px) {
+  .texture-finder-tool-test .festive-palette-question-text {
+    font-size: 36px;
+  }
+}
+
+/* =============== FORM =============== */
+
+.texture-finder-tool-test .festive-palette-form-step {
+  min-height: 70vh;
+}
+
+.texture-finder-tool-test .festive-palette-form-title {
+  margin-bottom: 32px;
+}
+
+.texture-finder-tool-test .festive-palette-form-box {
+  max-width: 900px;
+}
+
+.texture-finder-tool-test .festive-palette-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (width >= 900px) {
+  .texture-finder-tool-test .festive-palette-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =============== NAVIGATION =============== */
+
+.texture-finder-tool-test .festive-palette-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.texture-finder-tool-test .festive-palette-next[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@media (width >= 900px) {
+  .texture-finder-tool-test .festive-palette-nav {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+/* =============== BUTTONS =============== */
+
+.texture-finder-tool-test .festive-palette-cta {
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.texture-finder-tool-test .festive-palette-cta-white {
+  background: var(--gold);
+  color: var(--text-dark);
+  border: 0;
+  border-radius: 28px;
+  padding: 15px 28px;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  gap: 8px;
+  transition: background 0.25s ease;
+}
+
+.texture-finder-tool-test .festive-palette-cta-white:hover {
+  background: var(--gold-hover);
+}
+
+.texture-finder-tool-test .festive-palette-cta-white.festive-palette-prev .festive-palette-cta-icon.is-back svg {
+  rotate: 180deg;
+}
+
+@media (width >= 900px) {
+  .texture-finder-tool-test .festive-palette-cta {
+    padding: 15px 28px;
+    font-size: 16px;
+  }
+}
+
+/* =============== PROGRESS BAR =============== */
+
+.texture-finder-progress {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.texture-finder-progress-label,
+.texture-finder-progress-percent {
+  color: var(--text-light);
+  font-size: 14px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.texture-finder-progress-track {
+  flex: 1;
+  height: 8px;
+  background: rgb(255 255 255 / 15%);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.texture-finder-progress-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
+/* =============== RESULT SCREEN =============== */
+
+.texture-finder-tool-test .festive-palette-result {
+  max-width: 1360px;
+  margin: 0 auto;
+  min-height: auto;
+}
+
+.texture-finder-tool-test .festive-palette-result-title {
+  text-align: left;
+  margin: 0 0 16px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--text-dark);
+}
+
+.texture-finder-tool-test .texture-finder-result-label {
+  max-width: 760px;
+  margin: 0 0 40px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+.texture-finder-result-eyebrow {
+  margin: 0 0 12px;
+  color: #ffcc48;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.texture-finder-tool-test .texture-finder-recommendation-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: var(--text-dark);
+}
+
+.texture-finder-tool-test .texture-finder-recommendation-description,
+.texture-finder-tool-test .texture-finder-recommendation-suggestion {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 14px;
+  color: var(--text-secondary);
+}
+
+.texture-finder-tool-test .texture-finder-recommendation-palette .texture-finder-recommendation-swatch {
+  width: 28px;
+  height: 28px;
+  border: 2px solid white;
+  box-shadow: var(--shadow-sm);
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+@media (width >= 900px) {
+  .texture-finder-tool-test .festive-palette-result-title {
+    font-size: 38px;
+  }
+
+  .texture-finder-tool-test .texture-finder-recommendation-title {
+    font-size: 24px;
+  }
+}
+
+/* =============== RECOMMENDATIONS GRID =============== */
+
+.festive-palette-combos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 40px 0;
+}
+
+.texture-finder-recommendation {
+  overflow: hidden;
+  border-radius: 24px;
+  background: white;
+  color: var(--text-dark);
+}
+
+.texture-finder-recommendation-preview {
+  width: 100%;
+  height: 200px;
+}
+
+.texture-finder-recommendation-number {
+  position: static;
+  width: auto;
+  height: auto;
+  background: none;
+  margin-bottom: 6px;
+  color: #B7791F;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.texture-finder-recommendation-content {
+  padding: 24px;
+}
+
+@media (width >= 540px) {
+  .festive-palette-combos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .texture-finder-recommendation-preview {
+    height: 220px;
+  }
+}
+
+@media (width >= 900px) {
+  .festive-palette-combos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .texture-finder-recommendation-preview {
+    height: 250px;
+  }
+}
+
+/* =============== SUMMARY & ACTIONS =============== */
+
+.texture-finder-summary {
+  background: white;
+  color: #555;
+  padding: 14px 18px;
+  margin: 24px 0 32px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.texture-finder-summary strong {
+  color: var(--text-dark);
+}
+
+.texture-finder-result-actions {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.texture-finder-result-primary,
+.texture-finder-result-secondary {
+  width: 100%;
+  border-radius: 28px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.texture-finder-result-primary {
+  background: var(--gold);
+  color: #30250c;
+  border: 0;
+  box-shadow: var(--shadow-md);
+}
+
+.texture-finder-result-primary:hover {
+  background: var(--gold-hover);
+}
+
+.texture-finder-result-secondary {
+  border: 1px solid var(--border-light);
+  background: white;
+  color: var(--text-dark);
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+.texture-finder-result-secondary:hover {
+  background: var(--bg-hover);
+}
+
+.texture-finder-recommendation-cta {
+  border: 1px solid var(--border-light);
+  background: white;
+  border-radius: 22px;
+  padding: 10px 18px;
+}
+
+@media (width >= 540px) {
+  .texture-finder-result-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .texture-finder-result-primary,
+  .texture-finder-result-secondary {
+    width: auto;
+  }
+}
+
+/* =============== DISCLAIMERS =============== */
+
+.texture-finder-disclaimer {
+  margin-top: 25px;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.texture-finder-disclaimer-secondary {
+  margin-top: 30px;
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.5;
+}

@@ -1,0 +1,670 @@
+/* full width with the source's inset (16px; on desktop 40px left, 48px right) instead of the centred 1200px column */
+main > .section > .expert-tips-wrapper {
+  max-width: none;
+  padding: 0 16px;
+}
+
+.expert-tips {
+  --expert-tips-gap: 18px;
+  --expert-tips-card-width: 227px;
+  --expert-tips-card-padding: 15px;
+  --expert-tips-radius: 10px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+/* title */
+.expert-tips .expert-tips-intro > * {
+  margin: 0;
+}
+
+/* as on the source: Manrope extra bold */
+.expert-tips .expert-tips-intro > :is(h1, h2, h3, h4, h5, h6) {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: #000;
+}
+
+/* the subtitle: grey (the card date's), 14px on mobile and 18px on desktop; right under the
+   title on mobile, 16px below it on desktop */
+.expert-tips .expert-tips-intro > p {
+  margin-top: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #75787B;
+}
+
+/* card rail: the cards slide as one strip (Swiper, expert-tips.js), clipped at the screen edges as
+   on the source; vertical swipes still scroll the page */
+.expert-tips .expert-tips-viewport {
+  margin: 0 -16px;
+  padding: 0 16px;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+/* the Swiper wrapper: card widths and gaps are set here, Swiper measures them */
+.expert-tips .expert-tips-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.expert-tips .expert-tips-card {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 16px;
+  box-sizing: border-box;
+  width: var(--expert-tips-card-width);
+  margin-inline-end: var(--expert-tips-gap);
+  padding: var(--expert-tips-card-padding);
+  border-radius: var(--expert-tips-radius);
+  background-color: var(--light-color);
+  font-size: var(--body-font-size-xs);
+}
+
+.expert-tips .expert-tips-card:last-child {
+  margin-inline-end: 0;
+}
+
+.expert-tips .expert-tips-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.expert-tips .expert-tips-card-body > * {
+  margin: 0;
+}
+
+/* the date (e.g. "Feb 10"), as on the source: Manrope medium in its light grey */
+.expert-tips .expert-tips-card-eyebrow {
+  font-size: 10.78px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #707274;
+}
+
+/* the card title, as on the source: Manrope medium */
+.expert-tips .expert-tips-card-body > .expert-tips-card-title {
+  margin-top: 10px;
+  font-size: 15.4px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: #232426;
+}
+
+.expert-tips .expert-tips-card-body > .expert-tips-card-cta {
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+/* "Read article", as on the source: Manrope bold */
+.expert-tips .expert-tips-card-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
+  font-size: 10.78px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #000;
+  text-decoration: none;
+}
+
+.expert-tips .expert-tips-card-cta a:hover {
+  text-decoration: underline;
+}
+
+.expert-tips .expert-tips-card-cta svg {
+  width: 1.1em;
+  height: 1.1em;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.expert-tips .expert-tips-card-image {
+  overflow: hidden;
+}
+
+/* mobile: a fixed 169px-tall photo */
+.expert-tips .expert-tips-card-image img {
+  display: block;
+  width: 100%;
+  height: 169px;
+  object-fit: cover;
+}
+
+/* controls: shown by JS only when the cards overflow */
+.expert-tips .expert-tips-controls {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 4px;
+}
+
+.expert-tips .expert-tips-controls[hidden] {
+  display: none;
+}
+
+/* Swiper's pagination bullets, as on the site's other carousels: 8px dots, the current one an
+   18px pill, starting 6px in from the cards */
+.expert-tips .expert-tips-dots {
+  --swiper-pagination-color: #4d4d4d;
+
+  display: flex;
+  align-items: center;
+  height: 24px;
+  margin: 2px 0 0 2px;
+}
+
+.expert-tips .expert-tips-dots .swiper-pagination-bullet {
+  transition: width 0.3s, opacity 0.3s;
+}
+
+.expert-tips .expert-tips-dots .swiper-pagination-bullet-active {
+  width: 18px;
+  border-radius: 4px;
+}
+
+.expert-tips .expert-tips-controls .expert-tips-prev,
+.expert-tips .expert-tips-controls .expert-tips-next {
+  display: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+
+  /* the icons draw their own ring */
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: #000;
+  cursor: pointer;
+}
+
+.expert-tips .expert-tips-controls .expert-tips-prev:disabled,
+.expert-tips .expert-tips-controls .expert-tips-next:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.expert-tips .expert-tips-controls svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.expert-tips .expert-tips-controls .expert-tips-prev svg,
+.expert-tips .expert-tips-controls .expert-tips-next svg {
+  width: 100%;
+  height: 100%;
+}
+
+.expert-tips .expert-tips-controls button:focus-visible,
+.expert-tips .expert-tips-card-cta a:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.expert-tips .expert-tips-controls .expert-tips-prev:focus-visible,
+.expert-tips .expert-tips-controls .expert-tips-next:focus-visible {
+  border-radius: 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .expert-tips .expert-tips-dots .swiper-pagination-bullet {
+    transition: none;
+  }
+}
+
+@media (width >= 992px) {
+  /* the source's insets at 1440px: 40px on the left, 48px after the last card */
+  main > .section > .expert-tips-wrapper {
+    padding: 0 48px 0 40px;
+  }
+
+  /* intro and rail in the source's proportions: at 1440px the cards start at 308px and are
+     348px wide, 20px apart */
+  .expert-tips {
+    --expert-tips-gap: 20px;
+    --expert-tips-card-padding: 20px;
+
+    grid-template-columns: minmax(0, 268fr) minmax(0, 1084fr);
+    align-items: center;
+    gap: 0;
+  }
+
+  .expert-tips .expert-tips-intro {
+    padding-right: 25px;
+    padding-left: 8px;
+  }
+
+  /* one word per line, as on the source ("Expert" / "Tips") */
+  .expert-tips .expert-tips-intro > :is(h1, h2, h3, h4, h5, h6) {
+    max-width: 100%;
+    font-size: 38px;
+    line-height: 52px;
+  }
+
+  .expert-tips .expert-tips-intro > p {
+    margin-top: 16px;
+    font-size: 18px;
+  }
+
+  /* the source's slider is clipped 20px before the first card and at the screen edge */
+  .expert-tips .expert-tips-viewport {
+    margin: 0 -48px 0 -20px;
+    padding: 0 48px 0 20px;
+  }
+
+  /* the source's fixed card width; cards that don't fit slide */
+  .expert-tips .expert-tips-card {
+    width: 348px;
+  }
+
+  .expert-tips .expert-tips-card-image {
+    aspect-ratio: 308 / 210;
+  }
+
+  .expert-tips .expert-tips-card-image img {
+    height: auto;
+  }
+
+  .expert-tips .expert-tips-card-eyebrow {
+    font-size: 14px;
+  }
+
+  .expert-tips .expert-tips-card-body > .expert-tips-card-title {
+    font-size: 20px;
+  }
+
+  .expert-tips .expert-tips-card-body > .expert-tips-card-cta {
+    padding-top: 35px;
+  }
+
+  .expert-tips .expert-tips-card-cta a {
+    font-size: 14px;
+    line-height: 21px;
+    color: #000;
+  }
+
+  .expert-tips .expert-tips-controls {
+    justify-content: flex-end;
+  }
+
+  .expert-tips .expert-tips-dots {
+    display: none;
+  }
+
+  .expert-tips .expert-tips-controls .expert-tips-prev,
+  .expert-tips .expert-tips-controls .expert-tips-next {
+    display: grid;
+  }
+}
+
+/* ==================== blogs-preview-variant : start ==================== */
+
+/* the rules below are grouped by card part (topics, title, date…), not by specificity */
+/* stylelint-disable no-descending-specificity */
+
+/* the "Expert Tips" blog list from the asianpaints.com product pages (blogspreviewlist):
+   white cards with the photo on top, "Topic | Topic", title, date, description and
+   "Read more" + a heart; "Expert Tips" in the brand gradient. Sizes are the source's. */
+main > .section > .expert-tips-wrapper:has(> .expert-tips.blogs-preview-variant) {
+  padding: 0 0 0 16px;
+}
+
+.expert-tips.blogs-preview-variant {
+  --expert-tips-gap: 18px;
+  --expert-tips-card-width: 253px;
+  --expert-tips-radius: 8px;
+  --blogs-preview-gradient: linear-gradient(91.16deg, #431a80 1.46%, #ee4137 30.38%, #feb940 50%);
+
+  gap: 0;
+}
+
+/* mobile: "Expert Tips" on one line, all of it in the gradient */
+.expert-tips.blogs-preview-variant .expert-tips-intro > :is(h1, h2, h3, h4, h5, h6) {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 35.2px;
+  color: #1d1d1f;
+  background: var(--blogs-preview-gradient);
+  background-clip: text;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* the JS wraps the last word in <strong>; the gradient already covers it */
+.expert-tips.blogs-preview-variant .expert-tips-intro strong {
+  font-weight: inherit;
+}
+
+/* the source's slider is clipped at the card tops, with 20px below for the shadows */
+.expert-tips.blogs-preview-variant .expert-tips-viewport {
+  margin: 0 0 0 -16px;
+  padding: 20px 0 20px 16px;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-card {
+  gap: 0;
+  padding: 0;
+  background-color: #fff;
+  box-shadow: 1px 6px 25px -4px rgb(16 24 40 / 16%);
+  font-size: 11px;
+}
+
+/* the photo across the card's full width, cropped from the bottom */
+.expert-tips.blogs-preview-variant .expert-tips-card-image {
+  order: -1;
+  width: 100%;
+  height: 155px;
+  margin: 1px;
+  aspect-ratio: auto;
+  border-radius: 8px 8px 0 0;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-card-image img {
+  height: auto;
+  object-position: 50% 0;
+}
+
+/* as on the source, the topics (supporting text, one paragraph each) come first, side by side,
+   and the date (eyebrow) goes under the title: the body becomes rows, every part a full row
+   except the topics */
+.expert-tips.blogs-preview-variant .expert-tips-card-body {
+  flex-flow: row wrap;
+  align-content: flex-start;
+  padding: 15px 12px 20px;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-card-body > * {
+  flex: 0 0 100%;
+  order: 3;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-card-body > .expert-tips-card-supporting {
+  flex-basis: auto;
+  order: 0;
+  height: 12px;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  color: #4c4c4c;
+  white-space: nowrap;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-card-supporting + .expert-tips-card-supporting::before {
+  content: '|';
+  padding: 0 8px;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-card-body > .expert-tips-card-eyebrow {
+  order: 2;
+}
+
+/* two lines at most */
+.expert-tips.blogs-preview-variant .expert-tips-card-body > .expert-tips-card-title {
+  display: -webkit-box;
+  order: 1;
+  height: 44px;
+  margin-top: 10px;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 22px;
+  color: #000;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+/* the date */
+.expert-tips.blogs-preview-variant .expert-tips-card-eyebrow {
+  height: 15px;
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 15px;
+  color: #000;
+}
+
+/* three lines at most */
+.expert-tips.blogs-preview-variant .expert-tips-card-description {
+  display: -webkit-box;
+  height: 45px;
+  margin-top: 20px;
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 15px;
+  color: #4d4d4d;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+/* "Read more" with the source's heart on the right */
+.expert-tips.blogs-preview-variant .expert-tips-card-body > .expert-tips-card-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 24px;
+  margin-top: 30px;
+  padding-top: 0;
+}
+
+/* the heart, drawn by the CSS so it shows with any version of the block's JS */
+.expert-tips.blogs-preview-variant .expert-tips-card-body > .expert-tips-card-cta::after {
+  content: '';
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: url('https://www.asianpaints.com/etc.clientlibs/apcolourcatalogue/clientlibs/clientlib-global/resources/images/wishlist/wishlist-unselected.svg') no-repeat;
+}
+
+/* where the JS adds the clickable heart, that one replaces the drawn one */
+.expert-tips.blogs-preview-variant .expert-tips-card-body > .expert-tips-card-cta:has(.expert-tips-favourite)::after {
+  content: none;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-card-cta a {
+  min-height: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 14px;
+  color: #232426;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-card-cta a:hover {
+  text-decoration: none;
+}
+
+/* the source's "Read more" has no arrow */
+.expert-tips.blogs-preview-variant .expert-tips-card-cta a svg {
+  display: none;
+}
+
+/* the source's wishlist heart: an outline, filled red on a red circle once saved */
+.expert-tips.blogs-preview-variant .expert-tips-favourite {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: url('https://www.asianpaints.com/etc.clientlibs/apcolourcatalogue/clientlibs/clientlib-global/resources/images/wishlist/wishlist-unselected.svg') center / 24px no-repeat;
+  cursor: pointer;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-favourite[aria-pressed='true'] {
+  background-image: url('https://www.asianpaints.com/etc.clientlibs/apcolourcatalogue/clientlibs/clientlib-global/resources/images/wishlist/wishlist-selected.svg');
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-favourite svg {
+  display: none;
+}
+
+/* dots: a 20px pill for the current card, 8px grey dots for the rest, just under the cards;
+   like the source's, they hang below the block instead of adding to its height */
+.expert-tips.blogs-preview-variant .expert-tips-controls {
+  margin: -1px 0 -7px;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-dots {
+  --swiper-pagination-bullet-inactive-color: #808080;
+  --swiper-pagination-bullet-horizontal-gap: 2px;
+
+  height: 8px;
+  margin: 0 0 0 4px;
+}
+
+.expert-tips.blogs-preview-variant .expert-tips-dots .swiper-pagination-bullet-active {
+  width: 20px;
+  margin-right: 5px;
+}
+
+@media (width >= 992px) {
+  /* the source: the title column is a quarter of the width, the cards 325px wide and 20px apart */
+  main > .section > .expert-tips-wrapper:has(> .expert-tips.blogs-preview-variant) {
+    padding: 0;
+  }
+
+  .expert-tips.blogs-preview-variant {
+    --expert-tips-gap: 20px;
+
+    grid-template-columns: 25% minmax(0, 1fr);
+  }
+
+  /* the bottom padding stands in for the source's (empty) 23px description under the title */
+  .expert-tips.blogs-preview-variant .expert-tips-intro {
+    container-type: inline-size;
+    padding: 0 25px 23px 45px;
+  }
+
+  /* the source's slider is 20px taller than its cards' row */
+  .expert-tips.blogs-preview-variant .expert-tips-rail {
+    padding-bottom: 20px;
+  }
+
+  /* the arrows sit at the right, in line with the last card */
+  .expert-tips.blogs-preview-variant .expert-tips-controls {
+    float: right;
+    width: fit-content;
+    margin: 0 46px 0 0;
+  }
+
+  /* "Expert" in black over "Tips" in the gradient, which spans the title column as on the source */
+  .expert-tips.blogs-preview-variant .expert-tips-intro > :is(h1, h2, h3, h4, h5, h6) {
+    width: min-content;
+    max-width: none;
+    font-size: 64px;
+    line-height: 70.4px;
+    letter-spacing: -2.56px;
+
+    /* split at 78px: below the descenders of line 1, above the capitals of line 2 */
+    background:
+      linear-gradient(#1d1d1f, #1d1d1f) 0 0 / 100cqw 78px no-repeat,
+      var(--blogs-preview-gradient) 0 78px / 100cqw calc(100% - 78px) no-repeat;
+    background-clip: text;
+    /* stylelint-disable-next-line property-no-vendor-prefix */
+    -webkit-background-clip: text;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-viewport {
+    margin: 0 0 7px;
+    padding: 0 0 20px 20px;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-card {
+    width: 325px;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-card-image {
+    height: 200px;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-card-body {
+    padding: 30px 25px 40px;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-card-body > .expert-tips-card-supporting {
+    font-size: 11px;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-card-body > .expert-tips-card-title {
+    height: 54px;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 27px;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-card-eyebrow {
+    margin-top: 20px;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-card-description {
+    margin-top: 25px;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-card-body > .expert-tips-card-cta {
+    margin-top: 35px;
+  }
+
+  .expert-tips.blogs-preview-variant .expert-tips-card-cta a {
+    line-height: 14px;
+  }
+}
+
+/* smaller desktops: the source page zooms out in these steps. Where the page itself is already
+   zoomed (styles.css sets --body-zoom), the block's own zoom cancels out to 1 */
+@media (width >= 992px) and (width < 1100px) {
+  .expert-tips.blogs-preview-variant {
+    zoom: calc(0.7 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1100px) and (width < 1200px) {
+  .expert-tips.blogs-preview-variant {
+    zoom: calc(0.75 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1200px) and (width < 1280px) {
+  .expert-tips.blogs-preview-variant {
+    zoom: calc(0.8 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1280px) and (width < 1366px) {
+  .expert-tips.blogs-preview-variant {
+    zoom: calc(0.85 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1366px) and (width < 1440px) {
+  .expert-tips.blogs-preview-variant {
+    zoom: calc(0.9 / var(--body-zoom, 1));
+  }
+}
+
+/* stylelint-enable no-descending-specificity */
+
+/* ==================== blogs-preview-variant : end ==================== */

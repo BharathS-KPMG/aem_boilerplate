@@ -1,0 +1,501 @@
+import { pushAdobeCtaClickEvent } from '../../scripts/analytics_1.js';
+
+const VERSION = 'image-carousel@v5 (per-slide CTA label, new tab, alignment)';
+
+/*
+** Authoring format **
+
+Config rows (Col 1 → key, Col 2 → value)
+autoplay  → true / false
+interval  → slide interval in ms (min 1000)
+Overlay breadcrumb → true / false, default false. Overlays the breadcrumb block from
+                     the same section on top of the banner (desktop only)
+Fit viewport → true / false, default false. Adds .fit-viewport-variant to the
+               block so the whole banner fits the screen below the header.
+               Same as authoring the block as "Image Carousel (fit-viewport-variant)"
+
+Header row (ignored by code)
+Desktop image | Mobile image | Redirection link | CTA Label | Open in new tab | CTA alignment
+
+Slide rows (one per slide)
+Col 1 → Desktop image (picture)
+Col 2 → Mobile image (picture), used at ≤ 767px; falls back to desktop
+Col 3 → Redirection link (text or link), optional.
+        With a link the slide is clickable; without one, no hand cursor.
+Col 4 → CTA Label, optional. Shown as a button over the slide when a
+        redirection link is set.
+Col 5 → Open in new tab (true / false), optional, default false
+Col 6 → CTA alignment (left / center / right), optional, default center
+*/
+
+// Right-pointing arrow; the prev button mirrors it via CSS
+const ARROW_ICON = '<img class="carousel__icon" src="/eds/icons/arrow-icon-new.svg" alt="" width="16" height="16">';
+// Pill prev/next arrow (desktop only): 13x11 black Figma arrow. Lazy, so phones
+// (arrows display:none below 992px) never fetch it.
+const NAV_ICON = '<img class="carousel__icon" src="/eds/icons/carousel-arrow.svg" alt="" width="13" height="11" loading="lazy">';
+
+function qsa(el, sel) { return [...el.querySelectorAll(sel)]; }
+function qs(el, sel) { return el.querySelector(sel); }
+
+function cellText(cell) {
+  return (cell?.textContent || '').replace(/\s+/g, ' ').trim();
+}
+
+function cellHrefOrText(cell) {
+  const a = cell?.querySelector?.('a[href]');
+  if (a?.getAttribute('href')) return a.getAttribute('href').trim();
+  return cellText(cell);
+}
+
+function yesNo(val, def = false) {
+  const v = String(val || '').trim().toLowerCase();
+  if (v === 'yes' || v === 'true') return true;
+  if (v === 'no' || v === 'false') return false;
+  return def;
+}
+
+const CTA_ALIGNMENTS = ['left', 'center', 'right'];
+
+function ctaAlignment(val) {
+  const v = String(val || '').trim().toLowerCase();
+  return CTA_ALIGNMENTS.includes(v) ? v : 'center';
+}
+
+function escapeHTML(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function splitUrls(raw) {
+  return String(raw || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function parseConfig(block) {
+  const cfg = {
+    autoplay: true,
+    interval: 5000,
+    fade: false,
+    breadcrumb: false,
+    fitViewport: false,
+    clickable: false,
+    ctaLink: '',
+    overlaySubtitle: '',
+    overlayTitle: '',
+    // slide rows authored as pictures: { desktopPic, mobilePic, link }
+    slides: [],
+    // legacy URL lists
+    desktopImages: [],
+    mobileImages: [],
+    // optional breakpoint (defaults to 767)
+    mobileMaxWidth: 767,
+    debug: { parsed: [] },
+  };
+
+  // ---- support both table-based and div-based structures ----
+  const tableRows = qsa(block, 'tr');
+  const usingTable = tableRows.length > 0;
+
+  const readRows = () => {
+    if (usingTable) {
+      // Skip header row
+      return tableRows.slice(1).map((tr) => qsa(tr, 'th, td')).filter((cells) => cells.length >= 2);
+    }
+
+    // div-based (EDS-transformed) structure:
+    const direct = qsa(block, ':scope > div');
+    const wrapper = (direct.length === 1) ? direct[0] : null;
+    const candidates = wrapper ? qsa(wrapper, ':scope > div') : direct;
+
+    return candidates
+      .filter((r) => r.children && r.children.length >= 2)
+      .map((r) => [...r.children]);
+  };
+
+  readRows().forEach((cells) => {
+    // Slide row: Desktop image | Mobile image | Redirection link
+    //           | CTA Label | Open in new tab | CTA alignment
+    if (cells.some((c) => c.querySelector('picture, img'))) {
+      const getPic = (c) => c?.querySelector('picture') || c?.querySelector('img');
+      cfg.slides.push({
+        desktopPic: getPic(cells[0]),
+        mobilePic: getPic(cells[1]),
+        link: cellHrefOrText(cells[2]),
+        ctaLabel: cellText(cells[3]),
+        newTab: yesNo(cellText(cells[4]), false),
+        ctaAlign: ctaAlignment(cellText(cells[5])),
+        title: cellText(cells[6]),
+        subTitle: cellText(cells[7]),
+      });
+      return;
+    }
+
+    const key = cellText(cells[0]).toLowerCase();
+    const valText = cellText(cells[1]);
+    const valHrefOrText = cellHrefOrText(cells[1]);
+
+    cfg.debug.parsed.push({ key, valText, valHrefOrText });
+
+    if (key === 'autoplay') cfg.autoplay = yesNo(valText, true);
+    if (key === 'interval') {
+      const n = Number(valText);
+      if (!Number.isNaN(n) && n >= 1000) cfg.interval = n;
+    }
+    if (key === 'fade') cfg.fade = yesNo(valText, false);
+    if (key === 'overlay breadcrumb' || key === 'breadcrumb') cfg.breadcrumb = yesNo(valText, false);
+    if (key === 'fit viewport' || key === 'fitviewport') cfg.fitViewport = yesNo(valText, false);
+    if (key === 'clickable') cfg.clickable = yesNo(valText, false);
+    if (key === 'ctalink') cfg.ctaLink = valHrefOrText;
+    if (key === 'overlaysubtitle') cfg.overlaySubtitle = valText;
+    if (key === 'overlaytitle') cfg.overlayTitle = valText;
+
+    // optional breakpoint override
+    if (key === 'mobilemaxwidth') {
+      const n = Number(valText);
+      if (!Number.isNaN(n) && n >= 320) cfg.mobileMaxWidth = n;
+    }
+
+    // ✅ NEW KEYS
+    if (key === 'desktopimage') cfg.desktopImages.push(...splitUrls(valHrefOrText || valText));
+    if (key === 'mobileimage') cfg.mobileImages.push(...splitUrls(valHrefOrText || valText));
+
+    // Backward compat: old "image" behaves as desktopImage
+    if (key === 'image') cfg.desktopImages.push(...splitUrls(valHrefOrText || valText));
+  });
+
+  // De-dupe preserving order
+  cfg.desktopImages = [...new Set(cfg.desktopImages)];
+  cfg.mobileImages = [...new Set(cfg.mobileImages)];
+
+  return cfg;
+}
+
+function overlayHTML(cfg) {
+  if (!cfg.overlaySubtitle && !cfg.overlayTitle) return '';
+  return `
+    <div class="bannerTextDesc">
+      ${cfg.overlaySubtitle ? `<p>${cfg.overlaySubtitle}</p>` : ''}
+      ${cfg.overlayTitle ? `<h2>${cfg.overlayTitle}</h2>` : ''}
+    </div>
+  `;
+}
+
+function buildPictureHTML(desktopUrl, mobileUrl, mobileMaxWidth, eager) {
+  // Use <picture> so browser picks correct source automatically
+  // mobileUrl optional; fallback to desktopUrl if missing
+  const mob = mobileUrl || desktopUrl;
+  const load = eager ? 'eager' : 'lazy';
+  return `
+    <picture>
+      <source media="(max-width: ${mobileMaxWidth}px)" srcset="${mob}">
+      <img src="${desktopUrl}" alt="" loading="${load}">
+    </picture>
+  `;
+}
+
+function buildAuthoredPictureHTML(desktopPic, mobilePic, mobileMaxWidth, eager) {
+  // Reuse the optimized <picture> authored in DA; add the mobile image as
+  // sources scoped to the mobile breakpoint so the browser picks it there.
+  const base = desktopPic || mobilePic;
+  const pic = base.tagName === 'PICTURE' ? base.cloneNode(true) : document.createElement('picture');
+  if (base.tagName !== 'PICTURE') pic.append(base.cloneNode(true));
+
+  if (desktopPic && mobilePic) {
+    const media = `(max-width: ${mobileMaxWidth}px)`;
+    const mobileImg = mobilePic.tagName === 'IMG' ? mobilePic : mobilePic.querySelector('img');
+    const mobileWebp = mobilePic.querySelector?.('source[type="image/webp"]:not([media])');
+    const newSources = [];
+    if (mobileWebp) {
+      const s = document.createElement('source');
+      s.type = 'image/webp';
+      s.media = media;
+      s.srcset = mobileWebp.getAttribute('srcset');
+      newSources.push(s);
+    }
+    if (mobileImg?.getAttribute('src')) {
+      const s = document.createElement('source');
+      s.media = media;
+      s.srcset = mobileImg.getAttribute('src');
+      newSources.push(s);
+    }
+    pic.prepend(...newSources);
+  }
+
+  const img = pic.querySelector('img');
+  if (img) img.loading = eager ? 'eager' : 'lazy';
+  if (img && eager) img.setAttribute('fetchpriority', 'high');
+
+  // The authored width/height are the desktop ones; reserve each viewport's real ratio
+  // so phones don't shift on load
+  const ratioOf = (el) => {
+    const i = el?.tagName === 'IMG' ? el : el?.querySelector?.('img');
+    const w = i?.getAttribute('width');
+    const h = i?.getAttribute('height');
+    return w && h ? `${w} / ${h}` : '';
+  };
+  const mobileRatio = ratioOf(mobilePic);
+  const desktopRatio = ratioOf(desktopPic);
+  if (mobileRatio) pic.style.setProperty('--slide-ratio-mobile', mobileRatio);
+  if (desktopRatio) pic.style.setProperty('--slide-ratio-desktop', desktopRatio);
+  return pic.outerHTML;
+}
+
+function getSwiperClass() {
+  if (window.Swiper) return Promise.resolve(window.Swiper);
+  if (window.loadSwiper) return window.loadSwiper().catch(() => null);
+  return Promise.resolve(null);
+}
+
+export default async function decorate(block) {
+  const cfg = parseConfig(block);
+
+  // Compute slides: authored picture rows first, legacy URL lists as fallback
+  const slides = cfg.slides.length
+    ? cfg.slides
+    : cfg.desktopImages.map((d, i) => ({
+      desktop: d,
+      mobile: cfg.mobileImages[i] || '',
+      link: '',
+    }));
+
+  if (!slides.length) {
+    const parsed = cfg.debug.parsed
+      .map((r) => `${r.key}: text="${r.valText}" hrefOrText="${r.valHrefOrText}"`)
+      .join('\n');
+
+    block.innerHTML = `
+      <pre style="white-space:pre-wrap;background:#fff3cd;padding:12px;border:1px solid #ffeeba;border-radius:8px;">
+${VERSION}
+No slides configured because I could not read any URLs from "desktopImage" (or legacy "image").
+
+What I parsed from your table rows:
+${parsed}
+
+Expected one row per slide:
+Desktop image (picture) | Mobile image (picture) | Redirection link
+
+or (legacy):
+desktopImage | https://.../banner-desktop.png
+mobileImage  | https://.../banner-mobile.png
+(comma-separated lists allowed)
+      </pre>
+    `;
+    return;
+  }
+
+  block.classList.add('image-carousel');
+  if (cfg.fade) block.classList.add('carousel--fade');
+  if (cfg.breadcrumb) block.classList.add('breadcrumb-overlay');
+  if (cfg.fitViewport) block.classList.add('fit-viewport-variant');
+
+  // fit-viewport-variant slides skip the bannerWithGreybackground and prodBannerImage classes
+  const isFitViewport = block.classList.contains('fit-viewport-variant');
+  const slideClass = isFitViewport
+    ? 'bannerImgWithLeftTextComp'
+    : 'bannerImgWithLeftTextComp bannerWithGreybackground';
+  const picClass = isFitViewport ? '' : ' class="prodBannerImage"';
+
+  const overlay = overlayHTML(cfg);
+
+  const isCenteredText = block.classList.contains('centered-text');
+
+  const slidesHTML = slides.map((s, i) => {
+    const pic = (s.desktopPic || s.mobilePic)
+      ? buildAuthoredPictureHTML(s.desktopPic, s.mobilePic, cfg.mobileMaxWidth, i === 0)
+      : buildPictureHTML(s.desktop, s.mobile, cfg.mobileMaxWidth, i === 0);
+
+    // Redirection link is optional per slide: a slide with a link renders as
+    // <a> (hand cursor), one without stays a plain <div>. No "clickable"
+    // row is needed; it only remains for old pages using the legacy ctaLink.
+    const href = s.link || (cfg.clickable ? cfg.ctaLink : '');
+
+    const target = href && s.newTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+    const wrapStart = href
+      ? `<a class="full-banner-click" href="${href}"${target}>`
+      : '<div class="full-banner-click">';
+
+    // CTA sits inside the slide link (a nested <a> is invalid), so it is a
+    // button-styled span and the whole slide stays clickable.
+    const cta = href && s.ctaLabel
+      ? `<div class="carousel__cta-wrap carousel__cta-wrap--${s.ctaAlign || 'center'}"><span class="carousel__cta">${escapeHTML(s.ctaLabel)}${ARROW_ICON}</span></div>`
+      : '';
+
+    const caption = isCenteredText && (s.title || s.subTitle)
+      ? `<div class="carousel__caption">${s.subTitle ? `<p class="carousel__subtitle">${escapeHTML(s.subTitle)}</p>` : ''}${s.title ? `<h2 class="carousel__title">${escapeHTML(s.title)}</h2>` : ''}</div>`
+      : '';
+
+    const wrapEnd = href ? '</a>' : '</div>';
+
+    return `
+      <div class="swiper-slide carousel__slide" data-i="${i}">
+        <div class="${slideClass}">
+          ${wrapStart}
+            <div${picClass}>${pic}</div>
+            ${overlay}
+            ${caption}
+            ${cta}
+          ${wrapEnd}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  block.innerHTML = `
+    <div class="carousel__wrap">
+      <div class="swiper carousel__viewport" role="region" aria-roledescription="carousel">
+        <div class="swiper-wrapper carousel__track">${slidesHTML}</div>
+      </div>
+      <div class="carousel__controls">
+        <button class="carousel__nav carousel__prev" type="button" aria-label="Previous">${NAV_ICON}</button>
+        <div class="carousel__dots"></div>
+        <button class="carousel__nav carousel__next" type="button" aria-label="Next">${NAV_ICON}</button>
+      </div>
+      <div style="display:none">${VERSION}</div>
+    </div>
+  `;
+
+  block.querySelectorAll('.carousel__cta').forEach((cta) => {
+    cta.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const bannerLink = cta.closest('.full-banner-click');
+      const ctaText = cta.textContent.trim();
+      const parentTitle = bannerLink?.querySelector('.carousel__subtitle')?.textContent.trim()
+      || bannerLink?.querySelector('.carousel__title')?.textContent.trim()
+      || '';
+
+      pushAdobeCtaClickEvent({
+        cta: ctaText,
+        destinationUrl: bannerLink?.href || '',
+        parentTitle,
+        event: 'custom_cta_click',
+      });
+
+      if (bannerLink?.href) {
+        if (bannerLink.target === '_blank') {
+          window.open(bannerLink.href, '_blank', 'noopener,noreferrer');
+        } else {
+          window.location.href = bannerLink.href;
+        }
+      }
+    });
+  });
+
+  block.querySelectorAll('.full-banner-click').forEach((banner) => {
+    banner.addEventListener('click', () => {
+      if (!banner.href) return;
+      const parentTitle = banner.querySelector('.carousel__subtitle')?.textContent.trim()
+      || banner.querySelector('.carousel__title')?.textContent.trim()
+      || banner.querySelector('img')?.alt || '';
+
+      pushAdobeCtaClickEvent({
+        event: 'carousel_banner_click',
+        destinationUrl: banner.href || '',
+        title: parentTitle,
+      });
+    });
+  });
+
+  // Single slide: static banner, no Swiper, no arrows/dots
+  if (slides.length <= 1) {
+    qs(block, '.carousel__controls')?.remove();
+    return;
+  }
+
+  // Static dots so the pill looks complete before Swiper loads;
+  // Swiper's pagination re-renders them on init.
+  const dotsEl = qs(block, '.carousel__dots');
+  dotsEl.innerHTML = slides.map((_, i) => `<button class="carousel__dot${i === 0 ? ' is-active' : ''}" type="button" aria-label="Go to slide ${i + 1}"></button>`).join('');
+
+  /* WCAG 2.5.8 (target size), "equivalent" exception: the dots are too small and
+   * too close together for 24px targets without changing the design. From 992px
+   * the prev/next arrows (24px hit areas, see the CSS) do the same job, so there
+   * the dots are a pointer-only shortcut: out of the tab order and hidden from
+   * screen readers. Below 992px the arrows are hidden, so the dots stay buttons.
+   * Swiper's a11y module puts tabindex="0" back on every pagination update,
+   * hence the re-sync on paginationUpdate. */
+  const arrowsMq = window.matchMedia('(min-width: 992px)');
+  const syncDotsA11y = () => {
+    dotsEl.querySelectorAll('.carousel__dot').forEach((dot) => {
+      if (arrowsMq.matches) {
+        if (dot.tabIndex !== -1) dot.tabIndex = -1;
+        if (!dot.hasAttribute('aria-hidden')) dot.setAttribute('aria-hidden', 'true');
+      } else {
+        dot.removeAttribute('tabindex');
+        dot.removeAttribute('aria-hidden');
+      }
+    });
+  };
+  syncDotsA11y();
+  arrowsMq.addEventListener('change', syncDotsA11y);
+
+  /* Defer Swiper load + init until first user interaction (same approach as
+   * carousel-hero-banner). The first slide is already painted as plain HTML,
+   * so swiper.js stays out of the Lighthouse window and doesn't add TBT.
+   * A 25 s fallback starts autoplay for passive visitors. */
+  let pendingAction = null;
+  const prevEl = qs(block, '.carousel__prev');
+  const nextEl = qs(block, '.carousel__next');
+  const rememberClick = (e) => {
+    if (e.target.closest('.carousel__prev')) pendingAction = (sw) => sw.slidePrev();
+    else if (e.target.closest('.carousel__next')) pendingAction = (sw) => sw.slideNext();
+    else {
+      const dot = e.target.closest('.carousel__dot');
+      if (dot) {
+        const i = [...dotsEl.children].indexOf(dot);
+        pendingAction = (sw) => sw.slideTo(i);
+      }
+    }
+  };
+  const controlsEl = qs(block, '.carousel__controls');
+  controlsEl.addEventListener('click', rememberClick);
+
+  let triggered = false;
+  const initSwiper = async () => {
+    if (triggered) return;
+    triggered = true;
+
+    const Swiper = await getSwiperClass();
+    if (!Swiper) return;
+
+    const swiper = new Swiper(qs(block, '.carousel__viewport'), {
+      slidesPerView: 1,
+      // rewind instead of loop: loop is unreliable with only 2 slides
+      rewind: true,
+      speed: 350,
+      ...(cfg.fade ? { effect: 'fade', fadeEffect: { crossFade: true } } : {}),
+      autoplay: cfg.autoplay
+        ? { delay: cfg.interval, disableOnInteraction: true }
+        : false,
+      navigation: { prevEl, nextEl },
+      pagination: {
+        el: dotsEl,
+        clickable: true,
+        bulletClass: 'carousel__dot',
+        bulletActiveClass: 'is-active',
+        renderBullet: (i, className) => `<button class="${className}" type="button" aria-label="Go to slide ${i + 1}"></button>`,
+      },
+      // runs after the a11y module's own paginationUpdate handler
+      on: { paginationUpdate: syncDotsA11y },
+    });
+    syncDotsA11y();
+
+    // Replay an arrow/dot click that happened before Swiper was ready
+    controlsEl.removeEventListener('click', rememberClick);
+    if (pendingAction) {
+      swiper.autoplay?.stop();
+      pendingAction(swiper);
+    }
+  };
+
+  ['pointerdown', 'keydown', 'scroll', 'touchstart', 'wheel'].forEach((evt) => {
+    window.addEventListener(evt, initSwiper, { once: true, passive: true, capture: true });
+  });
+  window.setTimeout(initSwiper, 25000);
+}

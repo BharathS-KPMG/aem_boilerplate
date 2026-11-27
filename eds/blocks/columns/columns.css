@@ -1,0 +1,756 @@
+/* ============================================
+   Columns
+   Image cards with text and a CTA below them, as the asianpaints.com product pages show them
+   (trendingArticlesSec, e.g. "Pick from a large variety of exterior textures" on Ultima):
+   stacked 40px apart below 992px, two of 48% side by side from 992px, each image at its own
+   size with square corners; side padding 4.5% (4% from 992px) of the page width; 500 text, 14px (16px from 992px);
+   38px CTA with the source's 17 x 20 arrow. Sizes are the source's.
+   ============================================ */
+.columns {
+  padding: 10px 4.5% 0;
+  box-sizing: border-box;
+}
+
+.columns.wood-finish {
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+
+.columns>div {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 0 auto;
+}
+
+.columns>div>div {
+  display: flex;
+  flex-direction: column;
+}
+
+.wood-finish.columns>div>div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 10px;
+}
+
+.columns>div>div>p:first-child {
+  margin: 0;
+  line-height: 0;
+}
+
+.columns picture {
+  display: block;
+  width: 100%;
+}
+
+/* no CTA label but a link: the image is the link */
+.columns .columns-image-link {
+  display: block;
+}
+
+/* the images aren't evened out: each keeps its own size, square corners */
+.columns img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  max-height: none;
+  border-radius: 0;
+  object-fit: fill;
+}
+
+/* the text below the image */
+.columns>div>div>p:not(:first-child, .button-container) {
+  margin: 25px 0 0;
+  color: #222;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0.58px;
+}
+
+/* item title is not displayed */
+.columns>div>div>p:nth-child(2):has(strong:only-child) {
+  display: none;
+}
+
+/* ============================================
+   CTA: 38px, the source's arrow icon (17 x 20, drawn black), cream on hover
+   ============================================ */
+.columns .button-container {
+  margin: 10px 0 0;
+}
+
+.columns .button-container .button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  padding: 12px 18px;
+  background-color: transparent;
+  border: 1px solid #232426;
+  border-radius: 45px;
+  color: #222;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Redirection: arrow icon */
+.columns .button-container .button::after {
+  content: " ";
+  display: inline-flex;
+  flex: none;
+  width: 17px;
+  height: 20px;
+  background: url('/eds/icons/arrow-icon.svg') no-repeat;
+  filter: contrast(10) invert(1) sepia(1) saturate(100) hue-rotate(90deg);
+}
+
+/* Download: download icon */
+.columns .button-container .button.columns-cta-download::after {
+  width: 14px;
+  height: 14px;
+  background: url('/eds/icons/download-tray.svg') no-repeat center / contain;
+  filter: none;
+}
+
+.columns .button-container .button:hover {
+  background: #fff7e8;
+  border: 1px solid #232426;
+  color: #222;
+}
+
+/* ============================================
+   Title (inside the block, above the items)
+   ============================================ */
+.columns>.columns-title {
+  display: block;
+}
+
+/* default: title is all black */
+.columns .columns-title h2 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  color: #000;
+  margin: 0;
+}
+
+.columns .columns-title h2 strong {
+  color: inherit;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+/* default variant: heavier title */
+.columns:not(.color-title-variant) .columns-title h2,
+.columns:not(.color-title-variant) .columns-title h2 strong {
+  font-weight: 800;
+}
+
+/* ============================================
+   Variant: color-title-variant — gradient title
+   The last 2 words (or the bold words) get the gradient, the rest stays black,
+   e.g. "Roots of **Royale Play**".
+   ============================================ */
+.columns.color-title-variant .columns-title h2 strong {
+  background: linear-gradient(270deg, #f8a12e, #be2a1d 50.07%, #45216c 98.1%);
+  background-clip: text;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (width <=360px) {
+  .columns .button-container .button {
+    padding: 12px 10px;
+    gap: 4px;
+  }
+}
+
+@media (width >=768px) {
+  .wood-finish>div:nth-child(2) {
+    gap: unset;
+    margin-left: auto;
+    position: relative;
+    margin-right: auto;
+  }
+
+  .wood-finish.columns img {
+    aspect-ratio: 618 / 494;
+    max-height: unset;
+  }
+
+  .columns .button-container {
+    margin-top: 15px;
+  }
+
+  .columns>.columns-title {
+    margin-bottom: 60px;
+  }
+
+  .columns.wood-finish {
+    padding: 10px 60px;
+  }
+}
+
+@media (width >=992px) {
+  .columns {
+    padding: 40px 4% 0;
+  }
+
+  .columns>div {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .columns>div>div {
+    flex: 0 0 48%;
+    width: 48%;
+  }
+
+  .columns>div>div>p:not(:first-child, .button-container) {
+    margin-top: 35px;
+    font-size: 16px;
+    line-height: 1.71;
+    letter-spacing: 0.54px;
+  }
+
+  .columns .button-container .button {
+    padding: 14px 20px;
+  }
+}
+
+@media (width <=992px) {
+  .columns .columns-title h2,
+  .columns .columns-title h2 strong {
+    font-size: 20px;
+  }
+
+  .columns:not(.color-title-variant) .columns-title h2,
+  .columns:not(.color-title-variant) .columns-title h2 strong {
+    font-weight: 700;
+  }
+
+  .wood-finish.columns>div>div {
+    padding: 0;
+  }
+
+  .wood-finish.columns .columns-title h2 {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  .columns.wood-finish {
+    padding: 0 16px;
+  }
+
+  .section:has(.wood-finish) {
+    margin-bottom: -11px;
+  }
+}
+
+/* ===== wood-finish + cross-links: the earlier Columns look : START =====
+   These two variants were built on the earlier default: the cards side by side from 768px
+   (52px apart, at most 1400px wide), 16px / 500 subtitle, 5px x 20px CTA with the white arrow
+   drawn black. `:where()` keeps these rules at the plain `.columns` weight, so each variant's
+   own rules below still win. */
+.columns:where(.wood-finish, .cross-links) {
+  padding: 0;
+}
+
+.columns:where(.wood-finish, .cross-links)>.columns-title {
+  max-width: 1400px;
+}
+
+/* the text: inherited type, the page's paragraph spacing */
+/* stylelint-disable-next-line no-descending-specificity -- variant rule, after the base ones */
+.columns:where(.wood-finish, .cross-links)>div>div>p:not(:first-child, .button-container) {
+  margin: 0.8em 0 0.25em;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+/* item subtitle */
+/* stylelint-disable-next-line no-descending-specificity -- variant rule, after the base ones */
+.columns:where(.wood-finish, .cross-links)>div>div>p:nth-child(3),
+.columns:where(.wood-finish, .cross-links)>div>div>p:nth-child(2):not(:has(strong:only-child)) {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.columns:where(.wood-finish, .cross-links)>div>div>p:nth-child(2):not(:has(strong:only-child)) {
+  font-size: 16px;
+  max-width: 100%;
+  font-weight: 500;
+}
+
+.columns:where(.wood-finish, .cross-links) .button-container {
+  margin: 24px 0 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- variant rule, after the base ones */
+.columns:where(.wood-finish, .cross-links) .button-container .button {
+  gap: 10px;
+  height: auto;
+  padding: 5px 20px;
+  line-height: inherit;
+}
+
+.columns:where(.wood-finish, .cross-links) .button-container .button::after {
+  flex: initial;
+  width: 20px;
+  height: 18px;
+  background: url('/eds/icons/arrow-icon-new.svg') no-repeat;
+  filter: invert(1);
+}
+
+@media (width >=768px) {
+  .columns:where(.wood-finish, .cross-links)>div {
+    flex-direction: row;
+    justify-content: normal;
+    gap: 52px;
+    max-width: 1400px;
+  }
+
+  .columns:where(.wood-finish, .cross-links)>div>div {
+    flex: 1;
+    width: auto;
+  }
+
+  .columns:where(.wood-finish, .cross-links)>div>div>p:nth-child(3) {
+    max-width: 520px;
+  }
+}
+
+@media (width <=992px) {
+  .columns:where(.wood-finish, .cross-links)>div>div>p:nth-child(2):not(:has(strong:only-child)) {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity -- variant rule, after the base ones */
+  .columns:where(.wood-finish, .cross-links)>div>div>p:nth-child(3) {
+    margin-top: 10px;
+  }
+
+  .columns:where(.wood-finish, .cross-links) .button-container .button {
+    padding: 6px 16px;
+  }
+}
+
+/* ===== wood-finish + cross-links: the earlier Columns look : END ===== */
+
+/* ============================================
+   Variant: cross-links  (e.g. "You may also like")
+   Left-aligned title, square images, visible item
+   title, plain uppercase text CTA with purple underline
+   ============================================ */
+
+/* ============================================
+   Variant: cross-links  (e.g. "You may also like")
+   ============================================ */
+
+/* ---------- MOBILE (default) ---------- */
+.columns.cross-links {
+  box-sizing: border-box;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: left;
+  color: #222;
+}
+
+.sectionpadding .columns.cross-links {
+  margin: 0 auto;
+  padding: 0 0.5%;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- cross-links variant rules, kept in the variant section */
+.columns.cross-links>div {
+  gap: 32px;
+}
+
+.columns.cross-links>div>div {
+  gap: 0;
+}
+
+/* Section title */
+.columns.cross-links>.columns-title {
+  margin-bottom: 17px;
+}
+
+.columns.cross-links .columns-title h2,
+.columns.cross-links .columns-title h2 strong {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: left;
+  color: #222;
+}
+
+.columns.cross-links.color-title-variant .columns-title h2 strong {
+  -webkit-text-fill-color: #222;
+  background: none;
+}
+
+/* Image: square corners */
+.columns.cross-links img {
+  border-radius: 0;
+  aspect-ratio: 2 / 1;
+  max-height: none;
+}
+
+/* Item title: shown (hidden in the default block) */
+.columns.cross-links>div>div>p:nth-child(2):has(strong:only-child) {
+  display: block;
+  margin: 16px 0 0;
+  font-size: 16px;
+  line-height: 1.3;
+  color: #222;
+}
+
+/* Item title weight: 800 on mobile, 700 from 768px */
+/* stylelint-disable-next-line no-descending-specificity -- cross-links variant rules, kept in the variant section */
+.columns.cross-links>div>div>p.columns-item-title strong {
+  font-weight: 800;
+}
+
+/* Item subtitle */
+/* stylelint-disable-next-line no-descending-specificity -- cross-links variant rules, kept in the variant section */
+.columns.cross-links>div>div>p:nth-child(3) {
+  margin: 8px 0 0;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 22px;
+  color: #222;
+}
+
+/* CTA: uppercase text link with purple underline */
+.columns.cross-links .button-container {
+  margin: 6px 0 0;
+}
+
+.columns.cross-links .button-container .button {
+  display: inline-block;
+  padding: 0 0 1px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid #5b2d8e;
+
+  /* swap for your brand purple */
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 14px;
+  text-transform: uppercase;
+  color: #222;
+}
+
+/* remove arrow / download icon */
+.columns.cross-links .button-container .button::after,
+.columns.cross-links .button-container .button.columns-cta-download::after {
+  content: none;
+  display: none;
+}
+
+.columns.cross-links .button-container .button:hover {
+  background: transparent;
+  border-color: #5b2d8e;
+  color: #5b2d8e;
+}
+
+/* ---------- DESKTOP / WEB (768px and up) ---------- */
+@media (width >=768px) {
+  .columns.cross-links {
+    font-size: 16px;
+    line-height: 30px;
+  }
+
+  .sectionpadding .columns.cross-links {
+    padding: 0 2.2%;
+  }
+
+  .columns.cross-links>div {
+    flex-direction: row;
+    gap: 53px;
+  }
+
+  .columns.cross-links>div>div {
+    flex: 1;
+  }
+
+  .columns.cross-links>.columns-title {
+    margin-bottom: 55px;
+  }
+
+  .columns.cross-links .columns-title h2,
+  .columns.cross-links .columns-title h2 strong {
+    font-size: 30px;
+  }
+
+  .columns.cross-links img {
+    aspect-ratio: 2 / 1;
+    max-height: none;
+  }
+
+  .columns.cross-links .button-container {
+    margin-top: 11px;
+  }
+
+  .columns.cross-links .button-container .button {
+    padding-bottom: 2px;
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .columns.cross-links>div>div>p:nth-child(2):has(strong:only-child) {
+    margin-top: 28px;
+    font-size: 20px;
+    font-weight: bolder;
+  }
+
+  .columns.cross-links>div>div>p.columns-item-title strong {
+    font-weight: 700;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity -- cross-links variant rules, kept in the variant section */
+  .columns.cross-links>div>div>p:nth-child(3) {
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.71;
+    max-width: 100%;
+    letter-spacing: 0.54px;
+
+    .columns.cross-links .button-container {
+      margin-top: 16px;
+    }
+
+    .columns.cross-links .button-container .button {
+      font-size: 16px;
+    }
+  }
+}
+
+/* ===== FIX MATCH LIVE (wood-finish + color-title-variant title) : START =====
+   "Tools for you & **Inspirations for your home**" as on the source (wood-listing): the black
+   part #222 30px / 700 and the gradient part 32px / 800 on desktop; 22px / 700 and 20px / 800,
+   centred, on mobile. Only Columns with both options (wood-finish, color-title-variant). */
+.columns.wood-finish.color-title-variant .columns-title h2 {
+  color: #222;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 34px;
+}
+
+.columns.wood-finish.color-title-variant .columns-title h2 strong {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+@media (width <= 991px) {
+  .columns.wood-finish.color-title-variant .columns-title h2 {
+    font-size: 22px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .columns.wood-finish.color-title-variant .columns-title h2 strong {
+    font-size: 20px;
+  }
+}
+
+/* ===== FIX MATCH LIVE (wood-finish + color-title-variant title) : END ===== */
+
+/* ===== section style home-page-two-large-column : START =====
+   Section metadata style=home-page-two-large-column ("Wondering what it might cost?").
+   The section's heading and text above the block: 22px / 800 heading and 12px / 500
+   grey text on mobile, 38px / 21px and centred from 992px, with the block's side gutter.
+   From 992px: 40px side padding, the two cards share the width 20px apart.
+   Below 992px: 16px left padding, the cards sit in one row 13px apart that scrolls
+   sideways, and the next card runs off the right edge of the screen. Cards are 72%
+   of the row (about 2/3 of the screen); from about 720px both fit. */
+
+/* same side gutter as the block, so the text lines up with the cards */
+main>.section.home-page-two-large-column>.default-content-wrapper {
+  padding-inline: 16px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- section text, not the block's */
+main>.section.home-page-two-large-column>.default-content-wrapper h2 {
+  margin-bottom: 4px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- section text, not the block's */
+main>.section.home-page-two-large-column>.default-content-wrapper p {
+  margin-top: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0;
+  color: #75787b;
+}
+
+@media (width >= 992px) {
+  main>.section.home-page-two-large-column>.default-content-wrapper {
+    padding-inline: 40px;
+  }
+
+  /* cards start 25px below the text (the block's own 40px is for its title) */
+  main>.section.home-page-two-large-column .columns {
+    padding: 25px 40px 0;
+  }
+
+  main>.section.home-page-two-large-column .columns>div:not(.columns-title) {
+    justify-content: normal;
+    gap: 20px;
+  }
+
+  main>.section.home-page-two-large-column .columns>div:not(.columns-title)>div {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  main>.section.home-page-two-large-column>.default-content-wrapper h2 {
+    font-size: 38px;
+    line-height: 60.4px;
+    letter-spacing: -0.04em;
+    text-align: center;
+  }
+
+  main>.section.home-page-two-large-column>.default-content-wrapper p {
+    font-size: 21px;
+    line-height: 28px;
+    text-align: center;
+  }
+}
+
+/* mobile swipe row */
+@media (width < 992px) {
+  main>.section.home-page-two-large-column .columns {
+    padding-inline: 16px 0;
+  }
+
+  main>.section.home-page-two-large-column .columns>div:not(.columns-title) {
+    flex-direction: row;
+    gap: 13px;
+    padding-right: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  main>.section.home-page-two-large-column .columns>div:not(.columns-title)::-webkit-scrollbar {
+    display: none;
+  }
+
+  main>.section.home-page-two-large-column .columns>div:not(.columns-title)>div {
+    flex: 0 0 72%;
+    max-width: 340px;
+    scroll-snap-align: start;
+  }
+}
+
+/* ===== section style home-page-two-large-column : END ===== */
+
+/* ===== section style home-page-two-semi-large-column : START =====
+   Section metadata style=home-page-two-semi-large-column ("Ready to bring inspiration to life?").
+   The section's heading and text as home-page-two-large-column: 22px / 800 heading and
+   12px / 500 grey text on mobile, 38px / 21px and centred from 992px.
+   Below 992px: the heading at most 77% wide; 16px side padding, the cards stacked full
+   width 10px apart.
+   From 992px: 40px side padding, the two cards share the width 16px apart. */
+
+/* same side gutter as the block, so the text lines up with the cards */
+main>.section.home-page-two-semi-large-column>.default-content-wrapper {
+  padding-inline: 16px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- section text, not the block's */
+main>.section.home-page-two-semi-large-column>.default-content-wrapper h2 {
+  max-width: 77%;
+  margin-bottom: 4px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- section text, not the block's */
+main>.section.home-page-two-semi-large-column>.default-content-wrapper p {
+  margin-top: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0;
+  color: #8c8e90;
+}
+
+main>.section.home-page-two-semi-large-column .columns {
+  padding-inline: 16px;
+}
+
+main>.section.home-page-two-semi-large-column .columns>div:not(.columns-title) {
+  gap: 10px;
+}
+
+@media (width >= 992px) {
+  main>.section.home-page-two-semi-large-column>.default-content-wrapper {
+    padding-inline: 40px;
+  }
+
+  /* cards start 25px below the text (the block's own 40px is for its title) */
+  main>.section.home-page-two-semi-large-column .columns {
+    padding: 25px 40px 0;
+  }
+
+  main>.section.home-page-two-semi-large-column .columns>div:not(.columns-title) {
+    justify-content: normal;
+    gap: 16px;
+  }
+
+  main>.section.home-page-two-semi-large-column .columns>div:not(.columns-title)>div {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  main>.section.home-page-two-semi-large-column>.default-content-wrapper h2 {
+    max-width: none;
+    font-size: 38px;
+    line-height: 60.4px;
+    letter-spacing: -0.04em;
+    text-align: center;
+  }
+
+  main>.section.home-page-two-semi-large-column>.default-content-wrapper p {
+    color: #75787b;
+    font-size: 21px;
+    line-height: 28px;
+    text-align: center;
+  }
+}
+
+/* ===== section style home-page-two-semi-large-column : END ===== */

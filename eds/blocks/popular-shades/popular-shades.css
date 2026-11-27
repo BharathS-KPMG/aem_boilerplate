@@ -1,0 +1,983 @@
+/* stylelint-disable selector-class-pattern -- this block uses BEM (__/--) class names */
+
+.popular-shades-container {
+  padding: 0 !important;
+}
+
+.popular-shades-container .popular-shades-wrapper,
+.popular-shades-container .default-content-wrapper,
+.popular-shades-container .popular-shades.block {
+  max-width: 100% !important;
+  width: 100%;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.popular-shades {
+  width: 100%;
+
+  /* background: #f5f5f3; */
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.popular-shades__wrapper {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 720px;
+}
+
+.popular-shades__media {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 0 20px;
+}
+
+.popular-shades__swiper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.popular-shades__slide {
+  width: 100%;
+}
+
+.popular-shades__image-wrap {
+  width: 100%;
+  min-height: 520px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+
+  /* background: #f5f5f3; */
+  padding-left: 40px;
+  height: 482px;
+}
+
+.popular-shades__picture,
+.popular-shades__picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.popular-shades__content {
+  width: 420px;
+  flex: 0 0 420px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding-top: 7%;
+  padding-left: 2%;
+}
+
+.popular-shades__title {
+  margin: 0 0 28px;
+  font-size: clamp(46px, 5vw, 80px);
+  line-height: 70.4px;
+  font-weight: 700;
+  letter-spacing: .62px;
+  color: #111;
+}
+
+.popular-shades__title .gradient-text {
+  background: linear-gradient(90deg, #6f2c91 0%, #c53334 50%, #f08a24 100%);
+  /* stylelint-disable-next-line property-no-vendor-prefix -- gradient text in older Safari */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.popular-shades__description {
+  margin: 0 0 36px;
+  font-size: 16px;
+  line-height: 22px;
+  color: #222;
+  font-weight: 500;
+  max-width: 80%;
+}
+
+.popular-shades__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: fit-content;
+  height: 38px;
+  padding: 10px 24px;
+  border: 1px solid #2d2d2d;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #2d2d2d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: 20px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.popular-shades__cta:hover {
+  background: #fff7e8;
+  border: 1px solid #232426;
+  color: inherit;
+}
+
+.popular-shades__cta-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.popular-shades__swatches {
+  width: 100%;
+  margin-top: -35px;
+
+  /* padding: 0 38px; */
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.popular-shades__swatch-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: 12px;
+
+  /* explicit, not the browser's list indent: Bootstrap's reboot (loaded on the first
+     click or key press) turns that into 2rem and shifts the swatches off the picture */
+  padding: 0 0 0 40px;
+  overflow: auto hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+
+.popular-shades__swatch-list::-webkit-scrollbar {
+  display: none;
+}
+
+.popular-shades__swatch-item {
+  flex: 0 0 auto;
+  width: 72px;
+  min-width: 72px;
+  margin: 0;
+  padding: 0;
+}
+
+.popular-shades__swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: #3b3b3b;
+}
+
+.popular-shades__swatch-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 80px;
+
+  /* border-radius: 18px 18px 0 0; */
+  border-top-right-radius: 16px;
+  padding: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.popular-shades__swatch-check {
+  display: none;
+  width: 18px;
+  height: 18px;
+}
+
+.popular-shades__swatch.is-active .popular-shades__swatch-check {
+  display: block;
+}
+
+.popular-shades__swatch-meta {
+  display: block;
+  width: 100%;
+  padding-top: 10px;
+  white-space: normal;
+}
+
+.popular-shades__swatch-name {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #1d1d1f;
+}
+
+.popular-shades__swatch-number {
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  line-height: 9px;
+  margin-top: 3px;
+}
+
+.popular-shades__swatch.is-active .popular-shades__swatch-name,
+.popular-shades__swatch.is-active .popular-shades__swatch-number {
+  color: #222;
+}
+
+@media (width <=1199px) {
+  .popular-shades__content {
+    width: 360px;
+    flex-basis: 360px;
+    padding: 64px 40px;
+  }
+
+  .popular-shades__image-wrap {
+    min-height: 460px;
+  }
+}
+
+@media (width <=991px) {
+  .popular-shades-container .popular-shades-wrapper .popular-shades.block .button-container {
+    order: 3;
+  }
+
+  .popular-shades__wrapper {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .popular-shades__content {
+    order: 1;
+    width: 100%;
+    flex: 0 0 auto;
+    padding: 12px 12px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .popular-shades__media {
+    order: 2;
+    padding-bottom: 16px;
+  }
+
+  .popular-shades__title {
+    margin: 0 0 8px;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 35.2px;
+    letter-spacing: .62px;
+  }
+
+  .popular-shades__description {
+    max-width: 100%;
+    line-height: 15.03px;
+    margin: 0 0 14px;
+    font-size: 11px;
+    color: #222;
+    letter-spacing: .62px;
+  }
+
+  .popular-shades__image-wrap {
+    min-height: unset;
+    height: auto;
+    aspect-ratio: auto;
+    background: transparent;
+    padding: 0 10px;
+  }
+
+  .popular-shades__picture,
+  .popular-shades__picture img {
+    width: 100%;
+    height: auto;
+  }
+
+  .popular-shades__picture img {
+    object-fit: contain;
+  }
+
+  .popular-shades__swatches {
+    padding: 0 10px;
+    margin-top: 10px;
+  }
+
+  /* the 10px inset comes from .popular-shades__swatches alone, matching the picture */
+  .popular-shades__swatch-list {
+    gap: 8px;
+    padding: 0;
+  }
+
+  /* keeps the desktop 72px width: a long name wraps under the chip instead of widening it */
+  .popular-shades__swatch-item {
+    height: auto;
+  }
+
+  .popular-shades__swatch-chip {
+    /* width: 56px;
+    height: 60px; */
+
+    /* border-radius: 14px 14px 0 0; */
+    padding: 8px;
+  }
+
+  .popular-shades__swatch-check {
+    width: 16px;
+    height: 16px;
+  }
+
+  .popular-shades__swatch-meta {
+    padding-top: 8px;
+  }
+
+  .popular-shades__swatch-name {
+    font-size: 11px;
+    line-height: 1.25;
+  }
+
+  .popular-shades__swatch-number {
+    margin-top: 2px;
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .popular-shades__cta {
+    margin: 16px auto 0;
+    min-height: 40px;
+    padding: 10px 18px;
+    font-size: 14px;
+    gap: 10px;
+  }
+
+  .popular-shades__cta-icon {
+    font-size: 16px;
+  }
+}
+
+@media (width >=992px) {
+  .popular-shades__media {
+    width: 69%;
+    flex: unset;
+    min-width: unset;
+  }
+
+  /* on wide screens the frame outgrows the contained picture: pin it left so it
+     starts where the swatches do instead of centring away from them */
+  .popular-shades__picture img {
+    object-position: left center;
+  }
+
+  .popular-shades__content {
+    width: 30%;
+    flex: unset;
+  }
+}
+
+/* =============================================
+   Variant: exterior — Popular Shades (exterior)
+   House preview with the shade swatches below it. Desktop: the picture runs off the left
+   edge (988x538 frame) with the text on the right; mobile: title and description over
+   the top of the picture, swatches overlapping its foot, CTA centred below.
+   Measured from asianpaints.com /paint-products/exterior-wall-paints.html.
+   ============================================= */
+.popular-shades-container:has(> .popular-shades-wrapper > .popular-shades.exterior) {
+  margin-top: 80px;
+  padding: 0 0 25px !important;
+}
+
+.popular-shades.exterior {
+  /* block palette: the source's title gradient and swatch text colour have no global tokens */
+  --pse-gradient: linear-gradient(91deg, #431a80 1.46%, #ee4137 51.38%, #feb940);
+  --pse-swatch-text: #1d1d1f;
+  --pse-hover-bg: #fff7e8;
+  --pse-inline: 11px;
+}
+
+.popular-shades.exterior .popular-shades__wrapper {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  min-height: 0;
+}
+
+/* the panel's children join the grid, so the CTA sits below the swatches either way */
+.popular-shades.exterior .popular-shades__content {
+  display: contents;
+}
+
+/* below desktop the source text column is at most 698.42px wide, centred */
+.popular-shades.exterior .popular-shades__title,
+.popular-shades.exterior .popular-shades__description {
+  box-sizing: border-box;
+  justify-self: center;
+  width: 100%;
+  max-width: calc(698.42px + 2 * var(--pse-inline));
+}
+
+/* mobile: as on the source, the picture follows the text, pulled 115px up under it */
+.popular-shades.exterior .popular-shades__media {
+  grid-area: 3 / 1;
+  margin-top: -115px;
+  padding: 0;
+}
+
+.popular-shades.exterior .popular-shades__image-wrap {
+  position: relative;
+  width: auto;
+  height: 440px;
+  min-height: 0;
+  aspect-ratio: auto;
+  margin: 0 var(--pse-inline);
+  padding: 0;
+}
+
+.popular-shades.exterior .popular-shades__picture {
+  position: absolute;
+  inset: 0;
+}
+
+.popular-shades.exterior .popular-shades__picture img {
+  height: 100%;
+  object-fit: contain;
+}
+
+.popular-shades.exterior .popular-shades__title {
+  position: relative;
+  z-index: 2;
+  grid-area: 1 / 1;
+  margin: 42px 0 0;
+  padding: 0 var(--pse-inline);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 35.2px;
+  letter-spacing: -1.65px;
+  color: var(--text-color);
+}
+
+.popular-shades.exterior .popular-shades__title .gradient-text {
+  background: var(--pse-gradient);
+  background-clip: text;
+}
+
+.popular-shades.exterior .popular-shades__description {
+  position: relative;
+  z-index: 2;
+  grid-area: 2 / 1;
+  margin: 12px 0 14px;
+  padding: 0 var(--pse-inline);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.62px;
+  color: #000;
+}
+
+/* swatches */
+.popular-shades.exterior .popular-shades__swatches {
+  position: relative;
+  z-index: 2;
+  margin-top: -80px;
+  padding: 0;
+}
+
+.popular-shades.exterior .popular-shades__swatch-list {
+  gap: 10px;
+  margin: 0;
+  padding: 0 var(--pse-inline);
+}
+
+.popular-shades.exterior .popular-shades__swatch-item {
+  width: 96px;
+  min-width: 96px;
+}
+
+.popular-shades.exterior .popular-shades__swatch {
+  align-items: center;
+}
+
+.popular-shades.exterior .popular-shades__swatch-chip {
+  width: 96px;
+  height: 100px;
+  padding: 0;
+  border-radius: 4px 16px 4px 4px;
+}
+
+/* the source's white check SVG shown grey, as on the source (filter: brightness(0.5)) */
+.popular-shades.exterior .popular-shades__swatch-check {
+  width: 15px;
+  height: 22px;
+  filter: brightness(0.5);
+}
+
+.popular-shades.exterior .popular-shades__swatch-meta {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.popular-shades.exterior .popular-shades__swatch-name,
+.popular-shades.exterior .popular-shades__swatch.is-active .popular-shades__swatch-name {
+  font-size: 11px;
+  line-height: normal;
+  color: var(--pse-swatch-text);
+}
+
+.popular-shades.exterior .popular-shades__swatch-number,
+.popular-shades.exterior .popular-shades__swatch.is-active .popular-shades__swatch-number {
+  margin-top: 3px;
+  font-size: 10px;
+  line-height: 9px;
+  color: var(--pse-swatch-text);
+}
+
+/* CTA */
+.popular-shades.exterior .button-container {
+  grid-area: 4 / 1;
+  justify-self: center;
+  margin: 30px 0 0;
+}
+
+.popular-shades.exterior .popular-shades__cta {
+  gap: 10px;
+  height: auto;
+  min-height: 38px;
+  margin: 0;
+  padding: 0 18px;
+  border: 1px solid var(--dark-color);
+  border-radius: 45px;
+  color: var(--text-color);
+}
+
+.popular-shades.exterior .popular-shades__cta:hover {
+  border-color: var(--dark-color);
+  background: var(--pse-hover-bg);
+  color: var(--text-color);
+}
+
+/* the source arrow image (17x20, bold), in place of the text glyph */
+.popular-shades.exterior .popular-shades__cta-icon {
+  flex: none;
+  width: 17px;
+  height: 20px;
+  font-size: 0;
+  background: url('/eds/icons/arrow-icon-new.svg') no-repeat;
+  filter: contrast(10) invert(1) sepia(1) saturate(100) hue-rotate(90deg);
+}
+
+.popular-shades.exterior .popular-shades__swatch:focus-visible,
+.popular-shades.exterior .popular-shades__cta:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+@media (width >=992px) {
+  .popular-shades-container:has(> .popular-shades-wrapper > .popular-shades.exterior) {
+    padding: 0 0 100px !important;
+  }
+
+  .popular-shades.exterior {
+    --pse-inline: 40px;
+  }
+
+  /* source: image 70% | text 30% (from a 3% gap) of the block less 29px on the right */
+  .popular-shades.exterior .popular-shades__wrapper {
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 70%) minmax(0, 1fr);
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 3%;
+    padding-right: 29px;
+  }
+
+  .popular-shades.exterior .popular-shades__media {
+    grid-area: 1 / 1 / 5 / 2;
+    width: auto;
+    margin-top: 0;
+    padding: 0;
+  }
+
+  /* source geometry: a 538px-tall frame; the house is the frame width plus 175px,
+     right-aligned so it runs 175px off the left edge, stretched to fit */
+  .popular-shades.exterior .popular-shades__image-wrap {
+    aspect-ratio: auto;
+    height: 538px;
+    margin: 0;
+  }
+
+  .popular-shades.exterior .popular-shades__picture {
+    inset: 0 0 0 auto;
+    width: calc(100% + 175px);
+  }
+
+  .popular-shades.exterior .popular-shades__picture img {
+    object-fit: fill;
+  }
+
+  .popular-shades.exterior .popular-shades__title,
+  .popular-shades.exterior .popular-shades__description {
+    justify-self: stretch;
+    max-width: none;
+  }
+
+  .popular-shades.exterior .popular-shades__title {
+    grid-area: 1 / 2;
+    margin: calc(42.4px + 7.78%) 0 40px;
+    padding: 0;
+    font-size: 64px;
+    line-height: 70.4px;
+    letter-spacing: -2.56px;
+  }
+
+  .popular-shades.exterior .popular-shades__description {
+    grid-area: 2 / 2;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 22.72px;
+  }
+
+  .popular-shades.exterior .popular-shades__swatches {
+    margin-top: 40px;
+  }
+
+  .popular-shades.exterior .popular-shades__swatch-list {
+    padding: 0 var(--pse-inline);
+  }
+
+  .popular-shades.exterior .button-container {
+    grid-area: 3 / 2;
+    justify-self: start;
+    margin: 51px 0 0;
+  }
+
+  .popular-shades.exterior .popular-shades__cta {
+    padding: 0 20px;
+  }
+}
+
+/* source: compact CTA on the narrowest phones */
+@media (width <=360px) {
+  .popular-shades.exterior .popular-shades__cta {
+    gap: 4px;
+    padding: 0 10px;
+  }
+}
+
+/* =============================================
+   End: exterior variant
+   ============================================= */
+
+/* =============================================
+   Variant: left-aligned-swatch — Popular Shades (left-aligned-swatch)
+   Title and description on top, then the chosen shade's "name - number" and the CTA.
+   Mobile: a 4:5 picture, the swatch chips in a row under it (scrolling to the screen
+   edge), the shade name and a full-width CTA below. Desktop: the CTA beside the shade
+   name, the chips in a column left of the picture, six to its height (more scroll);
+   sized in cqw so chips and picture keep their proportions at every width.
+   ============================================= */
+/* stylelint-disable no-descending-specificity -- scoped by .left-aligned-swatch, no overlap with the exterior rules above */
+.popular-shades.left-aligned-swatch {
+  --pss-inline: 16px;
+  --pss-chip-gap: 10px;
+  --pss-chip-room: 8px;
+
+  /* list padding that keeps the active chip's shadow and focus ring */
+  --pss-ring-inset: 5px;
+  --pss-radius: 6px;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "title"
+    "desc"
+    "image"
+    "swatches"
+    "shade"
+    "cta";
+  box-sizing: border-box;
+  min-height: 0;
+  padding: 0 var(--pss-inline);
+}
+
+/* the text panel and the media join the grid */
+.popular-shades.left-aligned-swatch .popular-shades__content,
+.popular-shades.left-aligned-swatch .popular-shades__media {
+  display: contents;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__title {
+  grid-area: title;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: var(--text-color-dark);
+}
+
+/* one colour for the whole heading, no gradient on "Shades" */
+.popular-shades.left-aligned-swatch .popular-shades__title .gradient-text {
+  background: none;
+  -webkit-text-fill-color: currentcolor;
+  color: inherit;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__description {
+  grid-area: desc;
+  max-width: none;
+  margin: 4px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0;
+  color: var(--dark-grey);
+}
+
+/* picture */
+.popular-shades.left-aligned-swatch .popular-shades__swiper {
+  grid-area: image;
+  min-width: 0;
+  margin-top: 14px;
+}
+
+/* before Swiper's stylesheet arrives the slides already sit side by side, the first showing */
+.popular-shades.left-aligned-swatch .swiper-wrapper {
+  display: flex;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__slide {
+  flex-shrink: 0;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__image-wrap {
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  border-radius: var(--pss-radius);
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__picture,
+.popular-shades.left-aligned-swatch .popular-shades__picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* swatches: a row under the picture */
+.popular-shades.left-aligned-swatch .popular-shades__swatches {
+  grid-area: swatches;
+  width: auto;
+  min-width: 0;
+  margin: calc(20px - var(--pss-chip-room)) calc(-1 * var(--pss-inline)) 0 calc(-1 * var(--pss-chip-room));
+  padding: 0;
+  overflow: visible;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__swatch-list {
+  /* offsetParent for scrolling the active chip into view */
+  position: relative;
+  gap: var(--pss-chip-gap);
+  margin: 0;
+  padding: var(--pss-chip-room) var(--pss-inline) var(--pss-chip-room) var(--pss-chip-room);
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__swatch-item {
+  display: flex;
+  width: 68px;
+  min-width: 0;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__swatch {
+  flex: 1;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__swatch-chip {
+  width: 100%;
+  height: 72px;
+  padding: 0;
+  border-radius: 3px 32% 3px 3px;
+  transition: box-shadow .2s ease;
+}
+
+/* the chosen shade: a white ring inside the chip and a soft shadow */
+.popular-shades.left-aligned-swatch .popular-shades__swatch-chip::after {
+  content: '';
+  position: absolute;
+  inset: var(--pss-ring-inset);
+  border: 2px solid #fff;
+  border-radius: 2px 30% 2px 2px;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__swatch.is-active .popular-shades__swatch-chip {
+  box-shadow: 0 3px 8px rgb(0 0 0 / 22%);
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__swatch.is-active .popular-shades__swatch-chip::after {
+  opacity: 1;
+}
+
+/* the name and number show once, for the chosen shade, in .popular-shades__active-shade */
+.popular-shades.left-aligned-swatch .popular-shades__swatch-check,
+.popular-shades.left-aligned-swatch .popular-shades__swatch-meta {
+  display: none;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__active-shade {
+  grid-area: shade;
+  margin: 2px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--text-color-dark);
+}
+
+/* CTA */
+.popular-shades.left-aligned-swatch .button-container {
+  grid-area: cta;
+  margin: 12px 0 0;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__cta {
+  box-sizing: border-box;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: auto;
+  min-height: 42px;
+  margin: 0;
+  padding: 0 20px;
+  border: 1px solid var(--dark-color);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color-dark);
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__cta-icon {
+  display: none;
+}
+
+.popular-shades.left-aligned-swatch .popular-shades__swatch:focus-visible,
+.popular-shades.left-aligned-swatch .popular-shades__cta:focus-visible {
+  outline: 2px solid var(--dark-color);
+  outline-offset: 2px;
+}
+
+/* tablet: the wide desktop picture (the portrait one is for phones), a CTA of its own width */
+@media (width >=600px) {
+  .popular-shades.left-aligned-swatch .popular-shades__image-wrap {
+    aspect-ratio: 556 / 287;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__cta {
+    width: fit-content;
+    min-width: 200px;
+  }
+}
+
+@media (width >=992px) {
+  .popular-shades.left-aligned-swatch {
+    --pss-inline: 40px;
+    --pss-chip-gap: 1.25cqw;
+    --pss-ring-inset: 6px;
+    --pss-radius: 8px;
+
+    container-type: inline-size;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__wrapper {
+    grid-template-columns: 6.25cqw minmax(0, 1fr) auto;
+    grid-template-areas:
+      "title title title"
+      "desc desc desc"
+      "shade shade cta"
+      "swatches image image";
+    column-gap: 12px;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__title {
+    font-size: 40px;
+    line-height: 1.2;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__description {
+    margin-top: 6px;
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__active-shade {
+    align-self: center;
+    margin: 14px 0 0;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .popular-shades.left-aligned-swatch .button-container {
+    margin: 14px 0 0;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__cta {
+    min-height: 48px;
+    font-size: 16px;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__cta-icon {
+    display: block;
+    flex: none;
+    width: 18px;
+    height: 11px;
+    font-size: 0;
+    background-color: currentcolor;
+    mask: url('../../icons/thin-arrow.svg') center / contain no-repeat;
+  }
+
+  /* the chips: a column as tall as the picture, six to it, the rest scroll */
+  .popular-shades.left-aligned-swatch .popular-shades__swatches {
+    position: relative;
+    margin: 14px 0 0;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__swatch-list {
+    position: absolute;
+    inset: calc(-1 * var(--pss-chip-room));
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--pss-chip-room);
+    overflow: hidden auto;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__swatch-item {
+    flex: 0 0 calc((100% - 5 * var(--pss-chip-gap)) / 6);
+    width: auto;
+  }
+
+  .popular-shades.left-aligned-swatch .popular-shades__swatch-chip {
+    flex: 1;
+    height: auto;
+    border-radius: 3px 30% 3px 3px;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */
+
+/* =============================================
+   End: left-aligned-swatch variant
+   ============================================= */

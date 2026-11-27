@@ -1,0 +1,645 @@
+/* ---- self-contained base ----
+   Everything this block needs from the site styles (styles/styles.css, styles/fonts.css), so the
+   block folder can be copied to another project and look the same: the design tokens, fonts and
+   text defaults, scoped to the block's section, plus the section layout. The text defaults have
+   element-level specificity (:where), so they beat a host site's plain element rules but the
+   block's own rules always win.
+   The section layout this block expects is at the end of this file.
+   The font is the source's Manrope (asianpaints.com); the host site's Manrope @font-face supplies
+   it (styles/fonts.css here). */
+/* stylelint-disable max-line-length */
+main > .section.products-listing-container {
+  --background-color: white;
+  --light-color: #f8f8f8;
+  --dark-color: #505050;
+  --text-color: #131313;
+  --link-color: #3b63fb;
+  --link-hover-color: #1d3ecf;
+  --body-font-size-m: 22px;
+  --body-font-size-s: 19px;
+  --body-font-size-xs: 17px;
+  --heading-font-size-xxl: 55px;
+  --heading-font-size-xl: 44px;
+  --heading-font-size-l: 34px;
+  --heading-font-size-m: 27px;
+  --heading-font-size-s: 24px;
+  --heading-font-size-xs: 22px;
+  --nav-height: 64px;
+
+  color: var(--text-color);
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+}
+
+@media (width >= 900px) {
+  main > .section.products-listing-container {
+    --body-font-size-m: 18px;
+    --body-font-size-s: 16px;
+    --body-font-size-xs: 14px;
+    --heading-font-size-xxl: 45px;
+    --heading-font-size-xl: 36px;
+    --heading-font-size-l: 28px;
+    --heading-font-size-m: 22px;
+    --heading-font-size-s: 20px;
+    --heading-font-size-xs: 18px;
+  }
+}
+
+/* the browser's box model, in case the host site sets box-sizing on everything */
+:where(main > .section.products-listing-container), :where(main > .section.products-listing-container) *, :where(main > .section.products-listing-container) ::before, :where(main > .section.products-listing-container) ::after {
+  box-sizing: revert;
+}
+
+:where(main > .section.products-listing-container) :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+  font-weight: 600;
+  line-height: 1.25;
+  color: inherit;
+  scroll-margin: 40px;
+}
+
+:where(main > .section.products-listing-container) h1 { font-size: var(--heading-font-size-xxl); }
+:where(main > .section.products-listing-container) h2 { font-size: var(--heading-font-size-xl); }
+:where(main > .section.products-listing-container) h3 { font-size: var(--heading-font-size-l); }
+:where(main > .section.products-listing-container) h4 { font-size: var(--heading-font-size-m); }
+:where(main > .section.products-listing-container) h5 { font-size: var(--heading-font-size-s); }
+:where(main > .section.products-listing-container) h6 { font-size: var(--heading-font-size-xs); }
+
+:where(main > .section.products-listing-container) :is(p, dl, ol, ul, pre, blockquote) {
+  margin-top: 0.8em;
+  margin-bottom: 0.25em;
+}
+
+:where(main > .section.products-listing-container) a:where(:any-link) {
+  color: var(--link-color);
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+:where(main > .section.products-listing-container) a:where(:hover) {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+:where(main > .section.products-listing-container) img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  vertical-align: baseline;
+}
+
+:where(main > .section.products-listing-container) :is(input, textarea, select, button) {
+  font: inherit;
+}
+
+/* stylelint-enable max-line-length */
+
+/* ---- end of self-contained base ---- */
+
+/* product cards for listing pages; sizes in rem so they follow the reader's font size */
+.products-listing {
+  /* brand colours with no token in styles.css: the source's cyan badge (so its shimmer shows the
+     same) and red footnote mark */
+  --products-listing-badge: #22cdcc;
+  --products-listing-mark: #ee4137;
+  --products-listing-border: #efefef;
+
+  /* the source's text colours: body, product names and prices, features, tax note */
+  --products-listing-text: #222;
+  --products-listing-name: #161515;
+  --products-listing-feature: #000;
+  --products-listing-note: #4d4d4d;
+
+  color: var(--products-listing-text);
+  font-size: 0.875rem;
+  line-height: 1.5715;
+}
+
+/* each card spans five rows (image, name, features, price, compare) of the list on a subgrid, so
+   those line up across a row of cards: a name on two lines makes room for two lines in every card
+   of the row, as on the source. The space between rows is the cards' bottom margin (none after
+   the last row), so empty rows (no Compare without the filter and compare bar) add no gaps */
+.products-listing .products-listing-list {
+  --products-listing-row-gap: 14px;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 14px;
+  margin: 0 0 calc(-1 * var(--products-listing-row-gap));
+  padding: 0;
+  list-style: none;
+}
+
+.products-listing .products-listing-card {
+  position: relative;
+  display: grid;
+  grid-row: span 5;
+  grid-template-rows: subgrid;
+  justify-items: center;
+  margin-bottom: var(--products-listing-row-gap);
+  padding: 17px 10px 10px;
+  border: 1px solid var(--products-listing-border);
+  border-radius: 8px;
+  background-color: var(--background-color);
+  text-align: center;
+}
+
+.products-listing .products-listing-badge {
+  position: absolute;
+  top: 0.5px;
+  left: 1px;
+  margin: 0;
+  padding: 3px 6px;
+  border-radius: 20px;
+  background-color: var(--products-listing-badge);
+
+  /* color: var(--background-color); */
+  color: #2c2c2c;
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 0.5625rem;
+  letter-spacing: 0.5px;
+  mask: linear-gradient(-60deg, #000 30%, #0005, #000 50%) right / 200% 100%;
+  animation: products-listing-shimmer 2.5s infinite;
+}
+
+@keyframes products-listing-shimmer {
+  100% {
+    mask-position: left;
+  }
+}
+
+.products-listing .products-listing-image {
+  grid-row: 1;
+  width: 50px;
+
+  /* pack shots are 221 × 264; reserves the space before the lazy image loads */
+  aspect-ratio: 221 / 264;
+}
+
+.products-listing .products-listing-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.products-listing .products-listing-title {
+  grid-row: 2;
+  justify-self: stretch;
+  margin: 10px 0 6px;
+  color: var(--products-listing-name);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.products-listing .products-listing-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* the whole card is the product link */
+.products-listing .products-listing-title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+}
+
+.products-listing .products-listing-title a:focus-visible {
+  outline: none;
+}
+
+.products-listing .products-listing-title a:focus-visible::after {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+.products-listing .products-listing-features {
+  grid-row: 3;
+  justify-self: stretch;
+  margin: 0;
+  padding: 0 0 0 16px;
+  list-style-type: disc;
+  color: var(--products-listing-feature);
+  font-size: 0.625rem;
+  line-height: normal;
+  text-align: left;
+}
+
+/* the price spans the card's full width, as on the source, so the tax note stays on one line */
+.products-listing .products-listing-price {
+  grid-row: 4;
+  justify-self: stretch;
+  margin: 0 -10px;
+  padding-top: 9px;
+}
+
+.products-listing .products-listing-price p {
+  margin: 0;
+  font-size: 0.6875rem;
+  line-height: 1.366;
+  color: var(--products-listing-note);
+}
+
+.products-listing .products-listing-price p:first-child {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--products-listing-name);
+}
+
+.products-listing .products-listing-price strong {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.products-listing .products-listing-mark {
+  color: var(--products-listing-mark);
+}
+
+/* hidden by the filter bar (compare-products-panel.js) (cards that don't match, banners while filtering) */
+.products-listing .products-listing-list > [hidden] {
+  display: none;
+}
+
+/* wishlist heart, top right as on the source; a static toggle for now */
+.products-listing .products-listing-wishlist {
+  position: absolute;
+  top: 13px;
+  right: 11px;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: url('../../icons/wishlist-unselected.svg') center / 24px 24px no-repeat;
+  cursor: pointer;
+}
+
+.products-listing .products-listing-wishlist[aria-pressed='true'] {
+  background-image: url('../../icons/wishlist-selected.svg');
+}
+
+.products-listing .products-listing-wishlist:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+/* "Compare" checkbox below the price, as on the source (green tick when checked) */
+.products-listing .products-listing-compare {
+  position: relative;
+  z-index: 1;
+  grid-row: 5;
+  display: flex;
+  margin: 2px 0 1px;
+  padding-left: 25px;
+  color: var(--products-listing-text);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.products-listing .products-listing-compare input {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 15px;
+  height: 14px;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.products-listing .products-listing-checkmark {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  box-sizing: border-box;
+  width: 15px;
+  height: 14px;
+  border: 0.5px solid #000;
+  border-radius: 2px;
+  background: #fff;
+  pointer-events: none;
+}
+
+.products-listing .products-listing-checkmark::before {
+  content: '+';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 13px;
+}
+
+.products-listing .products-listing-checkmark::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 40%;
+  display: none;
+  width: 4px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.products-listing .products-listing-compare input:checked + .products-listing-checkmark {
+  border: 0;
+  background-color: #00c853;
+}
+
+.products-listing .products-listing-compare input:checked + .products-listing-checkmark::before {
+  content: '';
+}
+
+.products-listing .products-listing-compare input:checked + .products-listing-checkmark::after {
+  display: block;
+}
+
+.products-listing .products-listing-compare input:focus-visible + .products-listing-checkmark {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+/* the 3-product limit is reached: other products can't be added */
+.products-listing .products-listing-compare:has(input:disabled) {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* promo banner row: full width on mobile, two card columns on desktop */
+.products-listing .products-listing-banner {
+  grid-column: 1 / -1;
+  grid-row: span 5;
+  align-self: start;
+  margin-bottom: var(--products-listing-row-gap);
+}
+
+.products-listing .products-listing-banner img {
+  display: block;
+
+  /* width/height attributes carry each creative's ratio, so its space is reserved before load */
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* promo tiles (placed by products-listing.js from the Promo rows): the phone tile is one card wide,
+   the desktop tile covers the rest of its row (--products-listing-promo-span, from the column in
+   --products-listing-promo-start past the last card). Beside cards, the image fills the cards' height
+   (it adds none of its own); alone in its row (is-full-row) it takes its own height */
+.products-listing .products-listing-promo {
+  position: relative;
+  grid-column: span var(--products-listing-promo-span, 1);
+  grid-row: span 5;
+  min-width: 0;
+  margin-bottom: var(--products-listing-row-gap);
+}
+
+.products-listing .products-listing-promo-desktop {
+  display: none;
+}
+
+/* hidden while the listing is filtered */
+.products-listing .products-listing-promo[hidden] {
+  display: none;
+}
+
+.products-listing .products-listing-promo-link {
+  display: block;
+  height: 100%;
+}
+
+.products-listing .products-listing-promo img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.products-listing .products-listing-promo.is-full-row {
+  align-self: start;
+}
+
+.products-listing .products-listing-promo.is-full-row img {
+  position: static;
+  height: auto;
+}
+
+.products-listing .products-listing-promo-link:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (width >= 992px) {
+  .products-listing .products-listing-promo-mobile {
+    display: none;
+  }
+
+  .products-listing .products-listing-promo-desktop {
+    display: block;
+    grid-column: var(--products-listing-promo-start, auto) / span var(--products-listing-promo-span, 1);
+  }
+
+  /* show the whole image across the tile's full width instead of cropping its sides, top-aligned
+     with the cards beside it at its own height (clamped to the tile's if it would run past it) */
+  .products-listing .products-listing-promo-desktop img {
+    inset: 0 0 auto;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: top;
+  }
+}
+
+@media (width >= 992px) {
+  .products-listing .products-listing-list {
+    --products-listing-row-gap: 20px;
+
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    column-gap: 20px;
+  }
+
+  .products-listing .products-listing-card {
+    padding: 36px 24px 14px;
+  }
+
+  .products-listing .products-listing-banner {
+    grid-column: span 2;
+  }
+
+  /* as on the source, the creative is 20px wider than its two columns and starts 3px before them */
+  .products-listing .products-listing-banner img {
+    width: calc(100% + 20px);
+    max-width: none;
+    margin-left: -3px;
+    object-fit: contain;
+  }
+
+  .products-listing .products-listing-badge {
+    top: 4px;
+    left: 6px;
+    padding: 5px 6px;
+  }
+
+  .products-listing .products-listing-image {
+    width: 80px;
+  }
+
+  .products-listing .products-listing-title {
+    margin: 14px 0 10px;
+  }
+
+  .products-listing .products-listing-features {
+    font-size: 0.6875rem;
+  }
+
+  .products-listing .products-listing-price {
+    margin-inline: -24px;
+    padding-top: 15px;
+  }
+
+  .products-listing .products-listing-compare {
+    margin: 7px 0 -2px;
+  }
+}
+
+@media (width >= 1800px) {
+  .products-listing .products-listing-features {
+    padding-left: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .products-listing .products-listing-badge {
+    animation: none;
+  }
+}
+
+
+/* ---- section layout (part of the self-contained base, see the top of this file) ---- */
+/* stylelint-disable max-line-length, no-duplicate-selectors */
+
+/* section layout (was Section Metadata "Style: product-listing"): edge to edge with the source
+   listing's padding; write the heading's gradient part as emphasis */
+main > .section.products-listing-container {
+  /* source gradient with the orange and red darkened so the accent text passes WCAG AA */
+  --product-listing-accent: linear-gradient(270deg,#f8a12e,#be2a1d 50.07%,#45216c 98.1%);
+
+  margin: 0;
+  padding: 15px 0;
+}
+
+main > .section.products-listing-container > div {
+  max-width: none;
+  padding: 0 15px;
+}
+
+/* a range with no product matching the filter selection is hidden, as on the source */
+main > .section.products-listing-container[hidden] {
+  display: none;
+}
+
+main > .section.products-listing-container > div + div {
+  margin-top: 14px;
+}
+
+main > .section.products-listing-container h2 {
+  margin: 0 0 20px;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: normal;
+}
+
+/* the price note's asterisk (marked by products-listing.js), red as on the source */
+main > .section.products-listing-container .default-content-wrapper .products-listing-mark {
+  color: #ee4137;
+}
+
+main > .section.products-listing-container h2 em {
+  font-style: normal;
+  background: var(--product-listing-accent);
+  background-clip: text;
+  color: transparent;
+}
+
+main > .section.products-listing-container .default-content-wrapper p {
+  margin: 0;
+  padding-left: 10px;
+  color: #292929;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 0.8938rem;
+}
+
+@media (width >= 992px) {
+  main > .section.products-listing-container {
+    padding: 25px 0;
+  }
+
+  main > .section.products-listing-container > div {
+    padding: 0 40px;
+  }
+
+  main > .section.products-listing-container > div + div {
+    margin-top: 20px;
+  }
+
+  main > .section.products-listing-container h2 {
+    margin-bottom: 30px;
+    font-size: 1.25rem;
+  }
+
+  main > .section.products-listing-container .default-content-wrapper p {
+    padding-left: 0;
+    font-size: 0.8125rem;
+  }
+}
+
+/* the source zooms the whole page below 1440px; scale the section the same way (by less when the
+   host page already zooms the body and sets --body-zoom) */
+@media (width >= 992px) and (width < 1100px) {
+  main > .section.products-listing-container {
+    zoom: calc(0.7 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1100px) and (width < 1200px) {
+  main > .section.products-listing-container {
+    zoom: calc(0.75 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1200px) and (width < 1280px) {
+  main > .section.products-listing-container {
+    zoom: calc(0.8 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1280px) and (width < 1366px) {
+  main > .section.products-listing-container {
+    zoom: calc(0.85 / var(--body-zoom, 1));
+  }
+}
+
+@media (width >= 1366px) and (width < 1440px) {
+  main > .section.products-listing-container {
+    zoom: calc(0.9 / var(--body-zoom, 1));
+  }
+}
+
+/* stylelint-enable max-line-length, no-duplicate-selectors */
+
+/* ---- end of section layout ---- */

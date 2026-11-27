@@ -1,0 +1,389 @@
+/*
+ * palette-collections — gradient section title over designer palette
+ * collections (name, subtitle, description, download CTA, 2x2 image collage).
+ *
+ * AUTHORING (DA table; label | value rows, then one row per collection):
+ *
+ *   +--------------------------------------------------------------------------------+
+ *   | palette-collections                                                            |
+ *   +------------------------------+-------------------------------------------------+
+ *   | Title                        | Royale Designer Palette Collections             |
+ *   | Read more after (characters) | 20      (below 991px; 0 / empty = full text)    |
+ *   | Read more label              | ... Read More                                   |
+ *   +------+----------+-------------+-----------+----------+-----------------+--------+
+ *   | Name | Subtitle | Description | CTA label | CTA link | Open in new tab | Images |
+ *   | Shvet Collection | Collection | White, … | Download PDF | https://… | false | <4 images> |
+ *   | …one row per collection                                                         |
+ *   +---------------------------------------------------------------------------------+
+ *
+ * - The name breaks after its first word ("Shvet / Collection"), as on the
+ *   source. Images: the four collage images in one cell, in order (column 1
+ *   top / bottom, column 2 top / bottom); empty alt = decorative.
+ * - Below 991px: one collection per view, swipeable, with dot indicators,
+ *   and the description is cut to N characters with a "Read More".
+ * - VARIANTS: none.
+ *
+ * Values are the source's computed CSS (www.asianpaints.com, the
+ * .text-gradient-royale-1 heading + .imageCollageGrid .collection-block, at
+ * 1x); the 992-1439px page scaling there is the site-wide `body { zoom }`,
+ * which is not part of this block.
+ */
+
+/* the block's page spacing (source .padding45.topGap50-10 wrapper): with the
+   40px section margins of this repo and the main site, this puts the block
+   10px / 50px below the sheen tabs, as on the source */
+.palette-collections-container .palette-collections-wrapper {
+  max-width: none;
+  margin-top: -40px;
+  padding: 10px 4.5% 0;
+}
+
+/* source "bottom-up" reveal; transform instead of `bottom` so it causes no
+   layout shift */
+.palette-collections-wrapper.palette-collections-hidden {
+  opacity: 0;
+}
+
+.palette-collections-wrapper.palette-collections-revealed {
+  animation: palette-collections-bottom-up 1.5s ease forwards;
+}
+
+.palette-collections-wrapper.palette-collections-static {
+  opacity: 1;
+  animation: none;
+}
+
+@keyframes palette-collections-bottom-up {
+  1% { transform: translateY(250px); }
+
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.palette-collections {
+  --palette-collections-text: #222;
+  --palette-collections-name: #303030;
+  --palette-collections-description: #000;
+  --palette-collections-cta-border: #1e1e1e;
+  --palette-collections-cta-hover-bg: linear-gradient(180deg, #ffc63c, #ffa20c);
+  --palette-collections-gradient: linear-gradient(270deg, #f8a12e, #be2a1d 50.07%, #45216c 98.1%);
+  --palette-collections-dot: #808080;
+  --palette-collections-dot-active: #000;
+
+  padding-top: 40px;
+  color: var(--palette-collections-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+}
+
+/* --- section title (source .rte p .d32px-m20px .text-gradient-royale-1);
+   50px below = its 14px margin + the source's empty 22px line + 14px --- */
+.palette-collections .palette-collections-heading {
+  margin: 0 0 50px;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.palette-collections .palette-collections-heading span {
+  background-image: var(--palette-collections-gradient);
+  background-clip: text;
+  font-size: 20px;
+  font-weight: 800;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- collections (source .collection-block) --- */
+.palette-collections .palette-collections-list {
+  position: relative;
+  display: flex;
+  gap: 100px;
+  padding: 10px 1px;
+}
+
+.palette-collections .palette-collections-track {
+  display: contents;
+}
+
+.palette-collections .palette-collections-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.palette-collections .palette-collections-name {
+  margin: 0 0 10px;
+  color: var(--palette-collections-name);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 110%;
+  letter-spacing: 0;
+  text-transform: capitalize;
+  white-space: pre-line;
+}
+
+.palette-collections .palette-collections-subtitle {
+  margin: 0 0 9px;
+  color: var(--palette-collections-name);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 35.2px;
+  text-transform: capitalize;
+}
+
+.palette-collections .palette-collections-info {
+  margin-bottom: 20px;
+}
+
+.palette-collections .palette-collections-description {
+  display: block;
+  margin: 0;
+  color: var(--palette-collections-description);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 27.2px;
+}
+
+.palette-collections .palette-collections-description:focus {
+  outline: none;
+}
+
+.palette-collections .palette-collections-more {
+  display: inline;
+  margin: 0 0 0 5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--palette-collections-description);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.2px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.palette-collections .palette-collections-cta-wrap {
+  margin: 0;
+}
+
+.palette-collections a.palette-collections-cta:any-link {
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  width: fit-content;
+  height: 38px;
+  padding: 12px 18px;
+  border: 0.5px solid var(--palette-collections-cta-border);
+  border-radius: 45px;
+  color: var(--palette-collections-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  text-decoration: none;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+/* source: yellow fill and `border: 0`; the border turns transparent instead
+   so the button keeps its size */
+.palette-collections a.palette-collections-cta:is(:hover, :focus-visible) {
+  border-color: transparent;
+  background: var(--palette-collections-cta-hover-bg);
+}
+
+.palette-collections .palette-collections-cta-icon {
+  display: flex;
+  transition: 0.2s ease-in;
+}
+
+.palette-collections .palette-collections-cta-icon::after {
+  content: "";
+  width: 17px;
+  height: 20px;
+  background: url("download-icon.svg") no-repeat;
+  filter: contrast(1000%) invert(100%) sepia(100%) saturate(10000%) hue-rotate(90deg);
+}
+
+.palette-collections a.palette-collections-cta:is(:focus, :focus-visible) .palette-collections-cta-icon {
+  transform: translateX(6px);
+}
+
+.palette-collections a.palette-collections-cta:hover .palette-collections-cta-icon {
+  transform: none;
+}
+
+/* 2x2 collage, columns offset vertically */
+.palette-collections .palette-collections-images {
+  display: flex;
+  gap: 10px;
+}
+
+.palette-collections .palette-collections-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  width: 49%;
+}
+
+.palette-collections .palette-collections-column:first-child {
+  margin-top: 37px;
+}
+
+.palette-collections .palette-collections-column picture {
+  display: block;
+}
+
+.palette-collections .palette-collections-column img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.palette-collections .palette-collections-dots {
+  display: none;
+}
+
+/* --- carousel below 991px (source slick: 1 per view, dots) --- */
+@media (width <= 990px) {
+  .palette-collections .palette-collections-track {
+    display: flex;
+    flex: 1 1 100%;
+    min-width: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .palette-collections .palette-collections-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .palette-collections .palette-collections-track:focus-visible {
+    outline: 1px solid currentcolor;
+  }
+
+  .palette-collections .palette-collections-item {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+  }
+
+  .palette-collections .palette-collections-dots {
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+  }
+
+  /* -3px: the source dot's baseline is its button's text, 5px down, not
+     the dot's bottom edge */
+  .palette-collections .palette-collections-dots span {
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0;
+    vertical-align: -3px;
+  }
+
+  .palette-collections .palette-collections-dots span.is-active:first-child {
+    margin: 0 20px;
+  }
+
+  .palette-collections .palette-collections-dots span::before {
+    content: "•";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 6px;
+    background-color: var(--palette-collections-dot);
+    color: #000;
+    font-size: 6px;
+    line-height: 20px;
+    text-align: center;
+    opacity: 0.25;
+  }
+
+  .palette-collections .palette-collections-dots span.is-active::before {
+    width: 30px;
+    background-color: var(--palette-collections-dot-active);
+    opacity: 1;
+  }
+}
+
+@media (width <= 360px) {
+  .palette-collections a.palette-collections-cta:any-link {
+    gap: 4px;
+    padding: 12px 10px;
+  }
+}
+
+/* --- desktop --- */
+@media (width >= 992px) {
+  .palette-collections-container .palette-collections-wrapper {
+    padding: 50px 4% 0;
+  }
+
+  .palette-collections {
+    padding-top: 20px;
+  }
+
+  .palette-collections .palette-collections-heading span {
+    font-size: 32px;
+  }
+
+  .palette-collections .palette-collections-list {
+    padding: 20px 40px;
+  }
+
+  .palette-collections .palette-collections-name {
+    margin-bottom: 15px;
+    font-size: 54px;
+  }
+
+  .palette-collections .palette-collections-info {
+    margin-bottom: 30px;
+  }
+
+  .palette-collections a.palette-collections-cta:any-link {
+    padding: 14px 20px;
+  }
+
+  .palette-collections .palette-collections-images {
+    gap: 12px;
+  }
+
+  .palette-collections .palette-collections-column {
+    gap: 12px;
+    width: 50%;
+  }
+
+  .palette-collections .palette-collections-column:first-child {
+    margin-top: 35px;
+  }
+
+  .palette-collections .palette-collections-column:last-child {
+    margin-top: -30px;
+  }
+}

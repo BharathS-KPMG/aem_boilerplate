@@ -1,0 +1,44 @@
+.video-shorts-title {
+  color: #f47838;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.video-shorts-container {
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Video Shorts Section */
+.video-shorts {
+  background-color: #000;
+  text-align: center;
+  overflow: hidden;
+  padding: 10px 0 50px;
+}
+
+.video-shorts-heading h2 {
+  margin-bottom: 29px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.sale-assist-id {
+  display: none;
+}
+
+@media (width >= 900px) {
+  .video-shorts {
+    padding-top: 49px;
+  }
+
+  .video-shorts-heading h2 {
+    margin-bottom: 57px;
+    font-size: 30px;
+    line-height: 34px;
+  }
+}

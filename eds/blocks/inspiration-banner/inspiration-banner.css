@@ -1,0 +1,196 @@
+/*
+ * inspiration-banner — full-width hero: looping background video (darkened), logo,
+ * two-line heading and tagline. Source: asianpaints.com royale-inspiration
+ * ".imagebanner.video-banner"; values below are its computed styles.
+ *
+ * AUTHORING (DA table; the label row is skipped, as in
+ * designer-collection-inspiration):
+ *
+ *   | inspiration-banner |                      |        |                      |                            |
+ *   | Video        | Video description    | Logo   | Title                | Tagline                    |
+ *   | <link .webm> | Blue background …    | <img>  | Inspiring¶Royale Collection | That steals the spotlight. |
+ *
+ * - Video: link (or URL text) to an .mp4 / .webm file. Required.
+ * - Video description: read to screen readers (the video gets role="img");
+ *   leave empty to hide the video from them.
+ * - Logo, Title (one paragraph per line), Tagline: optional.
+ *
+ * Fonts: the source uses Manrope (and apFontBold / apFontMedium, which are
+ * Manrope Bold / Medium files). This repo does not load Manrope, so the
+ * stack is "Manrope", sans-serif as in the other blocks (see HANDOFF.md).
+ */
+
+/* full-bleed, like the boilerplate hero */
+.inspiration-banner-container .inspiration-banner-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.inspiration-banner {
+  /* source values */
+  --inspiration-banner-text: #222;
+  --inspiration-banner-on-dark: var(--background-color); /* #fff (repo token, same value) */
+  --inspiration-banner-toggle-bg: rgb(0 0 0 / 50%);
+
+  position: relative;
+  margin: 0 0 30px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: var(--inspiration-banner-text);
+  text-align: left;
+}
+
+/* video, darkened like the source's filter: brightness(30%) mobile / 50%
+   desktop. A black layer at 70% / 50% opacity gives the same result
+   (colour x 0.3 / x 0.5) without filtering every video frame. */
+.inspiration-banner .inspiration-banner-media {
+  --inspiration-banner-dim: 0.7;
+
+  position: relative;
+  height: 420px;
+  background-color: #000;
+}
+
+.inspiration-banner .inspiration-banner-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #000;
+  opacity: var(--inspiration-banner-dim);
+  pointer-events: none;
+}
+
+.inspiration-banner .inspiration-banner-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* text block: bottom-left on mobile / tablet */
+.inspiration-banner .inspiration-banner-content {
+  position: absolute;
+  inset: auto 0 33px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.inspiration-banner .inspiration-banner-logo {
+  display: block;
+}
+
+.inspiration-banner .inspiration-banner-logo img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.inspiration-banner .inspiration-banner-title {
+  margin: 0;
+  color: var(--inspiration-banner-on-dark);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 26.4px;
+  text-transform: capitalize;
+}
+
+/* the source has one h2 per line, each with this bottom margin */
+.inspiration-banner .inspiration-banner-title span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* source: apFontMedium (the Manrope Medium file) at 14px, line-height 8.4px */
+.inspiration-banner .inspiration-banner-tagline {
+  margin: 13px 0 10px;
+  padding-top: 14px;
+  color: var(--inspiration-banner-on-dark);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 8.4px;
+  letter-spacing: 0.5px;
+}
+
+/* pause / play (not on the source: required for a looping autoplay video) */
+.inspiration-banner .inspiration-banner-toggle {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--inspiration-banner-on-dark);
+  border-radius: 50%;
+  background: var(--inspiration-banner-toggle-bg) no-repeat center / 16px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z" fill="%23fff"/></svg>');
+  cursor: pointer;
+}
+
+.inspiration-banner .inspiration-banner-toggle.is-playing {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zm5 0h3v11H9z" fill="%23fff"/></svg>');
+}
+
+.inspiration-banner .inspiration-banner-toggle:focus-visible {
+  outline: 2px solid var(--inspiration-banner-on-dark);
+  outline-offset: 2px;
+}
+
+@media (width >= 768px) and (width <= 991px) {
+  .inspiration-banner .inspiration-banner-content {
+    width: 65%;
+    padding: 0 60px;
+  }
+}
+
+/* --- desktop: text centred on 29% of the width, video 640px tall --- */
+@media (width >= 992px) {
+  .inspiration-banner {
+    margin-bottom: 70px;
+  }
+
+  .inspiration-banner .inspiration-banner-media {
+    --inspiration-banner-dim: 0.5;
+
+    height: 640px;
+  }
+
+  .inspiration-banner .inspiration-banner-content {
+    inset: 50% auto auto 29%;
+    width: 62%;
+    padding: 0 60px;
+    transform: translate(-50%, -50%);
+  }
+
+  .inspiration-banner .inspiration-banner-title {
+    font-size: 54px;
+    line-height: 59.4px;
+  }
+
+  .inspiration-banner .inspiration-banner-title span {
+    margin-bottom: 16px;
+  }
+
+  /* source: apFontBold (the Manrope Bold file) */
+  .inspiration-banner .inspiration-banner-tagline {
+    margin: 15px 0 20px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+  }
+
+  .inspiration-banner .inspiration-banner-toggle {
+    right: 32px;
+    bottom: 32px;
+  }
+}
+
+@media (width >= 1200px) {
+  .inspiration-banner .inspiration-banner-content {
+    width: 60%;
+  }
+}

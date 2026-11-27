@@ -1,0 +1,267 @@
+/* Int Ext Image Content: image left, title + description + GIF features right */
+
+/*
+ * Self-contained: every size, gap and colour is defined here (from the Figma design),
+ * so the block renders the same on any site, whatever global tokens that site has.
+ */
+.int-ext-image-content {
+    --int-ext-image-content-font: manrope, sans-serif;
+    --int-ext-image-content-title-color: #000;
+    --int-ext-image-content-description-color: #4c4e52;
+    --int-ext-image-content-label-color: #000;
+    --int-ext-image-content-radius: 8px;
+    --int-ext-image-content-icon-size: 56px;
+    --int-ext-image-content-text-width: 562px;
+    --int-ext-image-content-features-width: 590px;
+
+    /* text column keeps room for the 562px text + icon row; the image gets the rest */
+    --int-ext-image-content-content-min: min(var(--int-ext-image-content-features-width, 590px), 55%);
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        "title"
+        "media"
+        "description"
+        "features";
+    max-width: 1120px;
+    margin-inline: auto;
+    font-family: var(--int-ext-image-content-font, manrope, sans-serif);
+    text-align: left;
+}
+
+/* first section of a page has no top padding (made for full-bleed heroes): keep clear of the header */
+main>.section:first-of-type .int-ext-image-content {
+    padding-top: 24px;
+}
+
+/* --- Title (mobile values from the mobile design) --- */
+.int-ext-image-content .int-ext-image-content-title {
+    grid-area: title;
+    margin: 0 0 16px;
+    padding: 0;
+    font-family: var(--int-ext-image-content-font, manrope, sans-serif);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 30px;
+    letter-spacing: -2%;
+    color: var(--int-ext-image-content-title-color, #000);
+    text-align: left;
+    text-transform: none;
+}
+
+/* --- Image: full width on mobile (height follows the image's proportions) --- */
+.int-ext-image-content .int-ext-image-content-media {
+    grid-area: media;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 0 20px;
+    border-radius: var(--int-ext-image-content-radius, 8px);
+}
+
+.int-ext-image-content .int-ext-image-content-media picture {
+    display: block;
+}
+
+.int-ext-image-content .int-ext-image-content-media img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+    border-radius: 0;
+}
+
+/* --- Description --- */
+.int-ext-image-content .int-ext-image-content-description {
+    grid-area: description;
+    margin: 0;
+    text-align: center;
+}
+
+.int-ext-image-content .int-ext-image-content-description p {
+    margin: 0 0 20px;
+    padding: 0;
+    font-family: var(--int-ext-image-content-font, manrope, sans-serif);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--int-ext-image-content-description-color, #4c4e52);
+}
+
+.int-ext-image-content .int-ext-image-content-description> :last-child {
+    margin-bottom: 0;
+}
+
+/* --- Features: 2 columns on mobile --- */
+.int-ext-image-content .int-ext-image-content-features {
+    grid-area: features;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 16px;
+    margin: 40px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.int-ext-image-content .int-ext-image-content-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.int-ext-image-content .int-ext-image-content-feature::before,
+.int-ext-image-content .int-ext-image-content-feature::marker {
+    content: none;
+}
+
+.int-ext-image-content .int-ext-image-content-feature-icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: var(--int-ext-image-content-icon-size, 56px);
+    height: var(--int-ext-image-content-icon-size, 56px);
+}
+
+.int-ext-image-content .int-ext-image-content-feature-icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    object-fit: contain;
+}
+
+.int-ext-image-content .int-ext-image-content-feature-label {
+    margin: 0;
+    padding: 0;
+    font-family: var(--int-ext-image-content-font, manrope, sans-serif);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: 1%;
+    color: var(--int-ext-image-content-label-color, #000);
+    text-align: center;
+}
+
+/* --- Desktop: image left, content right (Figma: 442px image, 60px gap, 562px text) --- */
+@media (width >=900px) {
+    .int-ext-image-content {
+        --int-ext-image-content-label-color: #2e2f32;
+
+        /* image column ~44% (Figma 442 / 1004); the text column never gets narrower than
+       the 562px text + icon row. Empty 1fr rows centre the content if the image is taller. */
+        grid-template:
+            "media ." 0fr
+            "media title" auto
+            "media description" auto
+            "media features" auto
+            "media ." 1fr
+            / minmax(0, 44fr) minmax(var(--int-ext-image-content-content-min, min(590px, 55%)), 56fr);
+        column-gap: 40px;
+        align-items: start;
+    }
+
+    .int-ext-image-content.no-media {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "title"
+            "description"
+            "features";
+    }
+
+    main>.section:first-of-type .int-ext-image-content {
+        padding-top: 48px;
+    }
+
+    /* image fills the left column and runs the full height of the content
+     (title top to icon labels); it is never shorter than its own proportions */
+    .int-ext-image-content .int-ext-image-content-media {
+        place-self: stretch;
+        width: auto;
+        margin: 0;
+    }
+
+    .int-ext-image-content .int-ext-image-content-media picture {
+        height: 100%;
+    }
+
+    .int-ext-image-content .int-ext-image-content-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .int-ext-image-content .int-ext-image-content-title {
+        max-width: var(--int-ext-image-content-text-width, 562px);
+        margin-bottom: 24px;
+        font-size: 40px;
+        line-height: 45px;
+    }
+
+    .int-ext-image-content .int-ext-image-content-description {
+        max-width: var(--int-ext-image-content-text-width, 562px);
+        text-align: left;
+    }
+
+    .int-ext-image-content .int-ext-image-content-description p {
+        margin-bottom: 25px;
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    /* fixed-width items spread across the text width; labels wrap to two lines */
+    .int-ext-image-content .int-ext-image-content-features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 32px 24px;
+        max-width: var(--int-ext-image-content-features-width, 590px);
+        margin-top: 48px;
+    }
+
+    /* narrow items so two-word labels wrap like the design ("On-time / Delivery");
+     a longer word still widens its item (flex min-width: auto) */
+    .int-ext-image-content .int-ext-image-content-feature {
+        width: 84px;
+        gap: 14px;
+    }
+
+    .int-ext-image-content .int-ext-image-content-feature-label {
+        font-size: 14px;
+        line-height: 18px;
+        color: var(--int-ext-image-content-label-color, #2e2f32);
+    }
+}
+
+@media (width >=1200px) {
+    .int-ext-image-content {
+        column-gap: 60px;
+    }
+}
+
+
+
+@media (width < 992px) {
+    .int-ext-image-content .int-ext-image-content-title {
+        color: #232426;
+        line-height: 27px;
+        letter-spacing: 0;
+    }
+
+    .int-ext-image-content .int-ext-image-content-features {
+        margin: 36px 0 0;
+    }
+
+    .int-ext-image-content .int-ext-image-content-feature {
+        gap: 1px;
+    }
+}

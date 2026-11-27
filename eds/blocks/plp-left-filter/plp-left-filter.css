@@ -1,0 +1,771 @@
+/* PLP Left Filter (the source's waterproofingproductslisting). Mobile first: a FILTER button
+   opening a drop-down panel above a two-column grid; from 992px (the source's breakpoint) a
+   white panel with the filters on the left (20%) and four columns of cards. Sizes are the
+   source's at 1440px; the body zoom of styles.css scales them between 992px and 1439px, as on
+   the source. */
+.plp-left-filter {
+  /* the site tokens, plus the source's greys and accents for this listing */
+  --plf-bg: var(--background-color);
+  --plf-text: var(--text-color);
+  --plf-black: var(--black);
+  --plf-focus: var(--primary-color);
+  --plf-filter-text: #1d1d1f;
+  --plf-name: #161515;
+  --plf-note: #4d4d4d;
+  --plf-star: #ee4137;
+  --plf-check: #00c853;
+  --plf-check-bg: #e2f9eb;
+  --plf-apply: #feb940;
+  --plf-line: #efefef;
+  --plf-border: #ccc;
+  --plf-panel-bg: #f9f9f9;
+  --plf-disclaimer: #292929;
+  --plf-divider: rgb(34 34 34 / 13.3%);
+  --plf-shadow: 0 4px 16px -2px rgb(16 24 40 / 10%);
+  --plf-panel-shadow: 1px 6px 25px -4px rgb(16 24 40 / 16%);
+
+  position: relative;
+  margin: 16px;
+  color: var(--plf-text);
+  font-size: 14px;
+  line-height: 22px;
+
+  /* at every width, scrolling parts use the browser's own scrollbar, as on the source: not
+     the page's thin grey one (styles.css sets scrollbar-color on html, which is inherited) */
+  scrollbar-color: auto;
+}
+
+.plp-left-filter [hidden] {
+  display: none !important;
+}
+
+/* ---------- the listing's title ----------
+   The List label's heading, which the block puts above its white box, as the source's title
+   (desk-extra-bold-32 / mob-extra-bold-16): Manrope ExtraBold (fonts.css, weight 800 = the
+   source's apFontExtraBold file), centred, letter-spacing 0.5px; 35px above it in its section
+   (60px from 992px) and 30px to the listing (the source's 14px + 16px; its 30px bottom margin
+   and the block's 16px top margin collapse to 30px). flow-root keeps the top margin inside
+   the wrapper. */
+main .plp-left-filter-wrapper:has(> .plp-left-filter-heading) {
+  display: flow-root;
+}
+
+main .plp-left-filter-wrapper > .plp-left-filter-heading {
+  margin: 35px 0 30px;
+  color: #222;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 21.86px;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+@media (width >= 992px) {
+  main .plp-left-filter-wrapper > .plp-left-filter-heading {
+    margin-top: 60px;
+    font-size: 32px;
+    line-height: 35.2px;
+  }
+}
+
+.plp-left-filter :focus-visible {
+  outline: 2px solid var(--plf-focus);
+  outline-offset: 2px;
+}
+
+.plp-left-filter ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- filter bar and panel ---------- */
+
+/* flow-root: the bar's 8px bottom margin stays inside, as on the source */
+.plp-left-filter .plp-left-filter-aside {
+  position: relative;
+  z-index: 10;
+  display: flow-root;
+}
+
+.plp-left-filter .plp-left-filter-bar {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 10px;
+  margin-bottom: 8px;
+}
+
+.plp-left-filter .plp-left-filter-title,
+.plp-left-filter .plp-left-filter-clear-top {
+  display: none;
+}
+
+.plp-left-filter .plp-left-filter-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 19px;
+  width: 50%;
+  padding: 8px 40px;
+  border: 1px solid var(--plf-border);
+  border-radius: 8px;
+  background: var(--plf-bg);
+  color: var(--plf-black);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 23.28px;
+  cursor: pointer;
+}
+
+/* the source's 5px padded icon box, a 10px icon */
+.plp-left-filter .plp-left-filter-toggle-icon {
+  width: 16px;
+  height: 11px;
+  padding-left: 5px;
+  box-sizing: border-box;
+  background: url("../../icons/filter-icon.svg") no-repeat right center / 10px;
+}
+
+.plp-left-filter .plp-left-filter-toggle[aria-expanded="true"] {
+  border-color: var(--plf-check);
+  background: var(--plf-check-bg);
+}
+
+.plp-left-filter .plp-left-filter-toggle[aria-expanded="true"] .plp-left-filter-toggle-icon {
+  background-image: url("../../icons/cross-icon.svg");
+  background-size: 11px;
+}
+
+/* phones: a drop-down panel over the grid */
+.plp-left-filter .plp-left-filter-panel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 10px;
+  width: 94%;
+  margin-top: 10px;
+  box-sizing: border-box;
+  border: 1px solid var(--plf-border);
+  border-radius: 8px;
+  background: var(--plf-panel-bg);
+  box-shadow: var(--plf-panel-shadow);
+}
+
+.plp-left-filter.is-open .plp-left-filter-panel {
+  display: block;
+}
+
+.plp-left-filter .plp-left-filter-groups {
+  display: flex;
+  flex-direction: column;
+  padding: 22px 20px 0;
+}
+
+.plp-left-filter .plp-left-filter-group {
+  padding-bottom: 18px;
+}
+
+.plp-left-filter .plp-left-filter-group-heading {
+  margin: 0;
+  font: inherit;
+}
+
+.plp-left-filter .plp-left-filter-group-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0 0 15px;
+  border: 0;
+  background: none;
+  color: var(--plf-filter-text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 15px;
+  text-align: left;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.plp-left-filter .plp-left-filter-group-arrow {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background: url("../../icons/accordion-arrow-up.svg") no-repeat;
+}
+
+.plp-left-filter .plp-left-filter-group-toggle[aria-expanded="false"] .plp-left-filter-group-arrow {
+  rotate: 180deg;
+}
+
+.plp-left-filter .plp-left-filter-options {
+  list-style: none;
+}
+
+.plp-left-filter .plp-left-filter-options li {
+  width: fit-content;
+  padding-bottom: 12px;
+  color: var(--plf-filter-text);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.plp-left-filter .plp-left-filter-option {
+  position: relative;
+  display: flex;
+  margin-bottom: 7px;
+  padding-left: 25px;
+  cursor: pointer;
+}
+
+/* a 24px tall touch target around the 17px line */
+.plp-left-filter .plp-left-filter-option::after {
+  content: "";
+  position: absolute;
+  inset: -3.5px 0;
+}
+
+.plp-left-filter .plp-left-filter-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.plp-left-filter .plp-left-filter-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15px;
+  height: 14px;
+  margin-top: 2px;
+  box-sizing: border-box;
+  border: 0.5px solid var(--plf-black);
+  border-radius: 2px;
+  background: var(--plf-bg);
+}
+
+.plp-left-filter .plp-left-filter-box::before {
+  /* decoration: no text for assistive technology */
+  content: "+" / "";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 13px;
+}
+
+.plp-left-filter .plp-left-filter-box::after {
+  content: "";
+  display: none;
+  position: absolute;
+  top: 10%;
+  left: 40%;
+  width: 4px;
+  height: 9px;
+  border: solid var(--plf-bg);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.plp-left-filter .plp-left-filter-option input:checked ~ .plp-left-filter-box {
+  border: 0;
+  background: var(--plf-check);
+}
+
+.plp-left-filter .plp-left-filter-option input:checked ~ .plp-left-filter-box::before {
+  content: "";
+}
+
+.plp-left-filter .plp-left-filter-option input:checked ~ .plp-left-filter-box::after {
+  display: block;
+}
+
+.plp-left-filter .plp-left-filter-option input:focus-visible ~ .plp-left-filter-box {
+  outline: 2px solid var(--plf-focus);
+  outline-offset: 2px;
+}
+
+.plp-left-filter .plp-left-filter-option-name {
+  text-transform: capitalize;
+}
+
+/* a value no remaining product has, as on the source */
+.plp-left-filter .plp-left-filter-option.is-disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.plp-left-filter .plp-left-filter-actions {
+  display: flex;
+  width: 100%;
+}
+
+.plp-left-filter .plp-left-filter-actions button {
+  width: 50%;
+  padding: 10px 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15px;
+  cursor: pointer;
+}
+
+.plp-left-filter .plp-left-filter-apply {
+  border: 0;
+  border-radius: 0 0 0 8px;
+  background: var(--plf-apply);
+  color: var(--plf-black);
+}
+
+.plp-left-filter .plp-left-filter-reset {
+  border: 1px solid var(--plf-line);
+  border-radius: 0 0 8px;
+  background: var(--plf-bg);
+  color: var(--plf-filter-text);
+}
+
+.plp-left-filter .plp-left-filter-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ---------- results ---------- */
+.plp-left-filter .plp-left-filter-results {
+  margin-top: 20px;
+}
+
+.plp-left-filter .plp-left-filter-results:focus {
+  outline: 0;
+}
+
+.plp-left-filter .plp-left-filter-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+
+
+
+/* the selected filters as removable pills: "Show selected filters on mobile" below 992px
+   (pills-no-mobile hides them), "Show selected filters on desktop" from 992px
+   (pills-no-desktop hides them) */
+.plp-left-filter .plp-left-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  list-style: none;
+}
+
+.plp-left-filter.pills-no-mobile .plp-left-filter-pills {
+  display: none;
+}
+
+.plp-left-filter .plp-left-filter-pill {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--plf-line);
+  color: var(--plf-black);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.plp-left-filter .plp-left-filter-pill-icon {
+  width: 11px;
+  height: 11px;
+  background: url("../../icons/cross-icon.svg") no-repeat center / contain;
+}
+
+/* cards: each spans four rows of the grid, so names, features and prices line up per row */
+.plp-left-filter .plp-left-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 48%);
+  gap: 14px 12px;
+  list-style: none;
+}
+
+.plp-left-filter .plp-left-filter-card,
+.plp-left-filter .plp-left-filter-promo {
+  position: relative;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: 0;
+}
+
+.plp-left-filter .plp-left-filter-card {
+  box-sizing: border-box;
+  padding: 17px 10px 10px;
+  border: 1px solid var(--plf-line);
+  border-radius: 8px;
+  background: var(--plf-bg);
+}
+
+.plp-left-filter .plp-left-filter-card-link {
+  display: grid;
+  grid-row: 1 / -1;
+  grid-template-rows: subgrid;
+  row-gap: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.plp-left-filter .plp-left-filter-card-media {
+  justify-self: center;
+  width: 50px;
+}
+
+.plp-left-filter .plp-left-filter-card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  transition: all .4s ease-in;
+}
+
+.plp-left-filter .plp-left-filter-wishlist {
+  position: absolute;
+  top: 13px;
+  right: 11px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: url("../../icons/wishlist-unselected.svg") no-repeat;
+  cursor: pointer;
+}
+
+.plp-left-filter .plp-left-filter-wishlist[aria-pressed="true"] {
+  background-image: url("../../icons/wishlist-selected.svg");
+}
+
+.plp-left-filter .plp-left-filter-card-name {
+  margin: 10px 0 6px;
+  color: var(--plf-name);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.4px;
+  text-align: center;
+}
+
+.plp-left-filter .plp-left-filter-card-features {
+  display: flex;
+  flex-direction: column;
+  list-style: disc;
+}
+
+.plp-left-filter .plp-left-filter-card-features li {
+  margin-left: 16px;
+  color: var(--plf-black);
+  font-size: 10px;
+  line-height: normal;
+  text-transform: lowercase;
+}
+
+/* the bullet stays 10px when the text is 11px (from 992px), as on the source */
+.plp-left-filter .plp-left-filter-card-features li::marker {
+  font-size: 10px;
+}
+
+.plp-left-filter .plp-left-filter-card-price {
+  margin: 18px 0 0;
+  text-align: center;
+}
+
+.plp-left-filter .plp-left-filter-card-amount {
+  display: block;
+  color: var(--plf-name);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.39px;
+}
+
+.plp-left-filter .plp-left-filter-card-currency {
+  margin-right: 3px;
+  font-weight: 400;
+  line-height: 13.2px;
+}
+
+.plp-left-filter .plp-left-filter-card-value {
+  font-weight: 700;
+  line-height: 14.4px;
+}
+
+.plp-left-filter .plp-left-filter-card-note {
+  display: block;
+  color: var(--plf-note);
+  font-size: 11px;
+  line-height: 15.03px;
+}
+
+.plp-left-filter .plp-left-filter-card-star {
+  color: var(--plf-star);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.39px;
+}
+
+/* the promo tiles, as the source's banner (a white card, 8px corners): the mobile tile below
+   992px, the desktop tile from 992px; one tile between products, at the end the rest of the
+   last row (--plf-promo-span, set by the script) */
+.plp-left-filter .plp-left-filter-promo {
+  grid-column: span var(--plf-promo-span, 1);
+  border-radius: 8px;
+  background: var(--plf-bg);
+}
+
+.plp-left-filter .plp-left-filter-promo-desktop {
+  display: none;
+}
+
+.plp-left-filter .plp-left-filter-promo-link {
+  display: block;
+  grid-row: 1 / -1;
+}
+
+.plp-left-filter .plp-left-filter-promo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plp-left-filter .plp-left-filter-card-media img:hover {
+  transform: scale(1.2);
+}
+
+.plp-left-filter .plp-left-filter-disclaimer {
+  margin: 20px 0 0;
+  color: var(--plf-disclaimer);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.3px;
+}
+
+.plp-left-filter .plp-left-filter-disclaimer-star {
+  color: var(--plf-star);
+}
+
+.plp-left-filter .plp-left-filter-empty {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.plp-left-filter .plp-left-filter-empty p {
+  margin: 0 0 20px;
+}
+
+.plp-left-filter .plp-left-filter-empty-clear {
+  padding: 10px 24px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--plf-apply);
+  color: var(--plf-black);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---------- desktop: panel on the left, four columns ---------- */
+@media (width >= 992px) {
+  .plp-left-filter {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 40px;
+    padding: 50px 0;
+    border-radius: 8px;
+    background: var(--plf-bg);
+    box-shadow: var(--plf-shadow);
+  }
+
+  .plp-left-filter .plp-left-filter-aside {
+    /* sticks 20px below the header, as on the source (its 120px under its scrolled 100px
+       header) */
+    position: sticky;
+    top: calc(var(--header-height) + 20px);
+    align-self: flex-start;
+    width: 20%;
+
+    /* as the source's page style: the window's height less 40px (not a fixed height), so the
+       column and its scrollbar are as tall as on the source */
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+
+  .plp-left-filter .plp-left-filter-bar {
+    justify-content: space-between;
+    padding: 0 14px;
+  }
+
+  /* the source's divider under FILTER / Clear All */
+  .plp-left-filter .plp-left-filter-bar::after {
+    content: "";
+    position: absolute;
+    bottom: -11px;
+    left: 0;
+    width: 83%;
+    border-bottom: 1px solid var(--plf-divider);
+    transform: translate(19px, 2px);
+  }
+
+  .plp-left-filter .plp-left-filter-toggle {
+    display: none;
+  }
+
+  .plp-left-filter .plp-left-filter-title,
+  .plp-left-filter .plp-left-filter-clear-top {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--plf-black);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 23.28px;
+  }
+
+  .plp-left-filter .plp-left-filter-clear-top {
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .plp-left-filter .plp-left-filter-clear-top:disabled {
+    cursor: default;
+  }
+
+  .plp-left-filter .plp-left-filter-panel {
+    display: block;
+    position: static;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    box-shadow: none;
+  }
+
+  .plp-left-filter .plp-left-filter-actions {
+    display: none;
+  }
+
+  .plp-left-filter .plp-left-filter-results {
+    width: 80%;
+    margin: 0;
+    padding: 12px 24px 0;
+    box-sizing: border-box;
+  }
+
+
+
+  .plp-left-filter.pills-no-mobile .plp-left-filter-pills {
+    display: flex;
+  }
+
+  .plp-left-filter.pills-no-desktop .plp-left-filter-pills {
+    display: none;
+  }
+
+  .plp-left-filter .plp-left-filter-pill {
+    height: 36px;
+  }
+
+  .plp-left-filter .plp-left-filter-grid {
+    grid-template-columns: repeat(4, 22.665%);
+    gap: 17px 18px;
+  }
+
+  .plp-left-filter .plp-left-filter-card {
+    padding: 0;
+  }
+
+  .plp-left-filter .plp-left-filter-card-link {
+    padding: 36px 24px 20px;
+  }
+
+  .plp-left-filter .plp-left-filter-card-media {
+    width: 80px;
+  }
+
+  .plp-left-filter .plp-left-filter-card-name {
+    margin: 14px 0 10px;
+  }
+
+  .plp-left-filter .plp-left-filter-card-features li {
+    font-size: 11px;
+  }
+
+  .plp-left-filter .plp-left-filter-card-price {
+    margin: 18px -24px 0;
+  }
+
+  .plp-left-filter .plp-left-filter-disclaimer {
+    font-size: 13px;
+  }
+
+  /* from 992px the desktop tile shows and fills its row's height, its image contained */
+  .plp-left-filter .plp-left-filter-promo-mobile {
+    display: none;
+  }
+
+  /* it covers the rest of its row: from its place (or the column the script gives a place
+     past the products, --plf-promo-start) to the row's end (--plf-promo-span) */
+  .plp-left-filter .plp-left-filter-promo-desktop {
+    display: grid;
+    grid-column: var(--plf-promo-start, auto) / span var(--plf-promo-span, 1);
+  }
+
+  .plp-left-filter .plp-left-filter-promo-desktop .plp-left-filter-promo-link {
+    position: relative;
+  }
+
+  .plp-left-filter .plp-left-filter-promo-desktop .plp-left-filter-promo-link > * {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  .plp-left-filter .plp-left-filter-promo-desktop img {
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* alone in its row (all 4 columns), no card gives the row a height: the image's own */
+  .plp-left-filter .plp-left-filter-promo-desktop.is-full-row .plp-left-filter-promo-link > * {
+    position: static;
+  }
+
+  .plp-left-filter .plp-left-filter-promo-desktop.is-full-row img {
+    height: auto;
+  }
+}
+
+/* the source's line heights and note size between 992px and 1200px */
+@media (width >= 992px) and (width <= 1200px) {
+  .plp-left-filter .plp-left-filter-title,
+  .plp-left-filter .plp-left-filter-clear-top {
+    line-height: normal;
+  }
+}
+
+@media (width >= 992px) and (width <= 1100px) {
+  .plp-left-filter .plp-left-filter-card-note {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,681 @@
+/* Cards Textures Block - Hover Reveal Design */
+.cards-textures {
+  width: 100%;
+  padding: 60px 17px;
+}
+
+.cards-textures .cards-textures-cards {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  margin-bottom: 60px;
+  overflow: hidden;
+}
+
+.cards-textures-card {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 520px;
+  overflow: hidden;
+  transition: flex 0.4s ease;
+}
+
+/* Background image */
+.cards-textures-card .card-background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.cards-textures-card .card-background picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cards-textures-card .card-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* Gradient overlay */
+.cards-textures-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@media (width >=992px) {
+  .cards-textures-card::before {
+      background: linear-gradient(to top, rgb(0 0 0 / 70%) 0%, rgb(0 0 0 / 20%) 40%, transparent 70%);
+  }
+
+}
+
+/* Card name - always visible at bottom */
+.cards-textures-card .card-name {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  z-index: 3;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover content overlay */
+.cards-textures-card .card-hover-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px 24px;
+
+  /* background: rgb(0 0 0 / 75%); */
+  opacity: 0;
+  z-index: 4;
+  transition: opacity 0.3s ease;
+}
+
+/* Paint bucket/packshot image */
+.cards-textures-card .card-bucket {
+  width: 100px;
+  height: 120px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.cards-textures-card .card-bucket picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cards-textures-card .card-bucket img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Hover title */
+.cards-textures-card .card-hover-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+/* Description */
+.cards-textures-card .card-description {
+  color: rgb(255 255 255 / 85%);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+/* View Details button */
+.cards-textures-card .card-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid #fff;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.cards-textures-card .card-button:hover {
+  background: #fff7e8;
+  color: #1a1a1a;
+}
+
+.cards-textures-card .card-button .arrow {
+  transition: transform 0.3s ease;
+  display: flex;
+}
+
+.cards-textures-card .card-button .arrow::after {
+    content: "";
+    background: url('../../icons/arrow-icon-new.svg') no-repeat;
+    width: 17px;
+    height: 17px;
+    display: inline-flex;
+}
+
+.cards-textures-card .card-button:hover .arrow::after {
+  filter: invert(1);
+}
+
+.cards-textures-card .card-button:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* Hover state */
+.cards-textures-card:hover {
+  flex: 1.8;
+}
+
+.cards-textures-card:hover .card-background img {
+  transform: scale(1.05);
+}
+
+.cards-textures-card:hover .card-name {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.cards-textures-card:hover .card-hover-content {
+  opacity: 1;
+}
+
+/* Desktop styles */
+@media (width >= 1025px) {
+  .cards-textures-card .card-description {
+    min-width: calc((100vw / 7) * 1.3);
+  }
+}
+
+/* Mobile responsive */
+@media (width <=1024px) {
+  .cards-textures .cards-textures-cards {
+    flex-wrap: wrap;
+  }
+
+  .cards-textures-card {
+    flex: 0 0 calc(33.333% - 1px);
+    height: 320px;
+  }
+
+  .cards-textures-card:hover {
+    flex: 0 0 calc(33.333% - 1px);
+  }
+
+  .cards-textures-card .card-hover-content {
+    opacity: 1;
+
+    /* background: rgb(0 0 0 / 60%); */
+    background: unset;
+    justify-content: flex-end;
+    padding-bottom: 24px;
+  }
+
+  .cards-textures-card .card-name {
+    display: none;
+  }
+
+  .cards-textures-card .card-bucket {
+    display: none;
+  }
+
+  .cards-textures-card .card-hover-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .cards-textures-card .card-description {
+    font-size: 12px;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cards-textures-card .card-button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+@media (width <=768px) {
+  .cards-textures-card {
+    flex: 0 0 50%;
+    height: 280px;
+  }
+}
+
+@media (width <=480px) {
+  .cards-textures .cards-textures-cards {
+    flex-direction: column;
+  }
+
+  .cards-textures-card {
+    flex: 0 0 auto;
+    height: 200px;
+  }
+}
+
+/* Intro: heading, description and CTA */
+.cards-textures .cards-textures-intro {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.cards-textures .cards-textures-title {
+  margin: 0 0 14px;
+  color: var(--text-color-dark);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.cards-textures .cards-textures-title-gradient {
+  background: linear-gradient(270deg, #f8a12e, #be2a1d 50.07%, #45216c 98.1%);
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bolder;
+}
+
+.cards-textures .cards-textures-intro-description {
+  margin: 0 0 24px;
+  color: var(--text-color-muted);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+}
+
+.cards-textures .cards-textures-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: transparent;
+  border: 1.5px solid var(--text-color-dark);
+  border-radius: 30px;
+  color: var(--text-color-dark);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.cards-textures .cards-textures-cta::after {
+  content: "";
+  width: 20px;
+  height: 18px;
+  background: url('../../icons/arrow-icon-new.svg') no-repeat;
+  filter: invert(1);
+}
+
+.cards-textures .cards-textures-cta:hover {
+  background: #fff7e8;
+  border: 1px solid #232426;
+  color: #222;
+}
+
+@media (width >= 992px) {
+  .cards-textures {
+    padding: 80px 4%;
+  }
+
+  .cards-textures .cards-textures-intro {
+    max-width: none;
+  }
+
+  .cards-textures .cards-textures-title {
+    font-size: 32px;
+    font-weight: 800;
+  }
+
+  .cards-textures .cards-textures-intro-description {
+    padding: 0 15%;
+    color: #222;
+  }
+}
+
+
+
+@media (width >= 320px) and (width <= 991px) {
+  .cards-textures.block .cards-textures-card .card-description {
+    text-align: center;
+    font-size: 14px;
+    line-height: 23px;
+    margin-bottom: 24px;
+  }
+
+  .cards-textures.block .cards-textures-card {
+    width: 100%;
+    height: 90px;
+    transition: height 1s ease;
+    flex:  0 0 auto;
+  }
+
+  .cards-textures.block .cards-textures-card .card-name {
+        display: flex;
+        text-align: center;
+        opacity: 1;
+        align-items: center;
+        justify-content: center;
+        bottom: 40px;
+  }
+
+
+  .cards-textures.block .cards-textures-card.child-open {
+    height: 362px;
+  }
+
+
+  .cards-textures.block .cards-textures-card.child-open .card-name {
+    /* display: none;
+     animation: none; */
+     opacity: 0;
+  }
+
+
+   .cards-textures.block .cards-textures-card .card-hover-content {
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s ease;
+}
+
+.cards-textures.block .cards-textures-card.child-open .card-hover-content {
+  opacity: 1;
+  visibility: visible;
+  align-items: center;
+  justify-content: center;
+}
+
+  .cards-textures.block .cards-textures-card.child-open .card-hover-content .card-bucket {
+    display: block;
+  }
+}
+
+.cards-textures.block .cards-textures-card .card-description{
+  /* min-width: calc((100vw / var(--child-count)) * 1.3);
+    max-width: 100%; */
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.cards-textures.block .cards-textures-card .card-hover-content{
+  justify-content: end;
+}
+
+.cards-textures-card:hover .card-hover-content .card-button{
+    font-size: 14px;
+    padding: 12px 22px;
+}
+
+.cards-textures.block .cards-textures-card .card-button{
+    padding: 8px 25px;
+    font-size: 14px;
+}
+
+@media(width >= 991px) {
+.cards-textures.block .cards-textures-card .card-hover-content .wrapper {
+    position: absolute;
+    bottom: 10%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 5%;
+    height: unset;
+}
+
+.cards-textures.block .cards-textures-card {
+  transition: flex .7s ease-in-out, background-image .7s ease-in-out;
+}
+
+.cards-textures.block .cards-textures-card .card-hover-content .card-bucket {
+    position: absolute;
+    top: 25%;
+    transform: translate(10px, 0);
+}
+
+.cards-textures.block .cards-textures-card .card-hover-content{
+  padding-left: 0;
+}
+
+.cards-textures.block .cards-textures-card .card-button{
+  width: fit-content;
+}
+
+.cards-textures.block .cards-textures-card .card-name{
+  left: 10px;
+}
+}
+
+@media(width >=992px){
+  .texture-wrapper {
+    padding: 80px 4% !important;
+  }
+
+  .texture-wrapper .default-content-wrapper {
+    max-width: unset !important;
+    margin: unset !important;
+    padding: unset !important;
+  }
+
+   .texture-wrapper .default-content-wrapper #explore-textures, .texture-wrapper .default-content-wrapper #explore-our-range-of-offering {
+    font-weight: 800;
+    margin-bottom: 14px;
+   }
+
+  .texture-wrapper .default-content-wrapper p:not(.button-container) {
+    padding: 0 15%;
+    color:#222 !important;
+  }
+}
+
+/* ===== FIX MATCH LIVE (cards-textures) : START =====
+   as on www.asianpaints.com/texture-paints/exterior-textures (QA bugs: title and CTA colour,
+   card name and hover text sizes, hover button, spacing to the next section, mobile titles) */
+
+/* intro: the source's #222 heading, text and "View all Textures" button */
+.cards-textures.block .cards-textures-title {
+  color: #222;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+}
+
+.cards-textures.block .cards-textures-intro-description {
+  margin-bottom: 14px;
+  color: #222;
+  line-height: 22px;
+}
+
+.cards-textures.block .cards-textures-cta {
+  box-sizing: border-box;
+  height: 38px;
+  padding: 0 20px;
+  border: 1px solid #232426;
+  border-radius: 45px;
+  color: #222;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: normal;
+}
+
+/* the cards span the section's width (the section already has the side padding); 50px to the
+   next section on desktop, 30px on mobile, as on the source */
+.cards-textures.block {
+  padding: 60px 0 30px;
+}
+
+.cards-textures.block .cards-textures-cards {
+  margin-bottom: 0;
+}
+
+/* card name, hover title and description, View Details: the source's type */
+.cards-textures.block .cards-textures-card .card-name,
+.cards-textures.block .cards-textures-card .card-hover-title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.cards-textures.block .cards-textures-card .card-hover-title {
+  margin: 0;
+}
+
+.cards-textures.block .cards-textures-card p.card-description {
+  margin: 16px 0 24px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.cards-textures.block .cards-textures-card .card-button,
+.cards-textures.block .cards-textures-card:hover .card-hover-content .card-button {
+  box-sizing: border-box;
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 45px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.cards-textures.block .cards-textures-card .card-hover-content .card-button:hover {
+  border-color: #232426;
+  background: #fff7e8;
+  color: #000;
+}
+
+/* "Cards Textures (desktop-intro)": the heading, text and button only on desktop and tablet,
+   as on the source (hidden on phones) */
+@media (width <= 767px) {
+  .cards-textures.block.desktop-intro .cards-textures-intro {
+    display: none;
+  }
+}
+
+/* mobile: titles centred in the closed cards; the open card as on the source */
+@media (width <= 991px) {
+  .cards-textures.block .cards-textures-card {
+    transition: height 0.7s linear 0.1s;
+  }
+
+  .cards-textures.block .cards-textures-card .card-name {
+    inset: 0;
+    padding: 0 3% 0 6%;
+  }
+
+  .cards-textures.block .cards-textures-card.child-open .card-hover-content {
+    justify-content: flex-start;
+    padding: 172px 3% 0 6%;
+  }
+
+  .cards-textures.block .cards-textures-card.child-open .card-hover-content .card-bucket {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 91px;
+    height: 109px;
+    margin: 0;
+    transform: translateX(-50%);
+  }
+
+  .cards-textures.block .cards-textures-card .card-description {
+    font-size: 14px;
+    line-height: 23px;
+  }
+}
+
+/* desktop: the cards' height, the hovered card's width and the text at the source's place */
+@media (width >= 992px) {
+  .cards-textures.block {
+    padding: 40px 0 50px;
+  }
+
+  .cards-textures.block .cards-textures-intro {
+    margin-bottom: 50px;
+  }
+
+  .cards-textures.block .cards-textures-card {
+    height: 533px;
+  }
+
+  /* no dark gradient over the texture images, as on the source */
+  .cards-textures.block .cards-textures-card::before {
+    background: none;
+  }
+
+  .cards-textures.block .cards-textures-card:hover {
+    flex: 1.75;
+  }
+
+  .cards-textures.block .cards-textures-card .card-name {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0 5% 13%;
+  }
+
+  .cards-textures.block .cards-textures-card .card-hover-content .wrapper {
+    bottom: 0;
+    padding: 0 5% 13%;
+  }
+
+  .cards-textures.block .cards-textures-card .card-hover-content .card-bucket {
+    left: 5%;
+    width: 98px;
+    height: 117px;
+    margin: 0;
+    transform: none;
+  }
+
+  .cards-textures.block .cards-textures-card .card-description {
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .cards-textures.block .cards-textures-card .card-button,
+  .cards-textures.block .cards-textures-card:hover .card-hover-content .card-button {
+    padding: 0 20px;
+  }
+}
+
+/* smaller desktops (992px-1279px): the hover description is 15px / 21.2px, as on the source */
+@media (width >= 992px) and (width <= 1279px) {
+  .cards-textures.block .cards-textures-card .card-description {
+    font-size: 15px;
+    line-height: 21.2px;
+  }
+}
+
+/* ===== FIX MATCH LIVE (cards-textures) : END ===== */
+
+/* ===== TEXTURE TOOL PAGE (cards-textures) intro : START =====
+   parent has .texture-tool-page */
+.texture-tool-page .cards-textures .cards-textures-intro-description {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+@media (width <= 991px) {
+  .texture-tool-page .cards-textures .cards-textures-title {
+    font-size: 24px;
+    font-weight: 800;
+    text-align: left;
+    margin-left: 20px;
+  }
+
+  .texture-tool-page .cards-textures .cards-textures-intro-description {
+    text-align: left;
+    margin-left: 20px;
+  }
+}
+
+/* ===== TEXTURE TOOL PAGE (cards-textures) intro : END ===== */

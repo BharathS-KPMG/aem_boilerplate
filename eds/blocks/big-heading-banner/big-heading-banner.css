@@ -1,0 +1,180 @@
+/* Big Heading Banner - like live www.asianpaints.com/texture-paints/exterior-textures.html
+   (.imagebanner.center-text): 60px heading (40px below 992px), 13px sub heading,
+   CTA right under the text, text box centred on the image, CTA hover = transparent button
+   with white text and border, arrow slides 6px. Same look as
+   "Image Carousel (centered-text, text-large, big-heading)". */
+
+/* full width banner (on stg the global section styles already do this) */
+main > .section:has(.big-heading-banner) {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+main > .section > .big-heading-banner-wrapper {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* breadcrumb over the banner on desktop ("Overlay breadcrumb | true" row) */
+@media (width >= 992px) {
+    main > .section:has(.big-heading-banner.breadcrumb-overlay) .breadcrumb-wrapper {
+        position: relative;
+        z-index: 3;
+        margin-bottom: -54px;
+    }
+}
+
+.big-heading-banner {
+    position: relative;
+    overflow: hidden;
+}
+
+.big-heading-banner .banner-media {
+    display: block;
+}
+
+/* banner as tall as the image (no gap under it); the ratio is reserved before the image loads */
+.big-heading-banner .banner-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--banner-ratio-mobile, auto);
+}
+
+/* text box: 100% wide below 768px, 65% to 990px, 62% to 1199px, 68% to 1365px, 60% from 1366px */
+.big-heading-banner .banner-text {
+    position: absolute;
+    top: calc(50% - 4.5px);
+    left: 50%;
+    z-index: 2;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 15px;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+}
+
+/* heading (Sub Title column); the global first-section h1 style (800px max width,
+   gradient text) is not used here */
+.big-heading-banner .banner-text .banner-heading {
+    max-width: none;
+    margin: 0 0 7px;
+    background: none;
+    color: inherit;
+    -webkit-text-fill-color: currentcolor;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 40px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+}
+
+/* sub heading (Title column) */
+.big-heading-banner .banner-text .banner-sub-heading {
+    margin: 0 0 7px;
+    color: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: normal;
+}
+
+/* CTA right under the sub heading */
+.big-heading-banner .banner-cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+.big-heading-banner .banner-cta-wrap.banner-cta-left {
+    justify-content: flex-start;
+}
+
+.big-heading-banner .banner-cta-wrap.banner-cta-right {
+    justify-content: flex-end;
+}
+
+.big-heading-banner .banner-cta {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 10px;
+    height: 38px;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 45px;
+    background: var(--gradient, linear-gradient(180deg, #fec940, #f90));
+    color: #1e1e1e;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+/* FIX MATCH LIVE (CTA arrow): live's 17 x 20 arrow box (was 16 x 16) */
+.big-heading-banner .banner-cta svg {
+    flex-shrink: 0;
+    width: 17px;
+    height: 20px;
+    transition: transform 0.2s ease-in;
+}
+
+/* hover like live: transparent button, white text, 1px white border, white arrow */
+.big-heading-banner .banner-cta:is(:hover, :focus-visible) {
+    border: 1px solid #fff;
+    background: transparent;
+    color: #fff;
+    text-decoration: none;
+}
+
+.big-heading-banner .banner-cta:is(:hover, :focus-visible) svg {
+    transform: translateX(6px);
+}
+
+/* small phones: narrower CTA like live */
+@media (width <= 360px) {
+    .big-heading-banner .banner-cta {
+        gap: 4px;
+        padding: 12px 10px;
+    }
+}
+
+@media (width >= 768px) and (width <= 991px) {
+    .big-heading-banner .banner-text {
+        width: 65%;
+        padding: 0 60px;
+    }
+}
+
+@media (width >= 991px) and (width < 992px) {
+    .big-heading-banner .banner-text {
+        width: 62%;
+    }
+}
+
+@media (width >= 992px) {
+    .big-heading-banner .banner-media img {
+        aspect-ratio: var(--banner-ratio-desktop, auto);
+    }
+
+    .big-heading-banner .banner-text {
+        width: 60%;
+        padding: 0 60px;
+    }
+
+    .big-heading-banner .banner-text .banner-heading {
+        font-size: 60px;
+        line-height: 60px;
+        letter-spacing: 4px;
+    }
+
+    .big-heading-banner .banner-cta {
+        padding: 14px 20px;
+    }
+}

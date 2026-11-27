@@ -1,0 +1,699 @@
+/*
+ * waterproofing-area — one problem area of the waterproofing hotspots, shown
+ * in the waterproofing-problems drawer. Source: beta.asianpaints.com
+ * waterproofing service page (".hs-side-panel" body).
+ * Authoring and behaviour: README.md.
+ *
+ * Every value is the source's computed value: desktop from 992px, mobile up
+ * to 991px. The page's 992-1439px zoom (styles.css) applies here too, as it
+ * does on the source.
+ */
+
+.waterproofing-area {
+  /* source values */
+  --wpa-text: #222;
+  --wpa-heading: rgb(26 26 26);
+  --wpa-ink: rgb(28 39 60);
+
+  /* contrast: 4.07:1 as the active tab, 3.94:1 as the "Impact" label (AA needs 4.5:1);
+     kept as on the source. Passing alternative: rgb(210 40 20), 4.96:1 / 4.80:1 */
+  --wpa-red: rgb(232 52 28);
+  --wpa-blue: rgb(39 123 212);
+  --wpa-purple: rgb(67 26 128);
+  --wpa-grey: rgb(107 114 128);
+  --wpa-grey-hover: rgb(55 65 81);
+  --wpa-pane-bg: rgb(238 248 253 / 60%);
+  --wpa-pane-border: rgb(224 236 249);
+  --wpa-pane-border-bottom: rgb(238 248 253);
+  --wpa-causes-bg: rgb(235 245 255);
+  --wpa-causes-text: rgb(46 47 50);
+  --wpa-causes-label: rgb(29 111 191);
+  --wpa-impact-bg: rgb(255 244 242);
+  --wpa-step-dot: rgb(82 149 221);
+  --wpa-step-text: rgb(66 94 142);
+  --wpa-card-border: rgb(236 239 244);
+  --wpa-card-shadow: rgb(0 0 0 / 8%);
+  --wpa-badge: rgb(137 212 245); /* the source's link colour, which the badge's "•" inherits */
+  --wpa-name: rgb(17 24 39);
+  --wpa-sep-bg: rgb(248 251 255);
+  --wpa-sep-border: rgb(47 67 101 / 10%);
+
+  /* added: focus ring (the source has none of its own) */
+  --wpa-focus: rgb(29 111 191);
+
+  color: var(--wpa-text);
+  font-size: 14px;
+  line-height: 22px;
+  text-align: left;
+}
+
+.waterproofing-area *,
+.waterproofing-area *::before,
+.waterproofing-area *::after {
+  box-sizing: border-box;
+}
+
+.waterproofing-area :focus-visible {
+  outline: 2px solid var(--wpa-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Common Problems & Solutions ---------- */
+.waterproofing-area .wpa-probs {
+  display: flow-root; /* a flex item on the source: holds the box's bottom margin */
+  padding-top: 20px;
+}
+
+.waterproofing-area .wpa-probs-heading {
+  margin: 0 20px 14px;
+  padding-left: 10px;
+  border-left: 3px solid var(--wpa-red);
+  color: var(--wpa-heading);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.waterproofing-area .wpa-box {
+  margin: 10px;
+  padding: 10px;
+}
+
+.waterproofing-area .wpa-tabs {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: -1px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.waterproofing-area .wpa-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.waterproofing-area .wpa-tab {
+  margin: 0;
+  padding: 5px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px 8px 0 0;
+  background: transparent;
+  color: var(--wpa-grey);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.waterproofing-area .wpa-tab:hover:not([aria-selected="true"]) {
+  color: var(--wpa-grey-hover);
+}
+
+.waterproofing-area .wpa-tab[aria-selected="true"] {
+  position: relative;
+  z-index: 3;
+  border-color: var(--wpa-pane-border) var(--wpa-pane-border) var(--wpa-pane-border-bottom);
+  background: var(--wpa-pane-bg);
+  color: var(--wpa-red);
+  font-weight: 700;
+}
+
+.waterproofing-area .wpa-tabs .wpa-tab:focus-visible {
+  outline-offset: -2px;
+}
+
+.waterproofing-area .wpa-pane {
+  z-index: 8;
+  display: block;
+  border-top-right-radius: 10px;
+}
+
+.waterproofing-area .wpa-pane[hidden] {
+  display: none;
+}
+
+.waterproofing-area .wpa-pane:focus-visible {
+  outline-offset: 0;
+}
+
+.waterproofing-area .wpa-pane-inner {
+  padding: 16px 12px;
+  border: 1px solid var(--wpa-pane-border);
+  border-radius: 0 10px 10px;
+  background: var(--wpa-pane-bg);
+}
+
+.waterproofing-area .wpa-pane-img picture,
+.waterproofing-area .wpa-pane-img img {
+  display: block;
+  width: 100%;
+}
+
+.waterproofing-area .wpa-pane-img img {
+  height: auto;
+  border-radius: 10px;
+}
+
+.waterproofing-area .wpa-pane-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 5px 0;
+}
+
+.waterproofing-area .wpa-pane-desc {
+  margin: 0 0 14px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0.5px;
+}
+
+/* causes (blue) / impact (red) */
+.waterproofing-area .wpa-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.waterproofing-area .wpa-info.is-causes {
+  background: var(--wpa-causes-bg);
+}
+
+.waterproofing-area .wpa-info.is-impact {
+  background: var(--wpa-impact-bg);
+}
+
+.waterproofing-area .wpa-info-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.waterproofing-area .wpa-info-label {
+  font-weight: 700;
+}
+
+.waterproofing-area .wpa-info.is-causes .wpa-info-icon,
+.waterproofing-area .wpa-info.is-causes .wpa-info-label {
+  color: var(--wpa-causes-label);
+}
+
+.waterproofing-area .wpa-info.is-impact .wpa-info-icon,
+.waterproofing-area .wpa-info.is-impact .wpa-info-label {
+  color: var(--wpa-red);
+}
+
+.waterproofing-area .wpa-info p {
+  margin: 0;
+  font-size: 8.06px;
+  font-weight: 500;
+  line-height: 12.09px;
+  letter-spacing: 0.5px;
+}
+
+.waterproofing-area .wpa-info.is-causes p {
+  color: var(--wpa-causes-text);
+}
+
+.waterproofing-area .wpa-info.is-impact p {
+  color: var(--wpa-ink);
+}
+
+/* ---------- recommended system ---------- */
+.waterproofing-area .wpa-rec {
+  padding: 20px 0 28px;
+}
+
+.waterproofing-area .wpa-rec-heading,
+.waterproofing-area .wpa-videos-heading {
+  margin: 0 20px 18px 0;
+  padding-left: 10px;
+  border-left: 3px solid var(--wpa-blue);
+  color: var(--wpa-ink);
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.waterproofing-area .wpa-steps {
+  margin: 0;
+  padding: 0 20px 0 0;
+  list-style: none;
+}
+
+.waterproofing-area .wpa-step {
+  position: relative;
+  padding-bottom: 20px;
+  padding-left: 20px;
+}
+
+.waterproofing-area .wpa-step:last-child {
+  padding-bottom: 0;
+}
+
+.waterproofing-area .wpa-step::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--wpa-step-dot);
+}
+
+/* dashed connector from each step's dot down to the next step's dot
+   (2px x 6px dashes, 3px gaps) */
+.waterproofing-area .wpa-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  bottom: 0;
+  left: 0;
+  width: 6px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='30'%3E%3Crect width='6' height='20' rx='3' fill='%23bcd6f2'/%3E%3C/svg%3E");
+  background-repeat: repeat-y;
+  background-size: 2px 9px;
+  transform: translateX(50%);
+}
+
+.waterproofing-area .wpa-step-num {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--wpa-heading);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.waterproofing-area .wpa-step-desc {
+  margin: 0 0 14px;
+  color: var(--wpa-step-text);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0;
+}
+
+/* products */
+.waterproofing-area .wpa-products {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.waterproofing-area .wpa-products::-webkit-scrollbar {
+  display: none;
+}
+
+.waterproofing-area .wpa-product-item {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.waterproofing-area .wpa-product {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 175px;
+  max-width: 1755px; /* sic, the source's value */
+  min-height: 80px;
+  margin-top: 10px;
+  padding: 10px 17px 10px 10px;
+  border: 0.99px solid var(--wpa-card-border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--wpa-badge);
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.waterproofing-area a.wpa-product:hover {
+  box-shadow: 0 2px 10px var(--wpa-card-shadow);
+  color: var(--wpa-badge);
+  text-decoration: none;
+}
+
+.waterproofing-area .wpa-product picture {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.waterproofing-area .wpa-product img {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.waterproofing-area .wpa-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.waterproofing-area .wpa-product-badge {
+  font-size: 10.31px;
+  font-weight: 500;
+  line-height: 17.48px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.waterproofing-area .wpa-product-badge-label.is-coat {
+  color: var(--wpa-purple);
+}
+
+.waterproofing-area .wpa-product-badge-label.is-primer {
+  color: #000;
+}
+
+.waterproofing-area .wpa-product-name {
+  color: var(--wpa-name);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16.04px;
+}
+
+.waterproofing-area .wpa-product-arrow {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  height: 10px;
+  color: var(--wpa-grey);
+  transition: color 0.2s;
+}
+
+.waterproofing-area .wpa-product:hover .wpa-product-arrow {
+  color: var(--wpa-name);
+}
+
+/* "OR" / "AND" between alternatives (the source's ::before, as text) */
+.waterproofing-area .wpa-product-sep {
+  position: absolute;
+  top: 50%;
+  left: -29px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 27px;
+  height: 27px;
+  margin: 5px 10px 0;
+  border: 1.15px solid var(--wpa-sep-border);
+  border-radius: 50%;
+  background: var(--wpa-sep-bg);
+  color: var(--wpa-step-text);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 21px;
+  transform: translateY(-50%);
+}
+
+/* ---------- video tutorials ---------- */
+.waterproofing-area .wpa-videos {
+  padding: 10px 0 15px;
+}
+
+.waterproofing-area .wpa-videos-heading {
+  margin-bottom: 10px;
+  border-left-color: var(--wpa-purple);
+}
+
+.waterproofing-area .wpa-videos-track {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 4px 0;
+  overflow: auto hidden;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.waterproofing-area .wpa-videos-track::-webkit-scrollbar {
+  display: none;
+}
+
+.waterproofing-area .wpa-video-item {
+  flex-shrink: 0;
+  width: 200px;
+  scroll-snap-align: start;
+}
+
+.waterproofing-area .wpa-video-item:first-child {
+  margin-left: 20px;
+}
+
+.waterproofing-area .wpa-video-item:last-child {
+  margin-right: 20px;
+}
+
+.waterproofing-area .wpa-video {
+  display: block;
+  width: 200px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.waterproofing-area .wpa-video-thumb {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 200px;
+  height: 136px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.waterproofing-area .wpa-video-thumb picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.waterproofing-area .wpa-video-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.waterproofing-area .wpa-video:hover .wpa-video-thumb img {
+  transform: scale(1.04);
+}
+
+.waterproofing-area .wpa-video-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ---------- video dialog ---------- */
+.waterproofing-area .wpa-video-modal {
+  width: calc(100% - 14px);
+  max-width: 500px;
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+}
+
+.waterproofing-area .wpa-video-modal::backdrop {
+  background: rgb(0 0 0 / 50%); /* the source dims the page behind the video */
+  animation: wpa-backdrop-in 0.15s linear;
+}
+
+@keyframes wpa-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.waterproofing-area .wpa-video-modal-content {
+  position: relative;
+}
+
+.waterproofing-area .wpa-video-modal-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px;
+}
+
+.waterproofing-area .wpa-video-modal-close {
+  position: absolute;
+  top: 40px;
+  right: 5px;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.waterproofing-area .wpa-video-modal-close:focus-visible {
+  outline-color: #fff;
+}
+
+.waterproofing-area .wpa-video-modal-body {
+  position: relative;
+  padding: 14px;
+}
+
+.waterproofing-area .wpa-video-iframe {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+/* ---------- desktop, from 992px ---------- */
+@media (width >= 992px) {
+  .waterproofing-area .wpa-tab {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .waterproofing-area .wpa-pane-desc {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  .waterproofing-area .wpa-info p {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .waterproofing-area .wpa-info.is-causes {
+    margin-bottom: 6px;
+  }
+
+  .waterproofing-area .wpa-products {
+    gap: 20px;
+  }
+
+  .waterproofing-area .wpa-product {
+    width: 100%;
+    min-width: 225px;
+    max-width: 225px;
+    min-height: 95px;
+    padding: 10px 36px 10px 10px;
+  }
+
+  .waterproofing-area .wpa-product img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .waterproofing-area .wpa-product-badge {
+    font-size: 12.11px;
+    line-height: 20.52px;
+  }
+
+  .waterproofing-area .wpa-product-name {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .waterproofing-area .wpa-product-arrow {
+    width: auto;
+    height: auto;
+  }
+
+  .waterproofing-area .wpa-product-sep {
+    left: -42px;
+    width: 40px;
+    height: 40px;
+    font-size: 11.88px;
+    line-height: 24.94px;
+  }
+
+  .waterproofing-area .wpa-video-modal {
+    width: 60%;
+    max-width: 60%;
+    margin: auto;
+  }
+}
+
+@media (width >= 576px) and (width <= 991px) {
+  .waterproofing-area .wpa-video-modal {
+    width: 500px;
+    margin: auto;
+  }
+}
+
+/* ---------- user preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .waterproofing-area .wpa-video-modal::backdrop {
+    animation: none;
+  }
+
+  .waterproofing-area .wpa-tab,
+  .waterproofing-area .wpa-product,
+  .waterproofing-area .wpa-product-arrow,
+  .waterproofing-area .wpa-video-thumb img {
+    transition: none;
+  }
+
+  .waterproofing-area .wpa-video:hover .wpa-video-thumb img {
+    transform: none;
+  }
+
+  .waterproofing-area .wpa-videos-track {
+    scroll-behavior: auto;
+  }
+}
+
+@media (forced-colors: active) {
+  .waterproofing-area .wpa-tab[aria-selected="true"] {
+    border-color: Highlight;
+  }
+
+  .waterproofing-area .wpa-step::before {
+    background: CanvasText;
+    forced-color-adjust: none;
+  }
+
+  .waterproofing-area .wpa-info,
+  .waterproofing-area .wpa-product-sep {
+    border: 1px solid CanvasText;
+  }
+}

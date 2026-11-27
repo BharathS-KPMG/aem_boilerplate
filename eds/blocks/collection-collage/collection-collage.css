@@ -1,0 +1,435 @@
+/*
+ * collection-collage — titled band of collections (heading, description,
+ * download CTA, photo collage).
+ * Source: https://www.asianpaints.com/nilaya-arc-inspiration.html
+ * ("Whispers Of Inspirations" rte title + .imageCollageGrid)
+ * Authoring: see README.md.
+ *
+ * STYLING: the source's values as --collection-collage-* custom properties;
+ * breakpoint 992px (the source renders a separate mobile copy below 992px:
+ * 4 mobile images instead of 8 desktop ones). The title font is the repo's
+ * ap-font-extrabold face, the source's "apFontExtraBold" (fonts/manrope/
+ * Manrope-ExtraBold.ttf); everything else is Manrope (the source's stack is
+ * just "Manrope"; this repo does not load it, the main site does).
+ */
+
+/* the band is full-bleed; its spacing to the neighbouring sections as on the
+   source (100px above on desktop, 50px above / 30px below on mobile) */
+main > .section.collection-collage-container {
+  margin: 50px 0 30px;
+}
+
+.collection-collage-container .collection-collage-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.collection-collage {
+  --collection-collage-font: "Manrope", sans-serif;
+  --collection-collage-title-font: ap-font-extrabold, "Manrope", sans-serif;
+  --collection-collage-ink: #222;
+  --collection-collage-heading: #303030;
+  --collection-collage-tagline: #8b600d;
+  --collection-collage-copy: #000;
+  --collection-collage-border: #1e1e1e;
+  --collection-collage-dark-cream: #ece5d7;
+  --collection-collage-light-cream: #f7f2e7;
+  --collection-collage-hover: linear-gradient(#ffc63c, #ffa20c);
+
+  padding: 60px 0 0;
+  background-color: var(--collection-collage-dark-cream);
+  color: var(--collection-collage-ink);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+/* --- title: a 14px/22px line holding the large text, as on the source --- */
+.collection-collage .collection-collage-title {
+  margin: -14px 0 30px;
+  padding: 0 16px;
+  color: var(--collection-collage-ink);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+}
+
+.collection-collage .collection-collage-title span {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 35.2px;
+  letter-spacing: 0.5px;
+}
+
+/* --- one collection --- */
+.collection-collage .collection-collage-item {
+  padding: 0 16px 45px;
+  background-color: var(--collection-collage-dark-cream);
+}
+
+.collection-collage .collection-collage-item-text-right {
+  padding-top: 40px;
+  background-color: var(--collection-collage-light-cream);
+}
+
+.collection-collage .collection-collage-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.collection-collage .collection-collage-main {
+  width: 100%;
+}
+
+.collection-collage .collection-collage-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* as on the source the heading keeps its lines (max-content) and may run into
+   the right padding; capped at the viewport so it never scrolls sideways */
+.collection-collage .collection-collage-heading {
+  width: max-content;
+  max-width: calc(100vw - 16px);
+  margin: 0;
+  color: var(--collection-collage-heading);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 35.2px;
+  letter-spacing: normal;
+  overflow-wrap: break-word;
+}
+
+.collection-collage .collection-collage-eyebrow {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.collection-collage .collection-collage-name {
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.collection-collage .collection-collage-tagline {
+  color: var(--collection-collage-tagline);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.collection-collage .collection-collage-description {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 40px;
+  padding: 20px 20px 0 0;
+  color: var(--collection-collage-copy);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  overflow-wrap: break-word;
+}
+
+.collection-collage .collection-collage-highlight {
+  font-weight: 700;
+}
+
+.collection-collage .collection-collage-description-desktop {
+  display: none;
+}
+
+/* the source lifts the button 20px into the description's bottom margin */
+.collection-collage .collection-collage-cta {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  margin: 0 0 24px;
+  transform: translate(0, -20px);
+}
+
+.collection-collage .collection-collage-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 38px;
+  padding: 12px 18px;
+  border: 0.5px solid var(--collection-collage-border);
+  border-radius: 45px;
+  background: transparent;
+  color: var(--collection-collage-ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.collection-collage .collection-collage-button svg {
+  flex: none;
+  width: 17px;
+  height: 20px;
+  color: #000;
+}
+
+.collection-collage .collection-collage-button:hover,
+.collection-collage .collection-collage-button:focus-visible {
+  border: 0;
+  background: var(--collection-collage-hover);
+  color: var(--collection-collage-ink);
+  text-decoration: none;
+}
+
+@media (width <= 360px) {
+  .collection-collage .collection-collage-button {
+    gap: 4px;
+    padding: 12px 10px;
+  }
+}
+
+/* the source relies on the background change alone; a ring is added so
+   keyboard focus is also visible on the gradient (WCAG 2.4.7) */
+.collection-collage .collection-collage-button:focus-visible {
+  outline: 2px solid var(--collection-collage-ink);
+  outline-offset: 2px;
+}
+
+/* --- collage --- */
+.collection-collage .collection-collage-images {
+  display: flex;
+  gap: 10px;
+}
+
+/* columns are as wide as their images (shrinking to fit), as on the source;
+   from 1280px they share the row equally (-webkit-fill-available there) */
+.collection-collage .collection-collage-column {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.collection-collage .collection-collage-column picture {
+  display: block;
+}
+
+.collection-collage .collection-collage-column img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.collection-collage .collection-collage-images-under,
+.collection-collage .collection-collage-images-beside {
+  display: none;
+}
+
+.collection-collage .collection-collage-images-mobile {
+  width: 100%;
+}
+
+.collection-collage .collection-collage-item-text-left .collection-collage-images-mobile .collection-collage-column:first-child {
+  margin-top: 22px;
+}
+
+.collection-collage .collection-collage-item-text-left .collection-collage-images-mobile .collection-collage-column:nth-child(2n) {
+  justify-content: flex-start;
+  margin-top: -40px;
+}
+
+.collection-collage .collection-collage-item-text-right .collection-collage-images-mobile {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.collection-collage .collection-collage-item-text-right .collection-collage-images-mobile .collection-collage-column:first-child {
+  margin-top: -40px;
+}
+
+.collection-collage .collection-collage-item-text-right .collection-collage-images-mobile .collection-collage-column:nth-child(2n) {
+  margin-top: 22px;
+}
+
+/* --- scroll reveal: slides up 250px and fades in (1.5s), as on the source.
+   The source animates `bottom` (counted as layout shift: CLS); the same
+   motion as a transform is not --- */
+.collection-collage.collection-collage-reveal,
+.collection-collage .collection-collage-reveal {
+  opacity: 0;
+}
+
+.collection-collage.collection-collage-reveal.is-revealed,
+.collection-collage .collection-collage-reveal.is-revealed {
+  animation: collection-collage-rise 1.5s ease forwards;
+}
+
+@keyframes collection-collage-rise {
+  1% {
+    transform: translateY(250px);
+  }
+
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* --- desktop (source: 992px and up) --- */
+@media (width >= 992px) {
+  main > .section.collection-collage-container {
+    margin: 100px 0 0;
+  }
+
+  .collection-collage {
+    padding: 0;
+  }
+
+  /* source: two empty 22px paragraphs (14px apart) above the title line */
+  .collection-collage .collection-collage-title {
+    margin: 0 0 14px;
+    padding: 72px 0 0;
+    text-align: center;
+  }
+
+  .collection-collage .collection-collage-title span {
+    font-size: 40px;
+    line-height: 22px;
+  }
+
+  .collection-collage .collection-collage-item,
+  .collection-collage .collection-collage-item-text-right {
+    padding: 100px 45px;
+  }
+
+  .collection-collage .collection-collage-inner {
+    flex-direction: row;
+  }
+
+  .collection-collage .collection-collage-item-text-right .collection-collage-inner {
+    flex-direction: row-reverse;
+  }
+
+  .collection-collage .collection-collage-main {
+    width: 50%;
+  }
+
+  .collection-collage .collection-collage-details {
+    display: block;
+    width: auto;
+    margin-right: 41px;
+  }
+
+  .collection-collage .collection-collage-item-text-right .collection-collage-details {
+    margin-left: 40px;
+  }
+
+  .collection-collage .collection-collage-heading {
+    width: auto;
+    max-width: none;
+    font-size: 60px;
+    font-weight: 300;
+    line-height: 59.4px;
+  }
+
+  .collection-collage .collection-collage-eyebrow {
+    font-size: 32px;
+    font-weight: 400;
+  }
+
+  .collection-collage .collection-collage-name {
+    font-size: 60px;
+    font-weight: 300;
+  }
+
+  .collection-collage .collection-collage-tagline {
+    font-size: 32px;
+  }
+
+  .collection-collage .collection-collage-description {
+    padding: 20px 0 0;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .collection-collage .collection-collage-description-desktop {
+    display: block;
+  }
+
+  .collection-collage .collection-collage-description-mobile {
+    display: none;
+  }
+
+  .collection-collage .collection-collage-cta {
+    display: inline-flex;
+    margin: 0;
+    transform: none;
+  }
+
+  .collection-collage .collection-collage-button {
+    padding: 14px 20px;
+  }
+
+  .collection-collage .collection-collage-images-mobile {
+    display: none;
+  }
+
+  .collection-collage .collection-collage-images-under {
+    display: flex;
+  }
+
+  .collection-collage .collection-collage-images-beside {
+    display: flex;
+    width: 50%;
+  }
+
+  /* text left: under-text column 1 starts 50px down; beside column 2 centred */
+  .collection-collage .collection-collage-item-text-left .collection-collage-images-under .collection-collage-column:first-child {
+    margin-top: 50px;
+  }
+
+  .collection-collage .collection-collage-item-text-left .collection-collage-images-beside .collection-collage-column:nth-child(2n) {
+    justify-content: center;
+  }
+
+  /* text right: everything mirrored */
+  .collection-collage .collection-collage-item-text-right .collection-collage-images-under,
+  .collection-collage .collection-collage-item-text-right .collection-collage-images-beside {
+    flex-direction: row-reverse;
+  }
+
+  .collection-collage .collection-collage-item-text-right .collection-collage-images-under .collection-collage-column:nth-child(2n + 1) {
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  .collection-collage .collection-collage-item-text-right .collection-collage-images-under .collection-collage-column:nth-child(2n),
+  .collection-collage .collection-collage-item-text-right .collection-collage-images-beside .collection-collage-column:nth-child(2n) {
+    justify-content: flex-start;
+    margin-top: 60px;
+  }
+}
+
+@media (width >= 1280px) {
+  .collection-collage .collection-collage-column {
+    flex: 1 1 0;
+  }
+}
+
+@media (width >= 1200px) and (width <= 1280px) {
+  .collection-collage .collection-collage-item-text-right .collection-collage-tagline {
+    font-size: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collection-collage.collection-collage-reveal,
+  .collection-collage .collection-collage-reveal {
+    opacity: 1;
+    animation: none;
+  }
+}

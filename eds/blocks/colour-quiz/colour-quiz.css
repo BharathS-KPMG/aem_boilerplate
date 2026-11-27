@@ -1,0 +1,1968 @@
+/*
+ * colour-quiz — step-by-step colour quiz with the source's lead form; results
+ * come from the source's recommendation API, or an authored sheet as fallback.
+ *
+ * AUTHORING (DA table): see README.md in this folder. Label | value rows for
+ * the single-value fields (background, results, buttons, lead form texts,
+ * accessibility labels, PDF and service settings), then four sections, each
+ * a header row + one row per item:
+ *
+ *   | Question ID | Step label | Heading | Show if | Options style |
+ *   | Question ID | Option label | Value | Card image | Preview image (mobile) | Preview image (desktop) |
+ *   | Field ID | Field label | Placeholder | Error message |
+ *   | Choice ID | Choice question | Choice options | Error message |
+ *
+ * Tables authored earlier with keyword rows (`question | …`, `option | …`,
+ * `config | key | value`, …) are still read.
+ *
+ * Typography and colours are the source's literal computed values, declared
+ * once below. The font is the source's `Manrope` plus a generic `sans-serif`
+ * fallback (added on request: this repo does not load Manrope, and without a
+ * fallback browsers show their default serif; see HANDOFF.md).
+ */
+
+/* page edges (source .ccQuiz): the panel sits 4% in below 992px and 45px in
+   from 992px. The section's own side padding (e.g. the DA section style
+   "section-padding-rl-40-16") is cancelled so these edges match. */
+main .section.colour-quiz-container {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.colour-quiz-container .colour-quiz-wrapper {
+  max-width: none;
+  margin: 0 4%;
+
+  /* vertical spacing around the panel (padding, not margin: the section's
+     own margins and the header offset would swallow a margin). The source
+     puts 10px between its breadcrumb and the panel and 10% of the width
+     (+39px of the next component) below it; the staging breadcrumb is
+     hidden below 992px and 2px taller above it, so these values are the
+     measured difference that puts the panel and the section after it where
+     the source has them (18px / 10% - 10px below 992px). */
+  padding: 18px 0 calc(10% - 10px);
+}
+
+@media (width >= 992px) {
+  .colour-quiz-container .colour-quiz-wrapper {
+    margin: 0 45px;
+    padding: 8px 0 30px;
+  }
+}
+
+.colour-quiz {
+  /* source values (asianpaints.com .ccQuiz computed styles). The source asks
+     for weight 600 in places but loads no Manrope SemiBold, so it draws them
+     Bold: those rules use 700 here. */
+  --colour-quiz-text: #222;
+  --colour-quiz-ink: #232426;
+  --colour-quiz-on-dark: #fff;
+  --colour-quiz-card-border: rgb(255 255 255 / 50%);
+  --colour-quiz-hover-border: #9747ff;
+  --colour-quiz-hover-bg: rgb(49 19 83 / 30%);
+  --colour-quiz-results-gradient: linear-gradient(251.66deg, rgb(65 71 155 / 0%) 28.48%, #080c4e 90.89%);
+  --colour-quiz-restart-bg: var(--light-color); /* #f8f8f8 — matches repo token */
+  --colour-quiz-restart-text: #000;
+  --colour-quiz-restart-border: #979797;
+  --colour-quiz-restart-hover: #fed440;
+  --colour-quiz-pill-bg: linear-gradient(180deg, #ffc63c 0%, #ffa20c 100%);
+  --colour-quiz-pill-text: #1d1d1f;
+
+  /* lead form (source .ccQuiz-end-form computed styles) */
+  --colour-quiz-form-bg: #fff;
+  --colour-quiz-form-label: #000;
+  --colour-quiz-form-required: #f00;
+  --colour-quiz-input-bg: #f9f9f9;
+  --colour-quiz-input-focus-bg: #f2f8ff;
+  --colour-quiz-input-border: #bdbdbd;
+  --colour-quiz-input-error: #f00;
+  --colour-quiz-error-text: #ed1c24;
+  --colour-quiz-choice-divider: #bedbff;
+  --colour-quiz-choice-bg: #f2f8ff;
+  --colour-quiz-choice-checked: #7ad06d;
+  --colour-quiz-link: #00e;
+  --colour-quiz-submit-bg: #feb940;
+  --colour-quiz-submit-disabled-bg: #ddd;
+  --colour-quiz-submit-disabled-text: #979797;
+
+  /* results (source .ccQuizResult computed styles) */
+  --colour-quiz-rec-title: #000;
+  --colour-quiz-rec-border: #c2c2c2;
+  --colour-quiz-extra-label: #6f6b6b;
+  --colour-quiz-rule: rgb(0 0 0 / 10%);
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: var(--colour-quiz-text);
+}
+
+.colour-quiz button {
+  font: inherit;
+}
+
+/* --- quiz panel --- */
+.colour-quiz .colour-quiz-panel {
+  border-radius: 8px;
+  padding: 20px 22px 30px;
+  background: var(--colour-quiz-bg-mobile) center / cover no-repeat;
+}
+
+.colour-quiz .colour-quiz-panel[hidden],
+.colour-quiz .colour-quiz-results[hidden] {
+  display: none;
+}
+
+/* step list: answered steps (buttons) + current step number. On mobile the
+   current step pill sits in the same row as the answered steps and the
+   question wraps below; --colour-quiz-done (set by JS) is the number of
+   answered steps, each 22px + 13px gap wide. */
+.colour-quiz .colour-quiz-steps {
+  --colour-quiz-pill-offset: calc(var(--colour-quiz-done, 0) * 35px);
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 13px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.colour-quiz .colour-quiz-step-done {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.colour-quiz .colour-quiz-step-done button {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--colour-quiz-ink);
+  text-align: start;
+  cursor: pointer;
+}
+
+.colour-quiz .colour-quiz-num {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.colour-quiz .colour-quiz-step-done .colour-quiz-num {
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--colour-quiz-ink);
+  border-radius: 20px;
+  font-size: 11px;
+  line-height: 22px;
+}
+
+.colour-quiz .colour-quiz-step-current .colour-quiz-num {
+  width: 28px;
+  margin-left: var(--colour-quiz-pill-offset);
+  height: 40px;
+  padding: 0 9px 0 7px;
+  border: 1px solid var(--colour-quiz-ink);
+  border-radius: 20px;
+  background-color: var(--colour-quiz-ink);
+  color: var(--colour-quiz-on-dark);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+/* the source's text sits 1.5px above the number's centre */
+.colour-quiz .colour-quiz-step-text {
+  display: none;
+  margin-bottom: 3px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.colour-quiz .colour-quiz-step-done button:hover .colour-quiz-num,
+.colour-quiz .colour-quiz-step-done button:focus-visible .colour-quiz-num {
+  background-color: var(--colour-quiz-ink);
+  color: var(--colour-quiz-on-dark);
+}
+
+.colour-quiz .colour-quiz-step-done button:hover .colour-quiz-step-text,
+.colour-quiz .colour-quiz-step-done button:focus-visible .colour-quiz-step-text {
+  color: var(--colour-quiz-on-dark);
+}
+
+.colour-quiz .colour-quiz-step-done button:focus-visible {
+  outline: 2px solid var(--colour-quiz-hover-border);
+  outline-offset: 2px;
+}
+
+/* current question heading: step pill + question text */
+.colour-quiz .colour-quiz-step-current {
+  width: 100%;
+}
+
+.colour-quiz .colour-quiz-steps:has(.colour-quiz-step-done) .colour-quiz-step-current {
+  margin-top: -40px;
+  pointer-events: none;
+}
+
+.colour-quiz .colour-quiz-step-current h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px 14px;
+  margin: 0 0 30px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--colour-quiz-ink);
+  scroll-margin: 80px;
+}
+
+/* question steps (not the intro): source .question-text is 800 / 26px below 992px */
+@media (width < 992px) {
+  .colour-quiz .colour-quiz-step-current h2:not(:has(.colour-quiz-kicker)) {
+    font-weight: 800;
+    line-height: 26px;
+  }
+}
+
+.colour-quiz .colour-quiz-step-current h2:focus {
+  outline: none;
+}
+
+.colour-quiz .colour-quiz-title {
+  display: block;
+  flex: 1 0 100%;
+  min-width: 0;
+}
+
+.colour-quiz .colour-quiz-headline {
+  display: block;
+}
+
+/* intro step (kicker + headline) — source inline styles */
+.colour-quiz .colour-quiz-kicker {
+  display: block;
+  font-size: 20px;
+  line-height: 26px;
+  color: var(--colour-quiz-ink);
+}
+
+.colour-quiz .colour-quiz-kicker + .colour-quiz-headline {
+  margin-top: 6px;
+  font-size: 40px;
+  line-height: 40px;
+  color: var(--colour-quiz-on-dark);
+}
+
+/* --- options --- */
+
+/* mobile: the strip scrolls out to the panel's right edge, showing the
+   browser's own scrollbars and without snapping (source .quiz-option:
+   overflow: scroll). The first step's two cards fit, so it does not scroll. */
+.colour-quiz .colour-quiz-options {
+  display: flex;
+  gap: 20px;
+  margin: 0 -22px 0 0;
+  padding: 0 22px 8px 0;
+  list-style: none;
+  overflow: scroll;
+}
+
+/* plain image cards (no zoom button) sit 50px apart on the source */
+.colour-quiz .colour-quiz-options:not(.colour-quiz-options-icons, :has(.colour-quiz-zoom-button)) {
+  gap: 50px;
+}
+
+.colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(1)) .colour-quiz-options {
+  overflow: visible;
+}
+
+.colour-quiz .colour-quiz-options > li {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+}
+
+.colour-quiz .colour-quiz-option {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 123px;
+  height: 164px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--colour-quiz-card-border);
+  border-radius: 5px 60px 5px 5px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease-out;
+}
+
+.colour-quiz .colour-quiz-option-media {
+  line-height: 0;
+}
+
+.colour-quiz .colour-quiz-option-media img {
+  box-sizing: border-box;
+  width: 100%;
+  height: 133.5px;
+  padding: 5px 5px 0;
+  border-radius: 0 60px 0 0;
+  object-fit: fill;
+}
+
+.colour-quiz .colour-quiz-option-label {
+  display: block;
+  padding: 5px;
+  color: var(--colour-quiz-on-dark);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
+/* the border stays as it is (the source forces it with !important) */
+.colour-quiz .colour-quiz-option:hover,
+.colour-quiz .colour-quiz-option:focus-visible,
+.colour-quiz .colour-quiz-option[aria-pressed="true"] {
+  background-color: var(--colour-quiz-hover-bg);
+}
+
+.colour-quiz .colour-quiz-option:focus-visible {
+  outline: 2px solid var(--colour-quiz-hover-border);
+  outline-offset: 2px;
+}
+
+.colour-quiz .colour-quiz-option:hover::after,
+.colour-quiz .colour-quiz-option:focus-visible::after,
+.colour-quiz .colour-quiz-option[aria-pressed="true"]::after {
+  content: "✓";
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  width: 20%;
+  color: var(--colour-quiz-on-dark);
+  font-size: 30px;
+  line-height: 22px;
+}
+
+/* icon cards (vibes) */
+.colour-quiz .colour-quiz-options-icons .colour-quiz-option {
+  height: 81px;
+  border-radius: 5px 30px 5px 5px;
+}
+
+/* icons at their own size (22-31px), centred 33.5px below the card's top */
+.colour-quiz .colour-quiz-options-icons .colour-quiz-option-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 29px;
+  margin-top: 19px;
+}
+
+.colour-quiz .colour-quiz-options-icons .colour-quiz-option-media img {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* icon cards show no tick on hover (as on the source) */
+.colour-quiz .colour-quiz-options-icons .colour-quiz-option::after {
+  content: none;
+}
+
+/* image preview (zoom) button — source .zoom-icon: its 22px icon
+   (hcg-new-zoomIcon) sits inline (vertical-align: middle) on a 14px / 22px
+   Manrope line, so the row is 23.22px tall with the icon 1.22px down; right-aligned, 20px below the card
+   (10px from 992px) */
+.colour-quiz .colour-quiz-zoom-button {
+  align-self: flex-end;
+  box-sizing: border-box;
+  width: 22px;
+  margin: 20px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: 14px/22px var(--colour-quiz-font);
+  cursor: pointer;
+}
+
+.colour-quiz .colour-quiz-zoom-button::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAAHxJREFUeAHN1dEJwCAMhOGjk7j/UukmaQsW5FCpyQn9HxU+lAgCwdzdfJwd2FOBovuEhW+AbISaBO6gJQ330Loeh0doCp6hdf9ZM6w2Q1O9J5Ki/68Z1PowPqCembLN0NCg+EFLUIZlaAtLUYJ1KME6tANz4ff7/HknNnQBVK6V3NoC6fQAAAAASUVORK5CYII=") no-repeat;
+}
+
+.colour-quiz .colour-quiz-zoom-button:focus-visible {
+  outline: 2px solid var(--colour-quiz-hover-border);
+  outline-offset: 2px;
+}
+
+/* per-step spacing below 992px (source .ccQuizStep1-4): the gap above the
+   options and the space under them differ per step. Step N is the panel
+   whose current step is the Nth item of the step list. */
+@media (width < 992px) {
+  /* lead form step: the card spans the panel less 5px each side (source
+     .ccQuizStep5 padding 28px 5px 20px; question column 22px in) */
+  .colour-quiz .colour-quiz-panel-form {
+    padding: 20px 5px;
+  }
+
+  .colour-quiz .colour-quiz-panel-form .colour-quiz-questions {
+    padding: 0 22px;
+  }
+
+  .colour-quiz .colour-quiz-panel-form .colour-quiz-title {
+    min-height: 52px;
+    margin-top: 16px;
+  }
+
+  .colour-quiz .colour-quiz-panel-form .colour-quiz-form-slot {
+    margin-top: 8px;
+  }
+
+  .colour-quiz .colour-quiz-panel-form .colour-quiz-form-fields {
+    row-gap: 13px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(1)) {
+    padding-bottom: 82px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(2)) {
+    padding-bottom: 26px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(2)) .colour-quiz-title,
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(3)) .colour-quiz-title {
+    margin-top: 5px;
+  }
+
+  /* zoom rows: the source card list has 10px under the 24px preview line */
+  .colour-quiz .colour-quiz-options:has(.colour-quiz-zoom-button) {
+    padding-bottom: 10px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(2)) .colour-quiz-options {
+    margin-top: 37px;
+  }
+
+  /* steps after the intro: cards spread over the row when they fit */
+  .colour-quiz .colour-quiz-panel:not(:has(.colour-quiz-step-current:nth-child(1))) .colour-quiz-options {
+    justify-content: space-between;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(3)) {
+    padding-bottom: 17px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(3)) .colour-quiz-options {
+    margin-top: 30px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(4)) {
+    padding-bottom: 105px;
+  }
+
+  /* the vibe and form questions keep two lines' height, so the cards and
+     the form stay put when the question fits on one line (as on the source) */
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(4)) .colour-quiz-title {
+    min-height: 52px;
+    margin-top: 9px;
+  }
+
+  /* 10px under the vibe cards, where the strip's scrollbar draws */
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(4)) .colour-quiz-options {
+    margin-top: 3px;
+    padding-bottom: 10px;
+  }
+
+  /* the source's pills are 35px apart, then 34px apart from the fourth */
+  .colour-quiz .colour-quiz-steps {
+    --colour-quiz-pill-offset: calc(var(--colour-quiz-done, 0) * 35px - max(0, var(--colour-quiz-done, 0) - 2) * 1px);
+  }
+
+  .colour-quiz .colour-quiz-step-done:nth-child(n+4) {
+    margin-left: -1px;
+  }
+
+  /* after the intro the source's number pills (finished rows and the
+     current one) sit 1px higher, the question text where it is */
+  .colour-quiz .colour-quiz-step-done .colour-quiz-num,
+  .colour-quiz .colour-quiz-panel:not(:has(.colour-quiz-step-current:nth-child(1))) .colour-quiz-step-current .colour-quiz-num {
+    translate: 0 -1px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(2)):has(.colour-quiz-zoom-button) {
+    padding-bottom: 24px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(3)):has(.colour-quiz-zoom-button) {
+    padding-bottom: 15px;
+  }
+}
+
+/* --- lead form (last step) --- */
+.colour-quiz .colour-quiz-form-slot[hidden],
+.colour-quiz .colour-quiz-options[hidden] {
+  display: none;
+}
+
+.colour-quiz .colour-quiz-form {
+  box-sizing: border-box;
+  padding: 15px 20px 20px;
+  border-radius: 8px;
+  background-color: var(--colour-quiz-form-bg);
+}
+
+.colour-quiz .colour-quiz-form form {
+  margin: 0;
+}
+
+.colour-quiz .colour-quiz-form-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 5px 16px;
+}
+
+.colour-quiz .colour-quiz-field label {
+  display: block;
+  margin-bottom: 1px;
+  color: var(--colour-quiz-form-label);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.colour-quiz .colour-quiz-required {
+  color: var(--colour-quiz-form-required);
+}
+
+.colour-quiz .colour-quiz-field-control {
+  display: flex;
+}
+
+.colour-quiz .colour-quiz-field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  margin: 0;
+  padding: 1px 2px 1px 15px;
+  border: 1px solid var(--colour-quiz-input-border);
+  border-radius: 4px;
+  background-color: var(--colour-quiz-input-bg);
+  color: var(--colour-quiz-form-label);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 26.04px;
+}
+
+.colour-quiz .colour-quiz-field input:focus {
+  background-color: var(--colour-quiz-input-focus-bg);
+}
+
+.colour-quiz .colour-quiz-field input:focus-visible {
+  outline: 2px solid var(--colour-quiz-hover-border);
+  outline-offset: 1px;
+}
+
+.colour-quiz .colour-quiz-field.colour-quiz-field-error input {
+  border-color: var(--colour-quiz-input-error);
+}
+
+/* source .phone-number-revamp: the number box is 85% of the row with the
+   63px prefix before it, so on wide rows (tablet) label and prefix sit in */
+.colour-quiz .colour-quiz-field-phone {
+  padding-left: max(0px, 15% - 63.2px);
+}
+
+/* +91 prefix box joined to the mobile-number input */
+.colour-quiz .colour-quiz-field-prefix {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  height: 40px;
+  padding: 0 7px 0 0;
+  border: 1px solid var(--colour-quiz-input-border);
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+  background-color: var(--colour-quiz-input-bg);
+  color: var(--colour-quiz-text);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.colour-quiz .colour-quiz-field .colour-quiz-field-prefix + input {
+  border-radius: 0 4px 4px 0;
+}
+
+.colour-quiz .colour-quiz-field-error .colour-quiz-field-prefix {
+  border-color: var(--colour-quiz-input-error);
+}
+
+/* India flag: the source sprite's 24px tile (Icons-Sprite.webp -1041px -485px),
+   which sits 6px into a 33px slot, 1px below centre */
+.colour-quiz .colour-quiz-flag {
+  width: 24px;
+  height: 24px;
+  margin: 2px 3px 0 6px;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAF1ElEQVR4AWSWy29Vxx3HPzNzzn3Y12+bYhzAMQ4mditVrRtSqU5h0UUfaRddVHmgNruuuqnIIlK6idpN1E3/gUpRt9lASahwElMgKWCDUivYEBuMSXB4+HWvH/eec2amv7m+Fol6pI9+399vZn6/+Z2Z42tN47k5/urY4vivTj08+4v7q2d+49dOn/Brp16rs3r6t375n8KZE375G7wi/g6P3nvFP3z/pftL7798avHs78YaaakXmB7/4xtaF8873fJiGpV6k8jgjEdpi1GeCEXOK4zTDRALsdvFiQ7Qm/P2xaLbnLh/9tU3kEdPjb85ppx/S4aV9U1kNGFVhNXglWTAITXqGBcSu3py41099vWxyEmWAImO/eZbUmRM55Q7aZXXYZ9exTgdCB0onKJOvZCShDIrdBRQSqHU/6OlYkTIlulcxEltVTxqfYQjByqP97m6tuKnOiLTWroRVADpTmy9u4YO8cYcL298FySnwoxqT0uvpYBTRaEJL0V2dJHU5EmimFogNiQmohoJwQqJ0RITdEQiRaoSq5qc6AI13URm2nq1pUTmmqnaIjWfpyrnUKOZbVqoqla2VAu1uJVt3cpWnRLbpo1NiVdkbsUX2JBz25A8gRAPVHUHadyFLrT20dwxQLHtILnWA+Q6nybfeUis0BEYpPlb38GXnqaa7yMr7qfjwPfIdQ0JRxoEPUS+O/hDRD0j5PcMY9r70XufOsLgs0cZPHKU/qGjHBgcpe/Q9+kd+C57+kd56vCP6Dz0PAdHXuDwcz9jYOzXFHuG6X32Bfq+fZy+4R+zr84YvcPCyHF6R46xd+iHFLoG0d41EUsrmW8lsSUS10Li20hVN6qwjzTaS5K18+57k/z9H//ib399h3fevcDjcoFq2knVdZMIqe0mC7gOrBXUHlzcg25p68FEzXJ7CnLtShjTjhLQbVSTAhklzk1cY2/fsHQ5Sm//CN37nmF+cYWllZoUKMn5lajJmQXCBmuuRCZnRNSBjuMIm3gMeZSgdRFVp1lsE9bFzN++R1OpjYv/ucrc7UWaW9rY2EpAy9XWBTA5vNiwDlUQ3Uy49toU5RV5T5bVQEJKabxTeK/Eh3xRiirFeqXMo5UV6ajGanmdubnbfHR+go6uTpTRKNmkFhBdR8t6QWmP1shOVILSqXwmUkg0dTKJWXSUMTC4n/LmMs8d/QEDA/0MHO7n57/8KZWNVbSROcqysyYRm6FUFaNSyZcIcUpc9JhC2iCRjmsQb0lPFdEpx3/yPPsPdmF9hcUvZmlpNTwz1EdHT5GokKDz2+hcbYe63iYy4scS/2rlHo8qQnmRh5VFHq3f4WF5nsfr8yytfc6D1c+lWIWmdsvBwXZ+/4eX5JtJ2HIPWKve4/HGAo83d1gWuyz+ivBg6xYrG3fQk9OXuDT5IVc+vcDkfye4Mj3B5PR5pj77txD8cS5fP8vc3avMfTnF1elx5r+8ztT0B3U9deNDrt346Akzomc+YPLTc3w2dwU9v3CDhS9muDl/XQJT3Lx9nZsL15hduLqTVBLfuneZOnc/5lZg4WNmxc7evcjsQuATsZ8wc/cSMwuXRF9m5s4V7n81I2ck767UrnC5Tawuyx+odbEVbLSBjcsSXyeLyqRmtT6W6jVqSrRak+uxSoqgVkiFREgRLTjKVG0FnbqNpcSuoKIKSoo4I4kluY+koNmSpJt4sQEnh7aLjbYkXsXJmFUyV/Bs45VADacz0mx7STu/OVlLV0F2r2URuiJaFuuqXLlEJu6SiS/whHC1UeJ/HRwISimy1E1qb6tve7Xp0FtovYExVYyuyV1OkCnIt/INlCzfRXstY09QDV+FHxubc67m39avv3bmgvLqT9pZ+UlPML4mOIx42ioCYYOIDugQb6DE7hLmB5STfxFs7IyL3gy5NfKcfPnin6MsOhY5TsfoJWNzREkeYwuYNEJnGvmgie2ODXoHJfEddKZkvl6KrDltbP7Y6yfO/QXgfwAAAP//yT78MQAAAAZJREFUAwCpNiDVxdqmOgAAAABJRU5ErkJggg==") no-repeat;
+}
+
+.colour-quiz .colour-quiz-field-message {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  margin: 0;
+  padding: 5px 0;
+  box-sizing: border-box;
+  color: var(--colour-quiz-error-text);
+  font-size: 12px;
+  line-height: 22px;
+}
+
+/* single choice ("Are you looking for a home-painting service?"): source
+   .disclaimer-questions box, each question a divided .disclaimer-group row */
+.colour-quiz .colour-quiz-choices {
+  margin: 18px 0 20px;
+  border: 1px solid var(--colour-quiz-choice-divider);
+  border-radius: 4px;
+  background-color: var(--colour-quiz-choice-bg);
+}
+
+.colour-quiz .colour-quiz-choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
+  margin: 0;
+  padding: 9px 6px 8px 8px;
+  border: 0;
+  border-bottom: 1px solid var(--colour-quiz-choice-divider);
+}
+
+/* float stops the legend rendering in the border, so it lays out as a flex item */
+.colour-quiz .colour-quiz-choice legend {
+  float: left;
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 9px 0;
+  padding: 0;
+  color: var(--colour-quiz-text);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.5px;
+}
+
+.colour-quiz .colour-quiz-choice-options {
+  display: flex;
+  gap: 7px;
+}
+
+.colour-quiz .colour-quiz-choice label {
+  position: relative;
+  display: flex;
+  margin: 10px 0;
+  border: 1px solid var(--colour-quiz-input-border);
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.colour-quiz .colour-quiz-choice-options input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.colour-quiz .colour-quiz-choice label span {
+  padding: 4px 19px;
+  border-radius: 30px;
+  background-color: var(--colour-quiz-form-bg);
+  color: var(--colour-quiz-text);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.colour-quiz .colour-quiz-choice label:hover,
+.colour-quiz .colour-quiz-choice label:focus-within {
+  border-color: var(--colour-quiz-choice-checked);
+}
+
+.colour-quiz .colour-quiz-choice label:has(input:focus-visible) {
+  outline: 2px solid var(--colour-quiz-hover-border);
+  outline-offset: 2px;
+}
+
+.colour-quiz .colour-quiz-choice input:checked + span {
+  background-color: var(--colour-quiz-choice-checked);
+  color: var(--colour-quiz-on-dark);
+}
+
+.colour-quiz .colour-quiz-choice .colour-quiz-field-message {
+  flex: 1 1 100%;
+}
+
+.colour-quiz .colour-quiz-consent {
+  margin: 10px 0;
+  color: var(--colour-quiz-text);
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.5px;
+}
+
+.colour-quiz .colour-quiz-consent p {
+  margin: 0;
+}
+
+.colour-quiz .colour-quiz-consent a:any-link {
+  color: var(--colour-quiz-link);
+  text-decoration: underline;
+}
+
+.colour-quiz .colour-quiz-form-error {
+  margin: 0;
+  color: var(--colour-quiz-error-text);
+  font-size: 12px;
+  line-height: 22px;
+}
+
+.colour-quiz .colour-quiz-form-error:empty {
+  display: none;
+}
+
+.colour-quiz .colour-quiz-submit {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 38px;
+  margin: 0;
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 45px;
+  background-color: var(--colour-quiz-submit-bg);
+  color: var(--colour-quiz-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  cursor: pointer;
+}
+
+/* source .animated-arrow-button .arrow: its arrow-icon.svg (20px, from the
+   top-left of a 17×20 box, 10px after the label) with the source filter, which
+   renders it solid black and pixel-sharp */
+.colour-quiz .colour-quiz-submit::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 17px;
+  height: 20px;
+  background: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Icon"><g id="Icon_2"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2563 4.13128C10.598 3.78957 11.152 3.78957 11.4937 4.13128L16.7437 9.38128C17.0854 9.72299 17.0854 10.277 16.7437 10.6187L11.4937 15.8687C11.152 16.2104 10.598 16.2104 10.2563 15.8687C9.91457 15.527 9.91457 14.973 10.2563 14.6313L14.0126 10.875L3.875 10.875C3.39175 10.875 3 10.4832 3 10C3 9.51675 3.39175 9.125 3.875 9.125H14.0126L10.2563 5.36872C9.91457 5.02701 9.91457 4.47299 10.2563 4.13128Z" fill="%23FF0D0D" style="mix-blend-mode:saturation"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2563 4.13128C10.598 3.78957 11.152 3.78957 11.4937 4.13128L16.7437 9.38128C17.0854 9.72299 17.0854 10.277 16.7437 10.6187L11.4937 15.8687C11.152 16.2104 10.598 16.2104 10.2563 15.8687C9.91457 15.527 9.91457 14.973 10.2563 14.6313L14.0126 10.875L3.875 10.875C3.39175 10.875 3 10.4832 3 10C3 9.51675 3.39175 9.125 3.875 9.125H14.0126L10.2563 5.36872C9.91457 5.02701 9.91457 4.47299 10.2563 4.13128Z" fill="white" style="mix-blend-mode:difference"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2563 4.13128C10.598 3.78957 11.152 3.78957 11.4937 4.13128L16.7437 9.38128C17.0854 9.72299 17.0854 10.277 16.7437 10.6187L11.4937 15.8687C11.152 16.2104 10.598 16.2104 10.2563 15.8687C9.91457 15.527 9.91457 14.973 10.2563 14.6313L14.0126 10.875L3.875 10.875C3.39175 10.875 3 10.4832 3 10C3 9.51675 3.39175 9.125 3.875 9.125H14.0126L10.2563 5.36872C9.91457 5.02701 9.91457 4.47299 10.2563 4.13128Z" fill="white" style="mix-blend-mode:saturation"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2563 4.13128C10.598 3.78957 11.152 3.78957 11.4937 4.13128L16.7437 9.38128C17.0854 9.72299 17.0854 10.277 16.7437 10.6187L11.4937 15.8687C11.152 16.2104 10.598 16.2104 10.2563 15.8687C9.91457 15.527 9.91457 14.973 10.2563 14.6313L14.0126 10.875L3.875 10.875C3.39175 10.875 3 10.4832 3 10C3 9.51675 3.39175 9.125 3.875 9.125H14.0126L10.2563 5.36872C9.91457 5.02701 9.91457 4.47299 10.2563 4.13128Z" fill="white" style="mix-blend-mode:overlay"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2563 4.13128C10.598 3.78957 11.152 3.78957 11.4937 4.13128L16.7437 9.38128C17.0854 9.72299 17.0854 10.277 16.7437 10.6187L11.4937 15.8687C11.152 16.2104 10.598 16.2104 10.2563 15.8687C9.91457 15.527 9.91457 14.973 10.2563 14.6313L14.0126 10.875L3.875 10.875C3.39175 10.875 3 10.4832 3 10C3 9.51675 3.39175 9.125 3.875 9.125H14.0126L10.2563 5.36872C9.91457 5.02701 9.91457 4.47299 10.2563 4.13128Z" fill="black" style="mix-blend-mode:overlay"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2563 4.13128C10.598 3.78957 11.152 3.78957 11.4937 4.13128L16.7437 9.38128C17.0854 9.72299 17.0854 10.277 16.7437 10.6187L11.4937 15.8687C11.152 16.2104 10.598 16.2104 10.2563 15.8687C9.91457 15.527 9.91457 14.973 10.2563 14.6313L14.0126 10.875L3.875 10.875C3.39175 10.875 3 10.4832 3 10C3 9.51675 3.39175 9.125 3.875 9.125H14.0126L10.2563 5.36872C9.91457 5.02701 9.91457 4.47299 10.2563 4.13128Z" fill="white" style="mix-blend-mode:overlay"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2563 4.13128C10.598 3.78957 11.152 3.78957 11.4937 4.13128L16.7437 9.38128C17.0854 9.72299 17.0854 10.277 16.7437 10.6187L11.4937 15.8687C11.152 16.2104 10.598 16.2104 10.2563 15.8687C9.91457 15.527 9.91457 14.973 10.2563 14.6313L14.0126 10.875L3.875 10.875C3.39175 10.875 3 10.4832 3 10C3 9.51675 3.39175 9.125 3.875 9.125H14.0126L10.2563 5.36872C9.91457 5.02701 9.91457 4.47299 10.2563 4.13128Z" fill="black" style="mix-blend-mode:overlay"/></g></g></svg>') no-repeat;
+  filter: contrast(10) invert(1) sepia(1) saturate(100) hue-rotate(90deg);
+}
+
+.colour-quiz .colour-quiz-submit:focus-visible {
+  outline: 2px solid var(--colour-quiz-hover-border);
+  outline-offset: 2px;
+}
+
+.colour-quiz .colour-quiz-submit[aria-busy="true"] {
+  cursor: progress;
+}
+
+/* any field showing an error greys the button out; a click still validates */
+.colour-quiz .colour-quiz-submit.colour-quiz-submit-disabled,
+.colour-quiz .colour-quiz-submit.colour-quiz-submit-disabled:hover,
+.colour-quiz .colour-quiz-submit.colour-quiz-submit-disabled:focus-visible {
+  background: var(--colour-quiz-submit-disabled-bg);
+  color: var(--colour-quiz-submit-disabled-text);
+}
+
+.colour-quiz .colour-quiz-spinner {
+  display: none;
+}
+
+.colour-quiz .colour-quiz-submit[aria-busy="true"] .colour-quiz-spinner,
+.colour-quiz .colour-quiz-download[aria-busy="true"] .colour-quiz-spinner {
+  display: inline-block;
+  animation: colour-quiz-spin 1s linear infinite;
+}
+
+.colour-quiz .colour-quiz-spinner::before {
+  content: "↻" / "";
+}
+
+@keyframes colour-quiz-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .colour-quiz .colour-quiz-submit[aria-busy="true"] .colour-quiz-spinner,
+  .colour-quiz .colour-quiz-download[aria-busy="true"] .colour-quiz-spinner {
+    animation: none;
+  }
+}
+
+.colour-quiz .colour-quiz-form-returning {
+  padding: 20px;
+}
+
+/* --- preview dialog (source #zoom-modal: full-width dark panel at the top
+   of the viewport over a 50% black backdrop; values are the source's) --- */
+.colour-quiz .colour-quiz-zoom {
+  --colour-quiz-zoom-bg: #373737;
+  --colour-quiz-zoom-border: rgb(0 0 0 / 20%);
+  --colour-quiz-zoom-backdrop: rgb(0 0 0 / 50%);
+  --colour-quiz-zoom-close-bg: rgb(0 0 0 / 70%);
+  --colour-quiz-zoom-close-border: #000;
+  --colour-quiz-zoom-arrow-ring: #dcdcdc;
+
+  position: fixed;
+  inset: 0 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 13px 6px 0;
+  overflow: visible;
+  border: 1px solid var(--colour-quiz-zoom-border);
+  border-radius: 4.2px;
+  background-color: var(--colour-quiz-zoom-bg);
+}
+
+.colour-quiz .colour-quiz-zoom::backdrop {
+  background-color: var(--colour-quiz-zoom-backdrop);
+}
+
+.colour-quiz .colour-quiz-zoom-title {
+  margin: 0 0 10px;
+  color: var(--colour-quiz-on-dark);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.colour-quiz .colour-quiz-zoom-media {
+  height: 174px;
+}
+
+/* fills the box keeping its proportions (the source stretches it; changed on request) */
+.colour-quiz .colour-quiz-zoom .colour-quiz-zoom-media picture,
+.colour-quiz .colour-quiz-zoom .colour-quiz-zoom-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.colour-quiz .colour-quiz-zoom .colour-quiz-zoom-media img {
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.colour-quiz .colour-quiz-zoom-close {
+  position: absolute;
+  top: 52px;
+  right: 5px;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0 6px;
+  border: 1px solid var(--colour-quiz-zoom-close-border);
+  border-radius: 50%;
+  background-color: var(--colour-quiz-zoom-close-bg);
+  color: var(--colour-quiz-on-dark);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+/* prev / next: white circles with a dark arrow (the source uses 32px images) */
+.colour-quiz .colour-quiz-zoom-prev,
+.colour-quiz .colour-quiz-zoom-next {
+  position: absolute;
+  top: 50%;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--colour-quiz-zoom-arrow-ring);
+  border-radius: 50%;
+  background: #fff no-repeat center / 18px;
+  cursor: pointer;
+}
+
+.colour-quiz .colour-quiz-zoom-prev {
+  left: 5px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><path d="M15 9H3M8 4 3 9l5 5" fill="none" stroke="%23222" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+}
+
+.colour-quiz .colour-quiz-zoom-next {
+  right: 5px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="%23222" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+}
+
+.colour-quiz .colour-quiz-zoom-single .colour-quiz-zoom-prev,
+.colour-quiz .colour-quiz-zoom-single .colour-quiz-zoom-next {
+  display: none;
+}
+
+.colour-quiz .colour-quiz-zoom-close:focus-visible,
+.colour-quiz .colour-quiz-zoom-prev:focus-visible,
+.colour-quiz .colour-quiz-zoom-next:focus-visible {
+  outline: 2px solid var(--colour-quiz-on-dark);
+  outline-offset: 2px;
+}
+
+/* --- results --- */
+
+/* the source uses the desktop artwork behind the results header at all widths */
+.colour-quiz .colour-quiz-results-header {
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--colour-quiz-bg-desktop) center / cover no-repeat;
+}
+
+.colour-quiz .colour-quiz-results .colour-quiz-results-header h2 {
+  margin: 0 0 7px;
+  color: var(--colour-quiz-on-dark);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+}
+
+.colour-quiz .colour-quiz-results .colour-quiz-results-header h2:focus {
+  outline: none;
+}
+
+/* the two pills wrap rather than overflow when the font runs wider */
+.colour-quiz .colour-quiz-results-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 9px;
+  padding-top: 17px;
+}
+
+.colour-quiz .colour-quiz-restart-pill {
+  box-sizing: border-box;
+  height: 38px;
+  margin: 0;
+  padding: 11px 17px 11px 20px;
+  border: 0;
+  border-radius: 45px;
+  background: var(--colour-quiz-pill-bg);
+  color: var(--colour-quiz-pill-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.colour-quiz .colour-quiz-restart-pill:focus-visible {
+  outline: 2px solid var(--colour-quiz-on-dark);
+  outline-offset: 2px;
+}
+
+/* "Share on WhatsApp" pill next to "Do it again" (mobile only, as on the source) */
+.colour-quiz .colour-quiz-share {
+  box-sizing: border-box;
+  display: inline-block;
+  height: 38px;
+  padding: 10px 17px 11px 20px;
+  border: 1px solid var(--colour-quiz-on-dark);
+  border-radius: 45px;
+  background: transparent;
+  color: var(--colour-quiz-on-dark);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.colour-quiz .colour-quiz-share:hover {
+  border: 0;
+  background: var(--colour-quiz-pill-bg);
+  color: var(--colour-quiz-pill-text);
+}
+
+.colour-quiz .colour-quiz-share:focus-visible {
+  outline: 2px solid var(--colour-quiz-on-dark);
+  outline-offset: 2px;
+}
+
+/* recommendations (source .main-container; mobile / tablet first).
+   The source sizes them by viewport, with 45px page gutters; this block sits
+   in a narrower section, so the desktop rules below are container queries at
+   the source's content widths (viewport - 90px): 902px (992px viewport),
+   935px (1025px), 1110px (1200px) and 1350px (1440px). */
+.colour-quiz .colour-quiz-recs {
+  container: colour-quiz-recs / inline-size;
+}
+
+.colour-quiz .colour-quiz-rec {
+  margin: 36px 0 30px;
+}
+
+.colour-quiz .colour-quiz-rec + .colour-quiz-rec {
+  margin-top: 88px;
+}
+
+.colour-quiz .colour-quiz-rec-title {
+  margin: 0 0 31px 32px;
+  color: var(--colour-quiz-rec-title);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.2px;
+}
+
+.colour-quiz .colour-quiz-rec-body {
+  margin: 0 15px;
+  padding: 14px;
+  border: 1px solid var(--colour-quiz-rec-border);
+  border-radius: 8px;
+}
+
+.colour-quiz .colour-quiz-combo {
+  border-radius: 8px;
+}
+
+.colour-quiz .colour-quiz-combo + .colour-quiz-combo {
+  margin-top: 22px;
+}
+
+/* second combination: room first in the markup, shades on top on mobile */
+.colour-quiz .colour-quiz-combo-alt {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.colour-quiz .colour-quiz-combo-shades {
+  width: 185px;
+  margin: 0 auto;
+}
+
+.colour-quiz .colour-quiz-combo-label {
+  margin: 16px 0 0;
+  color: var(--colour-quiz-text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.2px;
+}
+
+.colour-quiz .colour-quiz-combo-label-second {
+  margin-top: 38px;
+}
+
+.colour-quiz .colour-quiz-card {
+  box-sizing: border-box;
+  display: block;
+  width: 185px;
+  height: 260px;
+  margin-top: 10px;
+  padding: 3px;
+  border: 1px solid var(--colour-quiz-rec-border);
+  border-radius: 5px 50px 5px 5px;
+  color: var(--colour-quiz-rec-title);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+}
+
+.colour-quiz a.colour-quiz-card:hover {
+  color: var(--colour-quiz-rec-title);
+  text-decoration: none;
+}
+
+.colour-quiz .colour-quiz-card:focus-visible {
+  outline: 2px solid var(--colour-quiz-hover-border);
+  outline-offset: 2px;
+}
+
+.colour-quiz .colour-quiz-card-swatch {
+  display: block;
+  width: 175px;
+  height: 205px;
+  border-radius: 5px 50px 5px 5px;
+}
+
+.colour-quiz .colour-quiz-card-name {
+  display: block;
+  margin-top: 12px;
+  padding-left: 13px;
+  text-transform: capitalize;
+}
+
+.colour-quiz .colour-quiz-card-code {
+  display: block;
+  padding-left: 13px;
+}
+
+/* source sprite arrow (Icons-Sprite-firstFold -148px -126px), drawn as SVG */
+.colour-quiz .colour-quiz-arrow {
+  display: block;
+  float: right;
+  width: 25px;
+  height: 13px;
+  margin: -15px 2px 0 0;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 13"><path d="M1 6.5h21.5M16 1l6 5.5-6 5.5" fill="none" stroke="%23333" stroke-width="1.3"/></svg>') no-repeat center / 25px 13px;
+}
+
+/* room render: wall rectangles in the shade colours behind the room cut-out */
+.colour-quiz .colour-quiz-room {
+  position: relative;
+  overflow: hidden;
+  width: 272px;
+  height: 205px;
+  margin: 30px auto 0;
+  border-radius: 5px;
+}
+
+.colour-quiz .colour-quiz-room svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.colour-quiz .colour-quiz-room [class^="colour-quiz-wall-secondary"] {
+  display: none;
+}
+
+.colour-quiz .colour-quiz-room .colour-quiz-wall-secondary-small,
+.colour-quiz .colour-quiz-room .colour-quiz-wall-secondary-print {
+  display: inline;
+}
+
+.colour-quiz .colour-quiz-room-image {
+  position: absolute;
+  inset: 0;
+  border-radius: 5px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+/* texture / wallpaper suggestion */
+.colour-quiz .colour-quiz-extras-title {
+  margin: 20px 0 24px;
+  color: var(--colour-quiz-text);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.colour-quiz .colour-quiz-extra {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 56px;
+  color: var(--colour-quiz-text);
+  text-decoration: none;
+}
+
+.colour-quiz a.colour-quiz-extra:hover {
+  color: var(--colour-quiz-text);
+  text-decoration: none;
+}
+
+.colour-quiz .colour-quiz-extra:focus-visible {
+  outline: 2px solid var(--colour-quiz-hover-border);
+  outline-offset: 2px;
+}
+
+.colour-quiz .colour-quiz-extra-label {
+  display: block;
+  width: 168px;
+  margin: 0 auto;
+  color: var(--colour-quiz-extra-label);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.2px;
+}
+
+.colour-quiz .colour-quiz-extra-image {
+  display: block;
+  width: 168px;
+  height: 179px;
+  margin: 10px 0 auto;
+  border-radius: 0 50px 0 0;
+}
+
+.colour-quiz .colour-quiz-extra .colour-quiz-extra-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.colour-quiz .colour-quiz-extra-name,
+.colour-quiz .colour-quiz-extra-code {
+  display: block;
+  width: 168px;
+  margin: 10px 0 auto;
+  color: var(--colour-quiz-rec-title);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.2px;
+}
+
+.colour-quiz .colour-quiz-extra .colour-quiz-arrow {
+  float: left;
+  margin: 0 0 0 147px;
+}
+
+.colour-quiz .colour-quiz-extra-coat {
+  display: block;
+  margin-top: -15px;
+}
+
+.colour-quiz .colour-quiz-extra-coat + .colour-quiz-extra-coat {
+  margin-top: -4px;
+}
+
+/* print layout (source .pdfHTML): kept off-screen; html2canvas renders its
+   copy at a 1350px window width, i.e. with the desktop rules below */
+.colour-quiz .colour-quiz-print {
+  position: absolute;
+  top: 0;
+  left: -10000px;
+  box-sizing: border-box;
+  width: 1350px;
+  padding: 0 53px 0 45px;
+  background: #fff;
+}
+
+.colour-quiz .colour-quiz-print.colour-quiz-print-active {
+  left: 0;
+}
+
+.colour-quiz .colour-quiz-print-logo {
+  display: block;
+  width: 207px;
+}
+
+.colour-quiz .colour-quiz-print .colour-quiz-print-header {
+  box-sizing: border-box;
+  height: 245px;
+  margin-top: 20px;
+  padding: 70px 0;
+}
+
+.colour-quiz .colour-quiz-print .colour-quiz-results-header.colour-quiz-print-header h2 {
+  margin: 0;
+  padding: 0 100px;
+  color: var(--colour-quiz-on-dark);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 48px;
+  text-align: center;
+}
+
+.colour-quiz .colour-quiz-print-part:first-child .colour-quiz-rec {
+  padding-bottom: 150px;
+}
+
+.colour-quiz .colour-quiz-print-part + .colour-quiz-print-part .colour-quiz-rec {
+  margin-top: 88px;
+}
+
+.colour-quiz .colour-quiz-print .colour-quiz-arrow {
+  display: none;
+}
+
+/* print: the second combination's shades sit 30px in, widening their column */
+.colour-quiz .colour-quiz-print .colour-quiz-combo-alt .colour-quiz-combo-shades {
+  width: auto;
+}
+
+.colour-quiz .colour-quiz-print .colour-quiz-combo-alt .colour-quiz-combo-label,
+.colour-quiz .colour-quiz-print .colour-quiz-combo-alt .colour-quiz-card {
+  margin-left: 30px;
+}
+
+.colour-quiz .colour-quiz-print .colour-quiz-extras {
+  flex-shrink: 0;
+}
+
+.colour-quiz .colour-quiz-results-cta {
+  padding: 10px 0 16px;
+  text-align: center;
+}
+
+.colour-quiz .colour-quiz-restart,
+.colour-quiz .colour-quiz-download {
+  box-sizing: border-box;
+  display: block;
+  width: 212px;
+  margin: 0 auto;
+  padding: 17px 10px;
+  border: 1px solid var(--colour-quiz-restart-border);
+  border-radius: 4px;
+  background: var(--colour-quiz-restart-bg);
+  color: var(--colour-quiz-restart-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.86px;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.colour-quiz .colour-quiz-restart:hover,
+.colour-quiz .colour-quiz-restart:focus-visible {
+  background: var(--colour-quiz-restart-hover);
+  color: var(--colour-quiz-text);
+  box-shadow: none;
+}
+
+.colour-quiz .colour-quiz-download {
+  margin-top: 15px;
+  border: 0;
+  background: var(--colour-quiz-submit-bg);
+  color: var(--colour-quiz-text);
+}
+
+.colour-quiz .colour-quiz-restart:focus-visible,
+.colour-quiz .colour-quiz-download:focus-visible {
+  outline: 2px solid var(--colour-quiz-hover-border);
+  outline-offset: 2px;
+}
+
+.colour-quiz .colour-quiz-download[hidden] {
+  display: none;
+}
+
+.colour-quiz .colour-quiz-download:hover,
+.colour-quiz .colour-quiz-download:focus-visible {
+  background: var(--colour-quiz-restart-hover);
+  color: var(--colour-quiz-text);
+}
+
+.colour-quiz .colour-quiz-download[aria-busy="true"] {
+  cursor: progress;
+}
+
+.colour-quiz .colour-quiz-results-rule {
+  height: 0;
+  margin: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--colour-quiz-rule);
+  background: #000;
+  opacity: 0.2;
+}
+
+/* source: smallest phones get smaller result buttons */
+@media (width <= 360px) {
+  .colour-quiz .colour-quiz-restart-pill,
+  .colour-quiz .colour-quiz-share,
+  .colour-quiz .colour-quiz-restart,
+  .colour-quiz .colour-quiz-download {
+    font-size: 12px;
+    padding: 12px 12px 12px 14px;
+  }
+}
+
+/* room render size per source breakpoint (mobile / tablet) */
+@media (width < 360px) {
+  .colour-quiz .colour-quiz-room {
+    width: 240px;
+    height: 180px;
+  }
+}
+
+@media (width >= 576px) and (width < 768px) {
+  .colour-quiz .colour-quiz-room {
+    width: 100%;
+    height: 276px;
+    margin: 30px 0 0;
+  }
+
+  .colour-quiz .colour-quiz-room-image {
+    background-size: cover;
+  }
+}
+
+@container colour-quiz-recs (width >= 902px) {
+  .colour-quiz .colour-quiz-room .colour-quiz-wall-secondary-small {
+    display: none;
+  }
+
+  .colour-quiz .colour-quiz-room .colour-quiz-wall-secondary-medium {
+    display: inline;
+  }
+
+  .colour-quiz .colour-quiz-room-image {
+    background-size: 100% 100%;
+  }
+}
+
+@container colour-quiz-recs (902px <= width < 935px) {
+  .colour-quiz .colour-quiz-room {
+    width: 275px;
+    height: 230px;
+  }
+}
+
+/* screen-reader-only live status */
+.colour-quiz .colour-quiz-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- desktop: steps left, options right --- */
+@media (width >= 992px) {
+  .colour-quiz .colour-quiz-panel {
+    display: grid;
+
+    /* source flex row: the question column (natural width, or a set share
+       per step below) and the options at the right padding edge */
+    grid-template-columns: minmax(0, max-content) auto;
+    place-content: start space-between;
+    align-items: center;
+    box-sizing: border-box;
+
+    /* source .ccQuizContainer: a fixed 480px stage; each step's padding
+       (below) places its row, which may overflow the stage's bottom edge */
+    height: 480px;
+    padding: 150px 100px;
+    border-radius: 12px;
+
+    /* source: the artwork is stretched to the panel (100% 100%), so the
+       "Colour Quiz" wordmark at its bottom left shows at any width */
+    background-image: var(--colour-quiz-bg-desktop);
+    background-position: left center;
+    background-size: 100% 100%;
+  }
+
+  .colour-quiz .colour-quiz-steps {
+    --colour-quiz-pill-offset: 0;
+
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .colour-quiz .colour-quiz-step-done {
+    height: auto;
+  }
+
+  .colour-quiz .colour-quiz-steps:has(.colour-quiz-step-done) .colour-quiz-step-current {
+    margin-top: 0;
+    pointer-events: auto;
+  }
+
+  .colour-quiz .colour-quiz-step-done .colour-quiz-num {
+    margin-right: 20px;
+  }
+
+  .colour-quiz .colour-quiz-step-text {
+    display: block;
+  }
+
+  .colour-quiz .colour-quiz-step-current h2 {
+    flex-wrap: nowrap;
+    align-items: start;
+    margin: 0;
+    font-size: 40px;
+    line-height: 40px;
+    color: var(--colour-quiz-on-dark);
+  }
+
+  .colour-quiz .colour-quiz-options {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 49px 50px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* vibes: two 80px rows filled column by column (source grid auto-flow) */
+  .colour-quiz .colour-quiz-options-icons {
+    display: grid;
+    grid: repeat(2, 81px) / auto-flow 123px;
+    gap: 49px 50px;
+  }
+
+  .colour-quiz .colour-quiz-title {
+    flex: 1 1 auto;
+  }
+
+  .colour-quiz .colour-quiz-kicker {
+    line-height: 40px;
+  }
+
+  /* intro: the question column is 70% of the row, options follow it */
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(1)) {
+    grid-template-columns: 70% auto;
+    justify-content: start;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(3)),
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(4)) {
+    grid-template-columns: 50% auto;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(2)) {
+    padding: 150px 70px 130px 80px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(3)) {
+    padding: 130px 100px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(4)) {
+    padding: 110px 170px 110px 100px;
+  }
+
+  /* lead form: a 68% question column and a 383px card at the right edge
+     (shrinking when the column leaves less, as on the source); mobile
+     number and PIN side by side */
+  .colour-quiz .colour-quiz-panel-form {
+    grid-template-columns: 68% minmax(0, 383px);
+    padding: 32px 100px;
+  }
+
+  /* the question wraps at 87% of its column (source .question-and-number-wrapper) */
+  .colour-quiz .colour-quiz-panel-form .colour-quiz-steps .colour-quiz-step-current {
+    width: 87%;
+  }
+
+  /* source: two 48% columns, 4% apart */
+  .colour-quiz .colour-quiz-form-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 4%;
+  }
+
+  .colour-quiz .colour-quiz-field:not(.colour-quiz-field-phone, .colour-quiz-field-pincode) {
+    grid-column: 1 / -1;
+  }
+
+  .colour-quiz .colour-quiz-choice {
+    padding: 9px 10px 8px;
+  }
+
+  .colour-quiz .colour-quiz-choice legend {
+    margin: 0;
+  }
+
+  /* the source centres the pills on the question's line (margin: auto in a
+     flex row): 1px above and below a two-line question, none beside one line */
+  .colour-quiz .colour-quiz-choice label {
+    margin: 0;
+  }
+
+  /* preview dialog: desktop spacing and 500px-high image (source values) */
+  .colour-quiz .colour-quiz-zoom {
+    padding: 13px 40px 0;
+  }
+
+  .colour-quiz .colour-quiz-zoom-media {
+    height: 500px;
+  }
+
+  .colour-quiz .colour-quiz-zoom-close {
+    top: 56px;
+    right: 48px;
+  }
+
+  .colour-quiz .colour-quiz-zoom-prev {
+    left: 24px;
+  }
+
+  .colour-quiz .colour-quiz-zoom-next {
+    right: 24px;
+  }
+
+  .colour-quiz .colour-quiz-zoom-button {
+    margin-top: 10px;
+  }
+
+  .colour-quiz .colour-quiz-results-header {
+    height: 245px;
+    padding: 55px 0;
+    background-image: var(--colour-quiz-results-gradient), var(--colour-quiz-bg-desktop);
+  }
+
+  .colour-quiz .colour-quiz-results .colour-quiz-results-header h2 {
+    padding: 0 100px;
+    font-size: 40px;
+    line-height: 48px;
+  }
+
+  .colour-quiz .colour-quiz-results-cta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 17px;
+    padding: 50px 0 60px;
+    text-align: start;
+  }
+
+  .colour-quiz .colour-quiz-restart,
+  .colour-quiz .colour-quiz-download {
+    width: 270px;
+    margin: 0;
+    padding: 16px 10px;
+  }
+
+  .colour-quiz .colour-quiz-restart:hover,
+  .colour-quiz .colour-quiz-restart:focus-visible,
+  .colour-quiz .colour-quiz-download:hover,
+  .colour-quiz .colour-quiz-download:focus-visible {
+    padding: 17px 10px;
+  }
+
+  .colour-quiz .colour-quiz-share {
+    display: none;
+  }
+}
+
+/* --- recommendations side by side (source: from a 1025px viewport) --- */
+@container colour-quiz-recs (width >= 935px) {
+  .colour-quiz .colour-quiz-rec-title {
+    margin-left: 0;
+  }
+
+  .colour-quiz .colour-quiz-rec-body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .colour-quiz .colour-quiz-combo,
+  .colour-quiz .colour-quiz-combo-alt {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 926px;
+    height: 642px;
+    border: 1px solid var(--colour-quiz-rec-border);
+    border-radius: 8px;
+  }
+
+  .colour-quiz .colour-quiz-combo-shades {
+    margin: 0;
+  }
+
+  .colour-quiz .colour-quiz-room {
+    width: 690px;
+    height: 580px;
+    margin: 40px 0 0;
+  }
+
+  .colour-quiz .colour-quiz-extras {
+    box-sizing: border-box;
+    min-width: 0;
+    width: 326px;
+    overflow-wrap: break-word;
+    height: 343px;
+    padding: 0 20px 20px;
+  }
+
+  .colour-quiz .colour-quiz-extras-title {
+    margin: 0 0 140px;
+    font-size: 40px;
+    line-height: 49px;
+  }
+
+  .colour-quiz .colour-quiz-extra {
+    display: block;
+    margin-bottom: 126px;
+  }
+
+  .colour-quiz .colour-quiz-extra-label {
+    width: auto;
+    margin: 0;
+  }
+
+  .colour-quiz .colour-quiz-extra-image {
+    margin: 10px 0 0;
+  }
+
+  .colour-quiz .colour-quiz-extra-name,
+  .colour-quiz .colour-quiz-extra-code {
+    width: auto;
+    margin: 8px 0 0;
+  }
+
+  .colour-quiz .colour-quiz-extra-coat,
+  .colour-quiz .colour-quiz-extra-coat + .colour-quiz-extra-coat {
+    margin-top: 0;
+  }
+}
+
+@container colour-quiz-recs (width >= 1110px) {
+  .colour-quiz .colour-quiz-extra .colour-quiz-arrow {
+    position: absolute;
+  }
+}
+
+@container colour-quiz-recs (width >= 1350px) {
+  .colour-quiz .colour-quiz-combo,
+  .colour-quiz .colour-quiz-combo-alt {
+    width: 1076px;
+  }
+
+  .colour-quiz .colour-quiz-room {
+    width: 840px;
+  }
+
+  .colour-quiz .colour-quiz-room-image {
+    background-position: center top;
+  }
+
+  .colour-quiz .colour-quiz-room .colour-quiz-wall-secondary-medium {
+    display: none;
+  }
+
+  .colour-quiz .colour-quiz-room .colour-quiz-wall-secondary-large {
+    display: inline;
+  }
+}
+
+/* source step padding per desktop range (.ccQuizStep1-5) */
+@media (width >= 992px) and (width <= 1024px) {
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(1)) {
+    grid-template-columns: 62% auto;
+    padding: 150px 60px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(2)) {
+    grid-template-columns: 29% auto;
+    padding: 150px 60px 120px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(3)) {
+    grid-template-columns: 48% auto;
+    padding: 108px 60px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(4)) {
+    grid-template-columns: 46% auto;
+    padding: 90px 60px 100px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(2)) .colour-quiz-options,
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(3)) .colour-quiz-options {
+    gap: 40px;
+  }
+
+  /* the 383px card is centred in the space the 60% column leaves */
+  .colour-quiz .colour-quiz-panel-form {
+    grid-template-columns: 60% minmax(0, 1fr);
+    padding: 52px 60px;
+  }
+
+  .colour-quiz .colour-quiz-panel-form .colour-quiz-form-slot {
+    justify-self: center;
+    width: 383px;
+  }
+}
+
+@media (width >= 1200px) and (width <= 1440px) {
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(1)) {
+    padding: 150px 90px 130px 80px;
+  }
+}
+
+@media (width >= 1201px) and (width <= 1440px) {
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(3)) {
+    padding: 130px 90px 110px 80px;
+  }
+
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(4)) {
+    padding: 130px 120px 110px 80px;
+  }
+
+  /* the card takes 38% of the row; with the 68% column it overflows the
+     right padding, as on the source */
+  .colour-quiz .colour-quiz-panel-form {
+    grid-template-columns: 68% 38%;
+    padding: 42px 100px;
+  }
+}
+
+@media (width >= 1440px) {
+  .colour-quiz .colour-quiz-panel:has(.colour-quiz-step-current:nth-child(2)) {
+    padding: 150px 70px 150px 100px;
+  }
+
+  .colour-quiz .colour-quiz-panel-form {
+    padding: 28px 100px;
+  }
+
+  .colour-quiz .colour-quiz-consent {
+    font-size: 10px;
+    line-height: 14px;
+  }
+}
+
+@media (width >= 1200px) and (width <= 1300px) {
+  .colour-quiz .colour-quiz-panel-form {
+    grid-template-columns: 61% minmax(0, 383px);
+  }
+}
+
+@media (width >= 1201px) and (width <= 1300px) {
+  .colour-quiz .colour-quiz-panel-form {
+    grid-template-columns: 61% 38%;
+  }
+}
+
+/* exterior path below 992px (source .exterior-Quiz steps): plain style cards
+   20px apart, vibe cards with more room under them, and a form step that
+   keeps the form's own spacing (it would otherwise take the vibe step's) */
+@media (width < 992px) {
+  /* no right padding, so the question has the full row (one line at 390px) */
+  .colour-quiz .colour-quiz-panel[data-path="exterior"]:has(.colour-quiz-step-current:nth-child(2)) {
+    padding-right: 0;
+    padding-bottom: 66px;
+  }
+
+  .colour-quiz .colour-quiz-panel[data-path="exterior"]:has(.colour-quiz-step-current:nth-child(2)) .colour-quiz-options {
+    gap: 20px;
+    margin-top: 9px;
+    margin-right: 0;
+    padding-bottom: 10px;
+  }
+
+  .colour-quiz .colour-quiz-panel[data-path="exterior"]:has(.colour-quiz-step-current:nth-child(3)) {
+    padding-bottom: 117px;
+  }
+
+  .colour-quiz .colour-quiz-panel[data-path="exterior"]:has(.colour-quiz-step-current:nth-child(3)) .colour-quiz-options {
+    margin-top: 40px;
+    padding-bottom: 10px;
+  }
+
+  .colour-quiz .colour-quiz-panel[data-path="exterior"].colour-quiz-panel-form {
+    padding-bottom: 20px;
+  }
+
+  .colour-quiz .colour-quiz-panel[data-path="exterior"].colour-quiz-panel-form .colour-quiz-form-slot {
+    margin-top: 3px;
+  }
+}
+
+/* exterior path (source .exterior-Quiz steps): its own paddings. Steps 2-3
+   are matched at 1200px and up; the interior path's per-range values above
+   apply to them below that. */
+@media (width >= 1200px) {
+  .colour-quiz .colour-quiz-panel[data-path="exterior"]:has(.colour-quiz-step-current:nth-child(2)) {
+    padding: 150px 90px 130px 80px;
+  }
+
+  .colour-quiz .colour-quiz-panel[data-path="exterior"]:has(.colour-quiz-step-current:nth-child(3)) {
+    padding: 120px 120px 130px 80px;
+  }
+}
+
+/* exterior form step (source .exterior .ccQuizStep4): a half-row question
+   column and the 383px card at the right edge; 38% of the row from 1201px to
+   1440px, and centred in the space a 46% column leaves up to 1024px */
+@media (width >= 992px) {
+  .colour-quiz .colour-quiz-panel[data-path="exterior"].colour-quiz-panel-form {
+    grid-template-columns: 50% minmax(0, 383px);
+    padding: 32px 100px;
+  }
+
+  .colour-quiz .colour-quiz-panel[data-path="exterior"].colour-quiz-panel-form .colour-quiz-steps .colour-quiz-step-current {
+    width: 100%;
+  }
+}
+
+@media (width >= 992px) and (width <= 1024px) {
+  .colour-quiz .colour-quiz-panel[data-path="exterior"].colour-quiz-panel-form {
+    grid-template-columns: 46% minmax(0, 1fr);
+    padding: 78px 60px;
+  }
+}
+
+@media (width >= 1201px) and (width <= 1440px) {
+  .colour-quiz .colour-quiz-panel[data-path="exterior"].colour-quiz-panel-form {
+    grid-template-columns: 50% 38%;
+    padding: 62px 80px;
+  }
+}
+
+@media (width >= 1440px) {
+  .colour-quiz .colour-quiz-panel[data-path="exterior"].colour-quiz-panel-form {
+    padding: 62px 100px;
+  }
+}
+
+/* option hover (source .option.hovered, set on mouseenter): the picture
+   grows 4% at once, spilling over the card's border; vibe icons tilt 15°
+   over 0.3s instead */
+.colour-quiz .colour-quiz-option:hover .colour-quiz-option-media img {
+  transform: scale(1.04);
+}
+
+.colour-quiz .colour-quiz-options-icons .colour-quiz-option:hover .colour-quiz-option-media img {
+  transform: rotate(15deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .colour-quiz .colour-quiz-options-icons .colour-quiz-option-media img {
+    transition: transform 0.3s ease-out;
+  }
+}
+
+/* exterior building styles: the source rounds the top-left corner instead */
+.colour-quiz .colour-quiz-panel[data-path="exterior"]:has(.colour-quiz-step-current:nth-child(2)) .colour-quiz-option {
+  border-radius: 60px 5px 5px;
+}
+
+.colour-quiz .colour-quiz-panel[data-path="exterior"]:has(.colour-quiz-step-current:nth-child(2)) .colour-quiz-option-media img {
+  border-radius: 60px 0 0;
+}

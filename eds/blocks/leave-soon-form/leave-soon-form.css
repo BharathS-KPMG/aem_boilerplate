@@ -1,0 +1,649 @@
+/* stylelint-disable selector-class-pattern -- BEM class names are set by leave-soon-form.js */
+
+@media(width <= 991px) { 
+  .leave-soon-form .field-wrapper input:not([type="checkbox"], [type="radio"]) {
+    font-size: 12px !important;
+    line-height: 21px !important;
+  height: 49px !important;
+  }
+
+  .book-free-site-visit-dialog .leave-soon-form .field-wrapper.field-whatsapp-consent .whatsapp-label-text {
+    font-size: 10px !important;
+    line-height: 16.8px !important;
+  }
+
+  .modal dialog.book-free-site-visit-dialog .leave-soon-form-wrapper .field-whatsapp-consent input[type='checkbox'] {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .book-free-site-visit-dialog .leave-soon-form .field-wrapper.submit-wrapper button {
+    width: 100% !important;
+  }
+
+
+
+ .book-free-site-visit-dialog.leave-soon-dialog .form-popup-overlay {
+    border-radius: 16px;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-popup-close {
+    top: 25px;
+    right: 25px;
+    width: 40px;
+    height: 40px;
+    font-size: 36px;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-popup-success-cta {
+    bottom: 50%;
+    right: 6%;
+    width: 31%;
+    height: 16%;
+    transform: translateY(93%);
+  }
+
+  /* "Explore now" circle in the mobile success image (656x1200, shown uncropped):
+     x 419, y 600, 193 across */
+  .book-free-site-visit-dialog.leave-soon-dialog .explore-now-rewamp {
+    inset: 50% auto auto 63.87%;
+    width: 29.42%;
+    height: 16.08%;
+    transform: none;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__left {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 28px 24px 16px;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__copy {
+    max-width: 100%;
+    padding-right: 48px;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__title {
+    margin-bottom: 12px;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__text {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__media {
+    align-items: flex-start;
+    padding: 28px 20px 20px;
+    background-image: var(--form-error-image-mobile);
+    background-position: center;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__media::before {
+    background: linear-gradient(180deg, rgb(0 0 0 / 35%) 0%, rgb(0 0 0 / 15%) 38%, rgb(0 0 0 / 0%) 100%);
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__content {
+    max-width: 280px;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__content-title {
+    margin-bottom: 10px;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__content-subtitle {
+    margin-bottom: 14px;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__actions {
+    margin-bottom: 10px;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__button {
+    min-height: 40px;
+    padding: 10px 16px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__download {
+    font-size: 11px;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .thank-img-mob {
+    display: block;
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .thank-img-desk {
+    display: none;
+  }
+
+  /* "Yes, I'm interested" pill in the mobile video (656x1200, shown uncropped):
+     x 160, y 402, 337 x 69 */
+  .book-free-site-visit-dialog.leave-soon-dialog .intereseted-cta {
+    position: absolute;
+    z-index: 2;
+    top: 33.5%;
+    left: 24.39%;
+    width: 51.37%;
+    height: 5.75%;
+    padding: 0;
+    border-radius: 999px;
+    transform: none;
+  }
+
+
+
+}
+
+
+
+.book-free-site-visit-dialog.leave-soon-dialog .lead-form-fields.popup-active {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+}
+
+/* Hide form content when popup is active */
+.book-free-site-visit-dialog.leave-soon-dialog .lead-form-fields.popup-active > *:not(.form-popup-overlay) {
+  display: none !important;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-popup-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-popup-close {
+  position: absolute;
+  top: 3px;
+  right: 18px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: #232426;
+    font-size: 34px;
+    line-height: 50px;
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-popup-overlay--success {
+  background: #ded7cb;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-popup-success-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  clip-path: inset(0 round 20px);
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-popup-success-cta,
+.book-free-site-visit-dialog.leave-soon-dialog .explore-now-rewamp {
+  position: absolute;
+  opacity: 0;
+  z-index: 2;
+  bottom: 36%;
+  right: 7%;
+  width: 11%;
+  height: 33%;
+  border-radius: 100%;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .thank-you-pop-two {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .thank-img-desk,
+.book-free-site-visit-dialog.leave-soon-dialog .thank-img-mob {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* "Explore now" on the screen after "Yes, I'm interested": a see-through link over the circle
+   drawn in the success image (placed per screen size in the media queries) */
+.book-free-site-visit-dialog.leave-soon-dialog .explore-now-rewamp {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+/* Desktop thank-you video (2700x860) and the success image after "Yes, I'm interested"
+   (2720x862) are drawn with object-fit: cover, so how much of their top and bottom is cut off
+   changes with the screen width. The see-through links are placed in video / image pixels, scaled
+   the way cover scales the frame, so they sit exactly on the buttons drawn in it at every width
+   (fixed % boxes drifted off them). */
+@media (width > 991px) {
+  .book-free-site-visit-dialog.leave-soon-dialog .form-popup-overlay--success {
+    container-type: size;
+
+    /* one video / image pixel on screen: cover uses the larger of the two scales */
+    --video-px: max(100cqw / 2700, 100cqh / 860);
+    --image-px: max(100cqw / 2720, 100cqh / 862);
+  }
+
+  .book-free-site-visit-dialog.leave-soon-dialog .thank-img-mob {
+    display: none;
+  }
+
+  /* success image "Explore now" circle: x 2272, y 302, 310 across */
+  .book-free-site-visit-dialog.leave-soon-dialog .explore-now-rewamp {
+    inset: calc(50% + (302 - 431) * var(--image-px)) auto auto calc(50% + (2272 - 1360) * var(--image-px));
+    width: calc(310 * var(--image-px));
+    height: calc(310 * var(--image-px));
+    transform: none;
+  }
+
+  /* "Explore now" circle: x 2184, y 227, 312 across */
+  .book-free-site-visit-dialog.leave-soon-dialog .form-popup-success-cta {
+    inset: calc(50% + (227 - 430) * var(--video-px)) auto auto calc(50% + (2184 - 1350) * var(--video-px));
+    width: calc(312 * var(--video-px));
+    height: calc(312 * var(--video-px));
+    border-radius: 50%;
+  }
+
+  /* "Yes, I'm interested" pill: x 916, y 602, 432 x 88 */
+  .book-free-site-visit-dialog.leave-soon-dialog .intereseted-cta {
+    position: absolute;
+    z-index: 2;
+    top: calc(50% + (602 - 430) * var(--video-px));
+    bottom: auto;
+    left: calc(50% + (916 - 1350) * var(--video-px));
+    width: calc(432 * var(--video-px));
+    height: calc(88 * var(--video-px));
+    padding: 0;
+    border-radius: calc(44 * var(--video-px));
+    transform: none;
+  }
+}
+
+/* Error popup */
+.book-free-site-visit-dialog.leave-soon-dialog .form-popup-overlay--error {
+  background: #fff;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup {
+  display: grid;
+  grid-template-columns: 32% 68%;
+  width: 100%;
+  height: 100%;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px 48px 48px;
+  background: #f4f4f4;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__copy {
+  max-width: 360px;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__title {
+  margin: 0 0 24px;
+  color: #111;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -1px;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__text {
+  margin: 0;
+  color: #111;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__right {
+  min-width: 0;
+  height: 100%;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 56px 48px;
+  background-image: var(--form-error-image-desktop);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(0 0 0 / 35%) 0%, rgb(0 0 0 / 10%) 45%, rgb(0 0 0 / 0%) 100%);
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__content {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+  color: #fff;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__content-title {
+  margin: 0 0 18px;
+  color: #fff;
+  font-size: 54px;
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.5px;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__content-subtitle {
+  margin: 0 0 24px;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__actions {
+  margin-bottom: 16px;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: #ffbc1f;
+  color: #111;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__button:hover {
+  background: #ffc839;
+  color: #111;
+}
+
+.book-free-site-visit-dialog.leave-soon-dialog .form-error-popup__download {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Inputs - Base styles */
+.leave-soon-form .field-wrapper:not(.field-whatsapp-consent) label {
+  display: none;
+}
+
+.leave-soon-form .field-wrapper input:not([type="checkbox"], [type="radio"]) {
+  width: 100%;
+  height: 40px;
+  padding: 1px 2px 1px 15px;
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+  background: #fff;
+  color: #000;
+  font-size: 14px;
+  line-height: 21px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.leave-soon-form .field-wrapper.has-error input,
+.leave-soon-form input.is-invalid {
+  border: 1px solid #c62828;
+  box-shadow: none !important;
+}
+
+.leave-soon-form .field-wrapper input:not([type="checkbox"], [type="radio"]):focus,
+.leave-soon-form .field-wrapper input:not([type="checkbox"], [type="radio"]):focus-visible {
+  border-color: #bdbdbd;
+  outline: none;
+}
+
+
+
+.leave-soon-form .field-wrapper input:not([type="checkbox"], [type="radio"])::placeholder {
+  color: #75787B;
+  font-size: 12px;
+}
+
+.leave-soon-form .field-wrapper .mobile-field-row .mobile-prefix {
+  display: none;
+}
+
+.book-free-site-visit-dialog  .leave-soon-form .field-wrapper.field-whatsapp-consent .whatsapp-label-text {
+  color: #4C4E52;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16.8px;
+}
+
+.modal dialog.book-free-site-visit-dialog
+.leave-soon-form-wrapper
+.field-whatsapp-consent
+.toggle-state {
+    display: none;
+}
+
+.modal dialog.book-free-site-visit-dialog
+.leave-soon-form-wrapper .field-whatsapp-consent input[type='checkbox'] {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  accent-color: #7c7c7c;
+  align-self: center;
+  margin-right: 8px;
+}
+
+.book-free-site-visit-dialog  .leave-soon-form .question-field legend {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+  color:#000;
+  display: inline;
+    width: unset;
+    align-self: center;
+    margin:0;
+
+}
+
+.book-free-site-visit-dialog  .leave-soon-form .question-field  .radio-pill-group {
+  display: flex;
+  gap: 20px;
+  align-self: center;
+}
+
+.book-free-site-visit-dialog  .leave-soon-form .question-field  .radio-pill-group .radio-pill {
+  display: flex;
+  gap:5px
+}
+
+.book-free-site-visit-dialog  .leave-soon-form .question-field  .radio-pill-group .radio-pill label {
+  color: #323232;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  display: inline-flex;
+  gap: 5px;
+  opacity: 0.6;
+}
+
+/* Hide native radio */
+.book-free-site-visit-dialog .leave-soon-form .radio-pill input[type='radio'] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.book-free-site-visit-dialog .leave-soon-form .radio-pill label::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border: 1px solid #8b8b8b;
+    border-radius: 50%;
+    display: block;
+    box-sizing: border-box;
+    align-self: center;
+}
+
+.book-free-site-visit-dialog .leave-soon-form
+.radio-pill input[type='radio']:checked + label {
+  opacity: 1;
+}
+
+.book-free-site-visit-dialog .leave-soon-form
+.radio-pill input[type='radio']:checked + label::before {
+    border: none;
+    background: radial-gradient(
+      circle,
+      #f26b3a 0 5px,
+      #fff 4px 6px,
+      #f26b3a 7px 100%
+    );
+}
+
+
+.book-free-site-visit-dialog  .leave-soon-form .field-wrapper.disclaimer-field p {
+  color:#8C8E90;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+/* Field-level error styles */
+.leave-soon-form .field-error {
+  /* min-height: 20px; */
+  margin-top: 4px;
+  font-size: 12px;
+  color: #c62828;
+  text-align: left;
+}
+
+.leave-soon-form .field-wrapper {
+  position: relative;
+}
+
+.leave-soon-form .required-placeholder-star {
+  display: none !important;
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  left: 0;
+  color: #E53935;
+  font-size: 16px;
+  font-weight: 700;
+  pointer-events: none;
+  transform: translate(30% , 16%);
+}
+
+.leave-soon-form .submit-wrapper button {
+    background: linear-gradient(180deg, #f5c842 0%, #f0a830 100%);
+    color: #222;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    border: none;
+    width: 100%;
+    text-transform: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    letter-spacing: .86px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+        border-radius: 50px;
+}
+
+.leave-soon-form .submit-wrapper button:disabled {
+  background: #ddd;
+  color: #232426;
+  cursor: not-allowed;
+}
+
+.book-free-site-visit-dialog .leave-soon-form .field-wrapper.submit-wrapper {
+      grid-column: span 2;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.book-free-site-visit-dialog .leave-soon-form .field-wrapper.submit-wrapper button {
+    width: 50%;
+    align-self: center;
+}
+
+.leave-soon-form .submit-wrapper button::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin-left: 8px;
+  background-size: contain;
+}
+
+.leave-soon-form .submit-wrapper.location-submit button::after {
+    background: url('../../icons/down_black.svg') no-repeat center;
+}
+
+.leave-soon-form .submit-wrapper.banner-submit button::after {
+    background: url('../../icons/arrow-black.webp') no-repeat center;
+}
